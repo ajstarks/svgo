@@ -73,7 +73,7 @@
 <circle cx="400" cy="440" r="4" style="fill:rgb(200,200,200)"/>
 <text x="400" y="425" style="fill:gray">x2, y2</text>
 <line x1="60" y1="440" x2="400" y2="440" style="fill:none; stroke-width:2; stroke:rgb(127,0,0); opacity:0.75"/>
-<text x="230" y="455" style="fill:black">svg.Line(x1, y1, x2, y2)</text>
+<text x="230" y="455" style="fill:black">svg.Line(x1, y1, x2, y2, style)</text>
 <circle cx="60" cy="610" r="4" style="fill:rgb(200,200,200)"/>
 <text x="60" y="595" style="fill:gray">x, y</text>
 <circle cx="110" cy="585" r="4" style="fill:rgb(200,200,200)"/>

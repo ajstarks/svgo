@@ -159,7 +159,7 @@ func main() {
 	showbez(480,350, 600,290, 600,400, 725,350, "svg.Bezier(sx, sy, cx, cy, px, py, ex, ey, style)")
 	showqbez(480,500, 600,500, 600,550, 725,500, "svg.Qbezier(sx, sy, cx, cy, ex, ey, tx, ty, style)")
 	
-	showline(60,440, 400,440, "svg.Line(x1, y1, x2, y2)")	
+	showline(60,440, 400,440, "svg.Line(x1, y1, x2, y2, style)")	
 	showpolygon(pgx, pgy, "svg.Polygon(x, y, style)")
 	showpolyline(plx, ply, "svg.Polyline(x, y, style)")
 	
