@@ -1,1 +1,33 @@
 A Go library for SVG generation
+
+Supported SVG elements:
+  circle, ellipse, polygon, polyline, rect (including roundrects), arc,
+  cubic and quadratic bezier paths, line, image, use, text
+  
+The library generates SVG to standard output
+  
+See svgobj.[svg|png|pdf] for a graphical view of the function calls
+
+
+Usage: (where $GC and $GL are the Go compiler and linker for your targer architecture)
+
+  $ $GC svg.go  # compile the library
+  $ $GC svgobj.go && $GL -o svgobj svgobj.6  # compile a client program
+  $ ./svgobj    # run the client program
+  
+This package includes:
+
+svg.go       Library
+svgobj.go    Creates a SVG representation of the API
+vismem.go    Visualize data from files
+randcomp.go  Compare random number generators
+planets.go   Show the scale of the Solar system
+rl.go        Random lines (port of a Processing demo)
+imfade.go    Show image fading
+images/*     Images used by the client programs
+
+You may view the SVG output directly using a browser that supports SVG (Chrome and Safari tested), 
+or any other SVG user-agent such Batik Squiggle
+
+
+  
