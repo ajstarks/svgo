@@ -1,0 +1,30 @@
+#!/bin/sh
+#
+# Compile the library and clients, run the clients, display the results
+#
+#
+list="svgobj funnel imfade planets randcomp rl vismem"
+
+case $GOARCH in
+  arm)    A=5;;
+  amd64)  A=6;;
+  386)    A=8;;
+  *)      exit;;
+esac
+
+case $GOOS in
+  darwin)   opener="open -a /Applications/Safari.app";; # "/Applications/Google\ Chrome.app"
+  linux)    opener="mozilla -turbo";;
+  freebsd)  opener="mozilla -turbo";;
+  *) exit;;
+esac
+  
+
+${A}g svg.go && 
+for i in $list
+do
+  rm $i.svg ./$i
+  ${A}g $i.go && ${A}l -o $i $i.${A} && ./$i > $i.svg
+  $opener $i.svg
+
+done

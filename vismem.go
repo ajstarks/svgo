@@ -27,6 +27,7 @@ func main() {
 	f.Close()
 
 	svg.Start(width, height)
+	svg.Title("Visualize Files")
 	svg.Rect(0, 0, width, height, "fill:white")
 	dx := diameter / 2
 	dy := diameter / 2

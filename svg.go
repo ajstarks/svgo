@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"os"
 	"xml"
+	"strings"
 )
 
 const svginit = `<?xml version="1.0"?>
@@ -20,18 +21,21 @@ func Start(w int, h int)  { fmt.Printf(svginit, w, h) }
 func End()                { fmt.Println("</svg>") }
 func Gstyle(s string)     { fmt.Println(group("style", s)) }
 func Gtransform(s string) { fmt.Println(group("transform", s)) }
+func Gid(s string)        { fmt.Println(group("id", s)) }
 func Gend()               { fmt.Println("</g>") }
+func DefEnd()             { fmt.Println("</defs>") }
 func Desc(s string)       { tt("desc", "", s) }
 func Title(s string)      { tt("title", "", s) }
+func Def()                { fmt.Println("<defs>")}
 
 // Shapes
 
 func Circle(x int, y int, r int, s string) {
-	fmt.Printf("<circle cx=\"%d\" cy=\"%d\" r=\"%d\" %s\n", x, y, r, endstyle(s))
+	fmt.Printf(`<circle cx="%d" cy="%d" r="%d" %s`, x, y, r, endstyle(s))
 }
 
 func Ellipse(x int, y int, w int, h int, s string) {
-	fmt.Printf("<ellipse cx=\"%d\" cy=\"%d\" rx=\"%d\" ry=\"%d\" %s\n",
+	fmt.Printf(`<ellipse cx="%d" cy="%d" rx="%d" ry="%d" %s`,
 		x, y, w, h, endstyle(s))
 }
 
@@ -40,11 +44,11 @@ func Polyline(x []int, y []int, s string) { poly(x, y, "polyline", s) }
 func Polygon(x []int, y []int, s string) { poly(x, y, "polygon", s) }
 
 func Rect(x int, y int, w int, h int, s string) {
-	fmt.Printf("<rect %s %s\n", dim(x, y, w, h), endstyle(s))
+	fmt.Printf(`<rect %s %s`, dim(x, y, w, h), endstyle(s))
 }
 
 func Roundrect(x int, y int, w int, h int, rx int, ry int, s string) {
-  fmt.Printf("<rect %s rx=\"%d\" ry=\"%d\" %s\n", dim(x, y, w, h), rx, ry, endstyle(s))
+  fmt.Printf(`<rect %s rx="%d" ry="%d" %s`, dim(x, y, w, h), rx, ry, endstyle(s))
 }
 
 func Square(x int, y int, s int, style string) {
@@ -54,32 +58,31 @@ func Square(x int, y int, s int, style string) {
 // Curves and Line
 
 func Arc(sx int, sy int, ax int, ay int, r int, large bool, sweep bool, ex int, ey int, s string) {
-	fmt.Printf("%s A%s %d %s %s %s\" %s\n",
+	fmt.Printf(`%s A%s %d %s %s %s" %s`,
 		ptag(sx, sy), coord(ax, ay), r, onezero(large), onezero(sweep), coord(ex, ey), endstyle(s))
 }
 
 func Bezier(sx int, sy int, cx int, cy int, px int, py int, ex int, ey int, s string) {
-	fmt.Printf("%s C%s %s %s\" %s\n",
+	fmt.Printf(`%s C%s %s %s" %s`,
 		ptag(sx, sy), coord(cx, cy), coord(px, py), coord(ex, ey), endstyle(s))
 }
 
 func Qbezier(sx int, sy int, cx int, cy int, ex int, ey int, tx int, ty int, s string) {
-	fmt.Printf("%s Q%s %s T%s\" %s\n",
+	fmt.Printf(`%s Q%s %s T%s" %s`,
 		ptag(sx, sy), coord(cx, cy), coord(ex, ey), coord(tx, ty), endstyle(s))
 }
 
 func Line(x1 int, y1 int, x2 int, y2 int, s string) {
-	fmt.Printf("<line x1=\"%d\" y1=\"%d\" x2=\"%d\" y2=\"%d\" %s\n",
-		x1, y1, x2, y2, endstyle(s))
+	fmt.Printf(`<line x1="%d" y1="%d" x2="%d" y2="%d" %s`, x1, y1, x2, y2, endstyle(s))
 }
 
 // Image and Link
 
 func Image(x int, y int, w int, h int, link string, s string) {
-	fmt.Printf("<image %s %s %s\n", dim(x, y, w, h), href(link), endstyle(s))
+	fmt.Printf("<image %s %s %s", dim(x, y, w, h), href(link), endstyle(s))
 }
 
-func Use(x int, y int, link string) { fmt.Printf("<use %s %s>\n", loc(x, y), href(link)) }
+func Use(x int, y int, link string) { fmt.Printf("<use %s %s/>\n", loc(x, y), href(link)) }
 
 // Text
 
@@ -88,11 +91,8 @@ func Text(x int, y int, t string, s string) { tt("text", " "+loc(x, y)+" "+style
 
 // Color
 
-func RGB(r int, g int, b int) string { return fmt.Sprintf("fill:rgb(%d,%d,%d)", r, g, b) }
-
-func RGBA(r int, g int, b int, a float) string {
-	return fmt.Sprintf("fill-opacity:%.2f; %s", a, RGB(r, g, b))
-}
+func RGB(r int, g int, b int) string { return fmt.Sprintf(`fill:rgb(%d,%d,%d)`, r, g, b) }
+func RGBA(r int, g int, b int, a float) string {return fmt.Sprintf(`fill-opacity:%.2f; %s`, a, RGB(r, g, b))}
 
 // Utility
 
@@ -114,7 +114,7 @@ func Grid(x int, y int, w int, h int, n int, s string) {
 
 func style(s string) string {
 	if len(s) > 0 {
-		return fmt.Sprintf("style=\"%s\"", s)
+		return fmt.Sprintf(`style="%s"`, s)
 	}
 	return s
 }
@@ -131,9 +131,13 @@ func pp(x []int, y []int, tag string) {
 
 func endstyle(s string) string {
 	if len(s) > 0 {
-		return style(s) + "/>"
+	  if strings.Index(s, "=") > 0 {
+	    return s + "/>\n"
+	  } else {
+		  return style(s) + "/>\n"
+		}
 	}
-	return "/>"
+	return "/>\n"
 }
 
 func tt(tag string, attr string, s string) {
@@ -144,7 +148,7 @@ func tt(tag string, attr string, s string) {
 
 func poly(x []int, y []int, tag string, s string) {
 	pp(x, y, "<"+tag+` points="`)
-	fmt.Println("\" " + endstyle(s))
+	fmt.Print(`" ` + endstyle(s))
 }
 
 func onezero(flag bool) string {
@@ -154,16 +158,9 @@ func onezero(flag bool) string {
 	return "0"
 }
 
-func coord(x int, y int) string { return fmt.Sprintf("%d,%d", x, y) }
-
-func ptag(x int, y int) string { return fmt.Sprintf("<path d=\"M%s", coord(x, y)) }
-
-func loc(x int, y int) string { return fmt.Sprintf("x=\"%d\" y=\"%d\"", x, y) }
-
-func href(s string) string { return fmt.Sprintf("xlink:href=\"%s\"", s) }
-
-func dim(x int, y int, w int, h int) string {
-	return fmt.Sprintf("x=\"%d\" y=\"%d\" width=\"%d\" height=\"%d\"", x, y, w, h)
-}
-
-func group(tag string, value string) string { return fmt.Sprintf("<g %s=\"%s\">", tag, value) }
+func coord(x int, y int) string { return fmt.Sprintf(`%d,%d`, x, y) }
+func ptag(x int, y int) string { return fmt.Sprintf(`<path d="M%s`, coord(x, y)) }
+func loc(x int, y int) string { return fmt.Sprintf(`x="%d" y="%d"`, x, y) }
+func href(s string) string { return fmt.Sprintf(`xlink:href="%s"`, s) }
+func dim(x int, y int, w int, h int) string {return fmt.Sprintf(`x="%d" y="%d" width="%d" height="%d"`, x, y, w, h)}
+func group(tag string, value string) string {return fmt.Sprintf(`<g %s="%s">`, tag, value) }

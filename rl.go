@@ -11,6 +11,7 @@ func main() {
 	width := 200
 	height := 200
 	svg.Start(width, height)
+	svg.Title("Random Lines")
 	svg.Rect(0, 0, width, height, "fill:black")
 	rand.Seed(time.Nanoseconds() % 1e9)
 	svg.Gstyle("stroke-width:10")

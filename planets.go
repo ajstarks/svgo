@@ -68,7 +68,7 @@ var ssImages = []string{
 	"images/neptune.png"}
 
 
-var showimages *bool = flag.Bool("i", false, "show images")
+var showimages *bool = flag.Bool("i", true, "show images")
 
 
 func loadimage(path string) image.Image {
@@ -93,10 +93,11 @@ func vmap(value float, low1 float, high1 float, low2 float, high2 float) float {
 func main() {
 
 	width := 1300
-	height := 150
+	height := 200
 
 	flag.Parse()
 	svg.Start(width, height)
+	svg.Title("Planets")
 	svg.Rect(0, 0, width, height, "fill:black")
 	svg.Gstyle("stroke:none")
 	nobj := len(ssDist)
