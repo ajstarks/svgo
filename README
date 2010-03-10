@@ -1,26 +1,28 @@
 A Go library for SVG generation
 
-Supported SVG elements:
-  circle, ellipse, polygon, polyline, rect (including roundrects), arc,
-  cubic and quadratic bezier paths, line, image, text, use, defs, g (group)
-  
 The library generates SVG to standard output
-  
-See svgobj.[svg|png|pdf] for a graphical view of the function calls
 
+Supported SVG graphic elements:
+  circle, ellipse, polygon, polyline, rect (including roundrects), arc,
+  cubic and quadratic bezier paths, line, image, text, 
+
+Metadata elements:
+  desc, defs, g (style, transform, id), title, use
+  
+See svgdef.[svg|png|pdf] for a graphical view of the function calls
 
 Usage: (where $GC and $GL are the Go compiler and linker for your targer architecture, $A)
 
   $ $GC svg.go  # compile the library
-  $ $GC svgobj.go && $GL -o svgobj svgobj.$A  # compile a client program
-  $ ./svgobj    # run the client program
+  $ $GC svgdef.go && $GL -o svgdef svgdef.$A  # compile a client program
+  $ ./svgdef    # run the client program
   
   
 This package includes:
 
 svg.go       Library
 test-svgo    compiles the library, builds the clients and displays the results
-svgobj.go    Creates a SVG representation of the API
+svgdef.go    Creates a SVG representation of the API
 vismem.go    Visualize data from files
 randcomp.go  Compare random number generators
 planets.go   Show the scale of the Solar system
@@ -28,9 +30,7 @@ rl.go        Random lines (port of a Processing demo)
 imfade.go    Show image fading
 images/*     Images used by the client programs
 
-You may view the SVG output directly using a browser that supports SVG (Chrome and Safari tested), 
-or any other SVG user-agent such Batik Squiggle.  The test-svgo script tries to use reasonable 
-defaults based on the GOOS and GOARCH environment variables
+You may view the SVG output directly using a browser that supports SVG (tested on Chrome, Firefox and Safari), or any other SVG user-agent such as Batik Squiggle.  The test-svgo script tries to use reasonable defaults based on the GOOS and GOARCH environment variables
 
 
 

@@ -3,7 +3,7 @@
 # Compile the library and clients, run the clients, display the results
 #
 #
-list="svgobj funnel imfade planets randcomp rl vismem"
+list="svgdef funnel imfade planets randcomp rl vismem"
 
 case $GOARCH in
   arm)    A=5;;
