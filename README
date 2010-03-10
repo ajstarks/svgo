@@ -22,6 +22,7 @@ This package includes:
 
 svg.go       Library
 test-svgo    compiles the library, builds the clients and displays the results
+newsvg       Coding template command
 svgdef.go    Creates a SVG representation of the API
 vismem.go    Visualize data from files
 randcomp.go  Compare random number generators
