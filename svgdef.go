@@ -8,7 +8,7 @@ import (
 
 const textsize = 15
 const coordsize = 4
-const objstyle = "fill:none; stroke-width:2; stroke:rgb(127,0,0); opacity:0.50"
+const objstyle = "fill:none; stroke-width:2; stroke:rgb(127,0,0); opacity:0.75"
 const legendstyle = "fill:gray; text-anchor:middle"
 const titlestyle = "fill:black; text-anchor:middle"
 const linestyle = "stroke:black; stroke-width:1"
@@ -171,6 +171,7 @@ func main() {
 	height := 760
 	svg.Start(width, height)
 	svg.Title("SVG Go Library Description")
+	svg.Rect(0,0,width,height,"fill:white")
 	svg.Gstyle(gtextstyle)
 	svg.Text(width/2, 40, "SVG Go Library", "font-size:24")
 

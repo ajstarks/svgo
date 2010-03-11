@@ -33,6 +33,12 @@ images/*     Images used by the client programs
 
 You may view the SVG output directly using a browser that supports SVG (tested on Chrome, Firefox and Safari), or any other SVG user-agent such as Batik Squiggle.  The test-svgo script tries to use reasonable defaults based on the GOOS and GOARCH environment variables
 
+The command:
+
+    $ ./newsvg foo.go
+    
+creates a template Go source file ready for your code.
+
 
 
   
