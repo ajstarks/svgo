@@ -8,11 +8,11 @@ import (
 
 func main() {
 	width := 768
-	height := 320
+	height := 128
 	image := "images/gophercolor128x128.png"
 	if len(os.Args) > 1 {
-	  image = os.Args[1]
-  }
+		image = os.Args[1]
+	}
 	svg.Start(width, height)
 	svg.Title("Image Fade")
 	opacity := 1.0

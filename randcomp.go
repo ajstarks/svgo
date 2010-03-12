@@ -46,7 +46,7 @@ func main() {
 	svg.Desc("Legends")
 	svg.Gstyle("text-anchor:middle; font-size:18; font-family:Calibri")
 	svg.Text(128, 280, "Go rand package", "")
-	svg.Text(384, 280, "/dev/urandom", "")
+	svg.Text(384, 280, "/dev/urandom")
 	svg.Text(256, 280, fmt.Sprintf("n=%d", n), "font-size:12")
 	svg.Gend()
 	svg.End()
