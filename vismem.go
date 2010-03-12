@@ -13,13 +13,12 @@ func main() {
 	diameter := 16
 	var value int
 	var source string
-	
-	
+
 	if len(os.Args) > 1 {
-	  source = os.Args[1]
-  } else {
-    source = "/dev/urandom"
-  }
+		source = os.Args[1]
+	} else {
+		source = "/dev/urandom"
+	}
 
 	f, _ := os.Open(source, os.O_RDONLY, 0)
 	mem := make([]byte, n)
