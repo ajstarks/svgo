@@ -1,0 +1,80 @@
+// lewitt: inspired by by Sol LeWitt's Wall Drawing 91:
+//
+// A six-inch (15 cm) grid covering the wall.
+// Within each square, not straight lines from side to side, using
+// red, yellow and blue pencils.  Each square contains at least
+//  one line of each color.
+//
+// This version violates the original instructions in that straight lines
+// as well as arcs are used
+
+package main
+
+import (
+	"./svg"
+	"rand"
+	"time"
+	"fmt"
+	"flag"
+)
+
+const tilestyle=`stroke-width:1; stroke:rgb(128,128,128); stroke-opacity:0.5; fill:white`
+const penstyle=`stroke:rgb%s; fill:none; stroke-opacity:%.2f; stroke-width:%d`
+
+var width = 720
+var height = 720
+
+var nlines = flag.Int("n", 20, "number of lines/square")
+var nw = flag.Int("w", 3, "maximum pencil width")
+var pencils = []string{"(250, 13, 44)", "(247, 212, 70)", "(52, 114, 245)"}
+
+
+func background(v int) { svg.Rect(0, 0, width, height, svg.RGB(v, v, v)) }
+
+
+func dewitt(x int, y int, gsize int, n int, w int) {
+	var x1, x2, y1, y2 int
+	var op float
+	svg.Rect(x, y, gsize, gsize, tilestyle)
+	for i := 0; i < n; i++ {
+		choice := rand.Intn(len(pencils))
+		op = float(random(1,10)) / 10.0
+		x1 = random(x, x+gsize)
+		y1 = random(y, y+gsize)
+		x2 = random(x, x+gsize)
+		y2 = random(y, y+gsize)
+		if random(0, 100) > 50 {
+		  svg.Line(x1, y1, x2, y2, fmt.Sprintf(penstyle, pencils[choice], op, random(1,w)))
+		} else {
+		  svg.Arc(x1, y1, gsize, gsize, 0, false, true, x2, y2, fmt.Sprintf(penstyle, pencils[choice], op, random(1,w)))
+		}
+	}
+}
+
+func random(howsmall, howbig int) int  {
+   if howsmall >= howbig {
+    return howsmall
+   }
+   return rand.Intn(howbig - howsmall) + howsmall;
+}
+
+
+func init() {
+  flag.Parse()
+	rand.Seed(time.Nanoseconds() % 1e9)
+}
+
+func main() {
+
+	svg.Start(width, height)
+	background(255)
+	gsize := 120
+	nc := width / gsize
+	nr := height / gsize
+	for cols := 0; cols < nc; cols++ {
+		for rows := 0; rows < nr; rows++ {
+			dewitt(cols*gsize, rows*gsize, gsize, *nlines, *nw)
+		}
+	}
+	svg.End()
+}
