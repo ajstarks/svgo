@@ -21,7 +21,6 @@ Usage: (where $GC and $GL are the Go compiler and linker for your targer archite
   $ $GC svgdef.go && $GL -o svgdef svgdef.$A  = compile a client program
   $ ./svgdef    = run the client program
 
- 
 a minimal program:
 
   package main
@@ -68,14 +67,14 @@ For example:"fill:none; opacity:0.3" (see: http://www.w3.org/TR/SVG11/styling.ht
 
 Start(w int, h int)
   begin the SVG document with the width w and height h
-  http://www.w3.org/TR/SVG11/struct.html=SVGElement
+  http://www.w3.org/TR/SVG11/struct.html#SVGElement
 
 End()
   end the SVG document         
 
 Gstyle(s string)
   begin a group, with the specified style
-  http://www.w3.org/TR/SVG11/struct.html=GElement
+  http://www.w3.org/TR/SVG11/struct.html#GElement
 
 Gtransform(s string)
   begin a group, with the specified transform
@@ -88,47 +87,47 @@ Gend()
 
 Def()
   begin a definition block
-  http://www.w3.org/TR/SVG11/struct.html=DefsElement
+  http://www.w3.org/TR/SVG11/struct.html#DefsElement
 
 DefEnd()
   end a definition block
 
 Desc(s string)
   specify the text of the description
-  http://www.w3.org/TR/SVG11/struct.html=DescElement
+  http://www.w3.org/TR/SVG11/struct.html#DescElement
 
 Title(s string)
   specify the text of the title
-  http://www.w3.org/TR/SVG11/struct.html=TitleElement
+  http://www.w3.org/TR/SVG11/struct.html#TitleElement
 
 Link(name string, title string)
   begin a link named "name", with the specified title
-  http://www.w3.org/TR/SVG11/linking.html=Links
+  http://www.w3.org/TR/SVG11/linking.html#Links
 
 LinkEnd()
   end the link
 
 Use(x int, y int, link string, s ...string)
   place the object referenced at link at the location x, y
-  http://www.w3.org/TR/SVG11/struct.html=UseElement
+  http://www.w3.org/TR/SVG11/struct.html#UseElement
 
 === Shapes ===
 
 Circle(x int, y int, r int, s ...string)
   draw a circle, centered at x,y with radius r
-  http://www.w3.org/TR/SVG11/shapes.html=CircleElement
+  http://www.w3.org/TR/SVG11/shapes.html#CircleElement
   
 Ellipse(x int, y int, w int, h int, s ...string)
   draw an ellipse, centered at x,y with radii w, and h
-  http://www.w3.org/TR/SVG11/shapes.html=EllipseElement
+  http://www.w3.org/TR/SVG11/shapes.html#EllipseElement
 
 Polygon(x []int, y []int, s ...string)
   draw a series of line segments using an array of x, y coordinates
-  http://www.w3.org/TR/SVG11/shapes.html=PolygonElement
+  http://www.w3.org/TR/SVG11/shapes.html#PolygonElement
 
 Rect(x int, y int, w int, h int, s ...string)
   draw a rectangle with upper left-hand corner at x,y, with width w, and height h
-  http://www.w3.org/TR/SVG11/shapes.html=RectElement
+  http://www.w3.org/TR/SVG11/shapes.html#RectElement
 
 Roundrect(x int, y int, w int, h int, rx int, ry int, s ...string)
   draw a rounded rectangle with upper the left-hand corner at x,y, 
@@ -147,37 +146,37 @@ Arc(sx int, sy int, ax int, ay int, r int, large bool, sweep bool, ex int, ey in
   the arc is drawn counterclockwise.
   if large is true, the arc sweep angle is greater than or equal to 180 degrees, 
   otherwise the arc sweep is less than 180 degrees
-  http://www.w3.org/TR/SVG11/paths.html=PathDataEllipticalArcCommands
+  http://www.w3.org/TR/SVG11/paths.html#PathDataEllipticalArcCommands
 
 Bezier(sx int, sy int, cx int, cy int, px int, py int, ex int, ey int, s ...string)
   draw a cubic bezier curve, beginning at sx,sy, ending at ex,ey
   with control points at cx,cy and px,py
-  http://www.w3.org/TR/SVG11/paths.html=PathDataCubicBezierCommands
+  http://www.w3.org/TR/SVG11/paths.html#PathDataCubicBezierCommands
 
 Qbezier(sx int, sy int, cx int, cy int, ex int, ey int, tx int, ty int, s ...string)
   draw a quadratic bezier curve, beginning at sx, sy, ending at tx,ty
   with control points are at cx,cy, ex,ey
-  http://www.w3.org/TR/SVG11/paths.html=PathDataQuadraticBezierCommands
+  http://www.w3.org/TR/SVG11/paths.html#PathDataQuadraticBezierCommands
 
 === Lines ===
 
 Line(x1 int, y1 int, x2 int, y2 int, s ...string)
   draw a line segment between x1,y1 and x2,y2
-  http://www.w3.org/TR/SVG11/shapes.html=LineElement
+  http://www.w3.org/TR/SVG11/shapes.html#LineElement
   
 Polyline(x []int, y []int, s ...string)
   draw a polygon using coordinates specified in x,y arrays
-  http://www.w3.org/TR/SVG11/shapes.html=PolylineElement
+  http://www.w3.org/TR/SVG11/shapes.html#PolylineElement
 
 === Image and Text ===
 
 Image(x int, y int, w int, h int, link string, s ...string) 
   place at x,y (upper left hand corner), the image with width w, and height h, referenced at link
-  http://www.w3.org/TR/SVG11/struct.html=ImageElement
+  http://www.w3.org/TR/SVG11/struct.html#ImageElement
 
 Text(x int, y int, t string, s ...string)
   Place the specified text, t at x,y according to the style specified in s
-  http://www.w3.org/TR/SVG11/text.html=TextElement
+  http://www.w3.org/TR/SVG11/text.html#TextElement
 
 === Color ===
 
