@@ -1,6 +1,7 @@
 // svg: generate SVG objects
 //
 // Anthony Starks, ajstarks@gmail.com
+// Writer interface, Jonathan Wright, quaggy@gmail.com
 
 package svg
 

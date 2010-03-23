@@ -3,10 +3,13 @@
 package main
 
 import (
-	"./svg"
+	svglib "./svg"
 	"rand"
 	"time"
+	"os"
 )
+
+var svg = svglib.New(os.Stdout)
 
 var width = 700
 var height = 400
@@ -14,7 +17,8 @@ var height = 400
 func main() {
 	rand.Seed(time.Nanoseconds() % 1e9)
 	svg.Start(width, height)
-	svg.Rect(0,0,width,height,"fill:white")
+	svg.Title("Richter")
+	svg.Rect(0, 0, width, height, "fill:white")
 	rw := 32
 	rh := 18
 	margin := 5

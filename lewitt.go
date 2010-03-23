@@ -16,6 +16,7 @@ import (
 	"time"
 	"fmt"
 	"flag"
+	"os"
 )
 
 var svg = svglib.New(os.Stdout)
@@ -33,7 +34,7 @@ var pencils = []string{"(250, 13, 44)", "(247, 212, 70)", "(52, 114, 245)"}
 func background(v int) { svg.Rect(0, 0, width, height, svg.RGB(v, v, v)) }
 
 
-func dewitt(x int, y int, gsize int, n int, w int) {
+func lewitt(x int, y int, gsize int, n int, w int) {
 	var x1, x2, y1, y2 int
 	var op float
 	svg.Rect(x, y, gsize, gsize, tilestyle)
@@ -68,13 +69,14 @@ func init() {
 func main() {
 
 	svg.Start(width, height)
+	svg.Title("Sol Lewitt's Wall Drawing 91")
 	background(255)
 	gsize := 120
 	nc := width / gsize
 	nr := height / gsize
 	for cols := 0; cols < nc; cols++ {
 		for rows := 0; rows < nr; rows++ {
-			dewitt(cols*gsize, rows*gsize, gsize, *nlines, *nw)
+			lewitt(cols*gsize, rows*gsize, gsize, *nlines, *nw)
 		}
 	}
 	svg.End()

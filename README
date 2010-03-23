@@ -1,6 +1,6 @@
 =A Go library for SVG generation=
 
-The library generates SVG as defined by the Scalable Vector Graphics 1.1 Specification (http://www.w3.org/TR/SVG11/) to standard output
+The library generates SVG as defined by the Scalable Vector Graphics 1.1 Specification (http://www.w3.org/TR/SVG11/).  Output is to a specified io.Writer
 
 == Supported SVG elements ==
 
@@ -23,14 +23,26 @@ Usage: (where $GC and $GL are the Go compiler and linker for your targer archite
 
 a minimal program:
 
-  package main
-  import "svg"
+package main
 
-  func main() {
-    svg.Start(500, 500)
-    svg.Circle(250, 250, 100)
-    svg.End()
-  }
+import (
+  svglib "./svg"
+  "os"
+)
+
+var (
+  width = 500
+  height = 500
+  svg = svglib.New(os.Stdout)
+)
+
+func main() {
+  svg.Start(width, height)
+  svg.Circle(width/2, height/2, 100)
+  svg.Text(width/2, height/2, "Hello, SVG", "text-anchor;font-size:30;fill:white")
+  svg.End()
+}
+
 
 You may view the SVG output with a browser that supports SVG (tested on Chrome, Opera, Firefox and Safari), or any other SVG user-agent such as Batik Squiggle.  The test-svgo script tries to use reasonable defaults based on the GOOS and GOARCH environment variables
 
@@ -38,21 +50,23 @@ The command:
 
    $ ./newsvg foo.go
    
-creates a template Go source file ready for your code.
+creates a template Go source file ready for your code, using $EDITOR
 
 == Package contents ==
 
 svg.go        Library
 test-svgo     Compiles the library, builds the clients and displays the results
-newsvg       Coding template command
+newsvg        Coding template command
 svgdef.go     Creates a SVG representation of the API
-vismem.go     Visualize data from files
-randcomp.go   Compare random number generators
-planets.go    Show the scale of the Solar system
-flower.go   Random "flowers"
-rl.go         Random lines (port of a Processing demo)
-imfade.go     Show image fading
 flower.go     Random "flowers"
+funnel.go     Funnel from transparent circles
+imfade.go     Show image fading
+lewitt.go     Version of Sol Lewitt's Wall Drawing 91
+planets.go    Show the scale of the Solar system
+randcomp.go   Compare random number generators
+richter.go    Gerhard Richter's 256 colors
+rl.go         Random lines (port of a Processing demo)
+vismem.go     Visualize data from files
 images/*      Images used by the client programs
 
 
@@ -66,6 +80,9 @@ For example:"fill:none; opacity:0.3" (see: http://www.w3.org/TR/SVG11/styling.ht
 
 === Structure, Metadata and Links ===
 
+New(w io.Writer) *SVG
+  Constructor, Specify the output destination
+  
 Start(w int, h int)
   begin the SVG document with the width w and height h
   http://www.w3.org/TR/SVG11/struct.html#SVGElement
