@@ -1,11 +1,14 @@
 package main
 
 import (
-	"./svg"
+	svglib "./svg"
 	"rand"
 	"time"
 	"fmt"
+	"os"
 )
+
+var svg = svglib.New(os.Stdout)
 
 func main() {
 	width := 200

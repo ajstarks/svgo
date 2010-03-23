@@ -23,7 +23,7 @@ esac
 ${A}g svg.go && 
 for i in $list
 do
-  rm $i.svg ./$i
+  rm -f $i.svg ./$i
   ${A}g $i.go && ${A}l -o $i $i.${A} && ./$i > $i.svg
   $opener $i.svg
   rm $i.${A}

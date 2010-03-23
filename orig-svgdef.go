@@ -3,11 +3,8 @@
 package main
 
 import (
-	svglib "./svg"
-	"os"
+	"./svg"
 )
-
-var svg = svglib.New(os.Stdout)
 
 const textsize = 15
 const coordsize = 4
@@ -42,6 +39,7 @@ func defcircle(id string, r int, legend string) {
 	svg.Text((r / 2), textsize, "r", legendstyle)
 	deflegend(0, 0, r, legend)
 	svg.Gend()
+
 }
 
 func defellipse(id string, w int, h int, legend string) {
@@ -54,6 +52,7 @@ func defellipse(id string, w int, h int, legend string) {
 	svg.Text(-textsize, (h / 2), "h", legendstyle)
 	deflegend(0, 0, h, legend)
 	svg.Gend()
+
 }
 
 func defrect(id string, w int, h int, legend string) {
@@ -64,6 +63,7 @@ func defrect(id string, w int, h int, legend string) {
 	svg.Text((w / 2), -textsize, "w", legendstyle)
 	deflegend((w / 2), 0, h, legend)
 	svg.Gend()
+
 }
 
 func defsquare(id string, w int, legend string) {
@@ -81,7 +81,7 @@ func defimage(id string, w int, h int, s string, legend string) {
 	svg.Rect(0, 0, w, h, objstyle)
 	svg.Text(-textsize, (h / 2), "h", legendstyle)
 	svg.Text((w / 2), -textsize, "w", legendstyle)
-	svg.Image(0, 0, w, h, s)
+	svg.Image(0, 0, w, h, s, "")
 	deflegend(w/2, h, 0, legend)
 	svg.Gend()
 }
@@ -177,18 +177,18 @@ func main() {
 
 	svg.Desc("Object Definitions")
 	svg.Def()
-	defcircle("circle", 50, "svg.Circle(x, y, r,...)")
-	defellipse("ellipse", 75, 50, "svg.Ellipse(x, y, rx ,ry,...)")
-	defrect("rectangle", 160, 100, "svg.Rect(x, y, w, h,...)")
-	defroundrect("roundrect", 160, 100, 25, 25, "svg.Roundrect(x,y,rx,ry,...)")
-	defsquare("square", 100, "svg.Square(x, y, w,...)")
-	defimage("image", 128, 128, "images/gophercolor128x128.png", "svg.Image(x, y, path,...)")
-	defarc("arc", 90, 40, "svg.Arc(sx, sy, ax, ay, r, lflag, sflag, ...)")
-	defline("line", 240, "svg.Line(x1, y1, x2, y2, ...)")
-	defbez("bezier", 120, 60, "svg.Bezier(sx, sy, cx, cy, px, py, ex, ey, ...)")
-	defqbez("qbez", 120, 40, "svg.Qbezier(sx, sy, cx, cy, ex, ey, tx, ty, ...)")
-	defpolygon("polygon", 160, 120, "svg.Polygon(x, y, ...)")
-	defpolyline("polyline", 240, 40, "svg.Polyline(x, y, ...)")
+	defcircle("circle", 50, "svg.Circle(x,y,r,style)")
+	defellipse("ellipse", 75, 50, "svg.Ellipse(x,y,rx,ry,style)")
+	defrect("rectangle", 160, 100, "svg.Rect(x,y,w,h,style)")
+	defroundrect("roundrect", 160, 100, 25, 25, "svg.Roundrect(x,y,rx,ry,style)")
+	defsquare("square", 100, "svg.Square(x,y,w,style)")
+	defimage("image", 128, 128, "images/gophercolor128x128.png", "svg.Image(x,y,path,style)")
+	defarc("arc", 90, 40, "svg.Arc(sx, sy, ax, ay, r, lflag, sflag, style)")
+	defline("line", 240, "svg.Line(x1, y1, x2, y2, style)")
+	defbez("bezier", 120, 60, "svg.Bezier(sx, sy, cx, cy, px, py, ex, ey, style)")
+	defqbez("qbez", 120, 40, "svg.Qbezier(sx, sy, cx, cy, px, py, ex, ey, style)")
+	defpolygon("polygon", 160, 120, "svg.Polygon(x, y, style)")
+	defpolyline("polyline", 240, 40, "svg.Polyline(x, y, style)")
 	svg.DefEnd()
 
 	svg.Desc("Object Usage")

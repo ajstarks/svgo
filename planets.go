@@ -1,13 +1,14 @@
 package main
 
 import (
-	"./svg"
+	svglib "./svg"
 	"os"
 	"flag"
 	"image"
 	"image/png"
 )
 
+var svg = svglib.New(os.Stdout)
 
 var ssDist = []float{
 	0.00,  // Sun

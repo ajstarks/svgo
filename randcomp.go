@@ -6,8 +6,10 @@ import (
 	"time"
 	"fmt"
 	"strconv"
-	"./svg"
+	svglib "./svg"
 )
+
+var svg = svglib.New(os.Stdout)
 
 func main() {
 	width := 512

@@ -3,24 +3,20 @@
 package main
 
 import (
-  "./svg"
-  "time"
-  "rand"
-  "math"
-  "fmt"
-  "flag"
+	svglib "./svg"
+	"time"
+	"rand"
+	"math"
+	"fmt"
+	"flag"
+	"os"
 )
 
-var (
- niter = flag.Int("n", 200, "number of iterations")
- width = flag.Int("w", 500, "width")
- height = flag.Int("h", 500, "height")
- thickness = flag.Int("t", 10, "max thinkness")
- np = flag.Int("p", 15, "max number of points")
- psize = flag.Int("s", 30, "max length of petals")
- opacity = flag.Int("o", 50, "maximum opacity (10-100)")
-)
+var svg = svglib.New(os.Stdout)
 
+var niter = flag.Int("n", 200, "number of iterations")
+var width = flag.Int("w", 500, "width")
+var height = flag.Int("h", 500, "height")
 
 func radial(xp int, yp int, n int, l int, style ...string) {
 	var x, y, r, t, limit float64
@@ -43,17 +39,17 @@ func random(howsmall, howbig int) int {
 }
 
 func randrad(w int, h int, n int) {
-  var x, y, r, g, b, o, s, t, p int
+	var x, y, r, g, b, o, s, t, p int
 	for i := 0; i < n; i++ {
 		x = rand.Intn(w)
 		y = rand.Intn(h)
 		r = rand.Intn(255)
 		g = rand.Intn(255)
 		b = rand.Intn(255)
-		o = random(10, *opacity)
-		s = random(10, *psize)
-		t = random(2, *thickness)
-		p = random(10, *np)
+		o = random(10, 50)
+		s = random(10, 60)
+		t = random(2, 10)
+		p = random(10, 15)
 		radial(x, y, p, s,
 			fmt.Sprintf("stroke:rgb(%d,%d,%d); stroke-opacity:%.2f; stroke-width:%d",
 				r, g, b, float64(o)/100.0, t))

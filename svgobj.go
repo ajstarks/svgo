@@ -3,8 +3,10 @@
 package main
 
 import (
-	"./svg"
+	svglib "./svg"
 )
+
+var svg = svglib.New(os.Stdout)
 
 const textsize = 15
 const coordsize = 4
@@ -102,17 +104,17 @@ func showqbez(sx int, sy int, cx int, cy int, ex int, ey int, tx int, ty int, le
 }
 
 func showroundrect(x int, y int, w int, h int, rx int, ry int, legend string) {
-  xr := x+rx
-  yr := y+ry
-  showcoord(x, y)
-  svg.Roundrect(x, y, w, h, rx, ry, objstyle)
-  svg.Text(x-textsize, y+(h/2), "h", legendstyle)
+	xr := x + rx
+	yr := y + ry
+	showcoord(x, y)
+	svg.Roundrect(x, y, w, h, rx, ry, objstyle)
+	svg.Text(x-textsize, y+(h/2), "h", legendstyle)
 	svg.Text(x+(w/2), y-textsize, "w", legendstyle)
-	svg.Line(xr,y,   xr,yr, linestyle)
-	svg.Line(x,yr,   xr,yr, linestyle)
+	svg.Line(xr, y, xr, yr, linestyle)
+	svg.Line(x, yr, xr, yr, linestyle)
 	svg.Text(xr+textsize, yr-(ry/2), "ry", legendstyle)
 	svg.Text(x+(rx/2), yr+textsize, "rx", legendstyle)
-  showlegend(x+(w/2), y, h, legend)
+	showlegend(x+(w/2), y, h, legend)
 }
 
 func showpolygon(x []int, y []int, legend string) {
@@ -132,10 +134,10 @@ func showpolyline(x []int, y []int, legend string) {
 }
 
 
-var pgx = []int{60, 110,  160, 160, 110, 60, 60}
+var pgx = []int{60, 110, 160, 160, 110, 60, 60}
 var pgy = []int{610, 585, 610, 660, 690, 660, 610}
 
-var plx = []int{60, 160, 260, 400 }
+var plx = []int{60, 160, 260, 400}
 var ply = []int{520, 490, 520, 490}
 
 func main() {
@@ -150,20 +152,20 @@ func main() {
 
 	showcircle(355, 320, 50, "svg.Circle(x, y, r, style)")
 	showellipse(140, 320, 100, 50, "svg.Ellipse(x, y, w, h, style)")
-	
+
 	showrect(60, 100, 160, 100, "svg.Rect(x, y, w, h, style)")
 	showsquare(300, 100, 100, "svg.Square(x, y, w, style)")
 	showroundrect(480, 50, 250, 150, 40, 40, "svg.Roundrect(x, y, w, h, rx, ry, style)")
 
-	showarc(480,700, 20,10, 0, false, true, 725,700, "svg.Arc(sx, sy, ax, ay, r, lflag, sflag, style)")
-	showbez(480,350, 600,290, 600,400, 725,350, "svg.Bezier(sx, sy, cx, cy, px, py, ex, ey, style)")
-	showqbez(480,500, 600,500, 600,550, 725,500, "svg.Qbezier(sx, sy, cx, cy, ex, ey, tx, ty, style)")
-	
-	showline(60,440, 400,440, "svg.Line(x1, y1, x2, y2, style)")	
+	showarc(480, 700, 20, 10, 0, false, true, 725, 700, "svg.Arc(sx, sy, ax, ay, r, lflag, sflag, style)")
+	showbez(480, 350, 600, 290, 600, 400, 725, 350, "svg.Bezier(sx, sy, cx, cy, px, py, ex, ey, style)")
+	showqbez(480, 500, 600, 500, 600, 550, 725, 500, "svg.Qbezier(sx, sy, cx, cy, ex, ey, tx, ty, style)")
+
+	showline(60, 440, 400, 440, "svg.Line(x1, y1, x2, y2, style)")
 	showpolygon(pgx, pgy, "svg.Polygon(x, y, style)")
 	showpolyline(plx, ply, "svg.Polyline(x, y, style)")
-	
-	showimage(272,575, 128, 128, "images/gophercolor128x128.png", "svg.Image(x, y, w, h, name, style)")
+
+	showimage(272, 575, 128, 128, "images/gophercolor128x128.png", "svg.Image(x, y, w, h, name, style)")
 
 	svg.Gend()
 	svg.Desc("20 px grid")

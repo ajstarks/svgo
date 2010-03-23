@@ -1,10 +1,12 @@
 package main
 
 import (
-	"./svg"
+	svglib "./svg"
 	"fmt"
 	"os"
 )
+
+var svg = svglib.New(os.Stdout)
 
 func main() {
 	width := 768
