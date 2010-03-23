@@ -18,7 +18,7 @@ See svgdef.[svg|png|pdf] for a graphical view of the function calls
 Usage: (where $GC and $GL are the Go compiler and linker for your targer architecture, $A)
 
   $ $GC svg.go  = compile the library
-  $ $GC svgdef.go && $GL -o svgdef svgdef.$A  = compile a client program
+  $ $GC svgdef.go && $GL -o svgdef svgdef.$A  # compile a client program
   $ ./svgdef    = run the client program
 
 a minimal program:
@@ -44,11 +44,12 @@ creates a template Go source file ready for your code.
 
 svg.go        Library
 test-svgo     Compiles the library, builds the clients and displays the results
-newsvg        Coding template command
+newsvg       Coding template command
 svgdef.go     Creates a SVG representation of the API
 vismem.go     Visualize data from files
 randcomp.go   Compare random number generators
 planets.go    Show the scale of the Solar system
+flower.go   Random "flowers"
 rl.go         Random lines (port of a Processing demo)
 imfade.go     Show image fading
 flower.go     Random "flowers"
