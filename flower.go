@@ -1,4 +1,5 @@
 // flower - draw random flowers
+// inspired by Evelyn Eastmond's DesignBlocks gererated "grain2"
 
 package main
 
@@ -12,11 +13,17 @@ import (
 	"os"
 )
 
-var svg = svglib.New(os.Stdout)
-
-var niter = flag.Int("n", 200, "number of iterations")
-var width = flag.Int("w", 500, "width")
-var height = flag.Int("h", 500, "height")
+var (
+	svg       = svglib.New(os.Stdout)
+	niter     = flag.Int("n", 200, "number of iterations")
+	width     = flag.Int("w", 500, "width")
+	height    = flag.Int("h", 500, "height")
+	thickness = flag.Int("t", 10, "max petal thinkness")
+	np        = flag.Int("p", 15, "max number of petals")
+	psize     = flag.Int("s", 30, "max length of petals")
+	opacity   = flag.Int("o", 50, "max opacity (10-100)")
+)
+const flowerfmt = `stroke:rgb(%d,%d,%d); stroke-opacity:%.2f; stroke-width:%d`
 
 func radial(xp int, yp int, n int, l int, style ...string) {
 	var x, y, r, t, limit float64
@@ -46,13 +53,11 @@ func randrad(w int, h int, n int) {
 		r = rand.Intn(255)
 		g = rand.Intn(255)
 		b = rand.Intn(255)
-		o = random(10, 50)
-		s = random(10, 60)
-		t = random(2, 10)
-		p = random(10, 15)
-		radial(x, y, p, s,
-			fmt.Sprintf("stroke:rgb(%d,%d,%d); stroke-opacity:%.2f; stroke-width:%d",
-				r, g, b, float64(o)/100.0, t))
+		o = random(10, *opacity)
+		s = random(10, *psize)
+		t = random(2, *thickness)
+		p = random(10, *np)
+		radial(x, y, p, s, fmt.Sprintf(flowerfmt, r, g, b, float64(o)/100.0, t))
 	}
 }
 
