@@ -242,15 +242,23 @@ func (svg *SVG) pp(x []int, y []int, tag string) {
 	}
 }
 
+// endstyle modifies an SVG object, with either a series of name="value" pairs,
+// or a single string containing a style
 func (svg *SVG) endstyle(s []string) string {
+
 	if len(s) > 0 {
-		if strings.Index(s[0], "=") > 0 {
-			return s[0] + "/>\n"
-		} else {
-			return svg.style(s[0]) + "/>\n"
+		nv := ""
+		for i := 0; i < len(s); i++ {
+			if strings.Index(s[i], "=") > 0 {
+				nv += (s[i]) + " "
+			} else {
+				nv += svg.style(s[i])
+			}
 		}
+		return nv + "/>\n"
 	}
 	return "/>\n"
+
 }
 
 func (svg *SVG) tt(tag string, attr string, s string) {

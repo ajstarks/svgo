@@ -1,6 +1,6 @@
 =A Go library for SVG generation=
 
-The library generates SVG as defined by the Scalable Vector Graphics 1.1 Specification (http://www.w3.org/TR/SVG11/).  Output is to a specified io.Writer
+The library generates SVG as defined by the Scalable Vector Graphics 1.1 Specification (http://www.w3.org/TR/SVG11/). Output is to a specified io.Writer
 
 == Supported SVG elements ==
 
@@ -52,6 +52,12 @@ The command:
    
 creates a template Go source file ready for your code, using $EDITOR
 
+To create browsable documentation:
+
+  $ godoc -path=<svgo directory> -http=:6060
+  
+and click on the "Package documentation for svg" link
+
 == Package contents ==
 
 svg.go        Library
@@ -67,6 +73,7 @@ randcomp.go   Compare random number generators
 richter.go    Gerhard Richter's 256 colors
 rl.go         Random lines (port of a Processing demo)
 vismem.go     Visualize data from files
+android.go    The Android logo
 images/*      Images used by the client programs
 
 
@@ -74,8 +81,12 @@ images/*      Images used by the client programs
 
 Many functions use x, y to specify an object's location, and w, h to specify the object's width and height.
 Where applicable, a final optional argument specifies the style to be applied to the object. 
-The style strings follow the SVG standard; name:value pairs delimited by semicolons.
-For example:"fill:none; opacity:0.3" (see: http://www.w3.org/TR/SVG11/styling.html)
+The style strings follow the SVG standard; name:value pairs delimited by semicolons, or a
+series of name="value" pairs.
+For example:
+  "fill:none; opacity:0.3" 
+  fill="none", opacity="0.3"
+(see: http://www.w3.org/TR/SVG11/styling.html)
 
 
 === Structure, Metadata and Links ===
