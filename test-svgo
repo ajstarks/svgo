@@ -3,7 +3,7 @@
 # Compile the library and clients, run the clients, display the results
 #
 #
-list="svgdef flower funnel imfade lewitt planets randcomp richter rl vismem"
+list="svgdef flower funnel imfade lewitt planets randcomp richter rl vismem android"
 
 case $GOARCH in
   arm)    A=5;;
@@ -13,7 +13,7 @@ case $GOARCH in
 esac
 
 case $GOOS in
-  darwin)   opener="open -a /Applications/Safari.app";; # "/Applications/Google\ Chrome.app"
+  darwin)   opener="open -a /Applications/Safari.app";; 
   linux)    opener="mozilla -turbo";;
   freebsd)  opener="mozilla -turbo";;
   *) exit;;
