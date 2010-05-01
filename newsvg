@@ -1,5 +1,7 @@
 #!/bin/sh
-cat <<!  > $*
+if test ! -f $1 
+then
+cat <<!  > $1
 package main
 
 import (
@@ -25,6 +27,6 @@ func main() {
   svg.Grid(0, 0, width, height, 10, "stroke:black;opacity:0.1")
   svg.End()
 }
-
 !
-$EDITOR $*
+fi
+$EDITOR $1
