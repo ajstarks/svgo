@@ -14,8 +14,8 @@ esac
 
 case $GOOS in
   darwin)   opener="open -a /Applications/Safari.app";; 
-  linux)    opener="mozilla -turbo";;
-  freebsd)  opener="mozilla -turbo";;
+  linux)    opener="firefox";;
+  freebsd)  opener="firefox";;
   *) exit;;
 esac
   
