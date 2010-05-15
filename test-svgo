@@ -3,7 +3,7 @@
 # Compile the library and clients, run the clients, display the results
 #
 #
-list="svgdef flower funnel imfade lewitt planets randcomp richter rl vismem android"
+list="svgdef flower funnel imfade lewitt planets randcomp richter rl vismem android svgopher"
 
 case $GOARCH in
   arm)    A=5;;

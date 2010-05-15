@@ -17,9 +17,9 @@ See svgdef.[svg|png|pdf] for a graphical view of the function calls
 
 Usage: (where $GC and $GL are the Go compiler and linker for your targer architecture, $A)
 
-	$ $GC svg.go  = compile the library
+	$ $GC svg.go  # compile the library
 	$ $GC svgdef.go && $GL -o svgdef svgdef.$A  # compile a client program
-	$ ./svgdef    = run the client program
+	$ ./svgdef    # run the client program
 
 a minimal program:
 
@@ -74,6 +74,7 @@ and click on the "Package documentation for svg" link
 * rl.go         Random lines (port of a Processing demo)
 * vismem.go     Visualize data from files
 * android.go    The Android logo
+* svgopher.go		SVGo Mascot
 * images/*      Images used by the client programs
 
 
@@ -83,10 +84,7 @@ Many functions use x, y to specify an object's location, and w, h to specify the
 Where applicable, a final optional argument specifies the style to be applied to the object. 
 The style strings follow the SVG standard; name:value pairs delimited by semicolons, or a
 series of name="value" pairs.
-For example:
-  "fill:none; opacity:0.3" 
-  fill="none", opacity="0.3"
-(see: <http://www.w3.org/TR/SVG11/styling.html>)
+For example: "fill:none; opacity:0.3" or  fill="none", opacity="0.3" (see: <http://www.w3.org/TR/SVG11/styling.html>)
 
 
 ### Structure, Metadata and Links ###
