@@ -57,12 +57,15 @@ func gordon(x, y, w, h int) {
 
 func main() {
 	svg.Start(width, height)
+	svg.Title("SVG Gopher")
 	background(255)
 	svg.Gtransform("translate(100, 100)")
 	svg.Gtransform("rotate(-30)")
 	gordon(48, 48, 240, 72)
 	svg.Gend()
 	svg.Gend()
+	svg.Link("svgdef.svg", "SVG Spec & Usage")
 	svg.Text(90, 142, "SVG", "font-family:Calibri; font-size:84; fill:brown")
+	svg.LinkEnd()
 	svg.End()
 }

@@ -24,8 +24,7 @@ func main() {
 		svg.Line(i, 0, rand.Intn(width), height, fmt.Sprintf("stroke:rgb(%d,%d,%d); opacity:0.39", r, r, r))
 	}
 	svg.Gend()
-	svg.Link("svgdef.svg", "SVG Definitions")
+	
 	svg.Text(width/2, height/2, "Random Lines", "fill:white; font-size:20; font-family:Calibri; text-anchor:middle")
-	svg.LinkEnd()
 	svg.End()
 }

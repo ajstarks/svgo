@@ -36,6 +36,7 @@ func android(x, y int, fill string, opacity float) {
 
 func main() {
 	svg.Start(width, height)
+	svg.Title("Android")
 	background(255)
 
 	android(100, 100, androidcolor, 1.0)

@@ -78,7 +78,9 @@ func (svg *SVG) Title(s string) { svg.tt("title", "", s) }
 // Link begins a link named "name", with the specified title.
 // Standard Reference: http://www.w3.org/TR/SVG11/linking.html#Links
 func (svg *SVG) Link(name string, title string) {
-	svg.printf("<a xlink:href=\"%s\" xlink:title=\"%s\">\n", name, title)
+	svg.printf("<a xlink:href=\"%s\" xlink:title=\"", name)
+	xml.Escape(svg.w, []byte(title))
+	svg.println("\">")
 }
 
 // LinkEnd ends a link.
