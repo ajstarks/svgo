@@ -1,6 +1,6 @@
 #A Go library for SVG generation#
 
-The library generates SVG as defined by the Scalable Vector Graphics 1.1 Specification (<http://www.w3.org/TR/SVG11/>). Output is to a specified io.Writer>
+The library generates SVG as defined by the Scalable Vector Graphics 1.1 Specification (<http://www.w3.org/TR/SVG11/>). Output is to a specified io.Writer.
 
 ## Supported SVG elements ##
 
@@ -57,6 +57,10 @@ To create browsable documentation:
 	$ godoc -path=<svgo directory> -<http=:6060>
   
 and click on the "Package documentation for svg" link
+
+### Tutorial Video ###
+
+A HOWTO video on the package can be seen on YouTube at <http://www.youtube.com/watch?v=ze6O2Dj5gQ4> 
 
 ## Package contents ##
 
