@@ -6,7 +6,7 @@ import (
 	"time"
 	"fmt"
 	"strconv"
-	svglib "./svg"
+	svglib "svg"
 )
 
 var svg = svglib.New(os.Stdout)

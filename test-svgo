@@ -3,7 +3,7 @@
 # Compile the library and clients, run the clients, display the results
 #
 #
-list="svgdef flower funnel imfade lewitt planets randcomp richter rl vismem android svgopher"
+list="svgdef flower funnel imfade lewitt planets randcomp richter rl vismem android gradient svgopher"
 
 case $GOARCH in
   arm)    A=5;;
@@ -24,7 +24,7 @@ ${A}g svg.go &&
 for i in $list
 do
   rm -f $i.svg ./$i
-  ${A}g $i.go && ${A}l -o $i $i.${A} && ./$i > $i.svg
+  ${A}g -I . $i.go && ${A}l -L . -o $i $i.${A} && ./$i > $i.svg
   $opener $i.svg
   rm $i.${A}
 done

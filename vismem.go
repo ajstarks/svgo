@@ -2,7 +2,7 @@ package main
 
 import (
 	"os"
-	svglib "./svg"
+	svglib "svg"
 )
 
 var svg = svglib.New(os.Stdout)

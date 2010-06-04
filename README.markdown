@@ -5,11 +5,11 @@ The library generates SVG as defined by the Scalable Vector Graphics 1.1 Specifi
 ## Supported SVG elements ##
 
  circle, ellipse, polygon, polyline, rect (including roundrects), paths (arc,
- cubic and quadratic bezier paths), line, image, text, 
+ cubic and quadratic bezier paths), line, image, text, linearGradient, radialGradient
 
 ## Metadata elements ##
 
- desc, defs, g (style, transform, id), title, (a)ddress, use
+ desc, defs, g (style, transform, id), title, (a)ddress, link, use
 
 ## Building and Usage ##
 
@@ -18,7 +18,7 @@ See svgdef.[svg|png|pdf] for a graphical view of the function calls
 Usage: (where $GC and $GL are the Go compiler and linker for your targer architecture, $A)
 
 	$ $GC svg.go  # compile the library
-	$ $GC svgdef.go && $GL -o svgdef svgdef.$A  # compile a client program
+	$ $GC -I . svgdef.go && $GL -L . -o svgdef svgdef.$A  # compile a client program
 	$ ./svgdef    # run the client program
 
 a minimal program:
@@ -26,7 +26,7 @@ a minimal program:
 	package main
 	
 	import (
-		svglib "./svg"
+		svglib "svg"
 		"os"
 	)
 	
@@ -44,7 +44,8 @@ a minimal program:
 	}
 
 
-You may view the SVG output with a browser that supports SVG (tested on Chrome, Opera, Firefox and Safari), or any other SVG user-agent such as Batik Squiggle.  The test-svgo script tries to use reasonable defaults based on the GOOS and GOARCH environment variables
+You may view the SVG output with a browser that supports SVG (tested on Chrome, Opera, Firefox and Safari), or any other SVG user-agent such as Batik Squiggle. The test-svgo script tries to use reasonable defaults
+based on the GOOS and GOARCH environment variables.
 
 The command:
 
@@ -60,25 +61,26 @@ and click on the "Package documentation for svg" link
 
 ### Tutorial Video ###
 
-A HOWTO video on the package can be seen on YouTube at <http://www.youtube.com/watch?v=ze6O2Dj5gQ4> 
+A video describing how to use the package can be seen on YouTube at <http://www.youtube.com/watch?v=ze6O2Dj5gQ4> 
 
 ## Package contents ##
 
-* svg.go        Library
-* test-svgo     Compiles the library, builds the clients and displays the results
-* newsvg        Coding template command
-* svgdef.go     Creates a SVG representation of the API
-* flower.go     Random "flowers"
-* funnel.go     Funnel from transparent circles
-* imfade.go     Show image fading
-* lewitt.go     Version of Sol Lewitt's Wall Drawing 91
-* planets.go    Show the scale of the Solar system
-* randcomp.go   Compare random number generators
-* richter.go    Gerhard Richter's 256 colors
-* rl.go         Random lines (port of a Processing demo)
-* vismem.go     Visualize data from files
-* android.go    The Android logo
-* svgopher.go		SVGo Mascot
+* svg.go:        Library
+* test-svgo:     Compiles the library, builds the clients and displays the results
+* newsvg:        Coding template command
+* svgdef.go:     Creates a SVG representation of the API
+* flower.go:     Random "flowers"
+* funnel.go:    Funnel from transparent circles
+* imfade.go:     Show image fading
+* lewitt.go:     Version of Sol Lewitt's Wall Drawing 91
+* planets.go:    Show the scale of the Solar system
+* randcomp.go:   Compare random number generators
+* richter.go:  Gerhard Richter's 256 colors
+* rl.go:         Random lines (port of a Processing demo)
+* vismem.go:     Visualize data from files
+* android.go:    The Android logo
+* gradient.go:	Linear and radial gradients
+* svgopher.go:		SVGo Mascot
 * images/*      Images used by the client programs
 
 
@@ -219,6 +221,23 @@ RGB(r int, g int, b int) string
 RGBA(r int, g int, b int, a float) string
   as above, but includes the color's opacity as a value
   between 0.0 (fully transparent) and 1.0 (opaque)
+  
+### Gradients ###
+
+LinearGradient(id string, x1, y1, x2, y2 uint8, sc []Offcolor)
+  constructs a linear color gradient identified by id, 
+  along the vector defined by (x1,y1), and (x2,y2).
+  The stop color sequence defined in sc. Coordinates are expressed as percentages.
+  <http://www.w3.org/TR/SVG11/pservers.html#LinearGradients>
+  
+  
+RadialGradient(id string, cx, cy, r, fx, fy uint8, sc []Offcolor)
+  constructs a radial color gradient identified by id, 
+  centered at (cx,cy), with a radius of r.
+  (fx, fy) define the location of the focal point of the light source. 
+  The stop color sequence defined in sc.
+  Coordinates are expressed as percentages.
+  <http://www.w3.org/TR/SVG11/pservers.html#RadialGradients>
 
 ### Utility ###
 

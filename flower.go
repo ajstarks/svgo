@@ -4,7 +4,7 @@
 package main
 
 import (
-	svglib "./svg"
+	svglib "svg"
 	"time"
 	"rand"
 	"math"
@@ -23,6 +23,7 @@ var (
 	psize     = flag.Int("s", 30, "max length of petals")
 	opacity   = flag.Int("o", 50, "max opacity (10-100)")
 )
+
 const flowerfmt = `stroke:rgb(%d,%d,%d); stroke-opacity:%.2f; stroke-width:%d`
 
 func radial(xp int, yp int, n int, l int, style ...string) {

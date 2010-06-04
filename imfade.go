@@ -1,7 +1,7 @@
 package main
 
 import (
-	svglib "./svg"
+	svglib "svg"
 	"fmt"
 	"os"
 )

@@ -4,7 +4,7 @@
 package main
 
 import (
-	svglib "./svg"
+	svglib "svg"
 	"os"
 	"flag"
 	"image"
@@ -98,7 +98,6 @@ func main() {
 
 	width := 1300
 	height := 200
-	
 
 	flag.Parse()
 	svg.Start(width, height)
@@ -109,7 +108,7 @@ func main() {
 	y := height / 2
 	margin := 100
 	minsize := 7.0
-	labeloc := height/4
+	labeloc := height / 4
 
 	var x, r, imScale, maxh float
 
@@ -135,8 +134,8 @@ func main() {
 			svg.Circle(int(x), int(y), int(r), "fill:#"+ssColor[i])
 		}
 		if ssDist[i] == 1.0 { // earth
-		  svg.Line(int(x), int(y), int(x), int(y)-labeloc, "stroke:white")
-		  svg.Text(int(x), int(y)-labeloc-10, "You are here", "fill:white; font-size:14; font-family:Calibri; text-anchor:middle")
+			svg.Line(int(x), int(y), int(x), int(y)-labeloc, "stroke:white")
+			svg.Text(int(x), int(y)-labeloc-10, "You are here", "fill:white; font-size:14; font-family:Calibri; text-anchor:middle")
 		}
 	}
 	svg.Gend()

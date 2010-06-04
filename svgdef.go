@@ -3,7 +3,7 @@
 package main
 
 import (
-	svglib "./svg"
+	svglib "svg"
 	"os"
 )
 
@@ -183,7 +183,7 @@ func main() {
 	defroundrect("roundrect", 160, 100, 25, 25, "Roundrect(x,y,rx,ry,...)")
 	defsquare("square", 100, "Square(x, y, w,...)")
 	defimage("image", 128, 128, "images/gophercolor128x128.png", "Image(x, y, path,...)")
-	defarc("arc", 90, 40, "Arc(sx, sy, ax, ay, r, lflag, sflag, ...)")
+	defarc("arc", 90, 40, "Arc(sx, sy, ax, ay, r, lflag, sflag, ex, ey, ...)")
 	defline("line", 240, "Line(x1, y1, x2, y2, ...)")
 	defbez("bezier", 120, 60, "Bezier(sx, sy, cx, cy, px, py, ex, ey, ...)")
 	defqbez("qbez", 120, 40, "Qbezier(sx, sy, cx, cy, ex, ey, tx, ty, ...)")

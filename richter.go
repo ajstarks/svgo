@@ -3,7 +3,7 @@
 package main
 
 import (
-	svglib "./svg"
+	svglib "svg"
 	"rand"
 	"time"
 	"os"
