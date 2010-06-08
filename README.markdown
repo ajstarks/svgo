@@ -1,6 +1,7 @@
 #A Go library for SVG generation#
 
-The library generates SVG as defined by the Scalable Vector Graphics 1.1 Specification (<http://www.w3.org/TR/SVG11/>). Output is to a specified io.Writer.
+The library generates SVG as defined by the Scalable Vector Graphics 1.1 Specification (<http://www.w3.org/TR/SVG11/>). 
+Output goes to the specified io.Writer.
 
 ## Supported SVG elements ##
 
@@ -15,13 +16,13 @@ The library generates SVG as defined by the Scalable Vector Graphics 1.1 Specifi
 
 See svgdef.[svg|png|pdf] for a graphical view of the function calls
 
-Usage: (where $GC and $GL are the Go compiler and linker for your targer architecture, $A)
+Usage: (where $GC and $GL are the Go compiler and linker for your target architecture, $A)
 
 	$ $GC svg.go  # compile the library
 	$ $GC -I . svgdef.go && $GL -L . -o svgdef svgdef.$A  # compile a client program
 	$ ./svgdef    # run the client program
 
-a minimal program:
+a minimal program, to generate SVG to standard output.
 
 	package main
 	
@@ -43,6 +44,32 @@ a minimal program:
 		svg.End()
 	}
 
+Drawing in a web server: (http://localhost:2003/circle)
+
+	package main
+	
+	import (
+		"flag"
+		"log"
+		"svg"
+	)
+	
+	func main() {
+		flag.Parse()
+		http.Handle("/circle", http.HandlerFunc(circle))
+		err := http.ListenAndServe(2003, nil)
+		if err != nil {
+			log.Exit("ListenAndServe:", err)
+		}
+	}
+	
+	func circle(c *http.Conn, req *http.Request) {
+	  c.SetHeader("Content-Type", "image/svg+xml")
+	  s := svg.New(c)
+	  s.Start(500, 500)
+	  s.Circle(250, 250, 125, "fill:none;stroke:black")
+	  s.End()
+	}
 
 You may view the SVG output with a browser that supports SVG (tested on Chrome, Opera, Firefox and Safari), or any other SVG user-agent such as Batik Squiggle. The test-svgo script tries to use reasonable defaults
 based on the GOOS and GOARCH environment variables.
@@ -51,7 +78,7 @@ The command:
 
 	$ ./newsvg foo.go
    
-creates a template Go source file ready for your code, using $EDITOR
+creates Go source file ready for your code, using $EDITOR
 
 To create browsable documentation:
 
@@ -65,23 +92,24 @@ A video describing how to use the package can be seen on YouTube at <http://www.
 
 ## Package contents ##
 
-* svg.go:        Library
-* test-svgo:     Compiles the library, builds the clients and displays the results
-* newsvg:        Coding template command
-* svgdef.go:     Creates a SVG representation of the API
-* flower.go:     Random "flowers"
-* funnel.go:    Funnel from transparent circles
-* imfade.go:     Show image fading
-* lewitt.go:     Version of Sol Lewitt's Wall Drawing 91
-* planets.go:    Show the scale of the Solar system
-* randcomp.go:   Compare random number generators
-* richter.go:  Gerhard Richter's 256 colors
-* rl.go:         Random lines (port of a Processing demo)
-* vismem.go:     Visualize data from files
-* android.go:    The Android logo
+* svg.go:		Library
+* test-svgo:	Compiles the library, builds the clients and displays the results
+* newsvg:		Coding template command
+* svgdef.go:	Creates a SVG representation of the API
+* flower.go:	Random "flowers"
+* funnel.go:	Funnel from transparent circles
+* imfade.go:	Show image fading
+* lewitt.go:	Version of Sol Lewitt's Wall Drawing 91
+* planets.go:	Show the scale of the Solar system
+* randcomp.go:	Compare random number generators
+* richter.go:	Gerhard Richter's 256 colors
+* rl.go:			Random lines (port of a Processing demo)
+* vismem.go:	Visualize data from files
+* android.go:	The Android logo
 * gradient.go:	Linear and radial gradients
-* svgopher.go:		SVGo Mascot
-* images/*      Images used by the client programs
+* svgopher.go:	SVGo Mascot
+* websvg.go:	Generate SVG as a web server
+* images/*		Images used by the client programs
 
 
 ## Functions ##
