@@ -49,15 +49,14 @@ Drawing in a web server: (http://localhost:2003/circle)
 	package main
 	
 	import (
-		"flag"
 		"log"
 		"svg"
+		"http"
 	)
 	
 	func main() {
-		flag.Parse()
 		http.Handle("/circle", http.HandlerFunc(circle))
-		err := http.ListenAndServe(2003, nil)
+		err := http.ListenAndServe(":2003", nil)
 		if err != nil {
 			log.Exit("ListenAndServe:", err)
 		}
