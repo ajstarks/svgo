@@ -126,8 +126,11 @@ func main() {
 			if p == nil {
 				continue
 			}
-			imScale = r / float(p.Width())
-			hs := float(p.Height()) * imScale
+			b := p.Bounds()
+			ih := b.Max.Y - b.Min.Y
+			iw := b.Max.X - b.Min.X
+			imScale = r / float(iw)
+			hs := float(ih) * imScale
 			dy := y - (int(hs) / 2) // center the image
 			svg.Image(int(x), dy, int(r), int(hs), ssImages[i])
 		} else {
