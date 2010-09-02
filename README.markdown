@@ -16,11 +16,18 @@ Output goes to the specified io.Writer.
 
 See svgdef.[svg|png|pdf] for a graphical view of the function calls
 
-Usage: (where $GC and $GL are the Go compiler and linker for your target architecture, $A)
+Usage: just type:
+
+	make
+
+to build the library and the clients.  If you want to do it by hand:
+(where $GC and $GL are the Go compiler and linker for your target architecture, $A)
 
 	$ $GC svg.go  # compile the library
 	$ $GC -I . svgdef.go && $GL -L . -o svgdef svgdef.$A  # compile a client program
 	$ ./svgdef    # run the client program
+	
+
 
 a minimal program, to generate SVG to standard output.
 
