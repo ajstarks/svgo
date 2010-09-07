@@ -7,7 +7,6 @@ import (
 	svglib "svg"
 	"os"
 	"flag"
-	"image"
 	"image/png"
 )
 
@@ -72,22 +71,7 @@ var ssImages = []string{
 
 
 var showimages *bool = flag.Bool("i", true, "show images")
-
 var svg = svglib.New(os.Stdout)
-
-func loadimage(path string) image.Image {
-	f, err := os.Open(path, os.O_RDONLY, 0)
-	defer f.Close()
-	if err != nil {
-		return nil
-	}
-	p, perr := png.Decode(f)
-	if perr != nil {
-		return nil
-	}
-	return p
-}
-
 
 func vmap(value float, low1 float, high1 float, low2 float, high2 float) float {
 	return low2 + (high2-low2)*(value-low1)/(high1-low1)
@@ -122,15 +106,17 @@ func main() {
 		x = vmap(ssDist[i], ssDist[1], ssDist[nobj-1], float(margin), float(width-margin))
 		r = (vmap(ssRad[i], ssRad[1], ssRad[nobj-1], minsize, maxh)) / 2
 		if *showimages {
-			p := loadimage(ssImages[i])
-			if p == nil {
+			f, err := os.Open(ssImages[i], os.O_RDONLY, 0)
+			defer f.Close()
+			if err != nil {
 				continue
 			}
-			b := p.Bounds()
-			ih := b.Max.Y - b.Min.Y
-			iw := b.Max.X - b.Min.X
-			imScale = r / float(iw)
-			hs := float(ih) * imScale
+			p, perr := png.DecodeConfig(f)
+			if perr != nil {
+				continue
+			}
+			imScale = r / float(p.Width)
+			hs := float(p.Height) * imScale
 			dy := y - (int(hs) / 2) // center the image
 			svg.Image(int(x), dy, int(r), int(hs), ssImages[i])
 		} else {
