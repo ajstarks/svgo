@@ -15,7 +15,7 @@ const objstyle = "fill:none; stroke-width:2; stroke:rgb(127,0,0); opacity:0.75"
 const legendstyle = "fill:gray; text-anchor:middle"
 const titlestyle = "fill:black; text-anchor:middle"
 const linestyle = "stroke:black; stroke-width:1"
-const gtextstyle = "font-family:Calibri; text-anchor:middle; font-size:14"
+const gtextstyle = "font-family:Calibri; text-anchor:middle; font-size:14px"
 const coordstring = "x, y"
 
 var grayfill = svg.RGB(200, 200, 200)
@@ -182,7 +182,7 @@ func main() {
 	defrect("rectangle", 160, 100, "Rect(x, y, w, h,...)")
 	defroundrect("roundrect", 160, 100, 25, 25, "Roundrect(x,y,rx,ry,...)")
 	defsquare("square", 100, "Square(x, y, w,...)")
-	defimage("image", 128, 128, "images/gophercolor128x128.png", "Image(x, y, path,...)")
+	defimage("image", 128, 128, "images/gophercolor128x128.png", "Image(x, y, w, h, path,...)")
 	defarc("arc", 90, 40, "Arc(sx, sy, ax, ay, r, lflag, sflag, ex, ey, ...)")
 	defline("line", 240, "Line(x1, y1, x2, y2, ...)")
 	defbez("bezier", 120, 60, "Bezier(sx, sy, cx, cy, px, py, ex, ey, ...)")
