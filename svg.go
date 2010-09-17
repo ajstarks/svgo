@@ -61,7 +61,11 @@ func (svg *SVG) Gstyle(s string) { svg.println(svg.group("style", s)) }
 func (svg *SVG) Gtransform(s string) { svg.println(svg.group("transform", s)) }
 
 // Gid begins a group, with the specified id
-func (svg *SVG) Gid(s string) { svg.println(svg.group("id", s)) }
+func (svg *SVG) Gid(s string) {
+	svg.print(`<g id="`)
+	xml.Escape(svg.w, []byte(s))
+	svg.println(`">`)
+}
 
 // Gend ends a group (must be paired with Gsttyle, Gtransform, Gid).
 func (svg *SVG) Gend() { svg.println(`</g>`) }
@@ -325,7 +329,6 @@ func pct(n uint8) uint8 {
 	}
 	return n
 }
-
 
 func (svg *SVG) coord(x int, y int) string { return fmt.Sprintf(`%d,%d`, x, y) }
 func (svg *SVG) ptag(x int, y int) string {
