@@ -1,31 +1,38 @@
 #!/bin/sh
+
+if test $# -lt 1
+then
+    echo "specify a file"
+    exit 2
+fi
+
 if test ! -f $1 
 then
 cat <<!  > $1
 package main
 
 import (
-  svglib "./svg"
+  "svg"
   "os"
 )
 
 var (
   width = 500
   height = 500
-  svg = svglib.New(os.Stdout)
+  canvas = svg.New(os.Stdout)
 )
 
-func background(v int) { svg.Rect(0, 0, width, height, svg.RGB(v, v, v)) }
+func background(v int) { canvas.Rect(0, 0, width, height, canvas.RGB(v, v, v)) }
 
 
 func main() {
-  svg.Start(width, height)
+  canvas.Start(width, height)
   background(255)
   
   // your code here
   
-  svg.Grid(0, 0, width, height, 10, "stroke:black;opacity:0.1")
-  svg.End()
+  canvas.Grid(0, 0, width, height, 10, "stroke:black;opacity:0.1")
+  canvas.End()
 }
 !
 fi

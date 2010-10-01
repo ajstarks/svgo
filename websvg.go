@@ -8,7 +8,7 @@ import (
 	"svg"
 )
 
-const defaultstyle = "fill:rgb(127,0,0);stroke:black"
+const defaultstyle = "fill:rgb(127,0,0)"
 
 var port = flag.String("port", ":2003", "http service address")
 
@@ -32,38 +32,38 @@ func shapestyle(path string) string {
 	return defaultstyle
 }
 
-func circle(c *http.Conn, req *http.Request) {
-	c.SetHeader("Content-Type", "image/svg+xml")
-	s := svg.New(c)
+func circle(w http.ResponseWriter, req *http.Request) {
+	w.SetHeader("Content-Type", "image/svg+xml")
+	s := svg.New(w)
 	s.Start(500, 500)
 	s.Title("Circle")
-	s.Circle(250, 250, 125, shapestyle(c.Req.URL.Path))
+	s.Circle(250, 250, 125, shapestyle(req.URL.Path))
 	s.End()
 }
 
-func rect(c *http.Conn, req *http.Request) {
-	c.SetHeader("Content-Type", "image/svg+xml")
-	s := svg.New(c)
+func rect(w http.ResponseWriter, req *http.Request) {
+	w.SetHeader("Content-Type", "image/svg+xml")
+	s := svg.New(w)
 	s.Start(500, 500)
 	s.Title("Rectangle")
-	s.Rect(250, 250, 100, 200, shapestyle(c.Req.URL.Path))
+	s.Rect(250, 250, 100, 200, shapestyle(req.URL.Path))
 	s.End()
 }
 
-func arc(c *http.Conn, req *http.Request) {
-	c.SetHeader("Content-Type", "image/svg+xml")
-	s := svg.New(c)
+func arc(w http.ResponseWriter, req *http.Request) {
+	w.SetHeader("Content-Type", "image/svg+xml")
+	s := svg.New(w)
 	s.Start(500, 500)
 	s.Title("Arc")
-	s.Arc(250, 250, 100, 100, 0, false, false, 100, 125, shapestyle(c.Req.URL.Path))
+	s.Arc(250, 250, 100, 100, 0, false, false, 100, 125, shapestyle(req.URL.Path))
 	s.End()
 }
 
-func text(c *http.Conn, req *http.Request) {
-	c.SetHeader("Content-Type", "image/svg+xml")
-	s := svg.New(c)
+func text(w http.ResponseWriter, req *http.Request) {
+	w.SetHeader("Content-Type", "image/svg+xml")
+	s := svg.New(w)
 	s.Start(500, 500)
 	s.Title("Text")
-	s.Text(250, 250, "Hello, world", "text-anchor:middle;font-size:32px;"+shapestyle(c.Req.URL.Path))
+	s.Text(250, 250, "Hello, world", "text-anchor:middle;font-size:32px;"+shapestyle(req.URL.Path))
 	s.End()
 }

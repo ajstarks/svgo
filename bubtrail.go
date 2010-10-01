@@ -41,6 +41,7 @@ func main() {
 	var style string
 
 	canvas.Start(width, height)
+	canvas.Title("Bubble Trail")
 	background(200)
 	canvas.Gstyle(fmt.Sprintf("fill-opacity:%.2f;stroke:none", opacity))
 	for i := 0; i < niter; i++ {

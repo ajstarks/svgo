@@ -6,9 +6,6 @@ import (
 	"strconv"
 )
 
-var g = svg.New(os.Stdout)
-
-
 func main() {
 	width := 500
 	height := 500
@@ -20,19 +17,24 @@ func main() {
 	oc6 := svg.Offcolor{30, "#006600", 1}
 	oc7 := svg.Offcolor{70, "#cc0000", 1}
 	oc8 := svg.Offcolor{90, "#000099", 1}
+	
+	oc9 := svg.Offcolor{1, "powderblue", 1}
+	oc10 := svg.Offcolor{10, "lightskyblue", 1}
+	oc11 := svg.Offcolor{100, "darkblue", 1}
 
-	lg := []svg.Offcolor{oc1, oc2}
-	rg := []svg.Offcolor{oc3, oc4}
+	lg := []svg.Offcolor{oc1, oc2, oc3, oc4}
+	rg := []svg.Offcolor{oc9, oc10, oc11}
 	rainbow := []svg.Offcolor{oc5, oc6, oc7, oc8}
 
+	g := svg.New(os.Stdout)
 	g.Start(width, height)
 	g.Title("Gradients")
-
+	g.Rect(0,0,width,height,"fill:white")
 	g.Def()
 	g.LinearGradient("h", 0, 100, 0, 0, lg)
 	g.LinearGradient("v", 0, 0, 100, 0, lg)
 	g.LinearGradient("rainbow", 0, 0, 100, 0, rainbow)
-	g.RadialGradient("rad100", 50, 50, 100, 20, 50, rg)
+	g.RadialGradient("rad100", 50, 50, 100, 25, 25, rg)
 	g.RadialGradient("rad50", 50, 50, 50, 20, 50, rg)
 	for i := 50; i < 100; i += 10 {
 		g.RadialGradient("grad"+strconv.Itoa(i), 50, 50, uint8(i), 20, 50, rg)

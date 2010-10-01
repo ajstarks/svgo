@@ -1,17 +1,17 @@
 package main
 
 import (
-	svglib "svg"
+	"svg"
 	"os"
 )
 
 var (
 	width  = 500
 	height = 400
-	svg    = svglib.New(os.Stdout)
+	canvas    = svg.New(os.Stdout)
 )
 
-func background(v int) { svg.Rect(0, 0, width, height, svg.RGB(v, v, v)) }
+func background(v int) { canvas.Rect(0, 0, width, height, canvas.RGB(v, v, v)) }
 
 func gordon(x, y, w, h int) {
 
@@ -29,43 +29,43 @@ func gordon(x, y, w, h int) {
 	nf := "fill:brown"
 	brf := "fill:brown; fill-opacity:0.2"
 
-	svg.Gstyle("fill:none; stroke:none")
-	svg.Roundrect(x, y, w, h*4, w/2, w/2, "fill:brown; fill-opacity:0.4")
-	svg.Circle(x, y+h, w12, brf) // left ear
-	svg.Circle(x, y+h, w12-10, nf)
+	canvas.Gstyle("fill:none; stroke:none")
+	canvas.Roundrect(x, y, w, h*4, w/2, w/2, "fill:brown; fill-opacity:0.4")
+	canvas.Circle(x, y+h, w12, brf) // left ear
+	canvas.Circle(x, y+h, w12-10, nf)
 
-	svg.Circle(x+w, y+h, w12, brf) // right ear
-	svg.Circle(x+w, y+h, w12-10, nf)
+	canvas.Circle(x+w, y+h, w12, brf) // right ear
+	canvas.Circle(x+w, y+h, w12-10, nf)
 
-	svg.Circle(x+w3, y+h23, w8, wf) // left eye
-	svg.Circle(x+w3+10, y+h23, w10-10, blf)
-	svg.Circle(x+w3+15, y+h23, 5, wf)
+	canvas.Circle(x+w3, y+h23, w8, wf) // left eye
+	canvas.Circle(x+w3+10, y+h23, w10-10, blf)
+	canvas.Circle(x+w3+15, y+h23, 5, wf)
 
-	svg.Circle(xw-w3, y+h23, w8, wf) // right eye
-	svg.Circle(xw-w3+10, y+h23, w10-10, blf)
-	svg.Circle(xw-(w3)+15, y+h23, 5, wf)
+	canvas.Circle(xw-w3, y+h23, w8, wf) // right eye
+	canvas.Circle(xw-w3+10, y+h23, w10-10, blf)
+	canvas.Circle(xw-(w3)+15, y+h23, 5, wf)
 
-	svg.Roundrect(x+w2-w8, y+h+30, w8, w6, 5, 5, wf) // left tooth
-	svg.Roundrect(x+w2, y+h+30, w8, w6, 5, 5, wf)    // right tooth
+	canvas.Roundrect(x+w2-w8, y+h+30, w8, w6, 5, 5, wf) // left tooth
+	canvas.Roundrect(x+w2, y+h+30, w8, w6, 5, 5, wf)    // right tooth
 
-	svg.Ellipse(x+(w2), y+h+30, w6, w12, nf)   // snout
-	svg.Ellipse(x+(w2), y+h+10, w10, w12, blf) // nose
+	canvas.Ellipse(x+(w2), y+h+30, w6, w12, nf)   // snout
+	canvas.Ellipse(x+(w2), y+h+10, w10, w12, blf) // nose
 
-	svg.Circle(x-20, y+h+120, w3, wf) // "bite"
-	svg.Gend()
+	canvas.Circle(x-20, y+h+120, w3, wf) // "bite"
+	canvas.Gend()
 }
 
 func main() {
-	svg.Start(width, height)
-	svg.Title("SVG Gopher")
+	canvas.Start(width, height)
+	canvas.Title("SVG Gopher")
 	background(255)
-	svg.Gtransform("translate(100, 100)")
-	svg.Gtransform("rotate(-30)")
+	canvas.Gtransform("translate(100, 100)")
+	canvas.Gtransform("rotate(-30)")
 	gordon(48, 48, 240, 72)
-	svg.Gend()
-	svg.Gend()
-	svg.Link("svgdef.svg", "SVG Spec & Usage")
-	svg.Text(90, 142, "SVG", "font-family:Calibri; font-size:84; fill:brown")
-	svg.LinkEnd()
-	svg.End()
+	canvas.Gend()
+	canvas.Gend()
+	canvas.Link("svgdef.svg", "SVG Spec & Usage")
+	canvas.Text(90, 142, "SVG", "font-family:Calibri; font-size:84; fill:brown")
+	canvas.LinkEnd()
+	canvas.End()
 }

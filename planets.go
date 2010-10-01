@@ -4,7 +4,7 @@
 package main
 
 import (
-	svglib "svg"
+	"svg"
 	"os"
 	"flag"
 	"image/png"
@@ -71,7 +71,7 @@ var ssImages = []string{
 
 
 var showimages *bool = flag.Bool("i", true, "show images")
-var svg = svglib.New(os.Stdout)
+var canvas = svg.New(os.Stdout)
 
 func vmap(value float, low1 float, high1 float, low2 float, high2 float) float {
 	return low2 + (high2-low2)*(value-low1)/(high1-low1)
@@ -84,10 +84,10 @@ func main() {
 	height := 200
 
 	flag.Parse()
-	svg.Start(width, height)
-	svg.Title("Planets")
-	svg.Rect(0, 0, width, height, "fill:black")
-	svg.Gstyle("stroke:none")
+	canvas.Start(width, height)
+	canvas.Title("Planets")
+	canvas.Rect(0, 0, width, height, "fill:black")
+	canvas.Gstyle("stroke:none")
 	nobj := len(ssDist)
 	y := height / 2
 	margin := 100
@@ -118,15 +118,15 @@ func main() {
 			imScale = r / float(p.Width)
 			hs := float(p.Height) * imScale
 			dy := y - (int(hs) / 2) // center the image
-			svg.Image(int(x), dy, int(r), int(hs), ssImages[i])
+			canvas.Image(int(x), dy, int(r), int(hs), ssImages[i])
 		} else {
-			svg.Circle(int(x), int(y), int(r), "fill:#"+ssColor[i])
+			canvas.Circle(int(x), int(y), int(r), "fill:#"+ssColor[i])
 		}
 		if ssDist[i] == 1.0 { // earth
-			svg.Line(int(x), int(y), int(x), int(y)-labeloc, "stroke:white")
-			svg.Text(int(x), int(y)-labeloc-10, "You are here", "fill:white; font-size:14; font-family:Calibri; text-anchor:middle")
+			canvas.Line(int(x), int(y), int(x), int(y)-labeloc, "stroke:white")
+			canvas.Text(int(x), int(y)-labeloc-10, "You are here", "fill:white; font-size:14; font-family:Calibri; text-anchor:middle")
 		}
 	}
-	svg.Gend()
-	svg.End()
+	canvas.Gend()
+	canvas.End()
 }

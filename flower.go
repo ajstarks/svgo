@@ -4,7 +4,7 @@
 package main
 
 import (
-	svglib "svg"
+	"svg"
 	"time"
 	"rand"
 	"math"
@@ -14,7 +14,7 @@ import (
 )
 
 var (
-	svg       = svglib.New(os.Stdout)
+	canvas    = svg.New(os.Stdout)
 	niter     = flag.Int("n", 200, "number of iterations")
 	width     = flag.Int("w", 500, "width")
 	height    = flag.Int("h", 500, "height")
@@ -30,13 +30,13 @@ func radial(xp int, yp int, n int, l int, style ...string) {
 	var x, y, r, t, limit float64
 	limit = 2.0 * math.Pi
 	r = float64(l)
-	svg.Gstyle(style[0])
+	canvas.Gstyle(style[0])
 	for t = 0.0; t < limit; t += limit / float64(n) {
 		x = r * math.Cos(t)
 		y = r * math.Sin(t)
-		svg.Line(xp, yp, xp+int(x), yp+int(y))
+		canvas.Line(xp, yp, xp+int(x), yp+int(y))
 	}
-	svg.Gend()
+	canvas.Gend()
 }
 
 func random(howsmall, howbig int) int {
@@ -62,7 +62,7 @@ func randrad(w int, h int, n int) {
 	}
 }
 
-func background(v int) { svg.Rect(0, 0, *width, *height, svg.RGB(v, v, v)) }
+func background(v int) { canvas.Rect(0, 0, *width, *height, canvas.RGB(v, v, v)) }
 
 func init() {
 	flag.Parse()
@@ -70,9 +70,9 @@ func init() {
 }
 
 func main() {
-	svg.Start(*width, *height)
-	svg.Title("Random Flowers")
+	canvas.Start(*width, *height)
+	canvas.Title("Random Flowers")
 	background(255)
 	randrad(*width, *height, *niter)
-	svg.End()
+	canvas.End()
 }

@@ -33,15 +33,15 @@ const svginit = `<?xml version="1.0"?>
 func New(w io.Writer) *SVG { return &SVG{w} }
 
 func (svg *SVG) print(a ...interface{}) (n int, errno os.Error) {
-	return fmt.Fprint(svg.w, a)
+	return fmt.Fprint(svg.w, a...)
 }
 
 func (svg *SVG) println(a ...interface{}) (n int, error os.Error) {
-	return fmt.Fprintln(svg.w, a)
+	return fmt.Fprintln(svg.w, a...)
 }
 
 func (svg *SVG) printf(format string, a ...interface{}) (n int, errno os.Error) {
-	return fmt.Fprintf(svg.w, format, a)
+	return fmt.Fprintf(svg.w, format, a...)
 }
 
 // Structure, Metadata, and Links
@@ -120,7 +120,7 @@ func (svg *SVG) Ellipse(x int, y int, w int, h int, s ...string) {
 // Polygon draws a series of line segments using an array of x, y coordinates, with optional style.
 // Standard Reference: http://www.w3.org/TR/SVG11/shapes.html#PolygonElement
 func (svg *SVG) Polygon(x []int, y []int, s ...string) {
-	svg.poly(x, y, "polygon", s)
+	svg.poly(x, y, "polygon", s...)
 }
 
 // Rect draws a rectangle with upper left-hand corner at x,y, with width w, and height h, with optional style
@@ -140,7 +140,7 @@ func (svg *SVG) Roundrect(x int, y int, w int, h int, rx int, ry int, s ...strin
 
 // Square draws a square with upper left corner at x,y with sides of length s, with optional style.
 func (svg *SVG) Square(x int, y int, s int, style ...string) {
-	svg.Rect(x, y, s, s, style)
+	svg.Rect(x, y, s, s, style...)
 }
 
 //  Arc draws an elliptical arc, with optional style, beginning coordinate at sx,sy, ending coordinate at ex, ey
@@ -182,7 +182,7 @@ func (svg *SVG) Line(x1 int, y1 int, x2 int, y2 int, s ...string) {
 // Polylne draws connected lines between coordinates, with optional style.
 // Standard Reference: http://www.w3.org/TR/SVG11/shapes.html#PolylineElement
 func (svg *SVG) Polyline(x []int, y []int, s ...string) {
-	svg.poly(x, y, "polyline", s)
+	svg.poly(x, y, "polyline", s...)
 }
 
 // Image places at x,y (upper left hand corner), the image with

@@ -2,10 +2,10 @@ package main
 
 import (
 	"os"
-	svglib "svg"
+	"svg"
 )
 
-var svg = svglib.New(os.Stdout)
+var canvas = svg.New(os.Stdout)
 
 func main() {
 	width := 512
@@ -27,21 +27,21 @@ func main() {
 	f.Read(mem)
 	f.Close()
 
-	svg.Start(width, height)
-	svg.Title("Visualize Files")
-	svg.Rect(0, 0, width, height, "fill:white")
+	canvas.Start(width, height)
+	canvas.Title("Visualize Files")
+	canvas.Rect(0, 0, width, height, "fill:white")
 	dx := diameter / 2
 	dy := diameter / 2
-	svg.Gstyle("fill-opacity:1.0")
+	canvas.Gstyle("fill-opacity:1.0")
 	for i := 0; i < n; i++ {
 		value = int(mem[i])
 		if i%rowsize == 0 && i != 0 {
 			dx = diameter / 2
 			dy += diameter
 		}
-		svg.Circle(dx, dy, diameter/2, svg.RGB(value, value, value))
+		canvas.Circle(dx, dy, diameter/2, canvas.RGB(value, value, value))
 		dx += diameter
 	}
-	svg.Gend()
-	svg.End()
+	canvas.Gend()
+	canvas.End()
 }

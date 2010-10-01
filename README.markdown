@@ -34,21 +34,21 @@ a minimal program, to generate SVG to standard output.
 	package main
 	
 	import (
-		svglib "svg"
+		"svg"
 		"os"
 	)
 	
 	var (
 		width = 500
 		height = 500
-		svg = svglib.New(os.Stdout)
+		canvas = svg.New(os.Stdout)
 	)
 	
 	func main() {
-		svg.Start(width, height)
-		svg.Circle(width/2, height/2, 100)
-		svg.Text(width/2, height/2, "Hello, SVG", "text-anchor;font-size:30;fill:white")
-		svg.End()
+		canvas.Start(width, height)
+		canvas.Circle(width/2, height/2, 100)
+		canvas.Text(width/2, height/2, "Hello, SVG", "text-anchor;font-size:30;fill:white")
+		canvas.End()
 	}
 
 Drawing in a web server: (http://localhost:2003/circle)

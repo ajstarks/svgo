@@ -11,7 +11,7 @@
 package main
 
 import (
-	svglib "svg"
+	"svg"
 	"rand"
 	"time"
 	"fmt"
@@ -19,7 +19,7 @@ import (
 	"os"
 )
 
-var svg = svglib.New(os.Stdout)
+var canvas = svg.New(os.Stdout)
 
 const tilestyle = `stroke-width:1; stroke:rgb(128,128,128); stroke-opacity:0.5; fill:white`
 const penstyle = `stroke:rgb%s; fill:none; stroke-opacity:%.2f; stroke-width:%d`
@@ -31,13 +31,13 @@ var nlines = flag.Int("n", 20, "number of lines/square")
 var nw = flag.Int("w", 3, "maximum pencil width")
 var pencils = []string{"(250, 13, 44)", "(247, 212, 70)", "(52, 114, 245)"}
 
-func background(v int) { svg.Rect(0, 0, width, height, svg.RGB(v, v, v)) }
+func background(v int) { canvas.Rect(0, 0, width, height, canvas.RGB(v, v, v)) }
 
 
 func lewitt(x int, y int, gsize int, n int, w int) {
 	var x1, x2, y1, y2 int
 	var op float
-	svg.Rect(x, y, gsize, gsize, tilestyle)
+	canvas.Rect(x, y, gsize, gsize, tilestyle)
 	for i := 0; i < n; i++ {
 		choice := rand.Intn(len(pencils))
 		op = float(random(1, 10)) / 10.0
@@ -46,9 +46,9 @@ func lewitt(x int, y int, gsize int, n int, w int) {
 		x2 = random(x, x+gsize)
 		y2 = random(y, y+gsize)
 		if random(0, 100) > 50 {
-			svg.Line(x1, y1, x2, y2, fmt.Sprintf(penstyle, pencils[choice], op, random(1, w)))
+			canvas.Line(x1, y1, x2, y2, fmt.Sprintf(penstyle, pencils[choice], op, random(1, w)))
 		} else {
-			svg.Arc(x1, y1, gsize, gsize, 0, false, true, x2, y2, fmt.Sprintf(penstyle, pencils[choice], op, random(1, w)))
+			canvas.Arc(x1, y1, gsize, gsize, 0, false, true, x2, y2, fmt.Sprintf(penstyle, pencils[choice], op, random(1, w)))
 		}
 	}
 }
@@ -68,8 +68,8 @@ func init() {
 
 func main() {
 
-	svg.Start(width, height)
-	svg.Title("Sol Lewitt's Wall Drawing 91")
+	canvas.Start(width, height)
+	canvas.Title("Sol Lewitt's Wall Drawing 91")
 	background(255)
 	gsize := 120
 	nc := width / gsize
@@ -79,5 +79,5 @@ func main() {
 			lewitt(cols*gsize, rows*gsize, gsize, *nlines, *nw)
 		}
 	}
-	svg.End()
+	canvas.End()
 }
