@@ -102,18 +102,20 @@ A video describing how to use the package can be seen on YouTube at <http://www.
 * test-svgo:	Compiles the library, builds the clients and displays the results
 * newsvg:		Coding template command
 * svgdef.go:	Creates a SVG representation of the API
+* android.go:	The Android logo
+* bubtrail.go: Bubble trails
 * flower.go:	Random "flowers"
 * funnel.go:	Funnel from transparent circles
+* gradient.go:	Linear and radial gradients
 * imfade.go:	Show image fading
 * lewitt.go:	Version of Sol Lewitt's Wall Drawing 91
 * planets.go:	Show the scale of the Solar system
+* pmap.go:		Proportion maps
 * randcomp.go:	Compare random number generators
 * richter.go:	Gerhard Richter's 256 colors
 * rl.go:			Random lines (port of a Processing demo)
-* vismem.go:	Visualize data from files
-* android.go:	The Android logo
-* gradient.go:	Linear and radial gradients
 * svgopher.go:	SVGo Mascot
+* vismem.go:	Visualize data from files
 * websvg.go:	Generate SVG as a web server
 * images/*		Images used by the client programs
 

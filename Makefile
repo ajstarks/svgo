@@ -9,8 +9,11 @@ endif
 SVGLIB=svg
 
 CLIENTS=svgdef flower funnel imfade lewitt planets randcomp\
+		richter rl vismem android gradient bubtrail svgopher pmap
+
+TCLIENTS=svgdef flower funnel imfade lewitt planets randcomp\
 		richter rl vismem android gradient bubtrail svgopher
-		
+
 all:	$(CLIENTS)
 
 $(SVGLIB).$(O):	$(SVGLIB).go
@@ -71,6 +74,10 @@ bubtrail:	bubtrail.go svg.$(O)
 svgopher:	svgopher.go svg.$(O)
 	$(GC) -I. svgopher.go
 	$(LD) -L. -o svgopher svgopher.$(O)
+
+pmap:	pmap.go svg.$(O)
+	$(GC) -I. pmap.go
+	$(LD) -L. -o pmap pmap.$(O)
 	
-test:	$(CLIENTS)
-	for c in $(CLIENTS); do ./$$c > $$c.svg; $(OPENER) $$c.svg; done
+test:	$(TCLIENTS)
+	for c in $(TCLIENTS); do ./$$c > $$c.svg; $(OPENER) $$c.svg; done
