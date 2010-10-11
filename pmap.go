@@ -64,7 +64,7 @@ func readpmap(r io.Reader) {
 	if err := xml.Unmarshal(r, &pm); err == nil {
 		drawpmap(pm)
 	} else {
-		fmt.Fprintf(os.Stderr, "Unable to parse roadmap (%v)\n", err)
+		fmt.Fprintf(os.Stderr, "Unable to parse pmap (%v)\n", err)
 	}
 }
 

@@ -104,6 +104,7 @@ A video describing how to use the package can be seen on YouTube at <http://www.
 * svgdef.go:	Creates a SVG representation of the API
 * android.go:	The Android logo
 * bubtrail.go: Bubble trails
+* colortab.go: Display SVG named colors with RGB values
 * flower.go:	Random "flowers"
 * funnel.go:	Funnel from transparent circles
 * gradient.go:	Linear and radial gradients
