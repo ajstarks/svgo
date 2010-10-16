@@ -1,8 +1,25 @@
-// svg: generate SVG objects
+// svg: generate SVG
 //
-// Anthony Starks, ajstarks@gmail.com
-// Writer interface, Jonathan Wright, quaggy@gmail.com
-
+// package main
+// 	
+// 	import (
+// 		"github.com/ajstarks/svgo"
+// 		"os"
+// 	)
+// 	
+// 	var (
+// 		width = 500
+// 		height = 500
+// 		canvas = svg.New(os.Stdout)
+// 	)
+// 	
+// 	func main() {
+// 		canvas.Start(width, height)
+// 		canvas.Circle(width/2, height/2, 100)
+// 		canvas.Text(width/2, height/2, "Hello, SVG", "text-anchor;font-size:30px;fill:white")
+// 		canvas.End()
+// 	}
+//
 package svg
 
 import (

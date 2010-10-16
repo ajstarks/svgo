@@ -16,25 +16,18 @@ Output goes to the specified io.Writer.
 
 See svgdef.[svg|png|pdf] for a graphical view of the function calls
 
-Usage: just type:
+Usage: 
 
-	make
-
-to build the library and the clients.  If you want to do it by hand:
-(where $GC and $GL are the Go compiler and linker for your target architecture, $A)
-
-	$ $GC svg.go  # compile the library
-	$ $GC -I . svgdef.go && $GL -L . -o svgdef svgdef.$A  # compile a client program
-	$ ./svgdef    # run the client program
+	goinstall github.com/ajstaks/svgo
 	
-
+to install into your GO environment. 
 
 a minimal program, to generate SVG to standard output.
 
 	package main
 	
 	import (
-		"svg"
+		"github.com/ajstaks/svgo"
 		"os"
 	)
 	
@@ -47,7 +40,7 @@ a minimal program, to generate SVG to standard output.
 	func main() {
 		canvas.Start(width, height)
 		canvas.Circle(width/2, height/2, 100)
-		canvas.Text(width/2, height/2, "Hello, SVG", "text-anchor;font-size:30;fill:white")
+		canvas.Text(width/2, height/2, "Hello, SVG", "text-anchor;font-size:30px;fill:white")
 		canvas.End()
 	}
 
@@ -57,7 +50,7 @@ Drawing in a web server: (http://localhost:2003/circle)
 	
 	import (
 		"log"
-		"svg"
+		"github.com/ajstaks/svgo"
 		"http"
 	)
 	
