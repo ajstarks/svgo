@@ -103,6 +103,7 @@ A video describing how to use the package can be seen on YouTube at <http://www.
 * gradient.go:	Linear and radial gradients
 * imfade.go:	Show image fading
 * lewitt.go:	Version of Sol Lewitt's Wall Drawing 91
+* ltr.go:		Layer Tennis Remixes
 * planets.go:	Show the scale of the Solar system
 * pmap.go:		Proportion maps
 * randcomp.go:	Compare random number generators
