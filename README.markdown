@@ -178,46 +178,39 @@ For example: "fill:none; opacity:0.3" or  fill="none", opacity="0.3" (see: <http
 ### Shapes ###
 
 
- ![circle](images/circle.png)
  
 `Circle(x int, y int, r int, s ...string)`
   draw a circle, centered at x,y with radius r
   <http://www.w3.org/TR/SVG11/shapes.html#CircleElement>
   
- ![circle](images/ellipse.png)
  
 `Ellipse(x int, y int, w int, h int, s ...string)`
   draw an ellipse, centered at x,y with radii w, and h
   <http://www.w3.org/TR/SVG11/shapes.html#EllipseElement>
 
 
- ![circle](images/polygon.png)
  
 `Polygon(x []int, y []int, s ...string)`
   draw a series of line segments using an array of x, y coordinates
   <http://www.w3.org/TR/SVG11/shapes.html#PolygonElement>
 
- ![circle](images/rect.png)
  
 `Rect(x int, y int, w int, h int, s ...string)`
   draw a rectangle with upper left-hand corner at x,y, with width w, and height h
   <http://www.w3.org/TR/SVG11/shapes.html#RectElement>
 
- ![circle](images/roundrect.png)
  
 `Roundrect(x int, y int, w int, h int, rx int, ry int, s ...string)`
   draw a rounded rectangle with upper the left-hand corner at x,y, 
   with width w, and height h. The radii for the rounded portion 
   is specified by rx (width), and ry (height)
   
- ![circle](images/square.png)
  
 `Square(x int, y int, s int, style ...string)`
   draw a square with upper left corner at x,y with sides of length s
 
 ### Paths ###
 
- ![circle](images/arc.png)
  
 `Arc(sx int, sy int, ax int, ay int, r int, large bool, sweep bool, ex int, ey int, s ...string)`
   draw an elliptical arc beginning coordinate at sx,sy, ending coordinate at ex, ey
@@ -228,14 +221,12 @@ For example: "fill:none; opacity:0.3" or  fill="none", opacity="0.3" (see: <http
   otherwise the arc sweep is less than 180 degrees
   <http://www.w3.org/TR/SVG11/paths.html#PathDataEllipticalArcCommands>
 
- ![circle](images/bezier.png)
  
 `Bezier(sx int, sy int, cx int, cy int, px int, py int, ex int, ey int, s ...string)`
   draw a cubic bezier curve, beginning at sx,sy, ending at ex,ey
   with control points at cx,cy and px,py
   <http://www.w3.org/TR/SVG11/paths.html#PathDataCubicBezierCommands>
 
- ![circle](images/qbezier.png)
  
 `Qbezier(sx int, sy int, cx int, cy int, ex int, ey int, tx int, ty int, s ...string)`
   draw a quadratic bezier curve, beginning at sx, sy, ending at tx,ty
@@ -244,13 +235,11 @@ For example: "fill:none; opacity:0.3" or  fill="none", opacity="0.3" (see: <http
 
 ### Lines ###
 
- ![circle](images/line.png)
  
 `Line(x1 int, y1 int, x2 int, y2 int, s ...string)`
   draw a line segment between x1,y1 and x2,y2
   <http://www.w3.org/TR/SVG11/shapes.html#LineElement>
 
- ![circle](images/polyline.png)
  
 `Polyline(x []int, y []int, s ...string)`
   draw a polygon using coordinates specified in x,y arrays
@@ -258,7 +247,6 @@ For example: "fill:none; opacity:0.3" or  fill="none", opacity="0.3" (see: <http
 
 ### Image and Text ###
 
- ![circle](images/image.png)
  
 `Image(x int, y int, w int, h int, link string, s ...string)`
   place at x,y (upper left hand corner), the image with width w, and height h, referenced at link
@@ -281,7 +269,6 @@ For example: "fill:none; opacity:0.3" or  fill="none", opacity="0.3" (see: <http
   
 ### Gradients ###
 
-![linear-gradient](images/lingrad.png)
 
 `LinearGradient(id string, x1, y1, x2, y2 uint8, sc []Offcolor)`
   constructs a linear color gradient identified by id, 
@@ -300,7 +287,6 @@ For example: "fill:none; opacity:0.3" or  fill="none", opacity="0.3" (see: <http
 
 ### Utility ###
 
-![grid](images/grid.png)
 
 `Grid(x int, y int, w int, h int, n int, s ...string)`
   draws a grid of straight lines starting at x,y, with a width w, and height h, and a size of n
