@@ -1,5 +1,7 @@
-// svg: generate SVG
-//
+// This package generates SVG to a io.Writer
+
+package svg
+
 // package main
 // 	
 // 	import (
@@ -20,7 +22,6 @@
 // 		canvas.End()
 // 	}
 //
-package svg
 
 import (
 	"fmt"
