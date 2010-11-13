@@ -18,7 +18,7 @@ See svgdef.[svg|png|pdf] for a graphical view of the function calls
 
 Usage: 
 
-	goinstall github.com/ajstaks/svgo
+	goinstall github.com/ajstarks/svgo
 	
 to install into your GO environment. 
 
