@@ -126,7 +126,7 @@ For example: "fill:none; opacity:0.3" or  fill="none", opacity="0.3" (see: <http
 
 ### Structure, Metadata and Links ###
 
-`New(w io.Writer) *SVG`
+	New(w io.Writer) *SVG
   Constructor, Specify the output destination
   
 `Start(w int, h int)`
@@ -177,40 +177,45 @@ For example: "fill:none; opacity:0.3" or  fill="none", opacity="0.3" (see: <http
 
 ### Shapes ###
 
-
+![Circle](http://farm5.static.flickr.com/4144/5187953823_01a1741489_m.jpg)
  
 `Circle(x int, y int, r int, s ...string)`
   draw a circle, centered at x,y with radius r
   <http://www.w3.org/TR/SVG11/shapes.html#CircleElement>
-  
+ 
+![Ellipse](http://farm2.static.flickr.com/1271/5187953773_a9d1fc406c_m.jpg)
  
 `Ellipse(x int, y int, w int, h int, s ...string)`
   draw an ellipse, centered at x,y with radii w, and h
   <http://www.w3.org/TR/SVG11/shapes.html#EllipseElement>
 
-
+![Polygon](http://farm2.static.flickr.com/1006/5187953873_337dc26597_m.jpg)
  
 `Polygon(x []int, y []int, s ...string)`
   draw a series of line segments using an array of x, y coordinates
   <http://www.w3.org/TR/SVG11/shapes.html#PolygonElement>
 
+![Rect](http://farm2.static.flickr.com/1233/5188556032_86c90e354b_m.jpg)
  
 `Rect(x int, y int, w int, h int, s ...string)`
   draw a rectangle with upper left-hand corner at x,y, with width w, and height h
   <http://www.w3.org/TR/SVG11/shapes.html#RectElement>
 
+![Roundrect](http://farm2.static.flickr.com/1275/5188556120_e2a9998fee_m.jpg)
  
 `Roundrect(x int, y int, w int, h int, rx int, ry int, s ...string)`
   draw a rounded rectangle with upper the left-hand corner at x,y, 
   with width w, and height h. The radii for the rounded portion 
   is specified by rx (width), and ry (height)
   
+![Square](http://farm5.static.flickr.com/4110/5187953659_54dcce242e_m.jpg)
  
 `Square(x int, y int, s int, style ...string)`
   draw a square with upper left corner at x,y with sides of length s
 
 ### Paths ###
 
+ ![Arc](http://farm2.static.flickr.com/1300/5188556148_df1a176074_m.jpg)
  
 `Arc(sx int, sy int, ax int, ay int, r int, large bool, sweep bool, ex int, ey int, s ...string)`
   draw an elliptical arc beginning coordinate at sx,sy, ending coordinate at ex, ey
@@ -221,12 +226,14 @@ For example: "fill:none; opacity:0.3" or  fill="none", opacity="0.3" (see: <http
   otherwise the arc sweep is less than 180 degrees
   <http://www.w3.org/TR/SVG11/paths.html#PathDataEllipticalArcCommands>
 
+![Bezier](http://farm2.static.flickr.com/1233/5188556246_4d604a5338.jpg)
  
 `Bezier(sx int, sy int, cx int, cy int, px int, py int, ex int, ey int, s ...string)`
   draw a cubic bezier curve, beginning at sx,sy, ending at ex,ey
   with control points at cx,cy and px,py
   <http://www.w3.org/TR/SVG11/paths.html#PathDataCubicBezierCommands>
 
+ ![Qbezier](http://farm2.static.flickr.com/1018/5187953917_9a43cf64fb.jpg)
  
 `Qbezier(sx int, sy int, cx int, cy int, ex int, ey int, tx int, ty int, s ...string)`
   draw a quadratic bezier curve, beginning at sx, sy, ending at tx,ty
@@ -235,11 +242,13 @@ For example: "fill:none; opacity:0.3" or  fill="none", opacity="0.3" (see: <http
 
 ### Lines ###
 
+![Line](http://farm5.static.flickr.com/4154/5188556080_0be19da0bc.jpg)
  
 `Line(x1 int, y1 int, x2 int, y2 int, s ...string)`
   draw a line segment between x1,y1 and x2,y2
   <http://www.w3.org/TR/SVG11/shapes.html#LineElement>
 
+![Polyline](http://farm2.static.flickr.com/1266/5188556384_a863273a69.jpg)
  
 `Polyline(x []int, y []int, s ...string)`
   draw a polygon using coordinates specified in x,y arrays
@@ -247,7 +256,8 @@ For example: "fill:none; opacity:0.3" or  fill="none", opacity="0.3" (see: <http
 
 ### Image and Text ###
 
- 
+![Image](http://farm5.static.flickr.com/4058/5188556346_e5ce3dcbc2_m.jpg)
+
 `Image(x int, y int, w int, h int, link string, s ...string)`
   place at x,y (upper left hand corner), the image with width w, and height h, referenced at link
   <http://www.w3.org/TR/SVG11/struct.html#ImageElement>
@@ -269,13 +279,15 @@ For example: "fill:none; opacity:0.3" or  fill="none", opacity="0.3" (see: <http
   
 ### Gradients ###
 
+![LinearGradient](http://farm5.static.flickr.com/4153/5187954033_3972f63fa9.jpg) 
 
 `LinearGradient(id string, x1, y1, x2, y2 uint8, sc []Offcolor)`
   constructs a linear color gradient identified by id, 
   along the vector defined by (x1,y1), and (x2,y2).
   The stop color sequence defined in sc. Coordinates are expressed as percentages.
   <http://www.w3.org/TR/SVG11/pservers.html#LinearGradients>
-  
+
+![RadialGradient](http://farm2.static.flickr.com/1302/5187954065_f0662a0128.jpg)
   
 `RadialGradient(id string, cx, cy, r, fx, fy uint8, sc []Offcolor)`
   constructs a radial color gradient identified by id, 
@@ -287,6 +299,7 @@ For example: "fill:none; opacity:0.3" or  fill="none", opacity="0.3" (see: <http
 
 ### Utility ###
 
+![Grid](http://farm5.static.flickr.com/4050/5188556430_a1a16f74d9_m.jpg)
 
 `Grid(x int, y int, w int, h int, n int, s ...string)`
   draws a grid of straight lines starting at x,y, with a width w, and height h, and a size of n
