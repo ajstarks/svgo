@@ -5,7 +5,7 @@ Output goes to the specified io.Writer.
 
 ## Supported SVG elements ##
 
- circle, ellipse, polygon, polyline, rect (including roundrects), paths (arc,
+ circle, ellipse, polygon, polyline, rect (including roundrects), paths (general, arc,
  cubic and quadratic bezier paths), line, image, text, linearGradient, radialGradient
 
 ## Metadata elements ##
@@ -104,6 +104,7 @@ A video describing how to use the package can be seen on YouTube at <http://www.
 * imfade.go:	Show image fading
 * lewitt.go:	Version of Sol Lewitt's Wall Drawing 91
 * ltr.go:		Layer Tennis Remixes
+* paths.go		Demonstrate SVG paths
 * planets.go:	Show the scale of the Solar system
 * pmap.go:		Proportion maps
 * randcomp.go:	Compare random number generators
@@ -115,13 +116,22 @@ A video describing how to use the package can be seen on YouTube at <http://www.
 * images/*		Images used by the client programs
 
 
-## Functions ##
+## Functions and types ##
 
 Many functions use x, y to specify an object's location, and w, h to specify the object's width and height.
 Where applicable, a final optional argument specifies the style to be applied to the object. 
 The style strings follow the SVG standard; name:value pairs delimited by semicolons, or a
-series of name="value" pairs.
-For example: "fill:none; opacity:0.3" or  fill="none", opacity="0.3" (see: <http://www.w3.org/TR/SVG11/styling.html>)
+series of name="value" pairs. For example: `"fill:none; opacity:0.3"` or  `fill="none" opacity="0.3"` (see: <http://www.w3.org/TR/SVG11/styling.html>)
+
+The Offcolor type:
+
+	type Offcolor struct {
+		Offset  uint8
+		Color   string
+		Opacity float
+	}
+
+is used to specify the offset, color, and opacity of stop colors in linear and radial gradients
 
 
 ### Structure, Metadata and Links ###
@@ -131,6 +141,10 @@ For example: "fill:none; opacity:0.3" or  fill="none", opacity="0.3" (see: <http
   
 	Start(w int, h int)
   begin the SVG document with the width w and height h
+  <http://www.w3.org/TR/SVG11/struct.html#SVGElement>
+  
+	Startview(w, h, minx, miny, vh, vh)
+  begin the SVG document with the width w, height h, with a viewBox at minx, miny, vw, vh
   <http://www.w3.org/TR/SVG11/struct.html#SVGElement>
 
 	End()
@@ -215,6 +229,10 @@ For example: "fill:none; opacity:0.3" or  fill="none", opacity="0.3" (see: <http
 
 ### Paths ###
 
+	Path(p string, s ...style)
+ draw the arbitrary path as specified in p, according to the style specified in s. <http://www.w3.org/TR/SVG11/paths.html>
+
+
  ![Arc](http://farm2.static.flickr.com/1300/5188556148_df1a176074_m.jpg)
  
 	Arc(sx int, sy int, ax int, ay int, r int, large bool, sweep bool, ex int, ey int, s ...string)
@@ -287,7 +305,7 @@ For example: "fill:none; opacity:0.3" or  fill="none", opacity="0.3" (see: <http
   The stop color sequence defined in sc. Coordinates are expressed as percentages.
   <http://www.w3.org/TR/SVG11/pservers.html#LinearGradients>
 
-![RadialGradient](http://farm2.static.flickr.com/1302/5187954065_f0662a0128.jpg)
+![RadialGradient](http://farm2.static.flickr.com/1302/5187954065_7ddba7b819.jpg)
   
 	RadialGradient(id string, cx, cy, r, fx, fy uint8, sc []Offcolor)
   constructs a radial color gradient identified by id, 
@@ -299,7 +317,7 @@ For example: "fill:none; opacity:0.3" or  fill="none", opacity="0.3" (see: <http
 
 ### Utility ###
 
-![Grid](http://farm5.static.flickr.com/4050/5188556430_a1a16f74d9.jpg)
+![Grid](http://farm5.static.flickr.com/4133/5190957924_7a31d0db34.jpg)
 
 	Grid(x int, y int, w int, h int, n int, s ...string)
   draws a grid of straight lines starting at x,y, with a width w, and height h, and a size of n

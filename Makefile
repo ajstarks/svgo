@@ -9,10 +9,10 @@ endif
 SVGLIB=svg
 
 CLIENTS=svgdef flower funnel imfade lewitt planets randcomp\
-		richter rl vismem android gradient bubtrail svgopher pmap
+		richter rl vismem android gradient bubtrail svgopher pmap paths
 
 TCLIENTS=svgdef flower funnel imfade lewitt planets randcomp\
-		richter rl vismem android gradient bubtrail svgopher
+		richter rl vismem android gradient bubtrail paths svgopher
 
 all:	$(CLIENTS)
 
@@ -78,6 +78,10 @@ svgopher:	svgopher.go svg.$(O)
 pmap:	pmap.go svg.$(O)
 	$(GC) -I. pmap.go
 	$(LD) -L. -o pmap pmap.$(O)
+
+paths:	paths.go svg.$(O)
+	$(GC) -I. paths.go
+	$(LD) -L. -o paths paths.$(O)
 	
 test:	$(TCLIENTS)
 	for c in $(TCLIENTS); do ./$$c > $$c.svg; $(OPENER) $$c.svg; done
