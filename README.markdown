@@ -244,7 +244,7 @@ is used to specify the offset, color, and opacity of stop colors in linear and r
   otherwise the arc sweep is less than 180 degrees
   <http://www.w3.org/TR/SVG11/paths.html#PathDataEllipticalArcCommands>
 
-![Bezier](http://farm2.static.flickr.com/1233/5188556246_4d604a5338.jpg)
+![Bezier](http://farm2.static.flickr.com/1233/5188556246_a03e67d013.jpg)
  
 	Bezier(sx int, sy int, cx int, cy int, px int, py int, ex int, ey int, s ...string)
   draw a cubic bezier curve, beginning at sx,sy, ending at ex,ey
