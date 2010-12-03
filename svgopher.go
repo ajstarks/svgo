@@ -1,14 +1,14 @@
 package main
 
 import (
-	"svg"
+	"github.com/ajstarks/svgo"
 	"os"
 )
 
 var (
 	width  = 500
-	height = 400
-	canvas    = svg.New(os.Stdout)
+	height = 300
+	canvas = svg.New(os.Stdout)
 )
 
 func background(v int) { canvas.Rect(0, 0, width, height, canvas.RGB(v, v, v)) }
@@ -28,20 +28,22 @@ func gordon(x, y, w, h int) {
 	wf := "fill:white"
 	nf := "fill:brown"
 	brf := "fill:brown; fill-opacity:0.2"
+	brb := "fill:brown; fill-opacity:0.4"
 
 	canvas.Gstyle("fill:none; stroke:none")
-	canvas.Roundrect(x, y, w, h*4, w/2, w/2, "fill:brown; fill-opacity:0.4")
+	canvas.Bezier(x, y+h, x, y+h, x+w2, y-h, x+w, y+h, brb)
+	canvas.Roundrect(x, y+h, w, h, 10, 10, brb)
 	canvas.Circle(x, y+h, w12, brf) // left ear
 	canvas.Circle(x, y+h, w12-10, nf)
 
 	canvas.Circle(x+w, y+h, w12, brf) // right ear
 	canvas.Circle(x+w, y+h, w12-10, nf)
 
-	canvas.Circle(x+w3, y+h23, w8, wf) // left eye
+	canvas.Circle(x+w3, y+h23, w/9, wf) // left eye
 	canvas.Circle(x+w3+10, y+h23, w10-10, blf)
 	canvas.Circle(x+w3+15, y+h23, 5, wf)
 
-	canvas.Circle(xw-w3, y+h23, w8, wf) // right eye
+	canvas.Circle(xw-w3, y+h23, w/9, wf) // right eye
 	canvas.Circle(xw-w3+10, y+h23, w10-10, blf)
 	canvas.Circle(xw-(w3)+15, y+h23, 5, wf)
 
@@ -51,21 +53,20 @@ func gordon(x, y, w, h int) {
 	canvas.Ellipse(x+(w2), y+h+30, w6, w12, nf)   // snout
 	canvas.Ellipse(x+(w2), y+h+10, w10, w12, blf) // nose
 
-	canvas.Circle(x-20, y+h+120, w3, wf) // "bite"
 	canvas.Gend()
 }
 
 func main() {
 	canvas.Start(width, height)
 	canvas.Title("SVG Gopher")
-	background(255)
+	background(240)
 	canvas.Gtransform("translate(100, 100)")
 	canvas.Gtransform("rotate(-30)")
 	gordon(48, 48, 240, 72)
 	canvas.Gend()
 	canvas.Gend()
 	canvas.Link("svgdef.svg", "SVG Spec & Usage")
-	canvas.Text(90, 142, "SVG", "font-family:Calibri; font-size:84; fill:brown")
+	canvas.Text(90, 145, "SVG", "font-family:Calibri; font-size:80; fill:brown")
 	canvas.LinkEnd()
 	canvas.End()
 }
