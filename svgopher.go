@@ -28,11 +28,11 @@ func gordon(x, y, w, h int) {
 	wf := "fill:white"
 	nf := "fill:brown"
 	brf := "fill:brown; fill-opacity:0.2"
-	brb := "fill:brown; fill-opacity:0.4"
+	brb := "fill:rgb(210,161,161)"
 
 	canvas.Gstyle("fill:none; stroke:none")
 	canvas.Bezier(x, y+h, x, y+h, x+w2, y-h, x+w, y+h, brb)
-	canvas.Roundrect(x, y+h, w, h, 10, 10, brb)
+	canvas.Roundrect(x, y+(h-1), w, h, 10, 10, brb)
 	canvas.Circle(x, y+h, w12, brf) // left ear
 	canvas.Circle(x, y+h, w12-10, nf)
 
@@ -66,7 +66,7 @@ func main() {
 	canvas.Gend()
 	canvas.Gend()
 	canvas.Link("svgdef.svg", "SVG Spec & Usage")
-	canvas.Text(90, 145, "SVG", "font-family:Calibri; font-size:80; fill:brown")
+	canvas.Text(90, 145, "SVG", "font-family:Calibri,sans-serif;font-size:80;fill:brown")
 	canvas.LinkEnd()
 	canvas.End()
 }
