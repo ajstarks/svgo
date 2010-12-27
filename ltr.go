@@ -3,15 +3,15 @@
 package main
 
 import (
-	"github.com/ajstarks/svgo" // "svg"
+	"github.com/ajstarks/svgo"
 	"os"
 	"flag"
 )
 
 var (
-	canvas                    = svg.New(os.Stdout)
-	poster, opacity, row, col bool
-	title                     string
+	canvas                            = svg.New(os.Stdout)
+	poster, opacity, row, col, offset bool
+	title                             string
 )
 
 const (
@@ -21,7 +21,7 @@ const (
 )
 
 func imagefiles(directory string) []string {
-	f, ferr := os.Open(directory, os.O_RDONLY, 0444)
+	f, ferr := os.Open(directory, os.O_RDONLY, 0)
 	defer f.Close()
 	if ferr != nil {
 		return nil
@@ -69,7 +69,18 @@ func ltrow(x, y, w, h int, f []string) {
 	}
 }
 
+func ltoffset(x, y, w, h int, f []string) {
+	for i := 1; i < len(f); i++ { // skip the first file, assumed to be the banner
 
+		if i%2 == 0 {
+			x += w
+		} else {
+			x = 0
+		}
+		canvas.Image(x, y, w, h, f[i])
+		y += h
+	}
+}
 func dotitle(s string) {
 	if len(title) > 0 {
 		canvas.Title(title)
@@ -83,6 +94,7 @@ func init() {
 	flag.BoolVar(&opacity, "opacity", false, "opacity style")
 	flag.BoolVar(&row, "row", false, "display is a single row")
 	flag.BoolVar(&col, "col", false, "display in a single column")
+	flag.BoolVar(&offset, "offset", false, "display in a row, even layers offset")
 	flag.StringVar(&title, "title", "", "title")
 	flag.Parse()
 }
@@ -97,6 +109,7 @@ func main() {
 			continue
 		}
 		switch {
+
 		case opacity:
 			if i == 0 {
 				canvas.Start(width*nd, height*nd)
@@ -104,6 +117,7 @@ func main() {
 			}
 			ltop(x, y, width, height, filelist)
 			y += height
+
 		case poster:
 			if i == 0 {
 				canvas.Start(width, ((height*(ni-1)/4)+height)*nd)
@@ -111,6 +125,7 @@ func main() {
 			}
 			ltposter(x, y, width/2, height/2, filelist)
 			y += (height * 3) + (height / 2)
+
 		case col:
 			if i == 0 {
 				canvas.Start(width*nd, height*ni)
@@ -118,6 +133,7 @@ func main() {
 			}
 			ltcol(x, y, width, height, filelist)
 			x += width
+
 		case row:
 			if i == 0 {
 				canvas.Start(width*ni, height*nd)
@@ -125,6 +141,19 @@ func main() {
 			}
 			ltrow(x, y, width, height, filelist)
 			y += height
+
+		case offset:
+			n := ni - 1
+			pw := width * 2
+			ph := nd * (height * (n))
+			if i == 0 {
+				canvas.Start(pw, ph)
+				canvas.Rect(0, 0, pw, ph, "fill:white")
+				dotitle(dir)
+			}
+			ltoffset(x, y, width, height, filelist)
+			y += n * height
+
 		}
 	}
 	canvas.End()
