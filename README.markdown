@@ -99,6 +99,7 @@ A video describing how to use the package can be seen on YouTube at <http://www.
 * bubtrail.go: Bubble trails
 * colortab.go: Display SVG named colors with RGB values
 * flower.go:	Random "flowers"
+* f50.go:		Get 50 photos from Flickr based on a query
 * funnel.go:	Funnel from transparent circles
 * gradient.go:	Linear and radial gradients
 * imfade.go:	Show image fading
