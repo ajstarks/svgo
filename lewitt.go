@@ -36,11 +36,11 @@ func background(v int) { canvas.Rect(0, 0, width, height, canvas.RGB(v, v, v)) }
 
 func lewitt(x int, y int, gsize int, n int, w int) {
 	var x1, x2, y1, y2 int
-	var op float
+	var op float64
 	canvas.Rect(x, y, gsize, gsize, tilestyle)
 	for i := 0; i < n; i++ {
 		choice := rand.Intn(len(pencils))
-		op = float(random(1, 10)) / 10.0
+		op = float64(random(1, 10)) / 10.0
 		x1 = random(x, x+gsize)
 		y1 = random(y, y+gsize)
 		x2 = random(x, x+gsize)
