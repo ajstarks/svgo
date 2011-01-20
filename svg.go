@@ -38,7 +38,7 @@ type SVG struct {
 type Offcolor struct {
 	Offset  uint8
 	Color   string
-	Opacity float
+	Opacity float64
 }
 
 const (
@@ -247,7 +247,7 @@ func (svg *SVG) RGB(r int, g int, b int) string {
 }
 
 // RGBA specifies a fill color in terms of a (r)ed, (g)reen, (b)lue triple and opacity.
-func (svg *SVG) RGBA(r int, g int, b int, a float) string {
+func (svg *SVG) RGBA(r int, g int, b int, a float64) string {
 	return fmt.Sprintf(`fill-opacity:%.2f; %s`, a, svg.RGB(r, g, b))
 }
 
