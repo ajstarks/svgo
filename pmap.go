@@ -19,8 +19,10 @@ type Pmap struct {
 	Pdata []Pdata
 }
 type Pdata struct {
-	Legend string "attr"
-	Item   []Item
+	Legend    string "attr"
+	Stagger   string "attr"
+	Alternate string "attr"
+	Item      []Item
 }
 type Item struct {
 	Name  string "chardata"
@@ -30,8 +32,8 @@ type Item struct {
 var (
 	width, height, fontsize, fontscale, round, gutter, pred, pgreen, pblue, oflen int
 	bgcolor, colorspec, title                                                     string
-	showpercent, showdata, alternate, showtitle, stagger, showlegend              bool
-	ofpct                                                                         float
+	showpercent, showdata, alternate, showtitle, stagger, showlegend, showtotal   bool
+	ofpct                                                                         float64
 	leftmargin                                                                    = 40
 	topmargin                                                                     = 40
 	canvas                                                                        = svg.New(os.Stdout)
@@ -96,7 +98,7 @@ func pmap(x, y, fs int, m Pdata) {
 
 	sum := 0.0
 	for _, v := range m.Item {
-		fv, _ := strconv.Atof(v.Value)
+		fv, _ := strconv.Atof64(v.Value)
 		sum += fv
 	}
 
@@ -104,16 +106,20 @@ func pmap(x, y, fs int, m Pdata) {
 	gline := fmt.Sprintf(linefmt, "gray")
 	wline := fmt.Sprintf(linefmt, bgcolor)
 	if len(m.Legend) > 0 && showlegend {
-		canvas.Text(x, y-fs, m.Legend, legendstyle)
+		if showtotal {
+			canvas.Text(x, y-fs, fmt.Sprintf("%s (total: %.1f)", m.Legend, sum), legendstyle)
+		} else {
+			canvas.Text(x, y-fs, m.Legend, legendstyle)
+		}
 	}
 	for i, p := range m.Item {
 		k := p.Name
-		v, _ := strconv.Atof(p.Value)
+		v, _ := strconv.Atof64(p.Value)
 		if v == 0.0 {
 			continue
 		}
 		pct := v / sum
-		pw := int(pct * float(fw))
+		pw := int(pct * float64(fw))
 		xw := x + (pw / 2)
 		yh := y + (h / 2)
 		if pct >= .4 {
@@ -126,6 +132,7 @@ func pmap(x, y, fs int, m Pdata) {
 		} else {
 			canvas.Rect(x, y, pw, h, pctfill(pred, pgreen, pblue, pct))
 		}
+
 		dy := yh + fs + (fs / 2)
 		if pct <= ofpct || len(k) > oflen { // overflow label
 			if up {
@@ -150,7 +157,7 @@ func pmap(x, y, fs int, m Pdata) {
 		}
 		canvas.Text(xw, yh, k, tfill)
 		dpfmt := tfill + ";font-size:75%"
-		if v-float(int(v)) == 0.0 {
+		if v-float64(int(v)) == 0.0 {
 			vfmt = "%.0f"
 		} else {
 			vfmt = "%.1f"
@@ -170,7 +177,7 @@ func pmap(x, y, fs int, m Pdata) {
 	}
 }
 
-func pctfill(r, g, b int, v float) string {
+func pctfill(r, g, b int, v float64) string {
 	d := int(255.0*v) - 255
 	return canvas.RGB(r-d, g-d, b-d)
 }
@@ -197,7 +204,7 @@ func init() {
 	flag.IntVar(&fontsize, "f", 12, "font size (pt)")
 	flag.IntVar(&fontscale, "s", 5, "font scaling factor")
 	flag.IntVar(&round, "r", 0, "rounded corner size")
-	flag.IntVar(&gutter, "g", 60, "gutter")
+	flag.IntVar(&gutter, "g", 100, "gutter")
 	flag.IntVar(&oflen, "ol", 20, "overflow length")
 	flag.StringVar(&bgcolor, "bg", "white", "background color")
 	flag.StringVar(&colorspec, "c", "0,0,0", "color (r,g,b)")
@@ -208,7 +215,8 @@ func init() {
 	flag.BoolVar(&stagger, "stagger", false, "stagger labels")
 	flag.BoolVar(&showlegend, "showlegend", true, "show the legend")
 	flag.BoolVar(&showtitle, "showtitle", false, "show the title")
-	flag.FloatVar(&ofpct, "op", 0.05, "overflow percentage")
+	flag.BoolVar(&showtotal, "showtotal", false, "show totals in the legend")
+	flag.Float64Var(&ofpct, "op", 0.05, "overflow percentage")
 	flag.Parse()
 	pred, pgreen, pblue = colorparse(colorspec)
 }

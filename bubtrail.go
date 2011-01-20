@@ -21,7 +21,7 @@ var (
 func init() {
 	flag.IntVar(&size, "s", 40, "bubble size")
 	flag.IntVar(&niter, "n", 200, "number of iterations")
-	flag.FloatVar(&opacity, "o", 0.5, "opacity")
+	flag.Float64Var(&opacity, "o", 0.5, "opacity")
 	flag.Parse()
 	rand.Seed(time.Nanoseconds() % 1e9)
 }

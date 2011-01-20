@@ -3,7 +3,7 @@ package main
 import (
 	"fmt"
 	"os"
-	"svg"
+	"github.com/ajstarks/svgo"
 	"strings"
 	"bufio"
 	"flag"
@@ -16,6 +16,7 @@ var (
 	outline  = flag.Bool("o", false, "outline")
 	neg      = flag.Bool("n", false, "negative")
 	showrgb  = flag.Bool("rgb", true, "show RGB")
+	circsw   = flag.Bool("circle", true, "circle swatch")
 	fontsize = flag.Int("fs", 12, "fontsize")
 	width    = flag.Int("w", 1600, "width")
 	height   = flag.Int("h", 900, "height")
@@ -62,8 +63,12 @@ func main() {
 			if *outline {
 				colorfmt = colorfmt + ";stroke:" + tcolor
 			}
-			canvas.Circle(x, y, *swatch/2, colorfmt)
-			canvas.Text(x+*swatch, y+(*swatch/4), fields[0], "stroke:none")
+			if *circsw {
+				canvas.Circle(x, y, *swatch/2, colorfmt)
+			} else {
+				canvas.Square(x, y-*swatch/2, *swatch, colorfmt)
+			}
+			canvas.Text(x+*swatch+*fontsize/2, y+(*swatch/4), fields[0], "stroke:none")
 			if *showrgb {
 				canvas.Text(x+((*colw*4)/5), y+(*swatch/4), fields[2], "text-anchor:end;fill:gray")
 			}

@@ -11,7 +11,7 @@ import (
 )
 
 
-var ssDist = []float{
+var ssDist = []float64{
 	0.00,  // Sun
 	0.34,  // Mercury
 	0.72,  // Venus
@@ -23,7 +23,7 @@ var ssDist = []float{
 	30.08} // Netpune
 
 
-var ssRad = []float{ // Miles
+var ssRad = []float64{ // Miles
 	423200.0, // Sun
 	1516.0,   // Mercury
 	3760.0,   // Venus
@@ -73,7 +73,7 @@ var ssImages = []string{
 var showimages *bool = flag.Bool("i", true, "show images")
 var canvas = svg.New(os.Stdout)
 
-func vmap(value float, low1 float, high1 float, low2 float, high2 float) float {
+func vmap(value float64, low1 float64, high1 float64, low2 float64, high2 float64) float64 {
 	return low2 + (high2-low2)*(value-low1)/(high1-low1)
 }
 
@@ -94,16 +94,16 @@ func main() {
 	minsize := 7.0
 	labeloc := height / 4
 
-	var x, r, imScale, maxh float
+	var x, r, imScale, maxh float64
 
 	if *showimages {
-		maxh = float(height) / 4.0
+		maxh = float64(height) / 4.0
 	} else {
-		maxh = float(height) / minsize
+		maxh = float64(height) / minsize
 	}
 
 	for i := 1; i < nobj; i++ {
-		x = vmap(ssDist[i], ssDist[1], ssDist[nobj-1], float(margin), float(width-margin))
+		x = vmap(ssDist[i], ssDist[1], ssDist[nobj-1], float64(margin), float64(width-margin))
 		r = (vmap(ssRad[i], ssRad[1], ssRad[nobj-1], minsize, maxh)) / 2
 		if *showimages {
 			f, err := os.Open(ssImages[i], os.O_RDONLY, 0)
@@ -115,8 +115,8 @@ func main() {
 			if perr != nil {
 				continue
 			}
-			imScale = r / float(p.Width)
-			hs := float(p.Height) * imScale
+			imScale = r / float64(p.Width)
+			hs := float64(p.Height) * imScale
 			dy := y - (int(hs) / 2) // center the image
 			canvas.Image(int(x), dy, int(r), int(hs), ssImages[i])
 		} else {
