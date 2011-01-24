@@ -258,6 +258,11 @@ is used to specify the offset, color, and opacity of stop colors in linear and r
   draw a quadratic bezier curve, beginning at sx, sy, ending at tx,ty
   with control points are at cx,cy, ex,ey
   <http://www.w3.org/TR/SVG11/paths.html#PathDataQuadraticBezierCommands>
+  
+	Qbez(sx int, sy int, cx int, cy int, ex int, ey int, s...string)
+   draws a quadratic bezier curver, with optional style beginning at sx,sy, ending at ex, sy
+   with the control point at cx, cy
+   <http://www.w3.org/TR/SVG11/paths.html#PathDataQuadraticBezierCommands>
 
 ### Lines ###
 

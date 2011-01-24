@@ -199,6 +199,15 @@ func (svg *SVG) Bezier(sx int, sy int, cx int, cy int, px int, py int, ex int, e
 		svg.ptag(sx, sy), svg.coord(cx, cy), svg.coord(px, py), svg.coord(ex, ey), svg.endstyle(s))
 }
 
+
+// Qbez draws a quadratic bezier curver, with optional style 
+// beginning at sx,sy, ending at ex, sy with control points at cx, cy
+// Standard Reference: http://www.w3.org/TR/SVG11/paths.html#PathDataQuadraticBezierCommands
+func (svg *SVG) Qbez(sx int, sy int, cx int, cy int, ex int, ey int, s ...string) {
+	svg.printf(`%s Q%s %s" %s`,
+		svg.ptag(sx, sy), svg.coord(cx, cy), svg.coord(ex, ey), svg.endstyle(s))
+}
+
 // Qbezier draws a Quadratic Bezier curve, with optional style, beginning at sx, sy, ending at tx,ty
 // with control points are at cx,cy, ex,ey.
 // Standard Reference: http://www.w3.org/TR/SVG11/paths.html#PathDataQuadraticBezierCommands
