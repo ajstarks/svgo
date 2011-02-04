@@ -7,18 +7,25 @@ import (
 	"os"
 )
 
-var canvas = svg.New(os.Stdout)
+const (
+	textsize    = 15
+	coordsize   = 4
+	objstyle    = "fill:none; stroke-width:2; stroke:rgb(127,0,0); opacity:0.75"
+	legendstyle = "fill:gray; text-anchor:middle"
+	titlestyle  = "fill:black; text-anchor:middle"
+	linestyle   = "stroke:black; stroke-width:1"
+	gtextstyle  = "font-family:Calibri; text-anchor:middle; font-size:14px"
+	coordstring = "x, y"
+)
 
-const textsize = 15
-const coordsize = 4
-const objstyle = "fill:none; stroke-width:2; stroke:rgb(127,0,0); opacity:0.75"
-const legendstyle = "fill:gray; text-anchor:middle"
-const titlestyle = "fill:black; text-anchor:middle"
-const linestyle = "stroke:black; stroke-width:1"
-const gtextstyle = "font-family:Calibri; text-anchor:middle; font-size:14px"
-const coordstring = "x, y"
-
-var grayfill = canvas.RGB(200, 200, 200)
+var (
+	canvas   = svg.New(os.Stdout)
+	grayfill = canvas.RGB(200, 200, 200)
+	oc1      = svg.Offcolor{0, "red", 1.0}
+	oc2      = svg.Offcolor{50, "green", 1.0}
+	oc3      = svg.Offcolor{100, "blue", 1.0}
+	ga       = []svg.Offcolor{oc1, oc2, oc3}
+)
 
 func defcoordstr(x int, y int, s string) {
 	canvas.Circle(x, y, coordsize, grayfill)
@@ -115,16 +122,29 @@ func defbez(id string, px int, py int, legend string) {
 	canvas.Gend()
 }
 
-func defqbez(id string, ex int, ey int, legend string) {
+func defqbezier(id string, ex int, ey int, legend string) {
 	canvas.Gid(id)
 	defcoordstr(0, 0, "sx, sy")
 	defcoordstr(ex, -ey, "cx, cy")
 	defcoordstr(ex, ey, "ex, ey")
 	defcoordstr(ex*2, 0, "tx, ty")
 	canvas.Qbezier(0, 0, ex, -ey, ex, ey, ex*2, 0, objstyle)
-	deflegend(ex, ey, 30, legend)
+	deflegend(ex, ey, 40, legend)
 	canvas.Gend()
 }
+
+func defqbez(id string, px int, py int, legend string) {
+	canvas.Gid(id)
+	defcoordstr(0, 0, "sx, sy")
+	defcoordstr(px, py, "cx, cy")
+	defcoordstr(px*2, 0, "ex, ey")
+	canvas.Qbez(0, 0, px, py, px*2, 0, objstyle)
+	deflegend(px, py, 10, legend)
+	canvas.Gend()
+
+}
+
+
 
 func defroundrect(id string, w int, h int, rx int, ry int, legend string) {
 	canvas.Gid(id)
@@ -153,60 +173,121 @@ func defpolygon(id string, w int, h int, legend string) {
 }
 
 func defpolyline(id string, w int, h int, legend string) {
-	var x = []int{0, w / 2, (w * 3) / 4, w}
+	var x = []int{0, w / 3, (w * 3) / 4, w}
 	var y = []int{0, -(h / 2), -(h / 3), -h}
 	canvas.Gid(id)
 	for i := 0; i < len(x); i++ {
 		defcoord(x[i], y[i])
 	}
 	canvas.Polyline(x, y, objstyle)
-	deflegend(x[1], y[1], 20, legend)
+	deflegend(x[1], y[1], 30, legend)
+	canvas.Gend()
+}
+
+func defpath(id string, x, y int, legend string) {
+	var w3path = `M36,5l12,41l12-41h33v4l-13,21c30,10,2,69-21,28l7-2c15,27,33,-22,3,-19v-4l12-20h-15l-17,59h-1l-13-42l-12,42h-1l-20-67h9l12,41l8-28l-4-13h9`
+	var cpath = `M94,53c15,32,30,14,35,7l-1-7c-16,26-32,3-34,0M122,16c-10-21-34,0-21,30c-5-30 16,-38 23,-21l5-10l-2-9`
+	canvas.Gid(id)
+	canvas.Path(w3path, `fill="#AA0000"`)
+	canvas.Path(cpath)
+	defcoord(0, 0)
+	deflegend(x/2, y, 10, legend)
+	canvas.Gend()
+}
+
+func deflg(id string, w int, h int, legend string) {
+	canvas.Gid(id)
+	defcoordstr(0,0,"x1%, y1%")
+	defcoordstr(w,0, "x2%, y2%")
+	canvas.Rect(0, 0, w, h, "fill:url(#linear)")
+	deflegend((w / 2), 0, h, legend)
+	canvas.Gend()
+}
+
+func defrg(id string, w int, h int, legend string) {
+	canvas.Gid(id)
+	defcoordstr(0,0, "cx%, cy%")
+	canvas.Rect(0, 0, w, h, "fill:url(#radial)")
+	defcoordstr(w/2, h/2,"fx%, fy%")
+	deflegend((w / 2), 0, h, legend)
 	canvas.Gend()
 }
 
 
+
 func main() {
 
-	width := 760
-	height := 760
+	width := 1350
+	height := 1300
 	canvas.Start(width, height)
 	canvas.Title("SVG Go Library Description")
-	canvas.Rect(0, 0, width, height, "fill:white")
+	canvas.Def()
+	canvas.LinearGradient("linear", 0, 0, 100, 0, ga)
+	canvas.RadialGradient("radial", 0,0, 100, 50, 50, ga)
+	canvas.DefEnd()
+	canvas.Rect(0, 0, width, height, "fill:white;stroke:black;stroke-width:2")
 	canvas.Gstyle(gtextstyle)
-	canvas.Text(width/2, 40, "SVG Go Library", "font-size:24")
+	canvas.Text(width/2, 100, "SVG Go Library", "font-size:50px")
 
 	canvas.Desc("Object Definitions")
 	canvas.Def()
-	defcircle("circle", 50, "Circle(x, y, r,...)")
-	defellipse("ellipse", 75, 50, "Ellipse(x, y, rx ,ry,...)")
-	defrect("rectangle", 160, 100, "Rect(x, y, w, h,...)")
-	defroundrect("roundrect", 160, 100, 25, 25, "Roundrect(x,y,rx,ry,...)")
-	defsquare("square", 100, "Square(x, y, w,...)")
-	defimage("image", 128, 128, "images/gophercolor128x128.png", "Image(x, y, w, h, path,...)")
-	defarc("arc", 90, 40, "Arc(sx, sy, ax, ay, r, lflag, sflag, ex, ey, ...)")
-	defline("line", 240, "Line(x1, y1, x2, y2, ...)")
-	defbez("bezier", 120, 60, "Bezier(sx, sy, cx, cy, px, py, ex, ey, ...)")
-	defqbez("qbez", 120, 40, "Qbezier(sx, sy, cx, cy, ex, ey, tx, ty, ...)")
-	defpolygon("polygon", 160, 120, "Polygon(x, y, ...)")
-	defpolyline("polyline", 240, 40, "Polyline(x, y, ...)")
+	defsquare("square", 100, "Square(x, y, w,...style)")
+	defrect("rectangle", 150, 100, "Rect(x, y, w, h,...style)")
+	defroundrect("roundrect", 200, 100, 25, 25, "Roundrect(x,y,w,h,rx,ry,...style)")
+	defpolygon("polygon", 200, 120, "Polygon(x, y, ...style)")
+
+	defcircle("circle", 50, "Circle(x, y, r,...style)")
+	defellipse("ellipse", 75, 50, "Ellipse(x, y, rx ,ry,...style)")
+	defline("line", 200, "Line(x1, y1, x2, y2, ...style)")
+	defpolyline("polyline", 200, 50, "Polyline(x, y, ...style)")
+
+	defarc("arc", 50, 40, "Arc(sx, sy, ax, ay, r, lflag, sflag, ex, ey, ...style)")
+	defpath("path", 100, 80, "Path(s, ...style)")
+	defqbez("qbez", 100, 80, "Qbez(sx, sy, cx, cy, ex, ey, ...style)")
+	defqbezier("qbezier", 100, 50, "Qbezier(sx, sy, cx, cy, ex, ey, tx, ty, ...style)")
+
+	defbez("bezier", 100, 50, "Bezier(sx, sy, cx, cy, px, py, ex, ey, ...style)")
+	defimage("image", 128, 128, "images/gophercolor128x128.png", "Image(x, y, w, h, path,...style)")
+	deflg("lgrad", 200, 100, "LinearGradient(id, x1, y1, x2, y2, Offcolor)")
+	defrg("rgrad", 200, 100, "RadialGradient(id, cx, cy, r, fx, fy, Offcolor)")
 	canvas.DefEnd()
 
 	canvas.Desc("Object Usage")
-	canvas.Use(40, 80, "#rectangle")
-	canvas.Use(40, 240, "#roundrect")
-	canvas.Use(40, 580, "#polygon")
-	canvas.Use(120, 420, "#ellipse")
-	canvas.Use(260, 280, "#arc")
-	canvas.Use(280, 580, "#image")
-	canvas.Use(300, 80, "#square")
-	canvas.Use(345, 420, "#circle")
-	canvas.Use(480, 280, "#polyline")
-	canvas.Use(480, 140, "#line")
-	canvas.Use(480, 420, "#bezier")
-	canvas.Use(480, 620, "#qbez")
+
+	// row 0
+	canvas.Gtransform("translate(100, 200)")
+	canvas.Use(0, 0, "#square")
+	canvas.Use(300, 0, "#rectangle")
+	canvas.Use(600, 0, "#roundrect")
+	canvas.Use(950, 0, "#polygon")
 	canvas.Gend()
 
-	canvas.Grid(0, 0, width, height, 20, "stroke:black;opacity:0.1")
+	// row 1
+	canvas.Gtransform("translate(100, 500)")
+	canvas.Use(50, 0, "#circle")
+	canvas.Use(375, 0, "#ellipse")
+	canvas.Use(600, 0, "#line")
+	canvas.Use(950, 0, "#polyline")
+	canvas.Gend()
+
+	// row 2
+	canvas.Gtransform("translate(100, 700)")
+	canvas.Use(0, 0, "#arc")
+	canvas.Use(300, 0, "#path")
+	canvas.Use(600, 0, "#qbez")
+	canvas.Use(950, 0, "#qbezier")
+	canvas.Gend()
+
+	// row 3
+	canvas.Gtransform("translate(100, 950)")
+	canvas.Use(0, 0, "#bezier")
+	canvas.Use(300, 0, "#image")
+	canvas.Use(600, 0, "#lgrad")
+	canvas.Use(950, 0, "#rgrad")
+	canvas.Gend()
+
+	canvas.Gend()
+	canvas.Grid(0, 0, width, height, 50, "stroke:blue;opacity:0.15")
 	canvas.End()
 
 }
