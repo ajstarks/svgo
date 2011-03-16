@@ -63,7 +63,7 @@ Drawing in a web server: (http://localhost:2003/circle)
 	}
 	
 	func circle(w http.ResponseWriter, req *http.Request) {
-	  w.SetHeader("Content-Type", "image/svg+xml")
+	  w.Header().Set("Content-Type", "image/svg+xml")
 	  s := svg.New(w)
 	  s.Start(500, 500)
 	  s.Circle(250, 250, 125, "fill:none;stroke:black")

@@ -20,7 +20,7 @@ func main() {
 	http.Handle("/text/", http.HandlerFunc(text))
 	err := http.ListenAndServe(*port, nil)
 	if err != nil {
-		log.Exit("ListenAndServe:", err)
+		log.Println("ListenAndServe:", err)
 	}
 }
 
@@ -33,7 +33,7 @@ func shapestyle(path string) string {
 }
 
 func circle(w http.ResponseWriter, req *http.Request) {
-	w.SetHeader("Content-Type", "image/svg+xml")
+	w.Header().Set("Content-Type", "image/svg+xml")
 	s := svg.New(w)
 	s.Start(500, 500)
 	s.Title("Circle")
@@ -42,7 +42,7 @@ func circle(w http.ResponseWriter, req *http.Request) {
 }
 
 func rect(w http.ResponseWriter, req *http.Request) {
-	w.SetHeader("Content-Type", "image/svg+xml")
+	w.Header().Set("Content-Type", "image/svg+xml")
 	s := svg.New(w)
 	s.Start(500, 500)
 	s.Title("Rectangle")
@@ -51,7 +51,7 @@ func rect(w http.ResponseWriter, req *http.Request) {
 }
 
 func arc(w http.ResponseWriter, req *http.Request) {
-	w.SetHeader("Content-Type", "image/svg+xml")
+	w.Header().Set("Content-Type", "image/svg+xml")
 	s := svg.New(w)
 	s.Start(500, 500)
 	s.Title("Arc")
@@ -60,7 +60,7 @@ func arc(w http.ResponseWriter, req *http.Request) {
 }
 
 func text(w http.ResponseWriter, req *http.Request) {
-	w.SetHeader("Content-Type", "image/svg+xml")
+	w.Header().Set("Content-Type", "image/svg+xml")
 	s := svg.New(w)
 	s.Start(500, 500)
 	s.Title("Text")
