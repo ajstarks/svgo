@@ -9,14 +9,14 @@ import (
 var (
 	width  = 500
 	height = 500
-	canvas    = svg.New(os.Stdout)
+	canvas = svg.New(os.Stdout)
 )
 
 const androidcolor = "rgb(164,198,57)"
 
 func background(v int) { canvas.Rect(0, 0, width, height, canvas.RGB(v, v, v)) }
 
-func android(x, y int, fill string, opacity float) {
+func android(x, y int, fill string, opacity float64) {
 	var linestyle = []string{`stroke="` + fill + `"`, `stroke-linecap="round"`, `stroke-width="5"`}
 	globalstyle := fmt.Sprintf("fill:%s;opacity:%.2f", fill, opacity)
 	canvas.Gstyle(globalstyle)
@@ -40,11 +40,11 @@ func main() {
 	background(255)
 
 	android(100, 100, androidcolor, 1.0)
-	canvas.Gtransform("scale(3.0,3.0)")
+	canvas.Scale(3.0)
 	android(50, 50, "gray", 0.5)
 	canvas.Gend()
 
-	canvas.Gtransform("scale(0.5,0.5)")
+	canvas.Scale(0.5)
 	android(100, 100, "red", 1.0)
 	canvas.Gend()
 	canvas.End()

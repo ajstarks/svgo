@@ -68,7 +68,7 @@ func (svg *SVG) printf(format string, a ...interface{}) (n int, errno os.Error) 
 	return fmt.Fprintf(svg.w, format, a...)
 }
 
-// Structure, Metadata, and Links
+// Structure, Metadata, Transformation, and Links
 
 // Start begins the SVG document with the width w and height h.
 // Standard Reference: http://www.w3.org/TR/SVG11/struct.html#SVGElement
@@ -84,10 +84,33 @@ func (svg *SVG) End() { svg.println("</svg>") }
 
 // Gstyle begins a group, with the specified style.
 // Standard Reference: http://www.w3.org/TR/SVG11/struct.html#GElement
-func (svg *SVG) Gstyle(s string) { svg.println(svg.group("style", s)) }
+func (svg *SVG) Gstyle(s string) { svg.println(group("style", s)) }
 
 // Gtransform begins a group, with the specified transform
-func (svg *SVG) Gtransform(s string) { svg.println(svg.group("transform", s)) }
+// Standard Reference: http://www.w3.org/TR/SVG11/coords.html#TransformAttribute
+func (svg *SVG) Gtransform(s string) { svg.println(group("transform", s)) }
+
+// Translate begins coordinate translation, end with Gend()
+// Standard Reference: http://www.w3.org/TR/SVG11/coords.html#TransformAttribute
+func (svg *SVG) Translate(x, y int) { svg.Gtransform(translate(x, y)) }
+
+// Scale scales the coordinate system by n, end with Gend()
+// Standard Reference: http://www.w3.org/TR/SVG11/coords.html#TransformAttribute
+func (svg *SVG) Scale(n float64) { svg.Gtransform(scale(n)) }
+
+// Rotate rotates the coordinate system by r degrees, end with Gend()
+// Standard Reference: http://www.w3.org/TR/SVG11/coords.html#TransformAttribute
+func (svg *SVG) Rotate(r float64) { svg.Gtransform(rotate(r)) }
+
+// TranslateRotate translates the coordinate system to (x,y), then rotates to r degrees, end with Gend()
+func (svg *SVG) TranslateRotate(x, y int, r float64) {
+	svg.Gtransform(translate(x, y) + " " + rotate(r))
+}
+
+// RotateTranslate rotates the coordinate system r degrees, then translates to (x,y), end with Gend()
+func (svg *SVG) RotateTranslate(x, y int, r float64) {
+	svg.Gtransform(rotate(r) + " " + translate(x, y))
+}
 
 // Gid begins a group, with the specified id
 func (svg *SVG) Gid(s string) {
@@ -128,7 +151,7 @@ func (svg *SVG) LinkEnd() { svg.println(`</a>`) }
 // Use places the object referenced at link at the location x, y, with optional style.
 // Standard Reference: http://www.w3.org/TR/SVG11/struct.html#UseElement
 func (svg *SVG) Use(x int, y int, link string, s ...string) {
-	svg.printf(`<use %s %s %s`, svg.loc(x, y), svg.href(link), svg.endstyle(s))
+	svg.printf(`<use %s %s %s`, loc(x, y), href(link), endstyle(s))
 }
 
 // Shapes
@@ -136,14 +159,14 @@ func (svg *SVG) Use(x int, y int, link string, s ...string) {
 // Circle centered at x,y, with radius r, with optional style.
 // Standard Reference: http://www.w3.org/TR/SVG11/shapes.html#CircleElement
 func (svg *SVG) Circle(x int, y int, r int, s ...string) {
-	svg.printf(`<circle cx="%d" cy="%d" r="%d" %s`, x, y, r, svg.endstyle(s))
+	svg.printf(`<circle cx="%d" cy="%d" r="%d" %s`, x, y, r, endstyle(s))
 }
 
 // Ellipse centered at x,y, centered at x,y with radii w, and h, with optional style.
 // Standard Reference: http://www.w3.org/TR/SVG11/shapes.html#EllipseElement
 func (svg *SVG) Ellipse(x int, y int, w int, h int, s ...string) {
 	svg.printf(`<ellipse cx="%d" cy="%d" rx="%d" ry="%d" %s`,
-		x, y, w, h, svg.endstyle(s))
+		x, y, w, h, endstyle(s))
 }
 
 // Polygon draws a series of line segments using an array of x, y coordinates, with optional style.
@@ -155,7 +178,7 @@ func (svg *SVG) Polygon(x []int, y []int, s ...string) {
 // Rect draws a rectangle with upper left-hand corner at x,y, with width w, and height h, with optional style
 // Standard Reference: http://www.w3.org/TR/SVG11/shapes.html#RectElement
 func (svg *SVG) Rect(x int, y int, w int, h int, s ...string) {
-	svg.printf(`<rect %s %s`, svg.dim(x, y, w, h), svg.endstyle(s))
+	svg.printf(`<rect %s %s`, dim(x, y, w, h), endstyle(s))
 }
 
 // Roundrect draws a rounded rectangle with upper the left-hand corner at x,y,
@@ -164,7 +187,7 @@ func (svg *SVG) Rect(x int, y int, w int, h int, s ...string) {
 // Style is optional.
 // Standard Reference: http://www.w3.org/TR/SVG11/shapes.html#RectElement
 func (svg *SVG) Roundrect(x int, y int, w int, h int, rx int, ry int, s ...string) {
-	svg.printf(`<rect %s rx="%d" ry="%d" %s`, svg.dim(x, y, w, h), rx, ry, svg.endstyle(s))
+	svg.printf(`<rect %s rx="%d" ry="%d" %s`, dim(x, y, w, h), rx, ry, endstyle(s))
 }
 
 // Square draws a square with upper left corner at x,y with sides of length s, with optional style.
@@ -176,7 +199,7 @@ func (svg *SVG) Square(x int, y int, s int, style ...string) {
 
 // Path draws an arbitrary path, the caller is responsible for structuring the path data
 func (svg *SVG) Path(d string, s ...string) {
-	svg.printf(`<path d="%s" %s`, d, svg.endstyle(s))
+	svg.printf(`<path d="%s" %s`, d, endstyle(s))
 }
 
 //  Arc draws an elliptical arc, with optional style, beginning coordinate at sx,sy, ending coordinate at ex, ey
@@ -188,7 +211,7 @@ func (svg *SVG) Path(d string, s ...string) {
 //  http://www.w3.org/TR/SVG11/paths.html#PathDataEllipticalArcCommands
 func (svg *SVG) Arc(sx int, sy int, ax int, ay int, r int, large bool, sweep bool, ex int, ey int, s ...string) {
 	svg.printf(`%s A%s %d %s %s %s" %s`,
-		svg.ptag(sx, sy), svg.coord(ax, ay), r, svg.onezero(large), svg.onezero(sweep), svg.coord(ex, ey), svg.endstyle(s))
+		ptag(sx, sy), coord(ax, ay), r, onezero(large), onezero(sweep), coord(ex, ey), endstyle(s))
 }
 
 // Bezier draws a cubic bezier curve, with optional style, beginning at sx,sy, ending at ex,ey
@@ -196,7 +219,7 @@ func (svg *SVG) Arc(sx int, sy int, ax int, ay int, r int, large bool, sweep boo
 // Standard Reference: http://www.w3.org/TR/SVG11/paths.html#PathDataCubicBezierCommands
 func (svg *SVG) Bezier(sx int, sy int, cx int, cy int, px int, py int, ex int, ey int, s ...string) {
 	svg.printf(`%s C%s %s %s" %s`,
-		svg.ptag(sx, sy), svg.coord(cx, cy), svg.coord(px, py), svg.coord(ex, ey), svg.endstyle(s))
+		ptag(sx, sy), coord(cx, cy), coord(px, py), coord(ex, ey), endstyle(s))
 }
 
 
@@ -205,7 +228,7 @@ func (svg *SVG) Bezier(sx int, sy int, cx int, cy int, px int, py int, ex int, e
 // Standard Reference: http://www.w3.org/TR/SVG11/paths.html#PathDataQuadraticBezierCommands
 func (svg *SVG) Qbez(sx int, sy int, cx int, cy int, ex int, ey int, s ...string) {
 	svg.printf(`%s Q%s %s" %s`,
-		svg.ptag(sx, sy), svg.coord(cx, cy), svg.coord(ex, ey), svg.endstyle(s))
+		ptag(sx, sy), coord(cx, cy), coord(ex, ey), endstyle(s))
 }
 
 // Qbezier draws a Quadratic Bezier curve, with optional style, beginning at sx, sy, ending at tx,ty
@@ -213,7 +236,7 @@ func (svg *SVG) Qbez(sx int, sy int, cx int, cy int, ex int, ey int, s ...string
 // Standard Reference: http://www.w3.org/TR/SVG11/paths.html#PathDataQuadraticBezierCommands
 func (svg *SVG) Qbezier(sx int, sy int, cx int, cy int, ex int, ey int, tx int, ty int, s ...string) {
 	svg.printf(`%s Q%s %s T%s" %s`,
-		svg.ptag(sx, sy), svg.coord(cx, cy), svg.coord(ex, ey), svg.coord(tx, ty), svg.endstyle(s))
+		ptag(sx, sy), coord(cx, cy), coord(ex, ey), coord(tx, ty), endstyle(s))
 }
 
 // Lines
@@ -221,7 +244,7 @@ func (svg *SVG) Qbezier(sx int, sy int, cx int, cy int, ex int, ey int, tx int, 
 // Line draws a straight line between two points, with optional style.
 // Standard Reference: http://www.w3.org/TR/SVG11/shapes.html#LineElement
 func (svg *SVG) Line(x1 int, y1 int, x2 int, y2 int, s ...string) {
-	svg.printf(`<line x1="%d" y1="%d" x2="%d" y2="%d" %s`, x1, y1, x2, y2, svg.endstyle(s))
+	svg.printf(`<line x1="%d" y1="%d" x2="%d" y2="%d" %s`, x1, y1, x2, y2, endstyle(s))
 }
 
 // Polylne draws connected lines between coordinates, with optional style.
@@ -234,16 +257,16 @@ func (svg *SVG) Polyline(x []int, y []int, s ...string) {
 // width w, and height h, referenced at link, with optional style.
 // Standard Reference: http://www.w3.org/TR/SVG11/struct.html#ImageElement
 func (svg *SVG) Image(x int, y int, w int, h int, link string, s ...string) {
-	svg.printf("<image %s %s %s", svg.dim(x, y, w, h), svg.href(link), svg.endstyle(s))
+	svg.printf("<image %s %s %s", dim(x, y, w, h), href(link), endstyle(s))
 }
 
 // Text places the specified text, t at x,y according to the style specified in s
 // Standard Reference: http://www.w3.org/TR/SVG11/text.html#TextElement
 func (svg *SVG) Text(x int, y int, t string, s ...string) {
 	if len(s) > 0 {
-		svg.tt("text", " "+svg.loc(x, y)+" "+svg.style(s[0]), t)
+		svg.tt("text", " "+loc(x, y)+" "+style(s[0]), t)
 	} else {
-		svg.tt("text", " "+svg.loc(x, y)+" ", t)
+		svg.tt("text", " "+loc(x, y)+" ", t)
 	}
 }
 
@@ -314,7 +337,7 @@ func (svg *SVG) Grid(x int, y int, w int, h int, n int, s ...string) {
 
 // Support functions
 
-func (svg *SVG) style(s string) string {
+func style(s string) string {
 	if len(s) > 0 {
 		return fmt.Sprintf(`style="%s"`, s)
 	}
@@ -327,13 +350,13 @@ func (svg *SVG) pp(x []int, y []int, tag string) {
 	}
 	svg.print(tag)
 	for i := 0; i < len(x); i++ {
-		svg.print(svg.coord(x[i], y[i]) + " ")
+		svg.print(coord(x[i], y[i]) + " ")
 	}
 }
 
 // endstyle modifies an SVG object, with either a series of name="value" pairs,
 // or a single string containing a style
-func (svg *SVG) endstyle(s []string) string {
+func endstyle(s []string) string {
 
 	if len(s) > 0 {
 		nv := ""
@@ -341,7 +364,7 @@ func (svg *SVG) endstyle(s []string) string {
 			if strings.Index(s[i], "=") > 0 {
 				nv += (s[i]) + " "
 			} else {
-				nv += svg.style(s[i])
+				nv += style(s[i])
 			}
 		}
 		return nv + "/>\n"
@@ -358,10 +381,10 @@ func (svg *SVG) tt(tag string, attr string, s string) {
 
 func (svg *SVG) poly(x []int, y []int, tag string, s ...string) {
 	svg.pp(x, y, "<"+tag+` points="`)
-	svg.print(`" ` + svg.endstyle(s))
+	svg.print(`" ` + endstyle(s))
 }
 
-func (svg *SVG) onezero(flag bool) string {
+func onezero(flag bool) string {
 	if flag {
 		return "1"
 	}
@@ -375,15 +398,14 @@ func pct(n uint8) uint8 {
 	return n
 }
 
-func (svg *SVG) coord(x int, y int) string { return fmt.Sprintf(`%d,%d`, x, y) }
-func (svg *SVG) ptag(x int, y int) string {
-	return fmt.Sprintf(`<path d="M%s`, svg.coord(x, y))
-}
-func (svg *SVG) loc(x int, y int) string { return fmt.Sprintf(`x="%d" y="%d"`, x, y) }
-func (svg *SVG) href(s string) string    { return fmt.Sprintf(`xlink:href="%s"`, s) }
-func (svg *SVG) dim(x int, y int, w int, h int) string {
+func scale(n float64) string    { return fmt.Sprintf(`scale(%g)`, n) }
+func rotate(r float64) string   { return fmt.Sprintf(`rotate(%g)`, r) }
+func translate(x, y int) string { return fmt.Sprintf(`translate(%d,%d)`, x, y) }
+func coord(x int, y int) string { return fmt.Sprintf(`%d,%d`, x, y) }
+func ptag(x int, y int) string  { return fmt.Sprintf(`<path d="M%s`, coord(x, y)) }
+func loc(x int, y int) string   { return fmt.Sprintf(`x="%d" y="%d"`, x, y) }
+func href(s string) string      { return fmt.Sprintf(`xlink:href="%s"`, s) }
+func dim(x int, y int, w int, h int) string {
 	return fmt.Sprintf(`x="%d" y="%d" width="%d" height="%d"`, x, y, w, h)
 }
-func (svg *SVG) group(tag string, value string) string {
-	return fmt.Sprintf(`<g %s="%s">`, tag, value)
-}
+func group(tag string, value string) string { return fmt.Sprintf(`<g %s="%s">`, tag, value) }

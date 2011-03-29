@@ -12,7 +12,7 @@ const (
 	coordsize   = 4
 	objstyle    = "fill:none; stroke-width:2; stroke:rgb(127,0,0); opacity:0.75"
 	legendstyle = "fill:gray; text-anchor:middle"
-	titlestyle  = "fill:black; text-anchor:middle"
+	titlestyle  = "fill:black; text-anchor:middle;font-size:16px"
 	linestyle   = "stroke:black; stroke-width:1"
 	gtextstyle  = "font-family:Calibri; text-anchor:middle; font-size:14px"
 	coordstring = "x, y"
@@ -255,7 +255,7 @@ func main() {
 	canvas.Desc("Object Usage")
 
 	// row 0
-	canvas.Gtransform("translate(100, 200)")
+	canvas.Translate(120, 200) // canvas.Gtransform("translate(100, 200)")
 	canvas.Use(0, 0, "#square")
 	canvas.Use(300, 0, "#rectangle")
 	canvas.Use(600, 0, "#roundrect")
@@ -263,7 +263,7 @@ func main() {
 	canvas.Gend()
 
 	// row 1
-	canvas.Gtransform("translate(100, 500)")
+	canvas.Translate(120, 500) // canvas.Gtransform("translate(100, 500)")
 	canvas.Use(50, 0, "#circle")
 	canvas.Use(375, 0, "#ellipse")
 	canvas.Use(600, 0, "#line")
@@ -271,7 +271,7 @@ func main() {
 	canvas.Gend()
 
 	// row 2
-	canvas.Gtransform("translate(100, 700)")
+	canvas.Translate(120, 700) // canvas.Gtransform("translate(100, 700)")
 	canvas.Use(0, 0, "#arc")
 	canvas.Use(300, 0, "#path")
 	canvas.Use(600, 0, "#qbez")
@@ -279,7 +279,7 @@ func main() {
 	canvas.Gend()
 
 	// row 3
-	canvas.Gtransform("translate(100, 950)")
+	canvas.Gtransform("translate(120, 950)")
 	canvas.Use(0, 0, "#bezier")
 	canvas.Use(300, 0, "#image")
 	canvas.Use(600, 0, "#lgrad")

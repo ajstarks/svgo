@@ -136,7 +136,7 @@ The Offcolor type:
 is used to specify the offset, color, and opacity of stop colors in linear and radial gradients
 
 
-### Structure, Metadata and Links ###
+### Structure, Metadata, Transformation and Links ###
 
 	New(w io.Writer) *SVG
   Constructor, Specify the output destination
@@ -157,7 +157,26 @@ is used to specify the offset, color, and opacity of stop colors in linear and r
   <http://www.w3.org/TR/SVG11/struct.html#GElement>
 
 	Gtransform(s string)
-  begin a group, with the specified transform
+  begin a group, with the specified transform, end with Gend()
+  <http://www.w3.org/TR/SVG11/coords.html#TransformAttribute>
+
+	Translate(x, y int)
+  begins coordinate translation to (x,y), end with Gend()
+  <http://www.w3.org/TR/SVG11/coords.html#TransformAttribute>
+
+	Scale(n float64)
+  scales the coordinate system by n, end with Gend()
+  <http://www.w3.org/TR/SVG11/coords.html#TransformAttribute>
+
+	Rotate(r float64)
+  rotates the coordinate system by r degrees, end with Gend()
+  <http://www.w3.org/TR/SVG11/coords.html#TransformAttribute>
+
+  translates the coordinate system to (x,y), then rotates to r degrees, end with Gend()
+	TranslateRotate(x, y int, r float64)
+	
+ rotates the coordinate system r degrees, then translates to (x,y), end with Gend()
+	RotateTranslate(x, y int, r float64)
 
 	Gid(s string)
   begin a group, with the specified id
@@ -260,6 +279,7 @@ is used to specify the offset, color, and opacity of stop colors in linear and r
   with control points are at cx,cy, ex,ey
   <http://www.w3.org/TR/SVG11/paths.html#PathDataQuadraticBezierCommands>
   
+ ![Qbez](http://farm6.static.flickr.com/5176/5569879349_5f726aab5e.jpg)
 	Qbez(sx int, sy int, cx int, cy int, ex int, ey int, s...string)
    draws a quadratic bezier curver, with optional style beginning at sx,sy, ending at ex, sy
    with the control point at cx, cy

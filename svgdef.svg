@@ -26,7 +26,7 @@
 <text x="0" y="-15" style="fill:gray; text-anchor:middle">x, y</text>
 <rect x="0" y="0" width="100" height="100" style="fill:none; stroke-width:2; stroke:rgb(127,0,0); opacity:0.75"/>
 <text x="50" y="-15" style="fill:gray; text-anchor:middle">w</text>
-<text x="50" y="115" style="fill:black; text-anchor:middle">Square(x, y, w,...style)</text>
+<text x="50" y="115" style="fill:black; text-anchor:middle;font-size:16px">Square(x, y, w,...style)</text>
 </g>
 <g id="rectangle">
 <circle cx="0" cy="0" r="4" style="fill:rgb(200,200,200)"/>
@@ -34,7 +34,7 @@
 <rect x="0" y="0" width="150" height="100" style="fill:none; stroke-width:2; stroke:rgb(127,0,0); opacity:0.75"/>
 <text x="-15" y="50" style="fill:gray; text-anchor:middle">h</text>
 <text x="75" y="-15" style="fill:gray; text-anchor:middle">w</text>
-<text x="75" y="115" style="fill:black; text-anchor:middle">Rect(x, y, w, h,...style)</text>
+<text x="75" y="115" style="fill:black; text-anchor:middle;font-size:16px">Rect(x, y, w, h,...style)</text>
 </g>
 <g id="roundrect">
 <circle cx="0" cy="0" r="4" style="fill:rgb(200,200,200)"/>
@@ -46,7 +46,7 @@
 <line x1="0" y1="25" x2="25" y2="25" style="stroke:black; stroke-width:1"/>
 <text x="40" y="13" style="fill:gray; text-anchor:middle">ry</text>
 <text x="12" y="40" style="fill:gray; text-anchor:middle">rx</text>
-<text x="100" y="115" style="fill:black; text-anchor:middle">Roundrect(x,y,w,h,rx,ry,...style)</text>
+<text x="100" y="115" style="fill:black; text-anchor:middle;font-size:16px">Roundrect(x,y,w,h,rx,ry,...style)</text>
 </g>
 <g id="polygon">
 <circle cx="0" cy="0" r="4" style="fill:rgb(200,200,200)"/>
@@ -62,7 +62,7 @@
 <circle cx="0" cy="90" r="4" style="fill:rgb(200,200,200)"/>
 <text x="0" y="75" style="fill:gray; text-anchor:middle">x, y</text>
 <polygon points="0,0 100,24 200,0 200,90 100,120 0,90 " style="fill:none; stroke-width:2; stroke:rgb(127,0,0); opacity:0.75"/>
-<text x="100" y="145" style="fill:black; text-anchor:middle">Polygon(x, y, ...style)</text>
+<text x="100" y="145" style="fill:black; text-anchor:middle;font-size:16px">Polygon(x, y, ...style)</text>
 </g>
 <g id="circle">
 <circle cx="0" cy="0" r="4" style="fill:rgb(200,200,200)"/>
@@ -70,7 +70,7 @@
 <circle cx="0" cy="0" r="50" style="fill:none; stroke-width:2; stroke:rgb(127,0,0); opacity:0.75"/>
 <line x1="0" y1="0" x2="50" y2="0" style="stroke:black; stroke-width:1"/>
 <text x="25" y="15" style="fill:gray; text-anchor:middle">r</text>
-<text x="0" y="65" style="fill:black; text-anchor:middle">Circle(x, y, r,...style)</text>
+<text x="0" y="65" style="fill:black; text-anchor:middle;font-size:16px">Circle(x, y, r,...style)</text>
 </g>
 <g id="ellipse">
 <circle cx="0" cy="0" r="4" style="fill:rgb(200,200,200)"/>
@@ -80,7 +80,7 @@
 <line x1="0" y1="0" x2="0" y2="50" style="stroke:black; stroke-width:1"/>
 <text x="37" y="15" style="fill:gray; text-anchor:middle">rx</text>
 <text x="-15" y="25" style="fill:gray; text-anchor:middle">ry</text>
-<text x="0" y="65" style="fill:black; text-anchor:middle">Ellipse(x, y, rx ,ry,...style)</text>
+<text x="0" y="65" style="fill:black; text-anchor:middle;font-size:16px">Ellipse(x, y, rx ,ry,...style)</text>
 </g>
 <g id="line">
 <circle cx="0" cy="0" r="4" style="fill:rgb(200,200,200)"/>
@@ -88,7 +88,7 @@
 <circle cx="200" cy="0" r="4" style="fill:rgb(200,200,200)"/>
 <text x="200" y="-15" style="fill:gray; text-anchor:middle">x2, y2</text>
 <line x1="0" y1="0" x2="200" y2="0" style="fill:none; stroke-width:2; stroke:rgb(127,0,0); opacity:0.75"/>
-<text x="100" y="25" style="fill:black; text-anchor:middle">Line(x1, y1, x2, y2, ...style)</text>
+<text x="100" y="25" style="fill:black; text-anchor:middle;font-size:16px">Line(x1, y1, x2, y2, ...style)</text>
 </g>
 <g id="polyline">
 <circle cx="0" cy="0" r="4" style="fill:rgb(200,200,200)"/>
@@ -100,7 +100,7 @@
 <circle cx="200" cy="-50" r="4" style="fill:rgb(200,200,200)"/>
 <text x="200" y="-65" style="fill:gray; text-anchor:middle">x, y</text>
 <polyline points="0,0 66,-25 150,-16 200,-50 " style="fill:none; stroke-width:2; stroke:rgb(127,0,0); opacity:0.75"/>
-<text x="66" y="20" style="fill:black; text-anchor:middle">Polyline(x, y, ...style)</text>
+<text x="66" y="20" style="fill:black; text-anchor:middle;font-size:16px">Polyline(x, y, ...style)</text>
 </g>
 <g id="arc">
 <circle cx="0" cy="0" r="4" style="fill:rgb(200,200,200)"/>
@@ -108,14 +108,14 @@
 <circle cx="100" cy="0" r="4" style="fill:rgb(200,200,200)"/>
 <text x="100" y="-15" style="fill:gray; text-anchor:middle">ex, ey</text>
 <path d="M0,0 A50,40 0 0 1 100,0" style="fill:none; stroke-width:2; stroke:rgb(127,0,0); opacity:0.75"/>
-<text x="50" y="15" style="fill:black; text-anchor:middle">Arc(sx, sy, ax, ay, r, lflag, sflag, ex, ey, ...style)</text>
+<text x="50" y="15" style="fill:black; text-anchor:middle;font-size:16px">Arc(sx, sy, ax, ay, r, lflag, sflag, ex, ey, ...style)</text>
 </g>
 <g id="path">
 <path d="M36,5l12,41l12-41h33v4l-13,21c30,10,2,69-21,28l7-2c15,27,33,-22,3,-19v-4l12-20h-15l-17,59h-1l-13-42l-12,42h-1l-20-67h9l12,41l8-28l-4-13h9" fill="#AA0000" />
 <path d="M94,53c15,32,30,14,35,7l-1-7c-16,26-32,3-34,0M122,16c-10-21-34,0-21,30c-5-30 16,-38 23,-21l5-10l-2-9" />
 <circle cx="0" cy="0" r="4" style="fill:rgb(200,200,200)"/>
 <text x="0" y="-15" style="fill:gray; text-anchor:middle">x, y</text>
-<text x="50" y="105" style="fill:black; text-anchor:middle">Path(s, ...style)</text>
+<text x="50" y="105" style="fill:black; text-anchor:middle;font-size:16px">Path(s, ...style)</text>
 </g>
 <g id="qbez">
 <circle cx="0" cy="0" r="4" style="fill:rgb(200,200,200)"/>
@@ -125,7 +125,7 @@
 <circle cx="200" cy="0" r="4" style="fill:rgb(200,200,200)"/>
 <text x="200" y="-15" style="fill:gray; text-anchor:middle">ex, ey</text>
 <path d="M0,0 Q100,80 200,0" style="fill:none; stroke-width:2; stroke:rgb(127,0,0); opacity:0.75"/>
-<text x="100" y="105" style="fill:black; text-anchor:middle">Qbez(sx, sy, cx, cy, ex, ey, ...style)</text>
+<text x="100" y="105" style="fill:black; text-anchor:middle;font-size:16px">Qbez(sx, sy, cx, cy, ex, ey, ...style)</text>
 </g>
 <g id="qbezier">
 <circle cx="0" cy="0" r="4" style="fill:rgb(200,200,200)"/>
@@ -137,7 +137,7 @@
 <circle cx="200" cy="0" r="4" style="fill:rgb(200,200,200)"/>
 <text x="200" y="-15" style="fill:gray; text-anchor:middle">tx, ty</text>
 <path d="M0,0 Q100,-50 100,50 T200,0" style="fill:none; stroke-width:2; stroke:rgb(127,0,0); opacity:0.75"/>
-<text x="100" y="105" style="fill:black; text-anchor:middle">Qbezier(sx, sy, cx, cy, ex, ey, tx, ty, ...style)</text>
+<text x="100" y="105" style="fill:black; text-anchor:middle;font-size:16px">Qbezier(sx, sy, cx, cy, ex, ey, tx, ty, ...style)</text>
 </g>
 <g id="bezier">
 <circle cx="0" cy="0" r="4" style="fill:rgb(200,200,200)"/>
@@ -149,7 +149,7 @@
 <circle cx="200" cy="0" r="4" style="fill:rgb(200,200,200)"/>
 <text x="200" y="-15" style="fill:gray; text-anchor:middle">ex, ey</text>
 <path d="M0,0 C100,-50 100,50 200,0" style="fill:none; stroke-width:2; stroke:rgb(127,0,0); opacity:0.75"/>
-<text x="100" y="75" style="fill:black; text-anchor:middle">Bezier(sx, sy, cx, cy, px, py, ex, ey, ...style)</text>
+<text x="100" y="75" style="fill:black; text-anchor:middle;font-size:16px">Bezier(sx, sy, cx, cy, px, py, ex, ey, ...style)</text>
 </g>
 <g id="image">
 <circle cx="0" cy="0" r="4" style="fill:rgb(200,200,200)"/>
@@ -158,7 +158,7 @@
 <text x="-15" y="64" style="fill:gray; text-anchor:middle">h</text>
 <text x="64" y="-15" style="fill:gray; text-anchor:middle">w</text>
 <image x="0" y="0" width="128" height="128" xlink:href="images/gophercolor128x128.png" />
-<text x="64" y="143" style="fill:black; text-anchor:middle">Image(x, y, w, h, path,...style)</text>
+<text x="64" y="143" style="fill:black; text-anchor:middle;font-size:16px">Image(x, y, w, h, path,...style)</text>
 </g>
 <g id="lgrad">
 <circle cx="0" cy="0" r="4" style="fill:rgb(200,200,200)"/>
@@ -166,7 +166,7 @@
 <circle cx="200" cy="0" r="4" style="fill:rgb(200,200,200)"/>
 <text x="200" y="-15" style="fill:gray; text-anchor:middle">x2%, y2%</text>
 <rect x="0" y="0" width="200" height="100" style="fill:url(#linear)"/>
-<text x="100" y="115" style="fill:black; text-anchor:middle">LinearGradient(id, x1, y1, x2, y2, Offcolor)</text>
+<text x="100" y="115" style="fill:black; text-anchor:middle;font-size:16px">LinearGradient(id, x1, y1, x2, y2, Offcolor)</text>
 </g>
 <g id="rgrad">
 <circle cx="0" cy="0" r="4" style="fill:rgb(200,200,200)"/>
@@ -174,29 +174,29 @@
 <rect x="0" y="0" width="200" height="100" style="fill:url(#radial)"/>
 <circle cx="100" cy="50" r="4" style="fill:rgb(200,200,200)"/>
 <text x="100" y="35" style="fill:gray; text-anchor:middle">fx%, fy%</text>
-<text x="100" y="115" style="fill:black; text-anchor:middle">RadialGradient(id, cx, cy, r, fx, fy, Offcolor)</text>
+<text x="100" y="115" style="fill:black; text-anchor:middle;font-size:16px">RadialGradient(id, cx, cy, r, fx, fy, Offcolor)</text>
 </g>
 </defs>
 <desc>Object Usage</desc>
-<g transform="translate(100, 200)">
+<g transform="translate(120,200)">
 <use x="0" y="0" xlink:href="#square" />
 <use x="300" y="0" xlink:href="#rectangle" />
 <use x="600" y="0" xlink:href="#roundrect" />
 <use x="950" y="0" xlink:href="#polygon" />
 </g>
-<g transform="translate(100, 500)">
+<g transform="translate(120,500)">
 <use x="50" y="0" xlink:href="#circle" />
 <use x="375" y="0" xlink:href="#ellipse" />
 <use x="600" y="0" xlink:href="#line" />
 <use x="950" y="0" xlink:href="#polyline" />
 </g>
-<g transform="translate(100, 700)">
+<g transform="translate(120,700)">
 <use x="0" y="0" xlink:href="#arc" />
 <use x="300" y="0" xlink:href="#path" />
 <use x="600" y="0" xlink:href="#qbez" />
 <use x="950" y="0" xlink:href="#qbezier" />
 </g>
-<g transform="translate(100, 950)">
+<g transform="translate(120, 950)">
 <use x="0" y="0" xlink:href="#bezier" />
 <use x="300" y="0" xlink:href="#image" />
 <use x="600" y="0" xlink:href="#lgrad" />
