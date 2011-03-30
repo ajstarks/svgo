@@ -235,6 +235,10 @@ is used to specify the offset, color, and opacity of stop colors in linear and r
 	Rect(x int, y int, w int, h int, s ...string)
   draw a rectangle with upper left-hand corner at x,y, with width w, and height h
   <http://www.w3.org/TR/SVG11/shapes.html#RectElement>
+  
+	CenterRect(x int, y int, w int, h int, s ...string)
+ draw a rectangle with its center at x,y, with width w, and height h
+
 
 ![Roundrect](http://farm2.static.flickr.com/1275/5188556120_e2a9998fee_m.jpg)
  

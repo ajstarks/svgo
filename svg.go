@@ -181,6 +181,11 @@ func (svg *SVG) Rect(x int, y int, w int, h int, s ...string) {
 	svg.printf(`<rect %s %s`, dim(x, y, w, h), endstyle(s))
 }
 
+// CenterRect draws a rectangle with its center at x,y, with width w, and height h, with optional style
+func (svg *SVG) CenterRect(x int, y int, w int, h int, s ...string) {
+	svg.Rect(x-(w/2), y-(h/2), w, h, s...)
+}
+
 // Roundrect draws a rounded rectangle with upper the left-hand corner at x,y,
 // with width w, and height h. The radii for the rounded portion
 // are specified by rx (width), and ry (height).
@@ -190,9 +195,9 @@ func (svg *SVG) Roundrect(x int, y int, w int, h int, rx int, ry int, s ...strin
 	svg.printf(`<rect %s rx="%d" ry="%d" %s`, dim(x, y, w, h), rx, ry, endstyle(s))
 }
 
-// Square draws a square with upper left corner at x,y with sides of length s, with optional style.
-func (svg *SVG) Square(x int, y int, s int, style ...string) {
-	svg.Rect(x, y, s, s, style...)
+// Square draws a square with upper left corner at x,y with sides of length l, with optional style.
+func (svg *SVG) Square(x int, y int, l int, s ...string) {
+	svg.Rect(x, y, l, l, s...)
 }
 
 // Paths
