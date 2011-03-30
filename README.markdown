@@ -145,7 +145,7 @@ is used to specify the offset, color, and opacity of stop colors in linear and r
   begin the SVG document with the width w and height h
   <http://www.w3.org/TR/SVG11/struct.html#SVGElement>
   
-	Startview(w, h, minx, miny, vh, vh)
+	Startview(w, h, minx, miny, vh, vh int)
   begin the SVG document with the width w, height h, with a viewBox at minx, miny, vw, vh
   <http://www.w3.org/TR/SVG11/struct.html#SVGElement>
 
@@ -172,17 +172,17 @@ is used to specify the offset, color, and opacity of stop colors in linear and r
   rotates the coordinate system by r degrees, end with Gend()
   <http://www.w3.org/TR/SVG11/coords.html#TransformAttribute>
 
-  translates the coordinate system to (x,y), then rotates to r degrees, end with Gend()
 	TranslateRotate(x, y int, r float64)
+   translates the coordinate system to (x,y), then rotates to r degrees, end with Gend()
 	
- rotates the coordinate system r degrees, then translates to (x,y), end with Gend()
 	RotateTranslate(x, y int, r float64)
+   rotates the coordinate system r degrees, then translates to (x,y), end with Gend()
 
 	Gid(s string)
-  begin a group, with the specified id
+   begin a group, with the specified id
 
 	Gend()
-  end the group (must be paired with Gstyle, Gtransform, Gid)
+   end the group (must be paired with Gstyle, Gtransform, Gid)
 
 	Def()
   begin a definition block
