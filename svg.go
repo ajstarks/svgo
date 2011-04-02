@@ -342,6 +342,7 @@ func (svg *SVG) Grid(x int, y int, w int, h int, n int, s ...string) {
 
 // Support functions
 
+// style returns a style name,attribute string
 func style(s string) string {
 	if len(s) > 0 {
 		return fmt.Sprintf(`style="%s"`, s)
@@ -349,6 +350,7 @@ func style(s string) string {
 	return s
 }
 
+// pp returns a series of polygon points
 func (svg *SVG) pp(x []int, y []int, tag string) {
 	if len(x) != len(y) {
 		return
@@ -378,17 +380,20 @@ func endstyle(s []string) string {
 
 }
 
+// tt creates a xml element, tag and attributes, containing s
 func (svg *SVG) tt(tag string, attr string, s string) {
 	svg.print("<" + tag + attr + ">")
 	xml.Escape(svg.w, []byte(s))
 	svg.println("</" + tag + ">")
 }
 
+// poly compiles the polygon element
 func (svg *SVG) poly(x []int, y []int, tag string, s ...string) {
 	svg.pp(x, y, "<"+tag+` points="`)
 	svg.print(`" ` + endstyle(s))
 }
 
+// onezero returns "0" or "1"
 func onezero(flag bool) string {
 	if flag {
 		return "1"
@@ -396,6 +401,7 @@ func onezero(flag bool) string {
 	return "0"
 }
 
+// pct returns a percetage, capped at 100
 func pct(n uint8) uint8 {
 	if n > 100 {
 		return 100
@@ -403,14 +409,31 @@ func pct(n uint8) uint8 {
 	return n
 }
 
-func scale(n float64) string    { return fmt.Sprintf(`scale(%g)`, n) }
-func rotate(r float64) string   { return fmt.Sprintf(`rotate(%g)`, r) }
+// group returns a group element
+func group(tag string, value string) string { return fmt.Sprintf(`<g %s="%s">`, tag, value) }
+
+// scale return the scale string for the transform
+func scale(n float64) string { return fmt.Sprintf(`scale(%g)`, n) }
+
+// rotate returns the rotate string for the transform
+func rotate(r float64) string { return fmt.Sprintf(`rotate(%g)`, r) }
+
+// translate returns the translate string for the transform
 func translate(x, y int) string { return fmt.Sprintf(`translate(%d,%d)`, x, y) }
+
+// coord returns a coordinate string
 func coord(x int, y int) string { return fmt.Sprintf(`%d,%d`, x, y) }
-func ptag(x int, y int) string  { return fmt.Sprintf(`<path d="M%s`, coord(x, y)) }
-func loc(x int, y int) string   { return fmt.Sprintf(`x="%d" y="%d"`, x, y) }
-func href(s string) string      { return fmt.Sprintf(`xlink:href="%s"`, s) }
+
+// ptag returns the beginning of the path element
+func ptag(x int, y int) string { return fmt.Sprintf(`<path d="M%s`, coord(x, y)) }
+
+// loc returns the x and y coordinate attributes
+func loc(x int, y int) string { return fmt.Sprintf(`x="%d" y="%d"`, x, y) }
+
+// href returns the href name and attribute
+func href(s string) string { return fmt.Sprintf(`xlink:href="%s"`, s) }
+
+// dim returns the dimension string (x, y coordinates and width, height)
 func dim(x int, y int, w int, h int) string {
 	return fmt.Sprintf(`x="%d" y="%d" width="%d" height="%d"`, x, y, w, h)
 }
-func group(tag string, value string) string { return fmt.Sprintf(`<g %s="%s">`, tag, value) }
