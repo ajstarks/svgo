@@ -5,6 +5,7 @@ package main
 import (
 	"github.com/ajstarks/svgo"
 	"os"
+	"math"
 )
 
 const (
@@ -121,7 +122,7 @@ func defarc(id string, w int, h int, legend string) {
 	canvas.Gid(id)
 	defcoordstr(0, 0, "sx, sy")
 	defcoordstr(w*2, 0, "ex, ey")
-	canvas.Arc(0, 0, w, h, 0, false, true, w*2, 0, objstyle)
+	canvas.Arc(0, 0, h, h, 0, false, true, w*2, 0, objstyle)
 	deflegend(w, h, 0, legend)
 	canvas.Gend()
 }
@@ -214,7 +215,7 @@ func defpath(id string, x, y int, legend string) {
 	canvas.Path(w3path, `fill="#AA0000"`)
 	canvas.Path(cpath)
 	defcoord(0, 0, -textsize)
-	deflegend(x/2, y, 10, legend)
+	deflegend(x/2, y, textsize, legend)
 	canvas.Gend()
 }
 
@@ -250,7 +251,7 @@ func deftrans(id string, w, h int, legend string) {
 }
 
 func defgrid(id string, w, h int, legend string) {
-	n := 50
+	n := h/4
 	canvas.Gid(id)
 	defcoord(0, 0, -textsize)
 	canvas.Text(-textsize, (h / 2), "h", legendstyle)
@@ -280,48 +281,56 @@ func defscale(id string, w, h int, n float64, legend string) {
 	canvas.Gend()
 }
 
-func defrotate(id string, w, h int, n float64, legend string) {
+func defrotate(id string, w, h int, deg float64, legend string) {
+    t := deg * (math.Pi/180.0)
+    r := float64(w/2)
+    rx := r * math.Cos(t)
+    ry := r * math.Sin(t)
 	canvas.Gid(id)
 	defcoordstr(0, 0, "0, 0")
 	deflegend(w/2, 0, h, legend)
 	canvas.Rect(0, 0, w, h, fobjstyle)
-	canvas.Rotate(n)
+	//canvas.Arc(w/2, 0, 5, 5, 0, false, true, int(rx), int(ry), "fill:none;stroke:gray")
+	canvas.Qbez(w/2, 0, (w/2)+10, int(ry)/2, int(rx), int(ry), "fill:none;stroke:gray")
+	canvas.Text(w/4, textsize, "n", legendstyle)
+	canvas.Rotate(deg)
 	canvas.Rect(0, 0, w, h, objstyle)
 	canvas.Gend()
 	canvas.Gend()
 }
 
-func defobjects() {
+func defobjects(w, h int) {
+	h2 := h / 2
 	canvas.Desc("Object Definitions")
 	canvas.Def()
 	canvas.LinearGradient("linear", 0, 0, 100, 0, ga)
 	canvas.RadialGradient("radial", 0, 0, 100, 50, 50, ga)
-	defsquare("square", 100, "Square(x, y, w,...style)")
-	defrect("rect", 200, 100, "Rect(x, y, w, h,...style)")
-	defcrect("crect", 200, 100, "CenterRect(x, y, w, h,...style)")
-	defroundrect("roundrect", 200, 100, 25, 25, "Roundrect(x, y, w, h, rx, ry, ...style)")
-	defpolygon("polygon", 200, 100, "Polygon(x, y, ...style)")
-	defcircle("circle", 100, 50, "Circle(x, y, r, ...style)")
-	defellipse("ellipse", 100, 50, "Ellipse(x, y, rx, ry, ...style)")
-	defline("line", 200, "Line(x1, y1, x2, y2, ...style)")
-	defpolyline("polyline", 200, 50, "Polyline(x, y, ...style)")
-	defarc("arc", 100, 50, "Arc(sx, sy, ax, ay, r, lflag, sflag, ex, ey, ...style)")
-	defpath("path", 100, 80, "Path(s, ...style)")
-	defqbez("qbez", 100, 50, "Qbez(sx, sy, cx, cy, ex, ey, ...style)")
-	defqbezier("qbezier", 100, 50, "Qbezier(sx, sy, cx, cy, ex, ey, tx, ty, ...style)")
-	defbez("bezier", 100, 50, "Bezier(sx, sy, cx, cy, px, py, ex, ey, ...style)")
+	defsquare("square", 100, "Square(x, y, w, ...style)")
+	defrect("rect", w, h, "Rect(x, y, w, h, ...style)")
+	defcrect("crect", w, h, "CenterRect(x, y, w, h, ...style)")
+	defroundrect("roundrect", w, h, 25, 25, "Roundrect(x, y, w, h, rx, ry, ...style)")
+	defpolygon("polygon", w, h, "Polygon(x, y, ...style)")
+	defcircle("circle", h, h2, "Circle(x, y, r, ...style)")
+	defellipse("ellipse", h, h2, "Ellipse(x, y, rx, ry, ...style)")
+	defline("line", w, "Line(x1, y1, x2, y2, ...style)")
+	defpolyline("polyline", w, h2, "Polyline(x, y, ...style)")
+	defarc("arc", h, h2, "Arc(sx, sy, ax, ay, r, lflag, sflag, ex, ey, ...style)")
+	defpath("path", h, h2, "Path(s, ...style)")
+	defqbez("qbez", h, h2, "Qbez(sx, sy, cx, cy, ex, ey, ...style)")
+	defqbezier("qbezier", h, h2, "Qbezier(sx, sy, cx, cy, ex, ey, tx, ty, ...style)")
+	defbez("bezier", h, h2, "Bezier(sx, sy, cx, cy, px, py, ex, ey, ...style)")
 	defimage("image", 128, 128, "images/gophercolor128x128.png", "Image(x, y, w, h, path, ...style)")
-	deflg("lgrad", 200, 100, "LinearGradient(id, x1, y1, x2, y2, oc)")
-	defrg("rgrad", 200, 100, "RadialGradient(id, cx, cy, r, fx, fy, oc)")
-	deftrans("trans", 200, 100, "Translate(x, y)")
-	defgrid("grid", 200, 100, "Grid(x, y, w, h, n, ...style)")
-	deftext("text", 200, 100, "hello, SVG", "Text(x, y, s, ...style)")
-	defscale("scale", 200, 100, 0.5, "Scale(n)")
-	defrotate("rotate", 200, 100, 30, "Rotate(n)")
+	deflg("lgrad", w, h, "LinearGradient(id, x1, y1, x2, y2, oc)")
+	defrg("rgrad", w, h, "RadialGradient(id, cx, cy, r, fx, fy, oc)")
+	deftrans("trans", w, h, "Translate(x, y)")
+	defgrid("grid", w, h, "Grid(x, y, w, h, n, ...style)")
+	deftext("text", w, h, "hello, SVG", "Text(x, y, s, ...style)")
+	defscale("scale", w, h, 0.5, "Scale(n)")
+	defrotate("rotate", w, h, 30, "Rotate(n)")
 	canvas.DefEnd()
 }
 
-func placerow(w, h int, s []string) {
+func placerow(w int, s []string) {
 	for x, name := range s {
 		canvas.Use(x*w, 0, "#"+name)
 	}
@@ -331,7 +340,7 @@ func placeobjects(x, y, w, h int, data [][]string) {
 	canvas.Desc("Object Usage")
 	for _, object := range data {
 		canvas.Translate(x, y)
-		placerow(w, h, object)
+		placerow(w, object)
 		canvas.Gend()
 		y += h
 	}
@@ -341,7 +350,7 @@ func placeobjects(x, y, w, h int, data [][]string) {
 var roworder = [][]string{
 	{"rect", "crect", "roundrect", "square", "line", "polyline"},
 	{"polygon", "circle", "ellipse", "arc", "qbez", "bezier"},
-	{"lgrad", "rgrad", "trans", "scale", "rotate", "grid"},
+	{"trans", "scale", "rotate", "grid", "lgrad", "rgrad"},
 	{"text", "image", "path"},
 }
 
@@ -349,7 +358,7 @@ func main() {
 	width := 2200
 	height := (width * 3) / 4
 	canvas.Start(width, height)
-	defobjects()
+	defobjects(250, 125)
 	canvas.Title("SVG Go Library Description")
 	canvas.Rect(0, 0, width, height, "fill:white;stroke:black;stroke-width:2")
 	canvas.Gstyle(gtextstyle)
