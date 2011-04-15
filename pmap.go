@@ -49,7 +49,7 @@ func dopmap(location string) {
 	var f *os.File
 	var err os.Error
 	if len(location) > 0 {
-		f, err = os.Open(location, os.O_RDONLY, 0)
+		f, err = os.Open(location)
 	} else {
 		f = os.Stdin
 	}

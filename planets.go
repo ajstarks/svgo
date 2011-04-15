@@ -106,7 +106,7 @@ func main() {
 		x = vmap(ssDist[i], ssDist[1], ssDist[nobj-1], float64(margin), float64(width-margin))
 		r = (vmap(ssRad[i], ssRad[1], ssRad[nobj-1], minsize, maxh)) / 2
 		if *showimages {
-			f, err := os.Open(ssImages[i], os.O_RDONLY, 0)
+			f, err := os.Open(ssImages[i])
 			defer f.Close()
 			if err != nil {
 				continue

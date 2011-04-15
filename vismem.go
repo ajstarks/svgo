@@ -22,7 +22,7 @@ func main() {
 		source = "/dev/urandom"
 	}
 
-	f, _ := os.Open(source, os.O_RDONLY, 0)
+	f, _ := os.Open(source)
 	mem := make([]byte, n)
 	f.Read(mem)
 	f.Close()

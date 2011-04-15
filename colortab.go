@@ -34,7 +34,7 @@ func main() {
 		err                    os.Error = nil
 	)
 	flag.Parse()
-	f, oerr := os.Open(*filename, os.O_RDONLY, 0444)
+	f, oerr := os.Open(*filename)
 	if oerr != nil {
 		fmt.Fprintf(os.Stderr, "%v\n", oerr)
 		return
