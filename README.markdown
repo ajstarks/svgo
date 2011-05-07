@@ -316,7 +316,8 @@ is used to specify the offset, color, and opacity of stop colors in linear and r
   <http://www.w3.org/TR/SVG11/text.html#TextElement>
   
 ![Image](http://farm4.static.flickr.com/3149/5694580737_4b291df768_m.jpg)
-  Textpath(t string, pathid string, s ...string)
+  
+	Textpath(t string, pathid string, s ...string)
   places text optionally styled text along a previously defined path
   <http://www.w3.org/TR/SVG11/text.html#TextPathElement>
 
