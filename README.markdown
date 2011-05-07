@@ -145,7 +145,7 @@ is used to specify the offset, color, and opacity of stop colors in linear and r
   begin the SVG document with the width w and height h
   <http://www.w3.org/TR/SVG11/struct.html#SVGElement>
   
-	Startview(w, h, minx, miny, vh, vh int)
+	Startview(w, h, minx, miny, vw, vh int)
   begin the SVG document with the width w, height h, with a viewBox at minx, miny, vw, vh
   <http://www.w3.org/TR/SVG11/struct.html#SVGElement>
 
@@ -199,8 +199,8 @@ is used to specify the offset, color, and opacity of stop colors in linear and r
   specify the text of the title
   <http://www.w3.org/TR/SVG11/struct.html#TitleElement>
 
-	Link(name string, title string)
-  begin a link named "name", with the specified title
+	Link(href string, title string)
+  begin a link named "href", with the specified title
   <http://www.w3.org/TR/SVG11/linking.html#Links>
 
 	LinkEnd()
@@ -314,6 +314,11 @@ is used to specify the offset, color, and opacity of stop colors in linear and r
 	Text(x int, y int, t string, s ...string)
   Place the specified text, t at x,y according to the style specified in s
   <http://www.w3.org/TR/SVG11/text.html#TextElement>
+  
+![Image](http://farm4.static.flickr.com/3149/5694580737_4b291df768_m.jpg)
+  Textpath(t string, pathid string, s ...string)
+  places text optionally styled text along a previously defined path
+  <http://www.w3.org/TR/SVG11/text.html#TextPathElement>
 
 ### Color ###
 
@@ -322,7 +327,7 @@ is used to specify the offset, color, and opacity of stop colors in linear and r
   by the (r)ed, g(reen), (b)lue components
   <http://www.w3.org/TR/css3-color/>
   
-	RGBA(r int, g int, b int, a float) string
+	RGBA(r int, g int, b int, a float64) string
   as above, but includes the color's opacity as a value
   between 0.0 (fully transparent) and 1.0 (opaque)
   
