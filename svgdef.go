@@ -3,7 +3,7 @@
 package main
 
 import (
-	"./svg"  // "github.com/ajstarks/svgo"
+	"github.com/ajstarks/svgo"
 	"os"
 	"math"
 )
