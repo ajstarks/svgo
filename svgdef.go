@@ -124,11 +124,11 @@ func defarc(id string, w int, h int, legend string) {
 	defcoordstr(0, 0, "sx, sy")
 	defcoordstr(w*2, 0, "ex, ey")
 	canvas.Arc(0, 0, h, h, 0, false, true, w*2, 0, objstyle)
-	deflegend(w, h, 0, legend)
+	deflegend(w, h, h, legend)
 	canvas.Gend()
 }
 
-func defbez(id string, x int, y int, legend string) {
+func defbez(id string, x int, y int, h int, legend string) {
 	sx, sy := 0, 0
 	cx, cy := x, -y
 	px, py := x, y
@@ -139,26 +139,11 @@ func defbez(id string, x int, y int, legend string) {
 	defcoordstr(px, py, "px, py")
 	defcoordstr(ex, ey, "ex, ey")
 	canvas.Bezier(sx, sy, cx, cy, px, py, ex, ey, objstyle)
-	deflegend(px, py, 0, legend)
+	deflegend(px, h, 0, legend)
 	canvas.Gend()
 }
 
-func defqbezier(id string, x int, y int, legend string) {
-	sx, sy := 0, 0
-	cx, cy := x, -y
-	px, py := x, y
-	tx, ty := x*2, 0
-	canvas.Gid(id)
-	defcoordstr(sx, sy, "sx, sy")
-	defcoordstr(cx, cy, "cx, cy")
-	defcoordstr(px, py, "px, py")
-	defcoordstr(tx, ty, "tx, ty")
-	canvas.Qbezier(sx, sy, cx, cy, px, py, tx, ty, objstyle)
-	deflegend(x, y, 40, legend)
-	canvas.Gend()
-}
-
-func defqbez(id string, px int, py int, legend string) {
+func defqbez(id string, px int, py int, h int, legend string) {
 	sx, sy := 0, 0
 	ex, ey := px*2, 0
 	cx, cy := (ex-px)/3, -py-(py/2)
@@ -167,7 +152,7 @@ func defqbez(id string, px int, py int, legend string) {
 	defcoordstr(cx, cy, "cx, cy")
 	defcoordstr(ex, ey, "ex, ey")
 	canvas.Qbez(sx, sy, cx, cy, ex, ey, objstyle)
-	deflegend(px, py, 0, legend)
+	deflegend(px, h, 0, legend)
 	canvas.Gend()
 }
 
@@ -214,7 +199,7 @@ func defpath(id string, x, y int, legend string) {
 	var cpath = `M94,53c15,32,30,14,35,7l-1-7c-16,26-32,3-34,0M122,16c-10-21-34,0-21,30c-5-30 16,-38 23,-21l5-10l-2-9`
 	canvas.Gid(id)
 	canvas.Path(w3path, `fill="#AA0000"`)
-	canvas.Path(cpath, canvas.RGBA(0,0,0,0.5))
+	canvas.Path(cpath, canvas.RGBA(0, 0, 0, 0.5))
 	defcoord(0, 0, -textsize)
 	deflegend(x/2, y+50, textsize, legend)
 	canvas.Gend()
@@ -252,7 +237,7 @@ func deftrans(id string, w, h int, legend string) {
 }
 
 func defgrid(id string, w, h int, legend string) {
-	n := h/4
+	n := h / 4
 	canvas.Gid(id)
 	defcoord(0, 0, -textsize)
 	canvas.Text(-textsize, (h / 2), "h", legendstyle)
@@ -272,10 +257,10 @@ func deftext(id string, w, h int, text string, legend string) {
 }
 
 func deftextpath(id string, pathid string, s string, w, h int, legend string) {
-    canvas.Gid(id)
-    canvas.Textpath(s, pathid, `fill="rgb(127,0,0)"`, `text-anchor="start"`, `font-size="16pt"`)
-    deflegend(w/2, 0, h, legend)
-    canvas.Gend()
+	canvas.Gid(id)
+	canvas.Textpath(s, pathid, `fill="rgb(127,0,0)"`, `text-anchor="start"`, `font-size="16pt"`)
+	deflegend(w/2, 0, h, legend)
+	canvas.Gend()
 }
 
 func defscale(id string, w, h int, n float64, legend string) {
@@ -290,10 +275,10 @@ func defscale(id string, w, h int, n float64, legend string) {
 }
 
 func defrotate(id string, w, h int, deg float64, legend string) {
-    t := deg * (math.Pi/180.0)
-    r := float64(w/2)
-    rx := r * math.Cos(t)
-    ry := r * math.Sin(t)
+	t := deg * (math.Pi / 180.0)
+	r := float64(w / 2)
+	rx := r * math.Cos(t)
+	ry := r * math.Sin(t)
 	canvas.Gid(id)
 	defcoordstr(0, 0, "0, 0")
 	deflegend(w/2, 0, h, legend)
@@ -307,36 +292,36 @@ func defrotate(id string, w, h int, deg float64, legend string) {
 }
 
 func defmeta(id string, w int, s []string) {
-    leading := 30
-    y := textsize
-    canvas.Gid(id)
-    canvas.Gstyle("text-anchor:start")
-    for i:=0; i < len(s); i+=2 {
-        canvas.Text(0, y, s[i])
-        canvas.Text(w, y, s[i+1], canvas.RGB(127,0,0))
-        y += leading
-    }
-    canvas.Gend()
-    canvas.Gend()
-    
+	leading := 30
+	y := textsize
+	canvas.Gid(id)
+	canvas.Gstyle("text-anchor:start")
+	for i := 0; i < len(s); i += 2 {
+		canvas.Text(0, y, s[i])
+		canvas.Text(w, y, s[i+1], canvas.RGB(127, 127, 127))
+		y += leading
+	}
+	canvas.Gend()
+	canvas.Gend()
+
 }
 
 func defobjects(w, h int) {
 	h2 := h / 2
 	var metatext = []string{
-	    "New(w io Writer)", "specify destination",
-	    "Start(w, h int)/End()", "begin/end the document",
-	    "Startview(w, h, minx, miny, vw, vh int)", "begin/end the document with viewport",
-	    "Gstyle(s string)/Gend()", "begin/end group style",
-	    "Gtransform(s string)/Gend()", "begin/end group transform",
-	    "Gid(id string)/Gend()", "begin/end group id",
-	    "Def()/DefEnd()","begin/end a defintion block",
-	    "Desc(s string)", "set the description element",
-	    "Title(s string)", "set the title element",
-	    "Link(href string, title string)/LinkEnd()", "begin/end link to href, with a title",
-	    "Use(x int, y int, link string, style ...string)", "use defined objects",
-	    "RGB(r, g, b int)","fill color using (r,g,b) triples",
-	    "RGBA(r, g, b int, opacity float64)", "fill color using (r,g,b) with opacity (0.0-1.0)",
+		"New(w io Writer)", "specify destination",
+		"Start(w, h int)/End()", "begin/end the document",
+		"Startview(w, h, minx, miny, vw, vh int)", "begin/end the document with viewport",
+		"Gstyle(s string)/Gend()", "begin/end group style",
+		"Gtransform(s string)/Gend()", "begin/end group transform",
+		"Gid(id string)/Gend()", "begin/end group id",
+		"Def()/DefEnd()", "begin/end a defintion block",
+		"Desc(s string)", "set the description element",
+		"Title(s string)", "set the title element",
+		"Link(href string, title string)/LinkEnd()", "begin/end link to href, with a title",
+		"Use(x int, y int, link string, style ...string)", "use defined objects",
+		"RGB(r, g, b int)", "fill color using (r,g,b) triples",
+		"RGBA(r, g, b int, opacity float64)", "fill color using (r,g,b) with opacity (0.0-1.0)",
 	}
 	canvas.Desc("Object Definitions")
 	canvas.Def()
@@ -354,9 +339,8 @@ func defobjects(w, h int) {
 	defpolyline("polyline", w, h2, "Polyline(x, y []int, style ...string)")
 	defarc("arc", h, h2, "Arc(sx, sy, ax, ay, r, lflag, sflag, ex, ey int, style ...string)")
 	defpath("path", h, h2, "Path(s string, style ...string)")
-	defqbez("qbez", h, h2, "Qbez(sx, sy, cx, cy, ex, ey int, style ...string)")
-	defqbezier("qbezier", h, h2, "Qbezier(sx, sy, cx, cy, ex, ey, tx, ty int, style ...string)")
-	defbez("bezier", h, h2, "Bezier(sx, sy, cx, cy, px, py, ex, ey int, style ...string)")
+	defqbez("qbez", h, h2, h, "Qbez(sx, sy, cx, cy, ex, ey int, style ...string)")
+	defbez("bezier", h, h2, h, "Bezier(sx, sy, cx, cy, px, py, ex, ey int, style ...string)")
 	defimage("image", 128, 128, "images/gophercolor128x128.png", "Image(x, y, w, h, int path string, style ...string)")
 	deflg("lgrad", w, h, "LinearGradient(s string, x1, y1, x2, y2 uint8, oc []Offcolor)")
 	defrg("rgrad", w, h, "RadialGradient(s string, cx, cy, r, fx, fy uint8, oc []Offcolor)")
@@ -365,11 +349,10 @@ func defobjects(w, h int) {
 	deftext("text", w, h, "hello, this is SVG", "Text(x, y int, s string, style ...string)")
 	defscale("scale", w, h, 0.5, "Scale(n float64)")
 	defrotate("rotate", w, h, 30, "Rotate(n float64)")
-	deftextpath("textpath", "#tpath", tpathstring, w, h, "Textpath(s, pathid string, style ...string)" )
+	deftextpath("textpath", "#tpath", tpathstring, w, h, "Textpath(s, pathid string, style ...string)")
 	defmeta("meta", w*2, metatext)
 	canvas.DefEnd()
 }
-
 
 
 func placerow(w int, s []string) {
