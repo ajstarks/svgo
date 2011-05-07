@@ -18,7 +18,7 @@ const (
 	linestyle   = "stroke:black; stroke-width:1"
 	gtextstyle  = "font-family:Calibri; text-anchor:middle; font-size:24px"
 	coordstring = "x, y"
-	tpathstring = `It's fine & "dandy" to draw text along a path`
+	tpathstring = `It's "fine" & "dandy" to draw text along a path`
 )
 
 var (
@@ -110,12 +110,12 @@ func defimage(id string, w int, h int, s string, legend string) {
 	canvas.Gend()
 }
 
-func defline(id string, size int, legend string) {
+func defline(id string, w int, h int, legend string) {
 	canvas.Gid(id)
 	defcoordstr(0, 0, "x1, y1")
-	defcoordstr(size, 0, "x2, y2")
-	canvas.Line(0, 0, size, 0, objstyle)
-	deflegend(size/2, textsize, -5, legend)
+	defcoordstr(w, 0, "x2, y2")
+	canvas.Line(0, 0, w, 0, objstyle)
+	deflegend(w/2, h, 0, legend)
 	canvas.Gend()
 }
 
@@ -190,7 +190,7 @@ func defpolyline(id string, w int, h int, legend string) {
 		defcoord(x[i], y[i], -textsize)
 	}
 	canvas.Polyline(x, y, objstyle)
-	deflegend(x[1], y[1], 30, legend)
+	deflegend(w/2, h, 0, legend)
 	canvas.Gend()
 }
 
@@ -335,8 +335,8 @@ func defobjects(w, h int) {
 	defpolygon("polygon", w, h, "Polygon(x, y []int, style ...string)")
 	defcircle("circle", h, h2, "Circle(x, y, r int, style ...string)")
 	defellipse("ellipse", h, h2, "Ellipse(x, y, rx, ry int, style ...string)")
-	defline("line", w, "Line(x1, y1, x2, y2 int, style ...string)")
-	defpolyline("polyline", w, h2, "Polyline(x, y []int, style ...string)")
+	defline("line", w, h, "Line(x1, y1, x2, y2 int, style ...string)")
+	defpolyline("polyline", w, h, "Polyline(x, y []int, style ...string)")
 	defarc("arc", h, h2, "Arc(sx, sy, ax, ay, r, lflag, sflag, ex, ey int, style ...string)")
 	defpath("path", h, h2, "Path(s string, style ...string)")
 	defqbez("qbez", h, h2, h, "Qbez(sx, sy, cx, cy, ex, ey int, style ...string)")

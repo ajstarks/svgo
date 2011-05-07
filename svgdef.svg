@@ -95,19 +95,19 @@
 <circle cx="250" cy="0" r="4" style="fill:rgb(220,220,220)"/>
 <text x="250" y="-24" style="fill:gray; text-anchor:middle">x2, y2</text>
 <line x1="0" y1="0" x2="250" y2="0" style="fill:none; stroke-width:2; stroke:rgb(127,0,0)"/>
-<text x="125" y="43" style="fill:black; text-anchor:middle;font-size:24px">Line(x1, y1, x2, y2 int, style ...string)</text>
+<text x="125" y="149" style="fill:black; text-anchor:middle;font-size:24px">Line(x1, y1, x2, y2 int, style ...string)</text>
 </g>
 <g id="polyline">
 <circle cx="0" cy="0" r="4" style="fill:rgb(220,220,220)"/>
 <text x="0" y="-24" style="fill:gray; text-anchor:middle">x, y</text>
-<circle cx="83" cy="-31" r="4" style="fill:rgb(220,220,220)"/>
-<text x="83" y="-55" style="fill:gray; text-anchor:middle">x, y</text>
-<circle cx="187" cy="-20" r="4" style="fill:rgb(220,220,220)"/>
-<text x="187" y="-44" style="fill:gray; text-anchor:middle">x, y</text>
-<circle cx="250" cy="-62" r="4" style="fill:rgb(220,220,220)"/>
-<text x="250" y="-86" style="fill:gray; text-anchor:middle">x, y</text>
-<polyline points="0,0 83,-31 187,-20 250,-62 " style="fill:none; stroke-width:2; stroke:rgb(127,0,0)"/>
-<text x="83" y="23" style="fill:black; text-anchor:middle;font-size:24px">Polyline(x, y []int, style ...string)</text>
+<circle cx="83" cy="-62" r="4" style="fill:rgb(220,220,220)"/>
+<text x="83" y="-86" style="fill:gray; text-anchor:middle">x, y</text>
+<circle cx="187" cy="-41" r="4" style="fill:rgb(220,220,220)"/>
+<text x="187" y="-65" style="fill:gray; text-anchor:middle">x, y</text>
+<circle cx="250" cy="-125" r="4" style="fill:rgb(220,220,220)"/>
+<text x="250" y="-149" style="fill:gray; text-anchor:middle">x, y</text>
+<polyline points="0,0 83,-62 187,-41 250,-125 " style="fill:none; stroke-width:2; stroke:rgb(127,0,0)"/>
+<text x="125" y="149" style="fill:black; text-anchor:middle;font-size:24px">Polyline(x, y []int, style ...string)</text>
 </g>
 <g id="arc">
 <circle cx="0" cy="0" r="4" style="fill:rgb(220,220,220)"/>
@@ -115,7 +115,7 @@
 <circle cx="250" cy="0" r="4" style="fill:rgb(220,220,220)"/>
 <text x="250" y="-24" style="fill:gray; text-anchor:middle">ex, ey</text>
 <path d="M0,0 A62,62 0 0 1 250,0" style="fill:none; stroke-width:2; stroke:rgb(127,0,0)"/>
-<text x="125" y="86" style="fill:black; text-anchor:middle;font-size:24px">Arc(sx, sy, ax, ay, r, lflag, sflag, ex, ey int, style ...string)</text>
+<text x="125" y="148" style="fill:black; text-anchor:middle;font-size:24px">Arc(sx, sy, ax, ay, r, lflag, sflag, ex, ey int, style ...string)</text>
 </g>
 <g id="path">
 <path d="M36,5l12,41l12-41h33v4l-13,21c30,10,2,69-21,28l7-2c15,27,33,-22,3,-19v-4l12-20h-15l-17,59h-1l-13-42l-12,42h-1l-20-67h9l12,41l8-28l-4-13h9" fill="#AA0000" />
@@ -132,19 +132,7 @@
 <circle cx="250" cy="0" r="4" style="fill:rgb(220,220,220)"/>
 <text x="250" y="-24" style="fill:gray; text-anchor:middle">ex, ey</text>
 <path d="M0,0 Q41,-93 250,0" style="fill:none; stroke-width:2; stroke:rgb(127,0,0)"/>
-<text x="125" y="86" style="fill:black; text-anchor:middle;font-size:24px">Qbez(sx, sy, cx, cy, ex, ey int, style ...string)</text>
-</g>
-<g id="qbezier">
-<circle cx="0" cy="0" r="4" style="fill:rgb(220,220,220)"/>
-<text x="0" y="-24" style="fill:gray; text-anchor:middle">sx, sy</text>
-<circle cx="125" cy="-62" r="4" style="fill:rgb(220,220,220)"/>
-<text x="125" y="-86" style="fill:gray; text-anchor:middle">cx, cy</text>
-<circle cx="125" cy="62" r="4" style="fill:rgb(220,220,220)"/>
-<text x="125" y="38" style="fill:gray; text-anchor:middle">px, py</text>
-<circle cx="250" cy="0" r="4" style="fill:rgb(220,220,220)"/>
-<text x="250" y="-24" style="fill:gray; text-anchor:middle">tx, ty</text>
-<path d="M0,0 Q125,-62 125,62 T250,0" style="fill:none; stroke-width:2; stroke:rgb(127,0,0)"/>
-<text x="125" y="126" style="fill:black; text-anchor:middle;font-size:24px">Qbezier(sx, sy, cx, cy, ex, ey, tx, ty int, style ...string)</text>
+<text x="125" y="149" style="fill:black; text-anchor:middle;font-size:24px">Qbez(sx, sy, cx, cy, ex, ey int, style ...string)</text>
 </g>
 <g id="bezier">
 <circle cx="0" cy="0" r="4" style="fill:rgb(220,220,220)"/>
@@ -156,7 +144,7 @@
 <circle cx="250" cy="0" r="4" style="fill:rgb(220,220,220)"/>
 <text x="250" y="-24" style="fill:gray; text-anchor:middle">ex, ey</text>
 <path d="M0,0 C125,-62 125,62 250,0" style="fill:none; stroke-width:2; stroke:rgb(127,0,0)"/>
-<text x="125" y="86" style="fill:black; text-anchor:middle;font-size:24px">Bezier(sx, sy, cx, cy, px, py, ex, ey int, style ...string)</text>
+<text x="125" y="149" style="fill:black; text-anchor:middle;font-size:24px">Bezier(sx, sy, cx, cy, px, py, ex, ey int, style ...string)</text>
 </g>
 <g id="image">
 <circle cx="0" cy="0" r="4" style="fill:rgb(220,220,220)"/>
@@ -245,37 +233,37 @@
 </g>
 </g>
 <g id="textpath">
-<text fill="rgb(127,0,0)" text-anchor="start" font-size="16pt" ><textPath xlink:href="#tpath">It&#39;s fine &amp; &#34;dandy&#34; to draw text along a path</textPath></text>
+<text fill="rgb(127,0,0)" text-anchor="start" font-size="16pt" ><textPath xlink:href="#tpath">It&#39;s &#34;fine&#34; &amp; &#34;dandy&#34; to draw text along a path</textPath></text>
 <text x="125" y="149" style="fill:black; text-anchor:middle;font-size:24px">Textpath(s, pathid string, style ...string)</text>
 </g>
 <g id="meta">
 <g style="text-anchor:start">
 <text x="0" y="24" >New(w io Writer)</text>
-<text x="500" y="24" style="fill:rgb(127,0,0)">specify destination</text>
+<text x="500" y="24" style="fill:rgb(127,127,127)">specify destination</text>
 <text x="0" y="54" >Start(w, h int)/End()</text>
-<text x="500" y="54" style="fill:rgb(127,0,0)">begin/end the document</text>
+<text x="500" y="54" style="fill:rgb(127,127,127)">begin/end the document</text>
 <text x="0" y="84" >Startview(w, h, minx, miny, vw, vh int)</text>
-<text x="500" y="84" style="fill:rgb(127,0,0)">begin/end the document with viewport</text>
+<text x="500" y="84" style="fill:rgb(127,127,127)">begin/end the document with viewport</text>
 <text x="0" y="114" >Gstyle(s string)/Gend()</text>
-<text x="500" y="114" style="fill:rgb(127,0,0)">begin/end group style</text>
+<text x="500" y="114" style="fill:rgb(127,127,127)">begin/end group style</text>
 <text x="0" y="144" >Gtransform(s string)/Gend()</text>
-<text x="500" y="144" style="fill:rgb(127,0,0)">begin/end group transform</text>
+<text x="500" y="144" style="fill:rgb(127,127,127)">begin/end group transform</text>
 <text x="0" y="174" >Gid(id string)/Gend()</text>
-<text x="500" y="174" style="fill:rgb(127,0,0)">begin/end group id</text>
+<text x="500" y="174" style="fill:rgb(127,127,127)">begin/end group id</text>
 <text x="0" y="204" >Def()/DefEnd()</text>
-<text x="500" y="204" style="fill:rgb(127,0,0)">begin/end a defintion block</text>
+<text x="500" y="204" style="fill:rgb(127,127,127)">begin/end a defintion block</text>
 <text x="0" y="234" >Desc(s string)</text>
-<text x="500" y="234" style="fill:rgb(127,0,0)">set the description element</text>
+<text x="500" y="234" style="fill:rgb(127,127,127)">set the description element</text>
 <text x="0" y="264" >Title(s string)</text>
-<text x="500" y="264" style="fill:rgb(127,0,0)">set the title element</text>
+<text x="500" y="264" style="fill:rgb(127,127,127)">set the title element</text>
 <text x="0" y="294" >Link(href string, title string)/LinkEnd()</text>
-<text x="500" y="294" style="fill:rgb(127,0,0)">begin/end link to href, with a title</text>
+<text x="500" y="294" style="fill:rgb(127,127,127)">begin/end link to href, with a title</text>
 <text x="0" y="324" >Use(x int, y int, link string, style ...string)</text>
-<text x="500" y="324" style="fill:rgb(127,0,0)">use defined objects</text>
+<text x="500" y="324" style="fill:rgb(127,127,127)">use defined objects</text>
 <text x="0" y="354" >RGB(r, g, b int)</text>
-<text x="500" y="354" style="fill:rgb(127,0,0)">fill color using (r,g,b) triples</text>
+<text x="500" y="354" style="fill:rgb(127,127,127)">fill color using (r,g,b) triples</text>
 <text x="0" y="384" >RGBA(r, g, b int, opacity float64)</text>
-<text x="500" y="384" style="fill:rgb(127,0,0)">fill color using (r,g,b) with opacity (0.0-1.0)</text>
+<text x="500" y="384" style="fill:rgb(127,127,127)">fill color using (r,g,b) with opacity (0.0-1.0)</text>
 </g>
 </g>
 </defs>
