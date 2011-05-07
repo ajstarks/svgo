@@ -283,11 +283,11 @@
 <rect x="0" y="0" width="3200" height="2400" style="fill:white;stroke:black;stroke-width:2"/>
 <g style="font-family:Calibri; text-anchor:middle; font-size:24px">
 <a xlink:href="http://github.com/ajstarks/svgo" xlink:title="SVGo Library">
-<text x="1600" y="75" style="font-size:50px">SVG Go Library</text>
-<text x="1600" y="110" style="font-size:25px;fill:gray">github.com/ajstarks/svgo</text>
+<text x="1600" y="150" style="font-size:125px">SVG Go Library</text>
+<text x="1600" y="200" style="font-size:50px;fill:gray">github.com/ajstarks/svgo</text>
 </a>
 <desc>Object Usage</desc>
-<g transform="translate(120,200)">
+<g transform="translate(120,400)">
 <use x="0" y="0" xlink:href="#rect" />
 <use x="500" y="0" xlink:href="#crect" />
 <use x="1000" y="0" xlink:href="#roundrect" />
@@ -295,7 +295,7 @@
 <use x="2000" y="0" xlink:href="#line" />
 <use x="2500" y="0" xlink:href="#polyline" />
 </g>
-<g transform="translate(120,700)">
+<g transform="translate(120,900)">
 <use x="0" y="0" xlink:href="#polygon" />
 <use x="500" y="0" xlink:href="#circle" />
 <use x="1000" y="0" xlink:href="#ellipse" />
@@ -303,7 +303,7 @@
 <use x="2000" y="0" xlink:href="#qbez" />
 <use x="2500" y="0" xlink:href="#bezier" />
 </g>
-<g transform="translate(120,1200)">
+<g transform="translate(120,1400)">
 <use x="0" y="0" xlink:href="#trans" />
 <use x="500" y="0" xlink:href="#scale" />
 <use x="1000" y="0" xlink:href="#rotate" />
@@ -311,7 +311,7 @@
 <use x="2000" y="0" xlink:href="#grid" />
 <use x="2500" y="0" xlink:href="#rgrad" />
 </g>
-<g transform="translate(120,1700)">
+<g transform="translate(120,1900)">
 <use x="0" y="0" xlink:href="#text" />
 <use x="500" y="0" xlink:href="#textpath" />
 <use x="1000" y="0" xlink:href="#image" />

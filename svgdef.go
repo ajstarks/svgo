@@ -404,10 +404,10 @@ func main() {
 	canvas.Rect(0, 0, width, height, "fill:white;stroke:black;stroke-width:2")
 	canvas.Gstyle(gtextstyle)
 	canvas.Link("http://github.com/ajstarks/svgo", "SVGo Library")
-	canvas.Text(width/2, 75, "SVG Go Library", "font-size:50px")
-	canvas.Text(width/2, 110, "github.com/ajstarks/svgo", "font-size:25px;fill:gray")
+	canvas.Text(width/2, 150, "SVG Go Library", "font-size:125px")
+	canvas.Text(width/2, 200, "github.com/ajstarks/svgo", "font-size:50px;fill:gray")
 	canvas.LinkEnd()
-	placeobjects(120, 200, 500, 500, roworder)
+	placeobjects(120, 400, 500, 500, roworder)
 	canvas.Gend()
 	canvas.End()
 
