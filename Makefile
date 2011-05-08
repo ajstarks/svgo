@@ -82,6 +82,15 @@ pmap:	pmap.go svg.$(O)
 paths:	paths.go svg.$(O)
 	$(GC) -I. paths.go
 	$(LD) -L. -o paths paths.$(O)
-	
+
+defs:	svgdef
+	./svgdef > svgdef.svg
+	svg2pdf svgdef.svg
+	svg2png svgdef.svg
+
+pdf:	$(TCLIENTS)
+	for c in $(TCLIENTS); do ./$$c > $$c.svg; svg2pdf $$c.svg; done
+
 test:	$(TCLIENTS)
+	gofmt -w svg.go
 	for c in $(TCLIENTS); do ./$$c > $$c.svg; $(OPENER) $$c.svg; done
