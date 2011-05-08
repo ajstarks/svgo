@@ -21,7 +21,7 @@ const (
 )
 
 func imagefiles(directory string) []string {
-	f, ferr := os.Open(directory, os.O_RDONLY, 0)
+	f, ferr := os.Open(directory)
 	defer f.Close()
 	if ferr != nil {
 		return nil

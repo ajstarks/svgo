@@ -21,7 +21,7 @@ func main() {
 		n, _ = strconv.Atoi(os.Args[1])
 	}
 
-	f, _ := os.Open("/dev/urandom", os.O_RDONLY, 0)
+	f, _ := os.Open("/dev/urandom")
 	x := make([]byte, n)
 	y := make([]byte, n)
 	f.Read(x)
