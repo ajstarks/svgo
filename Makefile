@@ -94,3 +94,7 @@ pdf:	$(TCLIENTS)
 test:	$(TCLIENTS)
 	gofmt -w svg.go
 	for c in $(TCLIENTS); do ./$$c > $$c.svg; $(OPENER) $$c.svg; done
+
+clean:
+	rm -f svg.$(O) 
+	for c in $(CLIENTS); do rm -f $$c.$(O) $$c; done
