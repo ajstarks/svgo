@@ -88,6 +88,7 @@ func imageGrid(f FlickrResp, x, y, cols, gutter int, imgsize string) {
 func fs(s string) {
 	var f FlickrResp
 	r, _, weberr := http.Get(flickrAPI("flickr.photos.search", "text", s))
+	defer r.Body.Close()
 	if weberr != nil || r.StatusCode != 200 {
 		fmt.Fprintf(os.Stderr, "%v (status=%d)\n", weberr, r.StatusCode)
 		return
