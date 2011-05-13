@@ -114,6 +114,7 @@ A video describing how to use the package can be seen on YouTube at <http://www.
 * rl.go:			Random lines (port of a Processing demo)
 * svgopher.go:	SVGo Mascot
 * vismem.go:	Visualize data from files
+* webfonts.go:	"Hello, World" with Google Web Fonts
 * websvg.go:	Generate SVG as a web server
 * images/*		Images used by the client programs
 

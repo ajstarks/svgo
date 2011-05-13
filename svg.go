@@ -32,7 +32,7 @@ import (
 )
 
 type SVG struct {
-	w io.Writer
+	Writer io.Writer
 }
 
 type Offcolor struct {
@@ -58,15 +58,15 @@ const (
 func New(w io.Writer) *SVG { return &SVG{w} }
 
 func (svg *SVG) print(a ...interface{}) (n int, errno os.Error) {
-	return fmt.Fprint(svg.w, a...)
+	return fmt.Fprint(svg.Writer, a...)
 }
 
 func (svg *SVG) println(a ...interface{}) (n int, error os.Error) {
-	return fmt.Fprintln(svg.w, a...)
+	return fmt.Fprintln(svg.Writer, a...)
 }
 
 func (svg *SVG) printf(format string, a ...interface{}) (n int, errno os.Error) {
-	return fmt.Fprintf(svg.w, format, a...)
+	return fmt.Fprintf(svg.Writer, format, a...)
 }
 
 // Structure, Metadata, Transformation, and Links
@@ -116,7 +116,7 @@ func (svg *SVG) RotateTranslate(x, y int, r float64) {
 // Gid begins a group, with the specified id
 func (svg *SVG) Gid(s string) {
 	svg.print(`<g id="`)
-	xml.Escape(svg.w, []byte(s))
+	xml.Escape(svg.Writer, []byte(s))
 	svg.println(`">`)
 }
 
@@ -142,7 +142,7 @@ func (svg *SVG) Title(s string) { svg.tt("title", s) }
 // Standard Reference: http://www.w3.org/TR/SVG11/linking.html#Links
 func (svg *SVG) Link(href string, title string) {
 	svg.printf("<a xlink:href=\"%s\" xlink:title=\"", href)
-	xml.Escape(svg.w, []byte(title))
+	xml.Escape(svg.Writer, []byte(title))
 	svg.println("\">")
 }
 
@@ -269,7 +269,7 @@ func (svg *SVG) Image(x int, y int, w int, h int, link string, s ...string) {
 // Standard Reference: http://www.w3.org/TR/SVG11/text.html#TextElement
 func (svg *SVG) Text(x int, y int, t string, s ...string) {
 	svg.printf("<text %s %s", loc(x, y), endstyle(s, ">"))
-	xml.Escape(svg.w, []byte(t))
+	xml.Escape(svg.Writer, []byte(t))
 	svg.println(`</text>`)
 }
 
@@ -277,7 +277,7 @@ func (svg *SVG) Text(x int, y int, t string, s ...string) {
 // Standard Reference: http://www.w3.org/TR/SVG11/text.html#TextPathElement
 func (svg *SVG) Textpath(t string, pathid string, s ...string) {
 	svg.printf("<text %s<textPath xlink:href=\"%s\">", endstyle(s, ">"), pathid)
-	xml.Escape(svg.w, []byte(t))
+	xml.Escape(svg.Writer, []byte(t))
 	svg.println(`</textPath></text>`)
 }
 
@@ -388,7 +388,7 @@ func endstyle(s []string, endtag string) string {
 // tt creates a xml element, tag containing s
 func (svg *SVG) tt(tag string, s string) {
 	svg.print("<" + tag + ">")
-	xml.Escape(svg.w, []byte(s))
+	xml.Escape(svg.Writer, []byte(s))
 	svg.println("</" + tag + ">")
 }
 
