@@ -10,7 +10,7 @@ import (
 )
 
 var (
-	g        = svg.New(os.Stdout)
+	canvas   = svg.New(os.Stdout)
 	width    = 500
 	height   = 1100
 	fontlist = "Sue Ellen Francisco|Over the Rainbow|Pacifico|Inconsolata|Miltonian|Megrim|Monofett|Permanent Marker|Homemade Apple|Ultra"
@@ -36,20 +36,20 @@ func googlefont(fontname string) string {
 }
 
 func defineFont(s string) {
-	g.Def()
-	fmt.Fprintf(g.Writer, fontfmt, googlefont(s))
-	g.DefEnd()
+	canvas.Def()
+	fmt.Fprintf(canvas.Writer, fontfmt, googlefont(s))
+	canvas.DefEnd()
 }
 
 func main() {
-	g.Start(width, height)
+	canvas.Start(width, height)
 	defineFont(fontlist)
-	g.Rect(0, 0, width, height)
-	g.Ellipse(width/2, height+50, width/2, height/5, "fill:rgb(44,77,232)")
-	g.Gstyle(gfmt)
+	canvas.Rect(0, 0, width, height)
+	canvas.Ellipse(width/2, height+50, width/2, height/5, "fill:rgb(44,77,232)")
+	canvas.Gstyle(gfmt)
 	for i, f := range strings.Split(fontlist, "|", -1) {
-		g.Text(width/2, (i+1)*100, "Hello, World", "font-family:"+f)
+		canvas.Text(width/2, (i+1)*100, "Hello, World", "font-family:"+f)
 	}
-	g.Gend()
-	g.End()
+	canvas.Gend()
+	canvas.End()
 }
