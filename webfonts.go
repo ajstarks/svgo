@@ -1,3 +1,4 @@
+// webfonts demo
 package main
 
 import (
@@ -17,13 +18,13 @@ var (
 )
 
 const (
-	gwfURI  = "http://fonts.googleapis.com/css?family=%s"
+	gwfURI  = "http://fonts.googleapis.com/css?family="
 	fontfmt = "<style type=\"text/css\">\n<![CDATA[\n%s]]>\n</style>\n"
 	gfmt    = "fill:white;font-size:36pt;text-anchor:middle"
 )
 
 func googlefont(fontname string) string {
-	r, _, err := http.Get(fmt.Sprintf(gwfURI, http.URLEscape(fontname)))
+	r, err := http.Get(gwfURI + http.URLEscape(fontname))
 	defer r.Body.Close()
 	if err != nil {
 		return ""
@@ -43,6 +44,9 @@ func defineFont(s string) {
 
 func main() {
 	canvas.Start(width, height)
+	if len(os.Args) > 1 {
+		fontlist = os.Args[1]
+	}
 	defineFont(fontlist)
 	canvas.Rect(0, 0, width, height)
 	canvas.Ellipse(width/2, height+50, width/2, height/5, "fill:rgb(44,77,232)")
