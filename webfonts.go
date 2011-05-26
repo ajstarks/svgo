@@ -23,23 +23,21 @@ const (
 	gfmt    = "fill:white;font-size:36pt;text-anchor:middle"
 )
 
-func googlefont(fontname string) string {
-	r, err := http.Get(gwfURI + http.URLEscape(fontname))
-	defer r.Body.Close()
+func googlefont(f string) []string {
+	empty := []string{}
+	r, err := http.Get(gwfURI + http.URLEscape(f))
 	if err != nil {
-		return ""
+		return empty
 	}
+	defer r.Body.Close()
 	b, rerr := ioutil.ReadAll(r.Body)
 	if rerr != nil || r.StatusCode != http.StatusOK {
-		return ""
+		return empty
 	}
-	return string(b)
-}
-
-func defineFont(s string) {
 	canvas.Def()
-	fmt.Fprintf(canvas.Writer, fontfmt, googlefont(s))
+	fmt.Fprintf(canvas.Writer, fontfmt, b)
 	canvas.DefEnd()
+	return strings.Split(fontlist, "|", -1)
 }
 
 func main() {
@@ -47,11 +45,11 @@ func main() {
 	if len(os.Args) > 1 {
 		fontlist = os.Args[1]
 	}
-	defineFont(fontlist)
+	fl := googlefont(fontlist)
 	canvas.Rect(0, 0, width, height)
 	canvas.Ellipse(width/2, height+50, width/2, height/5, "fill:rgb(44,77,232)")
 	canvas.Gstyle(gfmt)
-	for i, f := range strings.Split(fontlist, "|", -1) {
+	for i, f := range fl {
 		canvas.Text(width/2, (i+1)*100, "Hello, World", "font-family:"+f)
 	}
 	canvas.Gend()

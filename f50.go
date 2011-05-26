@@ -88,14 +88,14 @@ func imageGrid(f FlickrResp, x, y, cols, gutter int, imgsize string) {
 func fs(s string) {
 	var f FlickrResp
 	r, weberr := http.Get(flickrAPI("flickr.photos.search", "text", s))
-	defer r.Body.Close()
-	if weberr != nil || r.StatusCode != 200 {
-		fmt.Fprintf(os.Stderr, "%v (status=%d)\n", weberr, r.StatusCode)
+	if weberr != nil  {
+		fmt.Fprintf(os.Stderr, "%v\n", weberr)
 		return
 	}
+	defer r.Body.Close()
 	xmlerr := xml.Unmarshal(r.Body, &f)
-	if xmlerr != nil {
-		fmt.Fprintf(os.Stderr, "%v\n", xmlerr)
+	if xmlerr != nil || r.StatusCode != http.StatusOK {
+		fmt.Fprintf(os.Stderr, "%v (status=%d)\n", xmlerr, r.StatusCode)
 		return
 	}
 	canvas.Title(s)
