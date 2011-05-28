@@ -281,6 +281,17 @@ func (svg *SVG) Textpath(t string, pathid string, s ...string) {
 	svg.println(`</textPath></text>`)
 }
 
+// Textlines places a series of lines of text starting at x,y, at the specified size, fill, and alignment.
+// Each line is spaced according to the spacing argument
+func (svg *SVG) Textlines(x, y int, s []string, size, spacing int, fill, align string) {
+	svg.Gstyle(fmt.Sprintf("font-size:%dpx;fill:%s;text-anchor:%s", size, fill, align))
+	for _, t := range s {
+		svg.Text(x, y, t)
+		y += spacing
+	}
+	svg.Gend()
+}
+
 // Colors
 
 // RGB specifies a fill color in terms of a (r)ed, (g)reen, (b)lue triple.
