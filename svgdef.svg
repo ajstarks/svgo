@@ -237,34 +237,37 @@
 <text x="125" y="149" style="fill:black; text-anchor:middle;font-size:24px">Textpath(s, pathid string, style ...string)</text>
 </g>
 <g id="meta">
-<g style="text-anchor:start">
+<g style="font-size:24px;fill:black;text-anchor:start">
 <text x="0" y="24" >New(w io Writer)</text>
-<text x="500" y="24" style="fill:rgb(127,127,127)">specify destination</text>
 <text x="0" y="54" >Start(w, h int)/End()</text>
-<text x="500" y="54" style="fill:rgb(127,127,127)">begin/end the document</text>
 <text x="0" y="84" >Startview(w, h, minx, miny, vw, vh int)</text>
-<text x="500" y="84" style="fill:rgb(127,127,127)">begin/end the document with viewport</text>
 <text x="0" y="114" >Gstyle(s string)/Gend()</text>
-<text x="500" y="114" style="fill:rgb(127,127,127)">begin/end group style</text>
 <text x="0" y="144" >Gtransform(s string)/Gend()</text>
-<text x="500" y="144" style="fill:rgb(127,127,127)">begin/end group transform</text>
 <text x="0" y="174" >Gid(id string)/Gend()</text>
-<text x="500" y="174" style="fill:rgb(127,127,127)">begin/end group id</text>
 <text x="0" y="204" >Def()/DefEnd()</text>
-<text x="500" y="204" style="fill:rgb(127,127,127)">begin/end a defintion block</text>
 <text x="0" y="234" >Desc(s string)</text>
-<text x="500" y="234" style="fill:rgb(127,127,127)">set the description element</text>
 <text x="0" y="264" >Title(s string)</text>
-<text x="500" y="264" style="fill:rgb(127,127,127)">set the title element</text>
 <text x="0" y="294" >Link(href string, title string)/LinkEnd()</text>
-<text x="500" y="294" style="fill:rgb(127,127,127)">begin/end link to href, with a title</text>
 <text x="0" y="324" >Use(x int, y int, link string, style ...string)</text>
-<text x="500" y="324" style="fill:rgb(127,127,127)">use defined objects</text>
 <text x="0" y="354" >RGB(r, g, b int)</text>
-<text x="500" y="354" style="fill:rgb(127,127,127)">fill color using (r,g,b) triples</text>
 <text x="0" y="384" >RGBA(r, g, b int, opacity float64)</text>
-<text x="500" y="384" style="fill:rgb(127,127,127)">fill color using (r,g,b) with opacity (0.0-1.0)</text>
 </g>
+<g style="font-size:24px;fill:rgb(127,127,127);text-anchor:start">
+<text x="500" y="24" >specify destination</text>
+<text x="500" y="54" >specify destination</text>
+<text x="500" y="84" >begin/end the document with viewport</text>
+<text x="500" y="114" >begin/end group style</text>
+<text x="500" y="144" >begin/end group transform</text>
+<text x="500" y="174" >begin/end group id</text>
+<text x="500" y="204" >begin/end a defintion block</text>
+<text x="500" y="234" >set the description element</text>
+<text x="500" y="264" >set the title element</text>
+<text x="500" y="294" >begin/end link to href, with a title</text>
+<text x="500" y="324" >use defined objects</text>
+<text x="500" y="354" >fill color using (r,g,b) triples</text>
+<text x="500" y="384" >fill color using (r,g,b) with opacity (0.0-1.0)</text>
+</g>
+<text x="500" y="440" style="fill:black; text-anchor:middle;font-size:24px">Textlines(x, y int, s []string, size, spacing int, fill, align string)</text>
 </g>
 </defs>
 <title>SVG Go Library Description</title>
