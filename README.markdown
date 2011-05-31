@@ -317,8 +317,7 @@ is used to specify the offset, color, and opacity of stop colors in linear and r
   <http://www.w3.org/TR/SVG11/text.html#TextElement>
   
 	Textlines(x, y int, s []string, size, spacing int, fill, align string)
- Places a series of lines of text starting at x,y, at the specified size, fill, and alignment.
- Each line is spaced according to spacing
+ Places lines of text in s, starting at x,y, at the specified size, fill, and alignment, and spacing.
   
 ![Image](http://farm4.static.flickr.com/3149/5694580737_4b291df768_m.jpg)
   
