@@ -221,8 +221,6 @@ is used to specify the offset, color, and opacity of stop colors in linear and r
   ![Circle](http://farm5.static.flickr.com/4144/5187953823_01a1741489_m.jpg)
  
  
-
- 
 	Ellipse(x int, y int, w int, h int, s ...string)
   draw an ellipse, centered at x,y with radii w, and h
   <http://www.w3.org/TR/SVG11/shapes.html#EllipseElement>
@@ -270,8 +268,6 @@ is used to specify the offset, color, and opacity of stop colors in linear and r
 	Path(p string, s ...style)
  draw the arbitrary path as specified in p, according to the style specified in s. <http://www.w3.org/TR/SVG11/paths.html>
 
-
-
  
 	Arc(sx int, sy int, ax int, ay int, r int, large bool, sweep bool, ex int, ey int, s ...string)
   draw an elliptical arc beginning coordinate at sx,sy, ending coordinate at ex, ey
@@ -317,14 +313,15 @@ is used to specify the offset, color, and opacity of stop colors in linear and r
 	Line(x1 int, y1 int, x2 int, y2 int, s ...string)
   draw a line segment between x1,y1 and x2,y2
   <http://www.w3.org/TR/SVG11/shapes.html#LineElement>
-  ![Line](http://farm5.static.flickr.com/4154/5188556080_0be19da0bc.jpg)
-
+ 
+ ![Line](http://farm5.static.flickr.com/4154/5188556080_0be19da0bc.jpg)
 
  
 	Polyline(x []int, y []int, s ...string)
   draw a polygon using coordinates specified in x,y arrays
   <http://www.w3.org/TR/SVG11/shapes.html#PolylineElement>
-  ![Polyline](http://farm2.static.flickr.com/1266/5188556384_a863273a69.jpg)
+ 
+ ![Polyline](http://farm2.static.flickr.com/1266/5188556384_a863273a69.jpg)
 
 ### Image and Text ###
 
@@ -333,7 +330,8 @@ is used to specify the offset, color, and opacity of stop colors in linear and r
 	Image(x int, y int, w int, h int, link string, s ...string)
   place at x,y (upper left hand corner), the image with width w, and height h, referenced at link
   <http://www.w3.org/TR/SVG11/struct.html#ImageElement>
-  ![Image](http://farm5.static.flickr.com/4058/5188556346_e5ce3dcbc2_m.jpg)
+ 
+ ![Image](http://farm5.static.flickr.com/4058/5188556346_e5ce3dcbc2_m.jpg)
 
 	Text(x int, y int, t string, s ...string)
   Place the specified text, t at x,y according to the style specified in s
@@ -388,5 +386,6 @@ is used to specify the offset, color, and opacity of stop colors in linear and r
 
 
 	Grid(x int, y int, w int, h int, n int, s ...string)
-  draws a grid of straight lines starting at x,y, with a width w, and height h, and a size of n
-![Grid](http://farm5.static.flickr.com/4133/5190957924_7a31d0db34.jpg)
+  draws a grid of straight lines starting at x,y, with a width w, and height h, and a size of n 
+  
+  ![Grid](http://farm5.static.flickr.com/4133/5190957924_7a31d0db34.jpg)
