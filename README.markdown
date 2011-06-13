@@ -168,6 +168,10 @@ is used to specify the offset, color, and opacity of stop colors in linear and r
 	Scale(n float64)
   scales the coordinate system by n, end with Gend()
   <http://www.w3.org/TR/SVG11/coords.html#TransformAttribute>
+  
+   ScaleXY(x, y float64)
+   scales the coordinate system by x, y. End with Gend()
+   <http://www.w3.org/TR/SVG11/coords.html#TransformAttribute>
 
 	Rotate(r float64)
   rotates the coordinate system by r degrees, end with Gend()
@@ -219,23 +223,18 @@ is used to specify the offset, color, and opacity of stop colors in linear and r
   <http://www.w3.org/TR/SVG11/shapes.html#CircleElement>
   
   ![Circle](http://farm5.static.flickr.com/4144/5187953823_01a1741489_m.jpg)
- 
- 
+  
 	Ellipse(x int, y int, w int, h int, s ...string)
   draw an ellipse, centered at x,y with radii w, and h
   <http://www.w3.org/TR/SVG11/shapes.html#EllipseElement>
   
   ![Ellipse](http://farm2.static.flickr.com/1271/5187953773_a9d1fc406c_m.jpg)
-
-
  
 	Polygon(x []int, y []int, s ...string)
   draw a series of line segments using an array of x, y coordinates
   <http://www.w3.org/TR/SVG11/shapes.html#PolygonElement>
   
   ![Polygon](http://farm2.static.flickr.com/1006/5187953873_337dc26597_m.jpg)
-
-
  
 	Rect(x int, y int, w int, h int, s ...string)
   draw a rectangle with upper left-hand corner at x,y, with width w, and height h
@@ -246,9 +245,6 @@ is used to specify the offset, color, and opacity of stop colors in linear and r
 	CenterRect(x int, y int, w int, h int, s ...string)
  draw a rectangle with its center at x,y, with width w, and height h
 
-
-
- 
 	Roundrect(x int, y int, w int, h int, rx int, ry int, s ...string)
   draw a rounded rectangle with upper the left-hand corner at x,y, 
   with width w, and height h. The radii for the rounded portion 
@@ -256,8 +252,6 @@ is used to specify the offset, color, and opacity of stop colors in linear and r
   
   ![Roundrect](http://farm2.static.flickr.com/1275/5188556120_e2a9998fee_m.jpg)
   
-
- 
 	Square(x int, y int, s int, style ...string)
   draw a square with upper left corner at x,y with sides of length s
   
@@ -325,8 +319,6 @@ is used to specify the offset, color, and opacity of stop colors in linear and r
 
 ### Image and Text ###
 
-
-
 	Image(x int, y int, w int, h int, link string, s ...string)
   place at x,y (upper left hand corner), the image with width w, and height h, referenced at link
   <http://www.w3.org/TR/SVG11/struct.html#ImageElement>
@@ -339,15 +331,12 @@ is used to specify the offset, color, and opacity of stop colors in linear and r
   
 	Textlines(x, y int, s []string, size, spacing int, fill, align string)
  Places lines of text in s, starting at x,y, at the specified size, fill, and alignment, and spacing.
-  
-
-  
+    
 	Textpath(t string, pathid string, s ...string)
-  places text optionally styled text along a previously defined path
+  places optionally styled text along a previously defined path
   <http://www.w3.org/TR/SVG11/text.html#TextPathElement>
   ![Image](http://farm4.static.flickr.com/3149/5694580737_4b291df768_m.jpg)
   
-
 ### Color ###
 
 	RGB(r int, g int, b int) string
@@ -361,16 +350,12 @@ is used to specify the offset, color, and opacity of stop colors in linear and r
   
 ### Gradients ###
 
-
-
 	LinearGradient(id string, x1, y1, x2, y2 uint8, sc []Offcolor)
   constructs a linear color gradient identified by id, 
   along the vector defined by (x1,y1), and (x2,y2).
   The stop color sequence defined in sc. Coordinates are expressed as percentages.
   <http://www.w3.org/TR/SVG11/pservers.html#LinearGradients>
   ![LinearGradient](http://farm5.static.flickr.com/4153/5187954033_3972f63fa9.jpg) 
-
-
   
 	RadialGradient(id string, cx, cy, r, fx, fy uint8, sc []Offcolor)
   constructs a radial color gradient identified by id, 
@@ -382,8 +367,6 @@ is used to specify the offset, color, and opacity of stop colors in linear and r
   ![RadialGradient](http://farm2.static.flickr.com/1302/5187954065_7ddba7b819.jpg)
 
 ### Utility ###
-
-
 
 	Grid(x int, y int, w int, h int, n int, s ...string)
   draws a grid of straight lines starting at x,y, with a width w, and height h, and a size of n 
