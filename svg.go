@@ -99,7 +99,7 @@ func (svg *SVG) Translate(x, y int) { svg.Gtransform(translate(x, y)) }
 // Standard Reference: http://www.w3.org/TR/SVG11/coords.html#TransformAttribute
 func (svg *SVG) Scale(n float64) { svg.Gtransform(scale(n)) }
 
-// Scale scales the coordinate system by dx and dy, end with Gend()
+// ScaleXY scales the coordinate system by dx and dy, end with Gend()
 // Standard Reference: http://www.w3.org/TR/SVG11/coords.html#TransformAttribute
 func (svg *SVG) ScaleXY(dx, dy float64) { svg.Gtransform(scaleXY(dx, dy)) }
 
