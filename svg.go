@@ -99,6 +99,10 @@ func (svg *SVG) Translate(x, y int) { svg.Gtransform(translate(x, y)) }
 // Standard Reference: http://www.w3.org/TR/SVG11/coords.html#TransformAttribute
 func (svg *SVG) Scale(n float64) { svg.Gtransform(scale(n)) }
 
+// Scale scales the coordinate system by dx and dy, end with Gend()
+// Standard Reference: http://www.w3.org/TR/SVG11/coords.html#TransformAttribute
+func (svg *SVG) ScaleXY(dx, dy float64) { svg.Gtransform(scaleXY(dx, dy)) }
+
 // Rotate rotates the coordinate system by r degrees, end with Gend()
 // Standard Reference: http://www.w3.org/TR/SVG11/coords.html#TransformAttribute
 func (svg *SVG) Rotate(r float64) { svg.Gtransform(rotate(r)) }
@@ -430,6 +434,9 @@ func group(tag string, value string) string { return fmt.Sprintf(`<g %s="%s">`, 
 
 // scale return the scale string for the transform
 func scale(n float64) string { return fmt.Sprintf(`scale(%g)`, n) }
+
+// scaleXY return the scale string for the transform
+func scaleXY(dx, dy float64) string { return fmt.Sprintf(`scale(%g,%g)`, dx, dy) }
 
 // rotate returns the rotate string for the transform
 func rotate(r float64) string { return fmt.Sprintf(`rotate(%g)`, r) }
