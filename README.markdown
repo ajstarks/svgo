@@ -169,7 +169,7 @@ is used to specify the offset, color, and opacity of stop colors in linear and r
   scales the coordinate system by n, end with Gend()
   <http://www.w3.org/TR/SVG11/coords.html#TransformAttribute>
   
-   ScaleXY(x, y float64)
+	ScaleXY(x, y float64)
    scales the coordinate system by x, y. End with Gend()
    <http://www.w3.org/TR/SVG11/coords.html#TransformAttribute>
 
