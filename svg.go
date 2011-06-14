@@ -103,6 +103,18 @@ func (svg *SVG) Scale(n float64) { svg.Gtransform(scale(n)) }
 // Standard Reference: http://www.w3.org/TR/SVG11/coords.html#TransformAttribute
 func (svg *SVG) ScaleXY(dx, dy float64) { svg.Gtransform(scaleXY(dx, dy)) }
 
+// SkewX skews the x coordinate system by angle a, end with Gend()
+// Standard Reference: http://www.w3.org/TR/SVG11/coords.html#TransformAttribute
+func (svg *SVG) SkewX(a float64) { svg.Gtransform(skewX(a)) }
+
+// SkewY skews the y coordinate system by angle a, end with Gend()
+// Standard Reference: http://www.w3.org/TR/SVG11/coords.html#TransformAttribute
+func (svg *SVG) SkewY(a float64) { svg.Gtransform(skewY(a)) }
+
+// SkewXY skews x and y coordinates by ax, ay respectively, end with Gend()
+// Standard Reference: http://www.w3.org/TR/SVG11/coords.html#TransformAttribute
+func (svg *SVG) SkewXY(ax, ay float64) { svg.Gtransform(skewX(ax) + " " + skewY(ay)) }
+
 // Rotate rotates the coordinate system by r degrees, end with Gend()
 // Standard Reference: http://www.w3.org/TR/SVG11/coords.html#TransformAttribute
 func (svg *SVG) Rotate(r float64) { svg.Gtransform(rotate(r)) }
@@ -437,6 +449,10 @@ func scale(n float64) string { return fmt.Sprintf(`scale(%g)`, n) }
 
 // scaleXY return the scale string for the transform
 func scaleXY(dx, dy float64) string { return fmt.Sprintf(`scale(%g,%g)`, dx, dy) }
+
+func skewX(angle float64) string { return fmt.Sprintf(`skewX(%g)`, angle) }
+
+func skewY(angle float64) string { return fmt.Sprintf(`skewY(%g)`, angle) }
 
 // rotate returns the rotate string for the transform
 func rotate(r float64) string { return fmt.Sprintf(`rotate(%g)`, r) }

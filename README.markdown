@@ -172,6 +172,18 @@ is used to specify the offset, color, and opacity of stop colors in linear and r
 	ScaleXY(x, y float64)
    scales the coordinate system by x, y. End with Gend()
    <http://www.w3.org/TR/SVG11/coords.html#TransformAttribute>
+   
+	SkewX(a float64)
+   SkewX skews the x coordinate system by angle a, end with Gend()
+   <http://www.w3.org/TR/SVG11/coords.html#TransformAttribute>
+   
+	SkewY(a float64)
+   SkewY skews the y coordinate system by angle a, end with Gend()
+   <http://www.w3.org/TR/SVG11/coords.html#TransformAttribute>
+   
+	SkewXY(ax, ay float64)
+   SkewXY skews x and y coordinate systems by ax, ay respectively, end with Gend()
+   <http://www.w3.org/TR/SVG11/coords.html#TransformAttribute>
 
 	Rotate(r float64)
   rotates the coordinate system by r degrees, end with Gend()
