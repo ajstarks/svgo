@@ -274,6 +274,50 @@ func defscale(id string, w, h int, n float64, legend string) {
 	canvas.Gend()
 }
 
+func defscaleXY(id string, w, h int, dx, dy float64, legend string) {
+	canvas.Gid(id)
+	defcoordstr(0, 0, "0, 0")
+	canvas.Rect(0, 0, w, h, objstyle)
+	canvas.ScaleXY(dx, dy)
+	canvas.Rect(0, 0, w, h, fobjstyle)
+	canvas.Gend()
+	deflegend(w/2, 0, h, legend)
+	canvas.Gend()
+}
+
+func defskewX(id string, w, h int, angle float64, legend string) {
+	canvas.Gid(id)
+	defcoordstr(0, 0, "0, 0")
+	canvas.Rect(0, 0, w, h, objstyle)
+	canvas.SkewX(angle)
+	canvas.Rect(0, 0, w, h, fobjstyle)
+	canvas.Gend()
+	deflegend(w/2, 0, h, legend)
+	canvas.Gend()
+}
+
+func defskewY(id string, w, h int, angle float64, legend string) {
+	canvas.Gid(id)
+	defcoordstr(0, 0, "0, 0")
+	canvas.Rect(0, 0, w, h, objstyle)
+	canvas.SkewY(angle)
+	canvas.Rect(0, 0, w, h, fobjstyle)
+	canvas.Gend()
+	deflegend(w/2, 0, h, legend)
+	canvas.Gend()
+}
+
+func defskewXY(id string, w, h int, ax, ay float64, legend string) {
+	canvas.Gid(id)
+	defcoordstr(0, 0, "0, 0")
+	canvas.Rect(0, 0, w, h, objstyle)
+	canvas.SkewXY(ax, ay)
+	canvas.Rect(0, 0, w, h, fobjstyle)
+	canvas.Gend()
+	deflegend(w/2, 0, h, legend)
+	canvas.Gend()
+}
+
 func defrotate(id string, w, h int, deg float64, legend string) {
 	t := deg * (math.Pi / 180.0)
 	r := float64(w / 2)
@@ -291,38 +335,49 @@ func defrotate(id string, w, h int, deg float64, legend string) {
 	canvas.Gend()
 }
 
-func defmeta(id string, w int, s []string) {
-	leading := 30
-	y := textsize
-	canvas.Gid(id)
-	canvas.Gstyle("text-anchor:start")
-	for i := 0; i < len(s); i += 2 {
-		canvas.Text(0, y, s[i])
-		canvas.Text(w, y, s[i+1], canvas.RGB(127, 127, 127))
-		y += leading
-	}
-	canvas.Gend()
-	canvas.Gend()
 
+func defmeta(id string, w int, name, desc []string, legend string) {
+	canvas.Gid(id)
+	canvas.Textlines(0, textsize, name, 24, 30, "black", "start")
+	canvas.Textlines(w, textsize, desc, 24, 30, "rgb(127,127,127)", "start")
+	deflegend(w, 0, 32*len(name), legend)
+	canvas.Gend()
 }
 
 func defobjects(w, h int) {
+	var (
+		metatext = []string{
+			"New(w io Writer)",
+			"Start(w, h int)/End()",
+			"Startview(w, h, minx, miny, vw, vh int)",
+			"Gstyle(s string)/Gend()",
+			"Gtransform(s string)/Gend()",
+			"Gid(id string)/Gend()",
+			"Def()/DefEnd()",
+			"Desc(s string)",
+			"Title(s string)",
+			"Link(href string, title string)/LinkEnd()",
+			"Use(x int, y int, link string, style ...string)",
+			"RGB(r, g, b int)",
+			"RGBA(r, g, b int, opacity float64)",
+		}
+		metadesc = []string{
+			"specify destination",
+			"specify destination",
+			"begin/end the document with viewport",
+			"begin/end group style",
+			"begin/end group transform",
+			"begin/end group id",
+			"begin/end a defintion block",
+			"set the description element",
+			"set the title element",
+			"begin/end link to href, with a title",
+			"use defined objects",
+			"fill color using (r,g,b) triples",
+			"fill color using (r,g,b) with opacity (0.0-1.0)",
+		}
+	)
 	h2 := h / 2
-	var metatext = []string{
-		"New(w io Writer)", "specify destination",
-		"Start(w, h int)/End()", "begin/end the document",
-		"Startview(w, h, minx, miny, vw, vh int)", "begin/end the document with viewport",
-		"Gstyle(s string)/Gend()", "begin/end group style",
-		"Gtransform(s string)/Gend()", "begin/end group transform",
-		"Gid(id string)/Gend()", "begin/end group id",
-		"Def()/DefEnd()", "begin/end a defintion block",
-		"Desc(s string)", "set the description element",
-		"Title(s string)", "set the title element",
-		"Link(href string, title string)/LinkEnd()", "begin/end link to href, with a title",
-		"Use(x int, y int, link string, style ...string)", "use defined objects",
-		"RGB(r, g, b int)", "fill color using (r,g,b) triples",
-		"RGBA(r, g, b int, opacity float64)", "fill color using (r,g,b) with opacity (0.0-1.0)",
-	}
 	canvas.Desc("Object Definitions")
 	canvas.Def()
 	canvas.LinearGradient("linear", 0, 0, 100, 0, ga)
@@ -348,9 +403,13 @@ func defobjects(w, h int) {
 	defgrid("grid", w, h, "Grid(x, y, w, h, n int, style ...string)")
 	deftext("text", w, h, "hello, this is SVG", "Text(x, y int, s string, style ...string)")
 	defscale("scale", w, h, 0.5, "Scale(n float64)")
-	defrotate("rotate", w, h, 30, "Rotate(n float64)")
+	defscaleXY("scalexy", w, h, 0.5, 0.75, "ScaleXY(x, y float64)")
+	defskewX("skewx", w, h, 30, "SkewX(a float64)")
+	defskewY("skewy", w, h, 10, "SkewY(a float64)")
+	defskewXY("skewxy", w, h, 10, 10, "SkewXY(x, y float64)")
+	defrotate("rotate", w, h, 30, "Rotate(r float64)")
 	deftextpath("textpath", "#tpath", tpathstring, w, h, "Textpath(s, pathid string, style ...string)")
-	defmeta("meta", w*2, metatext)
+	defmeta("meta", w*2, metatext, metadesc, "Textlines(x, y int, s []string, size, spacing int, fill, align string)")
 	canvas.DefEnd()
 }
 
@@ -371,17 +430,20 @@ func placeobjects(x, y, w, h int, data [][]string) {
 	}
 }
 
-var roworder = [][]string{
+
+	var roworder = [][]string{
 	{"rect", "crect", "roundrect", "square", "line", "polyline"},
 	{"polygon", "circle", "ellipse", "arc", "qbez", "bezier"},
-	{"trans", "scale", "rotate", "lgrad", "grid", "rgrad"},
-	{"text", "textpath", "image", "path", "meta"},
-}
+	{"trans", "scale", "scalexy", "skewx", "skewy", "skewxy", "rotate"},
+	{"rotate", "text", "textpath", "path", "image", "grid"},
+	{"lgrad", "rgrad", "meta"},
+    }
 
 func main() {
-	width := 3200
+	width := 3600
 	height := (width * 3) / 4
 	canvas.Start(width, height)
+
 	defobjects(250, 125)
 	canvas.Title("SVG Go Library Description")
 	canvas.Rect(0, 0, width, height, "fill:white;stroke:black;stroke-width:2")
@@ -390,8 +452,7 @@ func main() {
 	canvas.Text(width/2, 150, "SVG Go Library", "font-size:125px")
 	canvas.Text(width/2, 200, "github.com/ajstarks/svgo", "font-size:50px;fill:gray")
 	canvas.LinkEnd()
-	placeobjects(120, 400, 500, 500, roworder)
+	placeobjects(200, 400, 600, 450, roworder)
 	canvas.Gend()
 	canvas.End()
-
 }
