@@ -112,6 +112,7 @@ A video describing how to use the package can be seen on YouTube at <http://www.
 * randcomp.go:	Compare random number generators
 * richter.go:	Gerhard Richter's 256 colors
 * rl.go:			Random lines (port of a Processing demo)
+* skewabc:		Skew ABC
 * svgopher.go:	SVGo Mascot
 * vismem.go:	Visualize data from files
 * webfonts.go:	"Hello, World" with Google Web Fonts

@@ -9,10 +9,10 @@ endif
 SVGLIB=svg
 
 CLIENTS=svgdef flower funnel imfade lewitt planets randcomp\
-		richter rl vismem android gradient bubtrail svgopher pmap paths webfonts
+		richter rl vismem android gradient bubtrail svgopher pmap paths webfonts skewabc
 
 TCLIENTS=svgdef flower funnel imfade lewitt planets randcomp\
-		richter rl vismem android gradient bubtrail svgopher paths webfonts
+		richter rl vismem android gradient bubtrail svgopher paths webfonts skewabc
 
 all:	$(CLIENTS)
 
@@ -86,6 +86,10 @@ paths:	paths.go svg.$(O)
 webfonts:	webfonts.go svg.$(O)
 	$(GC) -I. webfonts.go
 	$(LD) -L. -o webfonts webfonts.$(O)
+	
+skewabc:	skewabc.go svg.$(O)
+	$(GC) -I. skewabc.go
+	$(LD) -L. -o skewabc skewabc.$(O)
 
 defs:	svgdef
 	./svgdef > svgdef.svg
