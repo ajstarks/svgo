@@ -450,8 +450,10 @@ func scale(n float64) string { return fmt.Sprintf(`scale(%g)`, n) }
 // scaleXY return the scale string for the transform
 func scaleXY(dx, dy float64) string { return fmt.Sprintf(`scale(%g,%g)`, dx, dy) }
 
+// skewx returns the skewX string for the transform
 func skewX(angle float64) string { return fmt.Sprintf(`skewX(%g)`, angle) }
 
+// skewx returns the skewX string for the transform
 func skewY(angle float64) string { return fmt.Sprintf(`skewY(%g)`, angle) }
 
 // rotate returns the rotate string for the transform
