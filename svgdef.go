@@ -363,7 +363,7 @@ func defobjects(w, h int) {
 		}
 		metadesc = []string{
 			"specify destination",
-			"specify destination",
+			"begin/end the document",
 			"begin/end the document with viewport",
 			"begin/end group style",
 			"begin/end group transform",
@@ -442,7 +442,6 @@ func main() {
 	width := 3600
 	height := (width * 3) / 4
 	canvas.Start(width, height)
-
 	defobjects(250, 125)
 	canvas.Title("SVG Go Library Description")
 	canvas.Rect(0, 0, width, height, "fill:white;stroke:black;stroke-width:2")
