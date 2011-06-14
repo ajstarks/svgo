@@ -430,14 +430,13 @@ func placeobjects(x, y, w, h int, data [][]string) {
 	}
 }
 
-
-	var roworder = [][]string{
+var roworder = [][]string{
 	{"rect", "crect", "roundrect", "square", "line", "polyline"},
 	{"polygon", "circle", "ellipse", "arc", "qbez", "bezier"},
 	{"trans", "scale", "scalexy", "skewx", "skewy", "skewxy", "rotate"},
 	{"rotate", "text", "textpath", "path", "image", "grid"},
 	{"lgrad", "rgrad", "meta"},
-    }
+}
 
 func main() {
 	width := 3600
