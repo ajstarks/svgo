@@ -3,10 +3,11 @@
 The library generates SVG as defined by the Scalable Vector Graphics 1.1 Specification (<http://www.w3.org/TR/SVG11/>). 
 Output goes to the specified io.Writer.
 
-## Supported SVG elements ##
+## Supported SVG elements and functions ##
 
  circle, ellipse, polygon, polyline, rect (including roundrects), paths (general, arc,
- cubic and quadratic bezier paths), line, image, text, linearGradient, radialGradient
+ cubic and quadratic bezier paths), line, image, text, linearGradient, radialGradient, 
+ transforms (translate, rotate, scale, skewX, skewY)
 
 ## Metadata elements ##
 
@@ -229,7 +230,6 @@ is used to specify the offset, color, and opacity of stop colors in linear and r
   <http://www.w3.org/TR/SVG11/struct.html#UseElement>
 
 ### Shapes ###
-
 
 	Circle(x int, y int, r int, s ...string)
   draw a circle, centered at x,y with radius r
