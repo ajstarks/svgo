@@ -7,10 +7,10 @@ import (
 	"strings"
 	"strconv"
 	"fmt"
-	"svg"
 	"os"
 	"io"
 	"xml"
+	"github.com/ajstarks/svgo"
 )
 
 type Pmap struct {

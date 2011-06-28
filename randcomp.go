@@ -6,7 +6,7 @@ import (
 	"time"
 	"fmt"
 	"strconv"
-	"svg"
+	"github.com/ajstarks/svgo"
 )
 
 var canvas = svg.New(os.Stdout)

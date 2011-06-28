@@ -5,7 +5,7 @@ import (
 	"http"
 	"log"
 	"strings"
-	"svg"
+	"github.com/ajstarks/svgo"
 )
 
 const defaultstyle = "fill:rgb(127,0,0)"

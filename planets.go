@@ -4,7 +4,7 @@
 package main
 
 import (
-	"svg"
+	"github.com/ajstarks/svgo"
 	"os"
 	"flag"
 	"image/png"
