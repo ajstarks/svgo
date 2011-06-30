@@ -385,13 +385,16 @@ func style(s string) string {
 
 // pp returns a series of polygon points
 func (svg *SVG) pp(x []int, y []int, tag string) {
+	svg.print(tag)
 	if len(x) != len(y) {
+		svg.print(" ")
 		return
 	}
-	svg.print(tag)
-	for i := 0; i < len(x); i++ {
+	lx := len(x) - 1
+	for i := 0; i < lx; i++ {
 		svg.print(coord(x[i], y[i]) + " ")
 	}
+	svg.print(coord(x[lx], y[lx]))
 }
 
 // endstyle modifies an SVG object, with either a series of name="value" pairs,
@@ -421,7 +424,7 @@ func (svg *SVG) tt(tag string, s string) {
 
 // poly compiles the polygon element
 func (svg *SVG) poly(x []int, y []int, tag string, s ...string) {
-	svg.pp(x, y, "<"+tag+` points="`)
+	svg.pp(x, y, "<"+tag+" points=\"")
 	svg.print(`" ` + endstyle(s, "/>\n"))
 }
 
