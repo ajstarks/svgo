@@ -25,7 +25,7 @@ const (
 
 func googlefont(f string) []string {
 	empty := []string{}
-	r, _, err := http.Get(gwfURI + http.URLEscape(f))
+	r, err := http.Get(gwfURI + http.URLEscape(f))
 	if err != nil {
 		return empty
 	}
