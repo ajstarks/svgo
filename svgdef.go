@@ -338,8 +338,8 @@ func defrotate(id string, w, h int, deg float64, legend string) {
 
 func defmeta(id string, w int, name, desc []string, legend string) {
 	canvas.Gid(id)
-	canvas.Textlines(0, textsize, name, 24, 30, "black", "start")
-	canvas.Textlines(w, textsize, desc, 24, 30, "rgb(127,127,127)", "start")
+	canvas.Textlines(0, textsize, name, 24, 28, "black", "start")
+	canvas.Textlines(w, textsize, desc, 24, 28, "rgb(127,127,127)", "start")
 	deflegend(w, 0, 32*len(name), legend)
 	canvas.Gend()
 }
@@ -443,7 +443,7 @@ var roworder = [][]string{
 }
 
 func main() {
-	width := 3600
+	width := 3650
 	height := (width * 3) / 4
 	canvas.Start(width, height)
 	defobjects(250, 125)
