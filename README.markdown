@@ -144,8 +144,9 @@ is used to specify the offset, color, and opacity of stop colors in linear and r
 	New(w io.Writer) *SVG
   Constructor, Specify the output destination.
   
-	Start(w int, h int)
-  begin the SVG document with the width w and height h.
+	Start(w int, h int, attributes ...string)
+  begin the SVG document with the width w and height h. Optionally add additional elememts
+  (such as additional namespaces or scripting events)
   <http://www.w3.org/TR/SVG11/struct.html#SVGElement>
   
 	Startview(w, h, minx, miny, vw, vh int)
