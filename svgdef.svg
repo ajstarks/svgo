@@ -455,7 +455,8 @@ xmlns:xlink="http://www.w3.org/1999/xlink">
     <g id="meta">
       <g style="font-size:24px;fill:black;text-anchor:start">
         <text x="0" y="24">New(w io Writer)</text>
-        <text x="0" y="54">Start(w, h int)/End()</text>
+        <text x="0" y="54">Start(w, h int, options
+        ...string)/End()</text>
         <text x="0" y="84">Startview(w, h, minx, miny, vw, vh
         int)</text>
         <text x="0" y="114">Gstyle(s string)/Gend()</text>
@@ -464,12 +465,15 @@ xmlns:xlink="http://www.w3.org/1999/xlink">
         <text x="0" y="204">Def()/DefEnd()</text>
         <text x="0" y="234">Desc(s string)</text>
         <text x="0" y="264">Title(s string)</text>
-        <text x="0" y="294">Link(href string, title
+        <text x="0" y="294">Script(type, data ...string)</text>
+        <text x="0" y="324">Mask(id string, x, y, w, h, style
+        ...string)/MaskEnd()</text>
+        <text x="0" y="354">Link(href string, title
         string)/LinkEnd()</text>
-        <text x="0" y="324">Use(x int, y int, link string, style
+        <text x="0" y="384">Use(x int, y int, link string, style
         ...string)</text>
-        <text x="0" y="354">RGB(r, g, b int)</text>
-        <text x="0" y="384">RGBA(r, g, b int, opacity
+        <text x="0" y="414">RGB(r, g, b int)</text>
+        <text x="0" y="444">RGBA(r, g, b int, opacity
         float64)</text>
       </g>
       <g style="font-size:24px;fill:rgb(127,127,127);text-anchor:start">
@@ -484,15 +488,17 @@ xmlns:xlink="http://www.w3.org/1999/xlink">
         <text x="500" y="204">begin/end a defintion block</text>
         <text x="500" y="234">set the description element</text>
         <text x="500" y="264">set the title element</text>
-        <text x="500" y="294">begin/end link to href, with a
+        <text x="500" y="294">define a script</text>
+        <text x="500" y="324">begin/end mask element</text>
+        <text x="500" y="354">begin/end link to href, with a
         title</text>
-        <text x="500" y="324">use defined objects</text>
-        <text x="500" y="354">fill color using (r,g,b)
+        <text x="500" y="384">use defined objects</text>
+        <text x="500" y="414">fill color using (r,g,b)
         triples</text>
-        <text x="500" y="384">fill color using (r,g,b) with opacity
+        <text x="500" y="444">fill color using (r,g,b) with opacity
         (0.0-1.0)</text>
       </g>
-      <text x="500" y="440"
+      <text x="500" y="504"
       style="fill:black; text-anchor:middle;font-size:24px">
       Textlines(x, y int, s []string, size, spacing int, fill,
       align string)</text>

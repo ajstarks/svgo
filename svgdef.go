@@ -348,7 +348,7 @@ func defobjects(w, h int) {
 	var (
 		metatext = []string{
 			"New(w io Writer)",
-			"Start(w, h int)/End()",
+			"Start(w, h int, options ...string)/End()",
 			"Startview(w, h, minx, miny, vw, vh int)",
 			"Gstyle(s string)/Gend()",
 			"Gtransform(s string)/Gend()",
@@ -356,6 +356,8 @@ func defobjects(w, h int) {
 			"Def()/DefEnd()",
 			"Desc(s string)",
 			"Title(s string)",
+			"Script(type, data ...string)",
+			"Mask(id string, x, y, w, h, style ...string)/MaskEnd()",
 			"Link(href string, title string)/LinkEnd()",
 			"Use(x int, y int, link string, style ...string)",
 			"RGB(r, g, b int)",
@@ -371,6 +373,8 @@ func defobjects(w, h int) {
 			"begin/end a defintion block",
 			"set the description element",
 			"set the title element",
+			"define a script",
+			"begin/end mask element",
 			"begin/end link to href, with a title",
 			"use defined objects",
 			"fill color using (r,g,b) triples",

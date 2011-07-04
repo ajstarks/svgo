@@ -103,6 +103,7 @@ A video describing how to use the package can be seen on YouTube at <http://www.
 * f50.go:		Get 50 photos from Flickr based on a query
 * funnel.go:	Funnel from transparent circles
 * gradient.go:	Linear and radial gradients
+* html5logo:	HTML5 logo with draggable elements
 * imfade.go:	Show image fading
 * lewitt.go:	Version of Sol Lewitt's Wall Drawing 91
 * ltr.go:		Layer Tennis Remixes
