@@ -11,7 +11,7 @@ Output goes to the specified io.Writer.
 
 ## Metadata elements ##
 
- desc, defs, g (style, transform, id), title, (a)ddress, link, use
+ desc, defs, g (style, transform, id), mask, title, (a)ddress, link, script, use
 
 ## Building and Usage ##
 
@@ -71,8 +71,7 @@ Drawing in a web server: (http://localhost:2003/circle)
 	  s.End()
 	}
 
-You may view the SVG output with a browser that supports SVG (tested on Chrome, Opera, Firefox and Safari), or any other SVG user-agent such as Batik Squiggle. The test-svgo script tries to use reasonable defaults
-based on the GOOS and GOARCH environment variables.
+You may view the SVG output with a browser that supports SVG (tested on Chrome, Opera, Firefox and Safari), or any other SVG user-agent such as Batik Squiggle. The test-svgo script tries to use reasonable defaults based on the GOOS and GOARCH environment variables.
 
 The command:
 
@@ -139,7 +138,7 @@ The Offcolor type:
 is used to specify the offset, color, and opacity of stop colors in linear and radial gradients
 
 
-### Structure, Metadata, Transformation and Links ###
+### Structure, Scripting, Metadata, Transformation and Links ###
 
 	New(w io.Writer) *SVG
   Constructor, Specify the output destination
@@ -153,8 +152,15 @@ is used to specify the offset, color, and opacity of stop colors in linear and r
   <http://www.w3.org/TR/SVG11/struct.html#SVGElement>
 
 	End()
-  end the SVG document         
-
+  end the SVG document
+  
+	Script(scriptype string, data ...string)
+ Script defines a script with a specified type, (for example "application/javascript").
+ if the first variadic argument is a link, use only the link reference.
+ Otherwise, treat variadic arguments as the text of the script (marked up as CDATA).
+ if no data is specified, just close the script element
+  <http://www.w3.org/TR/SVG/script.html>
+  
 	Gstyle(s string)
   begin a group, with the specified style
   <http://www.w3.org/TR/SVG11/struct.html#GElement>
@@ -209,6 +215,13 @@ is used to specify the offset, color, and opacity of stop colors in linear and r
 
 	DefEnd()
   end a definition block
+  
+	Mask(string, x int, y int, w int, h int, s ...string)
+  creates a mask with a specified id, dimension, and optional style.
+  <http://www.w3.org/TR/SVG/masking.html>
+  
+	MaskEnd()
+  ends the Mask element
 
 	Desc(s string)
   specify the text of the description
@@ -315,8 +328,6 @@ is used to specify the offset, color, and opacity of stop colors in linear and r
 
 ### Lines ###
 
-
- 
 	Line(x1 int, y1 int, x2 int, y2 int, s ...string)
   draw a line segment between x1,y1 and x2,y2
   <http://www.w3.org/TR/SVG11/shapes.html#LineElement>
@@ -385,3 +396,7 @@ is used to specify the offset, color, and opacity of stop colors in linear and r
   draws a grid of straight lines starting at x,y, with a width w, and height h, and a size of n 
   
   ![Grid](http://farm5.static.flickr.com/4133/5190957924_7a31d0db34.jpg)
+  
+### Credits ###
+
+Thanks to Jonathan Wright for the io.Writer update

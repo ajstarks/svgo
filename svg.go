@@ -47,10 +47,8 @@ const (
 <svg width="%d" height="%d"`
 	svgns      = `
      xmlns="http://www.w3.org/2000/svg" 
-     xmlns:xlink="http://www.w3.org/1999/xlink">
-`
-	whfmt      = svginit + svgns
-	vbfmt      = svginit + ` viewBox="%d %d %d %d"` + svgns
+     xmlns:xlink="http://www.w3.org/1999/xlink">`
+	vbfmt      = `viewBox="%d %d %d %d"`
 	emptyclose = "/>\n"
 )
 
@@ -69,19 +67,49 @@ func (svg *SVG) printf(format string, a ...interface{}) (n int, errno os.Error) 
 	return fmt.Fprintf(svg.Writer, format, a...)
 }
 
-// Structure, Metadata, Transformation, and Links
+// Structure, Metadata, Scripting, Transformation, and Links
 
 // Start begins the SVG document with the width w and height h.
+// Other attributes may be optionally added, for example viewbox or additional namespaces
 // Standard Reference: http://www.w3.org/TR/SVG11/struct.html#SVGElement
-func (svg *SVG) Start(w int, h int) { svg.printf(whfmt, w, h) }
+func (svg *SVG) Start(w int, h int, ns ...string) {
+	svg.printf(svginit, w, h)
+	for _, v := range ns {
+		svg.printf("\n     %s", v)
+	}
+	svg.println(svgns)
+}
 
 // Startview begins the SVG document, with the specified width, height, and viewbox 
 func (svg *SVG) Startview(w, h, minx, miny, vw, vh int) {
-	svg.printf(vbfmt, w, h, minx, miny, vw, vh)
+	svg.Start(w, h, fmt.Sprintf(`viewBox="%d %d %d %d"`, minx, miny, vw, vh))
 }
 
 // End the SVG document
 func (svg *SVG) End() { svg.println("</svg>") }
+
+// Script defines a script with a specified type, (for example "application/javascript").
+// if the first variadic argument is a link, use only the link reference.
+// Otherwise, treat those arguments as the text of the script (marked up as CDATA).
+// if no data is specified, just close the script element
+func (svg *SVG) Script(scriptype string, data ...string) {
+	svg.printf(`<script type="%s"`, scriptype)
+	switch {
+	case len(data) == 1 && islink(data[0]):
+		svg.printf(" %s/>\n", href(data[0]))
+
+	case len(data) > 0:
+		svg.printf(">\n<![CDATA[\n")
+		for _, v := range data {
+			svg.println(v)
+		}
+		svg.printf("]]>\n</script>\n")
+
+	default:
+		svg.println(`/>`)
+	}
+}
+
 
 // Gstyle begins a group, with the specified style.
 // Standard Reference: http://www.w3.org/TR/SVG11/struct.html#GElement
@@ -170,6 +198,14 @@ func (svg *SVG) LinkEnd() { svg.println(`</a>`) }
 func (svg *SVG) Use(x int, y int, link string, s ...string) {
 	svg.printf(`<use %s %s %s`, loc(x, y), href(link), endstyle(s, emptyclose))
 }
+
+// Mask creates a mask with a specified id, dimension, and optional style.
+func (svg *SVG) Mask(id string, x int, y int, w int, h int, s ...string) {
+	svg.printf(`<mask id="%s" x="%d" y="%d" width="%d" height="%d" %s`, id, x, y, w, h, endstyle(s, `>`))
+}
+
+// MaskEnd ends a Mask.
+func (svg *SVG) MaskEnd() { svg.println(`</mask>`) }
 
 // Shapes
 
@@ -443,6 +479,13 @@ func pct(n uint8) uint8 {
 	}
 	return n
 }
+
+// islink determines if a string is a script reference
+func islink(link string) bool {
+	return strings.HasPrefix(link, "http://") || strings.HasPrefix(link, "#") ||
+		strings.HasPrefix(link, "../") || strings.HasPrefix(link, "./")
+}
+
 
 // group returns a group element
 func group(tag string, value string) string { return fmt.Sprintf(`<g %s="%s">`, tag, value) }
