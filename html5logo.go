@@ -9,6 +9,8 @@ func main() {
 	// HTML5 logo data from 
 	// "Understanding and Optimizing Web Graphics", Session 508, 
 	// Dean Jackson, Apple WWDC 2011
+	//
+	// Draggable elements via Jeff Schiller's dragsvg Javascript library
 
 	// shield
 	var sx = []int{71, 30, 481, 440, 255}
