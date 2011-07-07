@@ -21,7 +21,9 @@ Usage:
 
 	goinstall github.com/ajstarks/svgo
 	
-to install into your GO environment. 
+to install into your Go environment. To update the library you can use:
+
+	goinstall -clean -u -v github.com/ajstarks/svgo
 
 a minimal program, to generate SVG to standard output.
 
