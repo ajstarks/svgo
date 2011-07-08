@@ -34,13 +34,10 @@ a minimal program, to generate SVG to standard output.
 		"os"
 	)
 	
-	var (
-		width = 500
-		height = 500
-		canvas = svg.New(os.Stdout)
-	)
-	
 	func main() {
+		width := 500
+		height := 500
+		canvas := svg.New(os.Stdout)
 		canvas.Start(width, height)
 		canvas.Circle(width/2, height/2, 100)
 		canvas.Text(width/2, height/2, "Hello, SVG", "text-anchor:middle;font-size:30px;fill:white")
@@ -99,6 +96,7 @@ A video describing how to use the package can be seen on YouTube at <http://www.
 * svgdef.go:	Creates a SVG representation of the API
 * android.go:	The Android logo
 * bubtrail.go: Bubble trails
+* bulletgraph.go	Bullet Graphs (via Stephen Few)
 * colortab.go: Display SVG named colors with RGB values
 * flower.go:	Random "flowers"
 * fontcompare:	Compare two fonts
