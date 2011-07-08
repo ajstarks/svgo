@@ -13,6 +13,17 @@ import (
 	"github.com/ajstarks/svgo"
 )
 
+// Pmap defintion
+// <pmap>
+//	<pdata legend="W3C Counter">
+//		<item value="43.2">Internet Explorer</item>
+//		<item value="31.2">Firefox</item>
+//		<item value="10.7">Chrome</item>
+//		<item value="4.2">Safari</item>
+//		<item value="1.4">Opera</item>
+//	</pdata>
+//</pmap>
+
 type Pmap struct {
 	Top   string "attr"
 	Left  string "attr"
