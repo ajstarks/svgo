@@ -1,4 +1,6 @@
 // bulletgraph - bullet graphs
+// Bullet Graph Design Specification, Steven Few
+// http://www.perceptualedge.com/articles/misc/Bullet_Graph_Design_Spec.pdf
 
 package main
 
@@ -20,7 +22,14 @@ var (
 	gstyle                                             = "font-family:Calibri;font-size:%dpx"
 )
 
-// a Bulletgraph consists of ...
+// a Bulletgraph Defintion
+// <bulletgraph top="50" left="250" right="50">
+//	   <bdata title="Revenue 2005"		subtitle="USD (1,000)"			scale="0,300,50"		qmeasure="150,225"	cmeasure="250"		measure="275"/>
+//	   <bdata title="Profit"				subtitle="%"						scale="0,30,5"			qmeasure="20,25"		cmeasure="27"		measure="22.5"/>
+//	   <bdata title="Avg Order Size"		subtitle="USD"						scale="0,600,100"		qmeasure="350,500"	cmeasure="550"		measure="320"/>
+//	   <bdata title="New Customers"		subtitle="Count"					scale="0,2500,500"	qmeasure="1700,2000"	cmeasure="2100"	measure="1750"/>
+//	   <bdata title="Cust Satisfaction"	subtitle="Top rating of 5"		scale="0,5,1"			qmeasure="3.5,4.5"	cmeasure="4.7"		measure="4.85"/>
+// </bulletgraph>
 type Bulletgraph struct {
 	Top   string "attr"
 	Left  string "attr"
@@ -81,8 +90,8 @@ func drawbg(bg Bulletgraph, canvas *svg.SVG) {
 	for _, v := range bg.Bdata {
 
 		// extract the data from the XML attributes
-		sc := strings.Split(v.Scale, ",", -1)
-		qm := strings.Split(v.Qmeasure, ",", -1)
+		sc := strings.Split(v.Scale, ",")
+		qm := strings.Split(v.Qmeasure, ",")
 
 		// you must have min,max,increment for the scale, at least one qualitative measure
 		if len(sc) != 3 || len(qm) < 1 {

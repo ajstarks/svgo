@@ -183,7 +183,7 @@ func pctfill(r, g, b int, v float64) string {
 }
 
 func colorparse(c string) (int, int, int) {
-	s := strings.Split(c, ",", -1)
+	s := strings.Split(c, ",")
 	if len(s) != 3 {
 		return 0, 0, 0
 	}

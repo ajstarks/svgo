@@ -53,7 +53,7 @@ func main() {
 
 	for x, y, nr := left, top, 0; err == nil; nr++ {
 		line, err = in.ReadString('\n')
-		fields := strings.Split(strings.TrimSpace(line), "\t", -1)
+		fields := strings.Split(strings.TrimSpace(line), "\t")
 		if nr%*rowsize == 0 && nr > 0 {
 			x += *colw
 			y = top

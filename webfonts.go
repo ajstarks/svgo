@@ -37,7 +37,7 @@ func googlefont(f string) []string {
 	canvas.Def()
 	fmt.Fprintf(canvas.Writer, fontfmt, b)
 	canvas.DefEnd()
-	return strings.Split(fontlist, "|", -1)
+	return strings.Split(fontlist, "|")
 }
 
 func main() {
