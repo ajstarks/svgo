@@ -18,7 +18,7 @@ import (
 var (
 	width, height, iscale, fontsize, barheight, gutter int
 	bgcolor, barcolor, datacolor, compcolor, title     string
-	showtitle                                          bool
+	showtitle, circlemark                                          bool
 	gstyle                                             = "font-family:Calibri;font-size:%dpx"
 )
 
@@ -90,11 +90,12 @@ func drawbg(bg Bulletgraph, canvas *svg.SVG) {
 	for _, v := range bg.Bdata {
 
 		// extract the data from the XML attributes
-		sc := strings.Split(v.Scale, ",")
-		qm := strings.Split(v.Qmeasure, ",")
+		sc := strings.Split(v.Scale, ",", -1)
+		qm := strings.Split(v.Qmeasure, ",", -1)
 
 		// you must have min,max,increment for the scale, at least one qualitative measure
 		if len(sc) != 3 || len(qm) < 1 {
+			println(len(sc), len(qm))
 			continue
 		}
 		// get the qualitative measures
@@ -137,7 +138,12 @@ func drawbg(bg Bulletgraph, canvas *svg.SVG) {
 		barlength := int(vmap(measure, scalemin, scalemax, 0, float64(maxwidth)))
 		canvas.Rect(x, y+qmheight, barlength, qmheight, "fill:"+datacolor)
 		cmx := int(vmap(cmeasure, scalemin, scalemax, 0, float64(maxwidth)))
-		canvas.Circle(x+cmx, y+barheight/2, barheight/6, "fill-opacity:0.3;fill:"+compcolor)
+		if circlemark {
+			canvas.Circle(x+cmx, y+barheight/2, barheight/6, "fill-opacity:0.3;fill:"+compcolor)
+		} else {
+			cbh := barheight/4
+			canvas.Line(x+cmx, y+cbh, x+cmx, y+barheight-cbh, "stroke-width:3;stroke:"+compcolor)
+		}
 
 		y += barheight + gutter // adjust vertical position for the next iteration
 	}
@@ -163,12 +169,13 @@ func init() {
 	flag.StringVar(&bgcolor, "bg", "white", "background color")
 	flag.StringVar(&barcolor, "bc", "rgb(200,200,200)", "bar color")
 	flag.StringVar(&datacolor, "dc", "darkgray", "data color")
-	flag.StringVar(&compcolor, "cc", "red", "comparative color")
+	flag.StringVar(&compcolor, "cc", "black", "comparative color")
 	flag.IntVar(&width, "w", 1024, "width")
 	flag.IntVar(&height, "h", 800, "height")
 	flag.IntVar(&barheight, "bh", 48, "bar height")
 	flag.IntVar(&gutter, "g", 30, "gutter")
 	flag.IntVar(&fontsize, "f", 18, "fontsize (px)")
+	flag.BoolVar(&circlemark, "circle", false, "circle mark")
 	flag.BoolVar(&showtitle, "showtitle", false, "show title")
 	flag.StringVar(&title, "t", "Bullet Graphs", "title")
 	flag.Parse()
