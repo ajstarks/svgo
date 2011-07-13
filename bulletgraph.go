@@ -18,18 +18,18 @@ import (
 var (
 	width, height, iscale, fontsize, barheight, gutter int
 	bgcolor, barcolor, datacolor, compcolor, title     string
-	showtitle, circlemark                                          bool
+	showtitle, circlemark, help                        bool
 	gstyle                                             = "font-family:Calibri;font-size:%dpx"
 )
 
-// a Bulletgraph Defintion
-// <bulletgraph top="50" left="250" right="50">
-//	   <bdata title="Revenue 2005" subtitle="USD (1,000)" scale="0,300,50" qmeasure="150,225" cmeasure="250"	measure="275"/>
-//	   <bdata title="Profit"  subtitle="%"	scale="0,30,5"	qmeasure="20,25"	cmeasure="27" measure="22.5"/>
-//	   <bdata title="Avg Order Size"	subtitle="USD"	scale="0,600,100"		qmeasure="350,500" cmeasure="550" measure="320"/>
-//	   <bdata title="New Customers"	subtitle="Count"	scale="0,2500,500" qmeasure="1700,2000"	cmeasure="2100" measure="1750"/>
-//	   <bdata title="Cust Satisfaction"	subtitle="Top rating of 5" scale="0,5,1" qmeasure="3.5,4.5" cmeasure="4.7" measure="4.85"/>
-// </bulletgraph>
+const bgexample = `<bulletgraph top="50" left="250" right="50">
+   <bdata title="Revenue 2005"      subtitle="USD (1,000)"     scale="0,300,50"   qmeasure="150,225"    cmeasure="250"  measure="275"/>
+   <bdata title="Profit"            subtitle="%"               scale="0,30,5"     qmeasure="20,25"      cmeasure="27"   measure="22.5"/>
+   <bdata title="Avg Order Size"    subtitle="USD"             scale="0,600,100"  qmeasure="350,500"    cmeasure="550"  measure="320"/>
+   <bdata title="New Customers"     subtitle="Count"           scale="0,2500,500" qmeasure="1700,2000"  cmeasure="2100" measure="1750"/>
+   <bdata title="Cust Satisfaction" subtitle="Top rating of 5" scale="0,5,1"      qmeasure="3.5,4.5"    cmeasure="4.7"  measure="4.85"/>
+</bulletgraph>`
+
 type Bulletgraph struct {
 	Top   string "attr"
 	Left  string "attr"
@@ -141,7 +141,7 @@ func drawbg(bg Bulletgraph, canvas *svg.SVG) {
 		if circlemark {
 			canvas.Circle(x+cmx, y+barheight/2, barheight/6, "fill-opacity:0.3;fill:"+compcolor)
 		} else {
-			cbh := barheight/4
+			cbh := barheight / 4
 			canvas.Line(x+cmx, y+cbh, x+cmx, y+barheight-cbh, "stroke-width:3;stroke:"+compcolor)
 		}
 
@@ -170,6 +170,7 @@ func init() {
 	flag.StringVar(&barcolor, "bc", "rgb(200,200,200)", "bar color")
 	flag.StringVar(&datacolor, "dc", "darkgray", "data color")
 	flag.StringVar(&compcolor, "cc", "black", "comparative color")
+	flag.StringVar(&title, "t", "Bullet Graphs", "title")
 	flag.IntVar(&width, "w", 1024, "width")
 	flag.IntVar(&height, "h", 800, "height")
 	flag.IntVar(&barheight, "bh", 48, "bar height")
@@ -177,8 +178,15 @@ func init() {
 	flag.IntVar(&fontsize, "f", 18, "fontsize (px)")
 	flag.BoolVar(&circlemark, "circle", false, "circle mark")
 	flag.BoolVar(&showtitle, "showtitle", false, "show title")
-	flag.StringVar(&title, "t", "Bullet Graphs", "title")
+	flag.BoolVar(&help, "help", false, "usage and example")
 	flag.Parse()
+
+	if help {
+		fmt.Fprintf(os.Stderr, "Usage: bulletgraph [options] file...\n\n")
+		flag.PrintDefaults()
+		fmt.Fprintf(os.Stderr, "\nExample Defintion:\n\n%s\n", bgexample)
+		os.Exit(0)
+	}
 }
 
 // for every input file (or stdin), draw a bullet graph
