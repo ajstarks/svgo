@@ -12,7 +12,7 @@ cat <<!  > $1
 package main
 
 import (
-  "svg"
+  "github.com/ajstarks/svgo"
   "os"
 )
 
