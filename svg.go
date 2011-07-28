@@ -1,5 +1,4 @@
-// This package generates SVG to a io.Writer
-
+// Package svg provides an API for generating Scalable Vector Graphics (SVG)
 package svg
 
 // package main
@@ -485,7 +484,6 @@ func islink(link string) bool {
 	return strings.HasPrefix(link, "http://") || strings.HasPrefix(link, "#") ||
 		strings.HasPrefix(link, "../") || strings.HasPrefix(link, "./")
 }
-
 
 // group returns a group element
 func group(tag string, value string) string { return fmt.Sprintf(`<g %s="%s">`, tag, value) }
