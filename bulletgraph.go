@@ -31,9 +31,9 @@ var (
 //    <bdata title="Cust Satisfaction" subtitle="Top rating of 5" scale="0,5,1" qmeasure="3.5,4.5" cmeasure="4.7" measure="4.85"/>
 // </bulletgraph>
 type Bulletgraph struct {
-	Top   string `xml:"attr"`
-	Left  string `xml:"attr"`
-	Right string `xml:"attr"`
+	Top   int `xml:"attr"`
+	Left  int `xml:"attr"`
+	Right int `xml:"attr"`
 	Bdata []bdata
 }
 
@@ -42,8 +42,8 @@ type bdata struct {
 	Subtitle string `xml:"attr"`
 	Scale    string `xml:"attr"`
 	Qmeasure string `xml:"attr"`
-	Cmeasure string `xml:"attr"`
-	Measure  string `xml:"attr"`
+	Cmeasure float64 `xml:"attr"`
+	Measure  float64 `xml:"attr"`
 }
 
 // dobg does file i/o
@@ -76,12 +76,9 @@ func readbg(r io.Reader, s *svg.SVG) {
 // drawbg draws the bullet graph
 func drawbg(bg Bulletgraph, canvas *svg.SVG) {
 	qmheight := barheight / 3
-	top, _ := strconv.Atoi(bg.Top)
-	left, _ := strconv.Atoi(bg.Left)
-	right, _ := strconv.Atoi(bg.Right)
-	maxwidth := width - (left + right)
-	x := left
-	y := top
+	maxwidth := width - (bg.Left + bg.Right)
+	x := bg.Left
+	y := bg.Top
 	scalesep := 4
 	tx := x - fontsize
 
@@ -106,11 +103,9 @@ func drawbg(bg Bulletgraph, canvas *svg.SVG) {
 		scalemin, _ := strconv.Atof64(sc[0])
 		scalemax, _ := strconv.Atof64(sc[1])
 		scaleincr, _ := strconv.Atof64(sc[2])
-		measure, _ := strconv.Atof64(v.Measure)
-		cmeasure, _ := strconv.Atof64(v.Cmeasure)
 
 		// label the graph
-		canvas.Text(tx, y+barheight/3, fmt.Sprintf("%s (%g)", v.Title, measure), "text-anchor:end;font-weight:bold")
+		canvas.Text(tx, y+barheight/3, fmt.Sprintf("%s (%g)", v.Title, v.Measure), "text-anchor:end;font-weight:bold")
 		canvas.Text(tx, y+(barheight/3)+fontsize, v.Subtitle, "text-anchor:end;font-size:75%")
 
 		// draw the scale
@@ -135,9 +130,9 @@ func drawbg(bg Bulletgraph, canvas *svg.SVG) {
 		canvas.Gend()
 
 		// draw the measure and the comparative measure
-		barlength := int(vmap(measure, scalemin, scalemax, 0, float64(maxwidth)))
+		barlength := int(vmap(v.Measure, scalemin, scalemax, 0, float64(maxwidth)))
 		canvas.Rect(x, y+qmheight, barlength, qmheight, "fill:"+datacolor)
-		cmx := int(vmap(cmeasure, scalemin, scalemax, 0, float64(maxwidth)))
+		cmx := int(vmap(v.Cmeasure, scalemin, scalemax, 0, float64(maxwidth)))
 		if circlemark {
 			canvas.Circle(x+cmx, y+barheight/2, barheight/6, "fill-opacity:0.3;fill:"+compcolor)
 		} else {
@@ -149,7 +144,7 @@ func drawbg(bg Bulletgraph, canvas *svg.SVG) {
 	}
 	// if requested, place the title below the last bar
 	if showtitle {
-		canvas.Text(left, y+fontsize*2, title, "text-anchor:start;font-size:200%")
+		canvas.Text(bg.Left, y+fontsize*2, title, "text-anchor:start;font-size:200%")
 	}
 }
 
