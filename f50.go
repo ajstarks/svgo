@@ -11,28 +11,28 @@ import (
 )
 
 type FlickrResp struct {
-	Stat   string "attr"
+	Stat   string `xml:"attr"`
 	Photos Photos
 }
 
 type Photos struct {
-	Page    string "attr"
-	Pages   string "attr"
-	Perpage string "attr"
-	Total   string "attr"
+	Page    string `xml:"attr"`
+	Pages   string `xml:"attr"`
+	Perpage string `xml:"attr"`
+	Total   string `xml:"attr"`
 	Photo   []Photo
 }
 
 type Photo struct {
-	Id       string "attr"
-	Owner    string "attr"
-	Secret   string "attr"
-	Server   string "attr"
-	Farm     string "attr"
-	Title    string "attr"
-	Ispublic string "attr"
-	Isfriend string "attr"
-	IsFamily string "attr"
+	Id       string `xml:"attr"`
+	Owner    string `xml:"attr"`
+	Secret   string `xml:"attr"`
+	Server   string `xml:"attr"`
+	Farm     string `xml:"attr"`
+	Title    string `xml:"attr"`
+	Ispublic string `xml:"attr"`
+	Isfriend string `xml:"attr"`
+	IsFamily string `xml:"attr"`
 }
 
 var (
