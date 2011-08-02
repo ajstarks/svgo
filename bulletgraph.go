@@ -18,32 +18,32 @@ import (
 var (
 	width, height, iscale, fontsize, barheight, gutter int
 	bgcolor, barcolor, datacolor, compcolor, title     string
-	showtitle, circlemark, help                        bool
+	showtitle, circlemark                              bool
 	gstyle                                             = "font-family:Calibri;font-size:%dpx"
 )
 
-const bgexample = `<bulletgraph top="50" left="250" right="50">
-   <bdata title="Revenue 2005"      subtitle="USD (1,000)"     scale="0,300,50"   qmeasure="150,225"    cmeasure="250"  measure="275"/>
-   <bdata title="Profit"            subtitle="%"               scale="0,30,5"     qmeasure="20,25"      cmeasure="27"   measure="22.5"/>
-   <bdata title="Avg Order Size"    subtitle="USD"             scale="0,600,100"  qmeasure="350,500"    cmeasure="550"  measure="320"/>
-   <bdata title="New Customers"     subtitle="Count"           scale="0,2500,500" qmeasure="1700,2000"  cmeasure="2100" measure="1750"/>
-   <bdata title="Cust Satisfaction" subtitle="Top rating of 5" scale="0,5,1"      qmeasure="3.5,4.5"    cmeasure="4.7"  measure="4.85"/>
-</bulletgraph>`
-
+// a Bulletgraph Defintion
+// <bulletgraph top="50" left="250" right="50">
+//    <bdata title="Revenue 2005" subtitle="USD (1,000)" scale="0,300,50" qmeasure="150,225" cmeasure="250" measure="275"/>
+//    <bdata title="Profit"  subtitle="%" scale="0,30,5" qmeasure="20,25" cmeasure="27" measure="22.5"/>
+//    <bdata title="Avg Order Size subtitle="USD" scale="0,600,100" qmeasure="350,500" cmeasure="550" measure="320"/>
+//    <bdata title="New Customers" subtitle="Count" scale="0,2500,500" qmeasure="1700,2000" cmeasure="2100" measure="1750"/>
+//    <bdata title="Cust Satisfaction" subtitle="Top rating of 5" scale="0,5,1" qmeasure="3.5,4.5" cmeasure="4.7" measure="4.85"/>
+// </bulletgraph>
 type Bulletgraph struct {
-	Top   string "attr"
-	Left  string "attr"
-	Right string "attr"
+	Top   string `xml:"attr"`
+	Left  string `xml:"attr"`
+	Right string `xml:"attr"`
 	Bdata []bdata
 }
 
 type bdata struct {
-	Title    string "attr"
-	Subtitle string "attr"
-	Scale    string "attr"
-	Qmeasure string "attr"
-	Cmeasure string "attr"
-	Measure  string "attr"
+	Title    string `xml:"attr"`
+	Subtitle string `xml:"attr"`
+	Scale    string `xml:"attr"`
+	Qmeasure string `xml:"attr"`
+	Cmeasure string `xml:"attr"`
+	Measure  string `xml:"attr"`
 }
 
 // dobg does file i/o
@@ -90,8 +90,8 @@ func drawbg(bg Bulletgraph, canvas *svg.SVG) {
 	for _, v := range bg.Bdata {
 
 		// extract the data from the XML attributes
-		sc := strings.Split(v.Scale, ",", -1)
-		qm := strings.Split(v.Qmeasure, ",", -1)
+		sc := strings.Split(v.Scale, ",")
+		qm := strings.Split(v.Qmeasure, ",")
 
 		// you must have min,max,increment for the scale, at least one qualitative measure
 		if len(sc) != 3 || len(qm) < 1 {
@@ -170,7 +170,6 @@ func init() {
 	flag.StringVar(&barcolor, "bc", "rgb(200,200,200)", "bar color")
 	flag.StringVar(&datacolor, "dc", "darkgray", "data color")
 	flag.StringVar(&compcolor, "cc", "black", "comparative color")
-	flag.StringVar(&title, "t", "Bullet Graphs", "title")
 	flag.IntVar(&width, "w", 1024, "width")
 	flag.IntVar(&height, "h", 800, "height")
 	flag.IntVar(&barheight, "bh", 48, "bar height")
@@ -178,15 +177,8 @@ func init() {
 	flag.IntVar(&fontsize, "f", 18, "fontsize (px)")
 	flag.BoolVar(&circlemark, "circle", false, "circle mark")
 	flag.BoolVar(&showtitle, "showtitle", false, "show title")
-	flag.BoolVar(&help, "help", false, "usage and example")
+	flag.StringVar(&title, "t", "Bullet Graphs", "title")
 	flag.Parse()
-
-	if help {
-		fmt.Fprintf(os.Stderr, "Usage: bulletgraph [options] file...\n\n")
-		flag.PrintDefaults()
-		fmt.Fprintf(os.Stderr, "\nExample Defintion:\n\n%s\n", bgexample)
-		os.Exit(0)
-	}
 }
 
 // for every input file (or stdin), draw a bullet graph

@@ -7,37 +7,26 @@ import (
 	"strings"
 	"strconv"
 	"fmt"
+	"github.com/ajstarks/svgo"
 	"os"
 	"io"
 	"xml"
-	"github.com/ajstarks/svgo"
 )
 
-// Pmap defintion
-// <pmap>
-//	<pdata legend="W3C Counter">
-//		<item value="43.2">Internet Explorer</item>
-//		<item value="31.2">Firefox</item>
-//		<item value="10.7">Chrome</item>
-//		<item value="4.2">Safari</item>
-//		<item value="1.4">Opera</item>
-//	</pdata>
-//</pmap>
-
 type Pmap struct {
-	Top   string "attr"
-	Left  string "attr"
+	Top   string `xml:"attr"`
+	Left  string `xml:"attr"`
 	Pdata []Pdata
 }
 type Pdata struct {
-	Legend    string "attr"
-	Stagger   string "attr"
-	Alternate string "attr"
+	Legend    string `xml:"attr"`
+	Stagger   string `xml:"attr"`
+	Alternate string `xml:"attr"`
 	Item      []Item
 }
 type Item struct {
-	Name  string "chardata"
-	Value string "attr"
+	Name  string `xml:"chardata"`
+	Value string `xml:"attr"`
 }
 
 var (
@@ -194,7 +183,7 @@ func pctfill(r, g, b int, v float64) string {
 }
 
 func colorparse(c string) (int, int, int) {
-	s := strings.Split(c, ",", -1)
+	s := strings.Split(c, ",")
 	if len(s) != 3 {
 		return 0, 0, 0
 	}
