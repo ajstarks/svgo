@@ -113,10 +113,16 @@ defs:	svgdef
 	svg2png svgdef.svg
 	tidy -xml -indent -modify svgdef.svg
 
+fmt:	$(CLIENTS)
+	for c in $(CLIENTS); do gofmt -w $$c.go; done
+	
 pdf:	$(SCLIENTS)
 	for c in $(SCLIENTS); do ./$$c > $$c.svg; svg2pdf $$c.svg; done
+	./pmap pmaptest.xml > pmaptest.svg
+	./bulletgraph bg.xml > bg.svg
+	svg2pdf pmaptest.svg bg.svg
 
-test:	$(CLIENTS) bulletgraph pmap
+test:	$(CLIENTS)
 	gofmt -w svg.go
 	for c in $(SCLIENTS); do ./$$c > $$c.svg; $(OPENER) $$c.svg; done
 	./pmap pmaptest.xml > pmaptest.svg
