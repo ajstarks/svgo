@@ -7,10 +7,11 @@ import (
 	"strings"
 	"strconv"
 	"fmt"
-	"github.com/ajstarks/svgo"
 	"os"
 	"io"
 	"xml"
+	"github.com/ajstarks/svgo"
+
 )
 
 type Pmap struct {
@@ -36,7 +37,6 @@ var (
 	ofpct                                                                         float64
 	leftmargin                                                                    = 40
 	topmargin                                                                     = 40
-	canvas                                                                        = svg.New(os.Stdout)
 )
 
 const (
@@ -45,7 +45,7 @@ const (
 	linefmt     = "stroke:%s"
 )
 
-func dopmap(location string) {
+func dopmap(location string, canvas *svg.SVG) {
 	var f *os.File
 	var err os.Error
 	if len(location) > 0 {
@@ -55,22 +55,22 @@ func dopmap(location string) {
 	}
 	defer f.Close()
 	if err == nil {
-		readpmap(f)
+		readpmap(f, canvas)
 	} else {
 		fmt.Fprintf(os.Stderr, "%v\n", err)
 	}
 }
 
-func readpmap(r io.Reader) {
+func readpmap(r io.Reader, canvas *svg.SVG) {
 	var pm Pmap
 	if err := xml.Unmarshal(r, &pm); err == nil {
-		drawpmap(pm)
+		drawpmap(pm, canvas)
 	} else {
 		fmt.Fprintf(os.Stderr, "Unable to parse pmap (%v)\n", err)
 	}
 }
 
-func drawpmap(m Pmap) {
+func drawpmap(m Pmap, canvas *svg.SVG) {
 	fs := fontsize
 	if len(m.Left) > 0 {
 		leftmargin, _ = strconv.Atoi(m.Left)
@@ -83,12 +83,12 @@ func drawpmap(m Pmap) {
 	x := leftmargin
 	y := topmargin
 	for _, p := range m.Pdata {
-		pmap(x, y, fs, p)
+		pmap(x, y, fs, p, canvas)
 		y += fs*fontscale + (gutter + fs*2)
 	}
 }
 
-func pmap(x, y, fs int, m Pdata) {
+func pmap(x, y, fs int, m Pdata, canvas *svg.SVG) {
 	var tfill, vfmt string
 	var up bool
 	h := fs * fontscale
@@ -127,10 +127,13 @@ func pmap(x, y, fs int, m Pdata) {
 		} else {
 			tfill = "fill:black"
 		}
+		
+		pcfill := pctfill(pred, pgreen, pblue, pct, canvas)
+		
 		if round > 0 {
-			canvas.Roundrect(x, y, pw, h, round, round, pctfill(pred, pgreen, pblue, pct))
+			canvas.Roundrect(x, y, pw, h, round, round, pcfill)
 		} else {
-			canvas.Rect(x, y, pw, h, pctfill(pred, pgreen, pblue, pct))
+			canvas.Rect(x, y, pw, h, pcfill)
 		}
 
 		dy := yh + fs + (fs / 2)
@@ -177,7 +180,7 @@ func pmap(x, y, fs int, m Pdata) {
 	}
 }
 
-func pctfill(r, g, b int, v float64) string {
+func pctfill(r, g, b int, v float64, canvas *svg.SVG) string {
 	d := int(255.0*v) - 255
 	return canvas.RGB(r-d, g-d, b-d)
 }
@@ -193,7 +196,7 @@ func colorparse(c string) (int, int, int) {
 	return r, g, b
 }
 
-func dotitle(s string) {
+func dotitle(s string, canvas *svg.SVG) {
 	offset := 40
 	canvas.Text(leftmargin, height-offset, s, "text-anchor:start;font-size:250%")
 }
@@ -222,21 +225,22 @@ func init() {
 }
 
 func main() {
+	canvas := svg.New(os.Stdout)
 	canvas.Start(width, height)
 	canvas.Rect(0, 0, width, height, "fill:"+bgcolor)
 	canvas.Title(title)
 	canvas.Gstyle(fmt.Sprintf(globalfmt, fontsize))
 
 	if len(flag.Args()) == 0 {
-		dopmap("")
+		dopmap("", canvas)
 	} else {
 		for _, f := range flag.Args() {
-			dopmap(f)
+			dopmap(f, canvas)
 		}
 	}
 
 	if showtitle {
-		dotitle(title)
+		dotitle(title, canvas)
 	}
 	canvas.Gend()
 	canvas.End()

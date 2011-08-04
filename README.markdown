@@ -91,7 +91,6 @@ A video describing how to use the package can be seen on YouTube at <http://www.
 ## Package contents ##
 
 * svg.go:		Library
-* test-svgo:	Compiles the library, builds the clients and displays the results
 * newsvg:		Coding template command
 * svgdef.go:	Creates a SVG representation of the API
 * android.go:	The Android logo
