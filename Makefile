@@ -10,7 +10,7 @@ endif
 SVGLIB=svg
 
 CLIENTS=android bulletgraph bubtrail svgdef flower funnel gradient imfade lewitt planets paths pmap randcomp\
-		richter rl skewabc svgopher vismem webfonts
+		richter rl skewabc stockproduct svgopher vismem webfonts
 
 SCLIENTS=android  bubtrail svgdef flower funnel gradient imfade lewitt planets paths randcomp\
 		richter rl skewabc svgopher vismem webfonts
@@ -89,11 +89,16 @@ svgdef:	svgdef.go svg.$(O)
 	$(GC) svgdef.go
 	$(LD) -o svgdef svgdef.$(O)
 	
-	
+		
+
 skewabc:	skewabc.go svg.$(O)
 	$(GC) skewabc.go
 	$(LD)  -o skewabc skewabc.$(O)
 	
+stockproduct:	stockproduct.go svg.$(O)
+	$(GC) stockproduct.go
+	$(LD) -o stockproduct stockproduct.$(O)
+
 svgopher:	svgopher.go svg.$(O)
 	$(GC) svgopher.go
 	$(LD)  -o svgopher svgopher.$(O)
@@ -127,7 +132,8 @@ test:	$(CLIENTS)
 	for c in $(SCLIENTS); do ./$$c > $$c.svg; $(OPENER) $$c.svg; done
 	./pmap pmaptest.xml > pmaptest.svg
 	./bulletgraph bg.xml > bg.svg
-	$(OPENER) pmaptest.svg bg.svg
+	./stockproduct sp.xml > sp.svg
+	$(OPENER) pmaptest.svg bg.svg sp.svg
 	
 clean:
 	rm -f svg.$(O) 
