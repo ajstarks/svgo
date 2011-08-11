@@ -17,12 +17,12 @@ type Parameters struct {
 }
 
 // <stockproduct title="Apple Products and Stock Price">
-//	  <sdata price="7.38" date="2002-08" product="Jaguar" image="images/jaguar.png"/>
-//	  <sdata price="11.44" date="2003-10" product="Panther" image="images/panther.png"/>
-//   <sdata price="41.67" date="2005-03" product="Tiger" image="images/tiger.png"/>
-//   <sdata price="172.75" date="2007-10" product="Leopard" image="images/leopard.jpg"/>
-//	  <sdata price="170.05" date="2009-08" product="Snow Leopard" image="images/snowleopard.jpg"/>
-//   <sdata price="399.68" date="2011-07" product="Lion" image="images/lion.png"/>
+//    <sdata price="7.38" date="2002-08" product="Jaguar" image="images/jaguar.png"/>
+//    <sdata price="11.44" date="2003-10" product="Panther" image="images/panther.png"/>
+//    <sdata price="41.67" date="2005-03" product="Tiger" image="images/tiger.png"/>
+//    <sdata price="172.75" date="2007-10" product="Leopard" image="images/leopard.jpg"/>
+//    <sdata price="170.05" date="2009-08" product="Snow Leopard" image="images/snowleopard.jpg"/>
+//    <sdata price="399.68" date="2011-07" product="Lion" image="images/lion.png"/>
 // </stockproduct>
 
 type StockProduct struct {
@@ -74,6 +74,9 @@ func (p *Parameters) barchart(location string, canvas *svg.SVG) {
 	offset := 120
 	halfoffset := offset / 2
 
+	if bw < 2 {
+		bw = 2
+	}
 	canvas.Text(p.x, p.y-halfoffset, sp.Title, "font-size:400%")
 	if p.showgrid {
 		canvas.Gstyle("stroke:lightgray;stroke-width:1px")
