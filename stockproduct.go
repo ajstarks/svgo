@@ -11,8 +11,8 @@ import (
 
 type Parameters struct {
 	showline, showimage, showproduct, showprice, showdate, showgrid bool
-	x, y, w, h, spacing, fontsize                                   int
-	minvalue, maxvalue, ginterval, opacity                          float64
+	x, y, w, h, width, height, spacing, fontsize, dot                   int
+	minvalue, maxvalue, ginterval, opacity, rotatetext                         float64
 	barcolor                                                        string
 }
 
@@ -96,12 +96,23 @@ func (p *Parameters) barchart(location string, canvas *svg.SVG) {
 		if p.showline {
 			canvas.Line(p.x, bottom, p.x, by)
 		}
+		if p.dot > 0 {
+			canvas.Circle(p.x, by, p.dot, fmt.Sprintf("stroke:none;fill-opacity:%.2f;fill:%s", p.opacity, p.barcolor))
+		}
 		if p.showimage {
-			canvas.Image(p.x-bw/2, by-offset-2, bw, offset, d.Image)
+			if len(d.Image) > 0 {
+				canvas.Image(p.x-bw/2, by-offset-2, bw, offset, d.Image)
+			}
 		}
 		canvas.Gstyle("stroke:none;fill:black")
 		if p.showproduct {
-			canvas.Text(p.x, bottom+40, d.Product)
+			if p.rotatetext != 0 {
+				canvas.TranslateRotate(p.x, bottom+40, p.rotatetext)
+				canvas.Text(0,0, d.Product)
+				canvas.Gend()
+			} else {
+				canvas.Text(p.x,bottom+40, d.Product)
+			}
 		}
 		if p.showprice {
 			canvas.Text(p.x, by, fmt.Sprintf("%.2f", d.Price), "font-weight:bold")
@@ -125,16 +136,20 @@ func init() {
 	flag.BoolVar(&param.showprice, "price", true, "show prices")
 	flag.BoolVar(&param.showdate, "date", true, "show dates")
 	flag.BoolVar(&param.showgrid, "grid", true, "show grid")
+	flag.IntVar(&param.width, "w", 1600, "overall width")
+	flag.IntVar(&param.height, "h", 900, "overall height")
 	flag.IntVar(&param.x, "left", 150, "left")
 	flag.IntVar(&param.y, "top", 120, "top")
 	flag.IntVar(&param.w, "gw", 1400, "graph width")
 	flag.IntVar(&param.h, "gh", 700, "graph height")
+	flag.IntVar(&param.dot, "dot", 0, "dotsize")
 	flag.IntVar(&param.fontsize, "fs", 14, "font size (px)")
 	flag.IntVar(&param.spacing, "spacing", 15, "bar spacing")
 	flag.Float64Var(&param.maxvalue, "max", 400, "max value")
 	flag.Float64Var(&param.minvalue, "min", 0, "max value")
 	flag.Float64Var(&param.ginterval, "ginterval", 50, "max value")
 	flag.Float64Var(&param.opacity, "opacity", 0.5, "bar opacity")
+	flag.Float64Var(&param.rotatetext, "rt", 0, "rotate text")
 	flag.StringVar(&param.barcolor, "color", "lightgray", "bar color")
 	flag.Parse()
 }
@@ -143,7 +158,7 @@ func main() {
 	width := 1600
 	height := 900
 	canvas := svg.New(os.Stdout)
-	canvas.Start(width, height)
+	canvas.Start(param.width, param.height)
 	canvas.Rect(0, 0, width, height, canvas.RGB(255, 255, 255))
 	canvas.Gstyle(fmt.Sprintf("font-family:Calibri;font-size:%dpx", param.fontsize))
 	if len(flag.Args()) == 0 {
