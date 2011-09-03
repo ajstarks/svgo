@@ -23,18 +23,23 @@ var (
 )
 
 // a Bulletgraph Defintion
-// <bulletgraph top="50" left="250" right="50">
+// <bulletgraph title="Bullet Graph" top="50" left="250" right="50">
+//    <note>This is a note</note>
+//    <note>More expository text</note>
 //    <bdata title="Revenue 2005" subtitle="USD (1,000)" scale="0,300,50" qmeasure="150,225" cmeasure="250" measure="275"/>
 //    <bdata title="Profit"  subtitle="%" scale="0,30,5" qmeasure="20,25" cmeasure="27" measure="22.5"/>
 //    <bdata title="Avg Order Size subtitle="USD" scale="0,600,100" qmeasure="350,500" cmeasure="550" measure="320"/>
 //    <bdata title="New Customers" subtitle="Count" scale="0,2500,500" qmeasure="1700,2000" cmeasure="2100" measure="1750"/>
 //    <bdata title="Cust Satisfaction" subtitle="Top rating of 5" scale="0,5,1" qmeasure="3.5,4.5" cmeasure="4.7" measure="4.85"/>
 // </bulletgraph>
+
 type Bulletgraph struct {
 	Top   int `xml:"attr"`
 	Left  int `xml:"attr"`
 	Right int `xml:"attr"`
+	Title string `xml:"attr"`
 	Bdata []bdata
+	Note []note
 }
 
 type bdata struct {
@@ -44,6 +49,10 @@ type bdata struct {
 	Qmeasure string `xml:"attr"`
 	Cmeasure float64 `xml:"attr"`
 	Measure  float64 `xml:"attr"`
+}
+
+type note struct {
+	Text string `xml:"chardata"`
 }
 
 // dobg does file i/o
@@ -76,13 +85,27 @@ func readbg(r io.Reader, s *svg.SVG) {
 // drawbg draws the bullet graph
 func drawbg(bg Bulletgraph, canvas *svg.SVG) {
 	qmheight := barheight / 3
+
+	if bg.Left == 0 {
+		bg.Left = 250
+	}
+	if bg.Right == 0 {
+		bg.Right = 50
+	}
+	if bg.Top == 0 {
+		bg.Top = 50
+	}
+	if len(title) > 0 {
+		bg.Title = title
+	}
+
 	maxwidth := width - (bg.Left + bg.Right)
 	x := bg.Left
 	y := bg.Top
 	scalesep := 4
 	tx := x - fontsize
 
-	canvas.Title(title)
+	canvas.Title(bg.Title)
 	// for each bdata element...
 	for _, v := range bg.Bdata {
 
@@ -92,7 +115,6 @@ func drawbg(bg Bulletgraph, canvas *svg.SVG) {
 
 		// you must have min,max,increment for the scale, at least one qualitative measure
 		if len(sc) != 3 || len(qm) < 1 {
-			println(len(sc), len(qm))
 			continue
 		}
 		// get the qualitative measures
@@ -143,8 +165,20 @@ func drawbg(bg Bulletgraph, canvas *svg.SVG) {
 		y += barheight + gutter // adjust vertical position for the next iteration
 	}
 	// if requested, place the title below the last bar
-	if showtitle {
-		canvas.Text(bg.Left, y+fontsize*2, title, "text-anchor:start;font-size:200%")
+	if showtitle && len(bg.Title) > 0 {
+		y += fontsize*2
+		canvas.Text(bg.Left, y, bg.Title, "text-anchor:start;font-size:200%")
+	}
+
+	if len(bg.Note) > 0 {
+		canvas.Gstyle("font-size:100%;text-anchor:start")
+		y += fontsize*2
+		leading := 3
+		for _, note := range bg.Note {
+			canvas.Text(bg.Left, y, note.Text)
+			y += fontsize + leading
+		}
+		canvas.Gend()
 	}
 }
 
@@ -172,7 +206,7 @@ func init() {
 	flag.IntVar(&fontsize, "f", 18, "fontsize (px)")
 	flag.BoolVar(&circlemark, "circle", false, "circle mark")
 	flag.BoolVar(&showtitle, "showtitle", false, "show title")
-	flag.StringVar(&title, "t", "Bullet Graphs", "title")
+	flag.StringVar(&title, "t", "", "title")
 	flag.Parse()
 }
 
