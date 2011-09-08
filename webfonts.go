@@ -8,6 +8,7 @@ import (
 	"io/ioutil"
 	"strings"
 	"github.com/ajstarks/svgo"
+	"url"
 )
 
 var (
@@ -25,7 +26,7 @@ const (
 
 func googlefont(f string) []string {
 	empty := []string{}
-	r, err := http.Get(gwfURI + http.URLEscape(f))
+	r, err := http.Get(gwfURI + url.QueryEscape(f))
 	if err != nil {
 		return empty
 	}
