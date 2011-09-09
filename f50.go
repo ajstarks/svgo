@@ -6,6 +6,7 @@ import (
 	"github.com/ajstarks/svgo"
 	"os"
 	"http"
+	"url"
 	"xml"
 	"fmt"
 )
@@ -108,7 +109,7 @@ func main() {
 	for i := 1; i < len(os.Args); i++ {
 		canvas.Start(width, height)
 		canvas.Rect(0, 0, width, height, "fill:black")
-		fs(http.URLEscape(os.Args[i]))
+		fs(url.QueryEscape(os.Args[i]))
 		canvas.End()
 	}
 }
