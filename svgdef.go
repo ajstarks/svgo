@@ -396,7 +396,7 @@ func defobjects(w, h int) {
 	defellipse("ellipse", h, h2, "Ellipse(x, y, rx, ry int, style ...string)")
 	defline("line", w, h, "Line(x1, y1, x2, y2 int, style ...string)")
 	defpolyline("polyline", w, h, "Polyline(x, y []int, style ...string)")
-	defarc("arc", h, h2, "Arc(sx, sy, ax, ay, r, lflag, sflag, ex, ey int, style ...string)")
+	defarc("arc", h, h2, "Arc(sx, sy, ax, ay, r int, lflag, sflag bool, ex, ey int, style ...string)")
 	defpath("path", h, h2, "Path(s string, style ...string)")
 	defqbez("qbez", h, h2, h, "Qbez(sx, sy, cx, cy, ex, ey int, style ...string)")
 	defbez("bezier", h, h2, h, "Bezier(sx, sy, cx, cy, px, py, ex, ey int, style ...string)")
