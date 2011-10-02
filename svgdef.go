@@ -11,8 +11,9 @@ import (
 const (
 	textsize    = 24
 	coordsize   = 4
-	objstyle    = "fill:none; stroke-width:2; stroke:rgb(127,0,0)"
-	fobjstyle   = "fill:rgb(127,0,0);fill-opacity:0.25"
+	objcolor = "rgb(0,0,127)"
+	objstyle    = "fill:none; stroke-width:2;stroke:" + objcolor
+	fobjstyle   = "fill-opacity:0.25;fill:"+objcolor
 	legendstyle = "fill:gray; text-anchor:middle"
 	titlestyle  = "fill:black; text-anchor:middle;font-size:24px"
 	linestyle   = "stroke:black; stroke-width:1"
@@ -24,10 +25,11 @@ const (
 var (
 	canvas   = svg.New(os.Stdout)
 	grayfill = canvas.RGB(220, 220, 220)
-	oc1      = svg.Offcolor{0, "red", 1.0}
-	oc2      = svg.Offcolor{50, "gray", 1.0}
-	oc3      = svg.Offcolor{100, "black", 1.0}
-	ga       = []svg.Offcolor{oc1, oc2, oc3}
+	oc1      = svg.Offcolor{0, "white", 1.0}
+	oc2      = svg.Offcolor{25, "yellow", 1.0}
+	oc3      = svg.Offcolor{75, "red", 1.0}
+	oc4      = svg.Offcolor{100, objcolor, 1.0}
+	ga       = []svg.Offcolor{oc1, oc2, oc3, oc4}
 )
 
 func defcoordstr(x int, y int, s string) {
@@ -198,7 +200,7 @@ func defpath(id string, x, y int, legend string) {
 	var w3path = `M36,5l12,41l12-41h33v4l-13,21c30,10,2,69-21,28l7-2c15,27,33,-22,3,-19v-4l12-20h-15l-17,59h-1l-13-42l-12,42h-1l-20-67h9l12,41l8-28l-4-13h9`
 	var cpath = `M94,53c15,32,30,14,35,7l-1-7c-16,26-32,3-34,0M122,16c-10-21-34,0-21,30c-5-30 16,-38 23,-21l5-10l-2-9`
 	canvas.Gid(id)
-	canvas.Path(w3path, `fill="#AA0000"`)
+	canvas.Path(w3path, `fill="`+objcolor+`"`)
 	canvas.Path(cpath, canvas.RGBA(0, 0, 0, 0.5))
 	defcoord(0, 0, -textsize)
 	deflegend(x/2, y+50, textsize, legend)
@@ -243,7 +245,7 @@ func defgrid(id string, w, h int, legend string) {
 	canvas.Text(-textsize, (h / 2), "h", legendstyle)
 	canvas.Text((w / 2), -textsize, "w", legendstyle)
 	canvas.Text(n+textsize, n/2, "n", legendstyle)
-	canvas.Grid(0, 0, w, h, n, "stroke:rgb(127,0,0)")
+	canvas.Grid(0, 0, w, h, n, "stroke:"+objcolor)
 	deflegend((w / 2), 0, h, legend)
 	canvas.Gend()
 }
@@ -258,7 +260,7 @@ func deftext(id string, w, h int, text string, legend string) {
 
 func deftextpath(id string, pathid string, s string, w, h int, legend string) {
 	canvas.Gid(id)
-	canvas.Textpath(s, pathid, `fill="rgb(127,0,0)"`, `text-anchor="start"`, `font-size="16pt"`)
+	canvas.Textpath(s, pathid, `fill="`+objcolor+`"`, `text-anchor="start"`, `font-size="16pt"`)
 	deflegend(w/2, 0, h, legend)
 	canvas.Gend()
 }
@@ -339,7 +341,7 @@ func defrotate(id string, w, h int, deg float64, legend string) {
 func defmeta(id string, w int, name, desc []string, legend string) {
 	canvas.Gid(id)
 	canvas.Textlines(0, textsize, name, 24, 28, "black", "start")
-	canvas.Textlines(w, textsize, desc, 24, 28, "rgb(127,127,127)", "start")
+	canvas.Textlines(w+32, textsize, desc, 24, 28, "rgb(127,127,127)", "start")
 	deflegend(w, 0, 32*len(name), legend)
 	canvas.Gend()
 }
@@ -357,7 +359,7 @@ func defobjects(w, h int) {
 			"Desc(s string)",
 			"Title(s string)",
 			"Script(type, data ...string)",
-			"Mask(id string, x, y, w, h, style ...string)/MaskEnd()",
+			"Mask(id string, x, y, w, h int, style ...string)/MaskEnd()",
 			"Link(href string, title string)/LinkEnd()",
 			"Use(x int, y int, link string, style ...string)",
 			"RGB(r, g, b int)",
