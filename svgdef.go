@@ -346,6 +346,27 @@ func defmeta(id string, w int, name, desc []string, legend string) {
 	canvas.Gend()
 }
 
+func defrgb(id string, w, h, r, g, b int, opacity float64, legend string)  {
+    size := h/8
+    canvas.Gid(id)
+    canvas.Gstyle(legendstyle)
+    colordot(w/4, 0, size, r, 0, 0, 1.0)
+    colordot(w/2, 0, size, 0, g, 0, 1.0)
+    colordot(w*3/4, 0, size, 0, 0, b, 1.0)
+    colordot(w, 0, size, r, g, b, opacity)
+    if opacity < 1.0 {
+        colordot(w+10, 0, size, r, g, b, opacity)
+        canvas.Text(w, h/2, "alpha")
+    }
+    canvas.Text(w/4, h/2, "r")
+    canvas.Text(w/2, h/2, "g")
+    canvas.Text(w*3/4, h/2, "b")
+    canvas.Text(w-(w/8), size-size/2, "->")
+    canvas.Gend()
+    deflegend(w/2, 0, h, legend)
+    canvas.Gend()
+}
+
 func defobjects(w, h int) {
 	var (
 		metatext = []string{
@@ -362,8 +383,6 @@ func defobjects(w, h int) {
 			"Mask(id string, x, y, w, h int, style ...string)/MaskEnd()",
 			"Link(href string, title string)/LinkEnd()",
 			"Use(x int, y int, link string, style ...string)",
-			"RGB(r, g, b int)",
-			"RGBA(r, g, b int, opacity float64)",
 		}
 		metadesc = []string{
 			"specify destination",
@@ -379,8 +398,6 @@ func defobjects(w, h int) {
 			"begin/end mask element",
 			"begin/end link to href, with a title",
 			"use defined objects",
-			"fill color using (r,g,b) triples",
-			"fill color using (r,g,b) with opacity (0.0-1.0)",
 		}
 	)
 	h2 := h / 2
@@ -416,9 +433,19 @@ func defobjects(w, h int) {
 	defrotate("rotate", w, h, 30, "Rotate(r float64)")
 	deftextpath("textpath", "#tpath", tpathstring, w, h, "Textpath(s, pathid string, style ...string)")
 	defmeta("meta", w*2, metatext, metadesc, "Textlines(x, y int, s []string, size, spacing int, fill, align string)")
+	defrgb("rgb", w, h, 44, 77, 232, 1.0, "RGB(r, g, b int)")
+	defrgb("rgba", w, h, 44, 77, 232, 0.33, "RGBA(r, g, b int, opacity float64)")
 	canvas.DefEnd()
 }
 
+func colordot(x, y, r, red, green, blue int, a float64) {
+    // canvas.Circle(x,y,r+textsize/6,"fill:none;stroke:"+objcolor)
+    if a == 1.0 {
+        canvas.Circle(x,y,r,canvas.RGB(red,green,blue))
+    } else {
+        canvas.Circle(x,y,r,canvas.RGBA(red,green,blue,a))
+    }
+}
 
 func placerow(w int, s []string) {
 	for x, name := range s {
@@ -439,9 +466,9 @@ func placeobjects(x, y, w, h int, data [][]string) {
 var roworder = [][]string{
 	{"rect", "crect", "roundrect", "square", "line", "polyline"},
 	{"polygon", "circle", "ellipse", "arc", "qbez", "bezier"},
-	{"trans", "scale", "scalexy", "skewx", "skewy", "skewxy", "rotate"},
+	{"trans", "scale", "scalexy", "skewx", "skewy", "skewxy"},
 	{"rotate", "text", "textpath", "path", "image", "grid"},
-	{"lgrad", "rgrad", "meta"},
+	{"lgrad", "rgrad", "rgb", "rgba", "meta"},
 }
 
 func main() {
