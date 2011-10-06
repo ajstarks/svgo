@@ -6,16 +6,18 @@ xmlns:xlink="http://www.w3.org/1999/xlink">
   <defs>
     <linearGradient id="linear" x1="0%" y1="0%" x2="100%" y2="0%">
       <stop offset="0%" stop-color="white" stop-opacity="1.00" />
-      <stop offset="25%" stop-color="yellow" stop-opacity="1.00" />
-      <stop offset="75%" stop-color="red" stop-opacity="1.00" />
+      <stop offset="25%" stop-color="lightblue"
+      stop-opacity="1.00" />
+      <stop offset="75%" stop-color="blue" stop-opacity="1.00" />
       <stop offset="100%" stop-color="rgb(0,0,127)"
       stop-opacity="1.00" />
     </linearGradient>
     <radialGradient id="radial" cx="0%" cy="0%" r="100%" fx="50%"
     fy="50%">
       <stop offset="0%" stop-color="white" stop-opacity="1.00" />
-      <stop offset="25%" stop-color="yellow" stop-opacity="1.00" />
-      <stop offset="75%" stop-color="red" stop-opacity="1.00" />
+      <stop offset="25%" stop-color="lightblue"
+      stop-opacity="1.00" />
+      <stop offset="75%" stop-color="blue" stop-opacity="1.00" />
       <stop offset="100%" stop-color="rgb(0,0,127)"
       stop-opacity="1.00" />
     </radialGradient>
@@ -271,6 +273,8 @@ xmlns:xlink="http://www.w3.org/1999/xlink">
       Image(x, y, w, h, int path string, style ...string)</text>
     </g>
     <g id="lgrad">
+      <rect x="0" y="0" width="250" height="125"
+      style="fill:url(#linear)" />
       <circle cx="0" cy="0" r="4" style="fill:rgb(220,220,220)" />
       <text x="0" y="-24" style="fill:gray; text-anchor:middle">
       x1%, y1%</text>
@@ -278,19 +282,17 @@ xmlns:xlink="http://www.w3.org/1999/xlink">
       style="fill:rgb(220,220,220)" />
       <text x="250" y="-24" style="fill:gray; text-anchor:middle">
       x2%, y2%</text>
-      <rect x="0" y="0" width="250" height="125"
-      style="fill:url(#linear)" />
       <text x="125" y="149"
       style="fill:black; text-anchor:middle;font-size:24px">
       LinearGradient(s string, x1, y1, x2, y2 uint8, oc
       []Offcolor)</text>
     </g>
     <g id="rgrad">
+      <rect x="0" y="0" width="250" height="125"
+      style="fill:url(#radial)" />
       <circle cx="0" cy="0" r="4" style="fill:rgb(220,220,220)" />
       <text x="0" y="-24" style="fill:gray; text-anchor:middle">
       cx%, cy%</text>
-      <rect x="0" y="0" width="250" height="125"
-      style="fill:url(#radial)" />
       <circle cx="125" cy="62" r="4"
       style="fill:rgb(220,220,220)" />
       <text x="125" y="38" style="fill:gray; text-anchor:middle">
@@ -440,7 +442,7 @@ xmlns:xlink="http://www.w3.org/1999/xlink">
       <path d="M125,0 Q135,31 108,62"
       style="fill:none;stroke:gray" />
       <text x="62" y="24" style="fill:gray; text-anchor:middle">
-      n</text>
+      r</text>
       <g transform="rotate(30)">
         <rect x="0" y="0" width="250" height="125"
         style="fill:none; stroke-width:2;stroke:rgb(0,0,127)" />

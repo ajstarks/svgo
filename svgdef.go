@@ -26,8 +26,8 @@ var (
 	canvas   = svg.New(os.Stdout)
 	grayfill = canvas.RGB(220, 220, 220)
 	oc1      = svg.Offcolor{0, "white", 1.0}
-	oc2      = svg.Offcolor{25, "yellow", 1.0}
-	oc3      = svg.Offcolor{75, "red", 1.0}
+	oc2      = svg.Offcolor{25, "lightblue", 1.0}
+	oc3      = svg.Offcolor{75, "blue", 1.0}
 	oc4      = svg.Offcolor{100, objcolor, 1.0}
 	ga       = []svg.Offcolor{oc1, oc2, oc3, oc4}
 )
@@ -209,17 +209,17 @@ func defpath(id string, x, y int, legend string) {
 
 func deflg(id string, w int, h int, legend string) {
 	canvas.Gid(id)
+	canvas.Rect(0, 0, w, h, "fill:url(#linear)")
 	defcoordstr(0, 0, "x1%, y1%")
 	defcoordstr(w, 0, "x2%, y2%")
-	canvas.Rect(0, 0, w, h, "fill:url(#linear)")
 	deflegend((w / 2), 0, h, legend)
 	canvas.Gend()
 }
 
 func defrg(id string, w int, h int, legend string) {
 	canvas.Gid(id)
-	defcoordstr(0, 0, "cx%, cy%")
 	canvas.Rect(0, 0, w, h, "fill:url(#radial)")
+	defcoordstr(0, 0, "cx%, cy%")
 	defcoordstr(w/2, h/2, "fx%, fy%")
 	deflegend((w / 2), 0, h, legend)
 	canvas.Gend()
@@ -330,7 +330,7 @@ func defrotate(id string, w, h int, deg float64, legend string) {
 	deflegend(w/2, 0, h, legend)
 	canvas.Rect(0, 0, w, h, fobjstyle)
 	canvas.Qbez(w/2, 0, (w/2)+10, int(ry)/2, int(rx), int(ry), "fill:none;stroke:gray")
-	canvas.Text(w/4, textsize, "n", legendstyle)
+	canvas.Text(w/4, textsize, "r", legendstyle)
 	canvas.Rotate(deg)
 	canvas.Rect(0, 0, w, h, objstyle)
 	canvas.Gend()
