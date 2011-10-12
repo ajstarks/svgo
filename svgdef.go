@@ -231,9 +231,9 @@ func deftrans(id string, w, h int, legend string) {
 	defcoordstr(0, 0, "0, 0")
 	defcoordstr(w-tx, 0, "x, y")
 	deflegend(w/2, 0, h, legend)
-	canvas.Rect(0, 0, tx, h, fobjstyle)
-	canvas.Translate(w-tx, 0)
 	canvas.Rect(0, 0, tx, h, objstyle)
+	canvas.Translate(w-tx, 0)
+	canvas.Rect(0, 0, tx, h, fobjstyle)
 	canvas.Gend()
 	canvas.Gend()
 }
@@ -328,15 +328,14 @@ func defrotate(id string, w, h int, deg float64, legend string) {
 	canvas.Gid(id)
 	defcoordstr(0, 0, "0, 0")
 	deflegend(w/2, 0, h, legend)
-	canvas.Rect(0, 0, w, h, fobjstyle)
+	canvas.Rect(0, 0, w, h, objstyle)
 	canvas.Qbez(w/2, 0, (w/2)+10, int(ry)/2, int(rx), int(ry), "fill:none;stroke:gray")
 	canvas.Text(w/4, textsize, "r", legendstyle)
 	canvas.Rotate(deg)
-	canvas.Rect(0, 0, w, h, objstyle)
+	canvas.Rect(0, 0, w, h, fobjstyle)
 	canvas.Gend()
 	canvas.Gend()
 }
-
 
 func defmeta(id string, w int, name, desc []string, legend string) {
 	canvas.Gid(id)

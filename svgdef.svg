@@ -314,10 +314,10 @@ xmlns:xlink="http://www.w3.org/1999/xlink">
       style="fill:black; text-anchor:middle;font-size:24px">
       Translate(x, y int)</text>
       <rect x="0" y="0" width="83" height="125"
-      style="fill-opacity:0.25;fill:rgb(0,0,127)" />
+      style="fill:none; stroke-width:2;stroke:rgb(0,0,127)" />
       <g transform="translate(167,0)">
         <rect x="0" y="0" width="83" height="125"
-        style="fill:none; stroke-width:2;stroke:rgb(0,0,127)" />
+        style="fill-opacity:0.25;fill:rgb(0,0,127)" />
       </g>
     </g>
     <g id="grid">
@@ -438,14 +438,14 @@ xmlns:xlink="http://www.w3.org/1999/xlink">
       style="fill:black; text-anchor:middle;font-size:24px">
       Rotate(r float64)</text>
       <rect x="0" y="0" width="250" height="125"
-      style="fill-opacity:0.25;fill:rgb(0,0,127)" />
+      style="fill:none; stroke-width:2;stroke:rgb(0,0,127)" />
       <path d="M125,0 Q135,31 108,62"
       style="fill:none;stroke:gray" />
       <text x="62" y="24" style="fill:gray; text-anchor:middle">
       r</text>
       <g transform="rotate(30)">
         <rect x="0" y="0" width="250" height="125"
-        style="fill:none; stroke-width:2;stroke:rgb(0,0,127)" />
+        style="fill-opacity:0.25;fill:rgb(0,0,127)" />
       </g>
     </g>
     <g id="textpath">
