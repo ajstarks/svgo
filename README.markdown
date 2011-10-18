@@ -50,7 +50,7 @@ Drawing in a web server: (http://localhost:2003/circle)
 	
 	import (
 		"log"
-		"github.com/ajstaks/svgo"
+		"github.com/ajstarks/svgo"
 		"http"
 	)
 	
