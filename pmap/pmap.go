@@ -4,19 +4,17 @@ package main
 
 import (
 	"flag"
-	"strings"
-	"strconv"
 	"fmt"
 	"os"
 	"io"
 	"xml"
 	"github.com/ajstarks/svgo"
-
 )
 
 type Pmap struct {
-	Top   string `xml:"attr"`
-	Left  string `xml:"attr"`
+	Top   int    `xml:"attr"`
+	Left  int    `xml:"attr"`
+	Title string `xml:"attr"`
 	Pdata []Pdata
 }
 type Pdata struct {
@@ -26,17 +24,18 @@ type Pdata struct {
 	Item      []Item
 }
 type Item struct {
-	Name  string `xml:"chardata"`
-	Value string `xml:"attr"`
+	Name  string  `xml:"chardata"`
+	Value float64 `xml:"attr"`
 }
 
 var (
 	width, height, fontsize, fontscale, round, gutter, pred, pgreen, pblue, oflen int
-	bgcolor, colorspec, title                                                     string
+	bgcolor, olcolor, colorspec, title                                            string
 	showpercent, showdata, alternate, showtitle, stagger, showlegend, showtotal   bool
 	ofpct                                                                         float64
 	leftmargin                                                                    = 40
 	topmargin                                                                     = 40
+	canvas                                                                        = svg.New(os.Stdout)
 )
 
 const (
@@ -45,7 +44,7 @@ const (
 	linefmt     = "stroke:%s"
 )
 
-func dopmap(location string, canvas *svg.SVG) {
+func dopmap(location string) {
 	var f *os.File
 	var err os.Error
 	if len(location) > 0 {
@@ -55,41 +54,48 @@ func dopmap(location string, canvas *svg.SVG) {
 	}
 	defer f.Close()
 	if err == nil {
-		readpmap(f, canvas)
+		readpmap(f)
 	} else {
 		fmt.Fprintf(os.Stderr, "%v\n", err)
 	}
 }
 
-func readpmap(r io.Reader, canvas *svg.SVG) {
+func readpmap(r io.Reader) {
 	var pm Pmap
 	if err := xml.Unmarshal(r, &pm); err == nil {
-		drawpmap(pm, canvas)
+		drawpmap(pm)
 	} else {
 		fmt.Fprintf(os.Stderr, "Unable to parse pmap (%v)\n", err)
 	}
 }
 
-func drawpmap(m Pmap, canvas *svg.SVG) {
+func drawpmap(m Pmap) {
 	fs := fontsize
-	if len(m.Left) > 0 {
-		leftmargin, _ = strconv.Atoi(m.Left)
+	if m.Left > 0 {
+		leftmargin = m.Left
 	}
-	if len(m.Top) > 0 {
-		topmargin, _ = strconv.Atoi(m.Top)
+	if m.Top > 0 {
+		topmargin = m.Top
 	} else {
 		topmargin = fs * fontscale
 	}
 	x := leftmargin
 	y := topmargin
+	if len(m.Title) > 0 {
+		title = m.Title
+	}
+	canvas.Title(title)
+	if showtitle {
+		dotitle(title)
+	}
 	for _, p := range m.Pdata {
-		pmap(x, y, fs, p, canvas)
+		pmap(x, y, fs, p)
 		y += fs*fontscale + (gutter + fs*2)
 	}
 }
 
-func pmap(x, y, fs int, m Pdata, canvas *svg.SVG) {
-	var tfill, vfmt string
+func pmap(x, y, fs int, m Pdata) {
+	var tfill, vfmt, oc string
 	var up bool
 	h := fs * fontscale
 	fw := fs * 80
@@ -98,23 +104,27 @@ func pmap(x, y, fs int, m Pdata, canvas *svg.SVG) {
 
 	sum := 0.0
 	for _, v := range m.Item {
-		fv, _ := strconv.Atof64(v.Value)
-		sum += fv
+		sum += v.Value
 	}
 
+	if len(olcolor) > 0 {
+		oc = olcolor
+	} else {
+		oc = bgcolor
+	}
 	loffset := (fs * fontscale) + fs
 	gline := fmt.Sprintf(linefmt, "gray")
-	wline := fmt.Sprintf(linefmt, bgcolor)
+	wline := fmt.Sprintf(linefmt, oc)
 	if len(m.Legend) > 0 && showlegend {
 		if showtotal {
-			canvas.Text(x, y-fs, fmt.Sprintf("%s (total: %.1f)", m.Legend, sum), legendstyle)
+			canvas.Text(x, y-fs, fmt.Sprintf("%s (total: "+floatfmt(sum)+")", m.Legend, sum), legendstyle)
 		} else {
 			canvas.Text(x, y-fs, m.Legend, legendstyle)
 		}
 	}
 	for i, p := range m.Item {
 		k := p.Name
-		v, _ := strconv.Atof64(p.Value)
+		v := p.Value
 		if v == 0.0 {
 			continue
 		}
@@ -127,13 +137,10 @@ func pmap(x, y, fs int, m Pdata, canvas *svg.SVG) {
 		} else {
 			tfill = "fill:black"
 		}
-		
-		pcfill := pctfill(pred, pgreen, pblue, pct, canvas)
-		
 		if round > 0 {
-			canvas.Roundrect(x, y, pw, h, round, round, pcfill)
+			canvas.Roundrect(x, y, pw, h, round, round, canvas.RGBA(pred, pgreen, pblue, pct))
 		} else {
-			canvas.Rect(x, y, pw, h, pcfill)
+			canvas.Rect(x, y, pw, h, canvas.RGBA(pred, pgreen, pblue, pct))
 		}
 
 		dy := yh + fs + (fs / 2)
@@ -160,11 +167,7 @@ func pmap(x, y, fs int, m Pdata, canvas *svg.SVG) {
 		}
 		canvas.Text(xw, yh, k, tfill)
 		dpfmt := tfill + ";font-size:75%"
-		if v-float64(int(v)) == 0.0 {
-			vfmt = "%.0f"
-		} else {
-			vfmt = "%.1f"
-		}
+		vfmt = floatfmt(v)
 		switch {
 		case showpercent && !showdata:
 			canvas.Text(xw, dy, fmt.Sprintf("%.1f%%", pct*100), dpfmt)
@@ -174,29 +177,21 @@ func pmap(x, y, fs int, m Pdata, canvas *svg.SVG) {
 			canvas.Text(xw, dy, fmt.Sprintf(vfmt, v), dpfmt)
 		}
 		x += pw
-		if i < len(m.Item)-1 {
+		if i < len(m.Item) {
 			canvas.Line(x, y, x, y+h, wline)
 		}
 	}
 }
 
-func pctfill(r, g, b int, v float64, canvas *svg.SVG) string {
-	d := int(255.0*v) - 255
-	return canvas.RGB(r-d, g-d, b-d)
-}
-
-func colorparse(c string) (int, int, int) {
-	s := strings.Split(c, ",")
-	if len(s) != 3 {
-		return 0, 0, 0
+func floatfmt(v float64) string {
+	var vfmt string = "%.1f"
+	if v-float64(int(v)) == 0.0 {
+		vfmt = "%.0f"
 	}
-	r, _ := strconv.Atoi(s[0])
-	g, _ := strconv.Atoi(s[1])
-	b, _ := strconv.Atoi(s[2])
-	return r, g, b
+	return vfmt
 }
 
-func dotitle(s string, canvas *svg.SVG) {
+func dotitle(s string) {
 	offset := 40
 	canvas.Text(leftmargin, height-offset, s, "text-anchor:start;font-size:250%")
 }
@@ -210,6 +205,7 @@ func init() {
 	flag.IntVar(&gutter, "g", 100, "gutter")
 	flag.IntVar(&oflen, "ol", 20, "overflow length")
 	flag.StringVar(&bgcolor, "bg", "white", "background color")
+	flag.StringVar(&olcolor, "oc", "", "outline color")
 	flag.StringVar(&colorspec, "c", "0,0,0", "color (r,g,b)")
 	flag.StringVar(&title, "t", "Proportions", "title")
 	flag.BoolVar(&showpercent, "p", false, "show percentage")
@@ -221,26 +217,20 @@ func init() {
 	flag.BoolVar(&showtotal, "showtotal", false, "show totals in the legend")
 	flag.Float64Var(&ofpct, "op", 0.05, "overflow percentage")
 	flag.Parse()
-	pred, pgreen, pblue = colorparse(colorspec)
+	fmt.Sscanf(colorspec, "%d,%d,%d", &pred, &pgreen, &pblue)
 }
 
 func main() {
-	canvas := svg.New(os.Stdout)
 	canvas.Start(width, height)
 	canvas.Rect(0, 0, width, height, "fill:"+bgcolor)
-	canvas.Title(title)
 	canvas.Gstyle(fmt.Sprintf(globalfmt, fontsize))
 
 	if len(flag.Args()) == 0 {
-		dopmap("", canvas)
+		dopmap("")
 	} else {
 		for _, f := range flag.Args() {
-			dopmap(f, canvas)
+			dopmap(f)
 		}
-	}
-
-	if showtitle {
-		dotitle(title, canvas)
 	}
 	canvas.Gend()
 	canvas.End()
