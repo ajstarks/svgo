@@ -10,7 +10,6 @@ import (
 	"image/png"
 )
 
-
 var ssDist = []float64{
 	0.00,  // Sun
 	0.34,  // Mercury
@@ -69,14 +68,12 @@ var ssImages = []string{
 	"uranus.png",
 	"neptune.png"}
 
-
 var showimages *bool = flag.Bool("i", true, "show images")
 var canvas = svg.New(os.Stdout)
 
 func vmap(value float64, low1 float64, high1 float64, low2 float64, high2 float64) float64 {
 	return low2 + (high2-low2)*(value-low1)/(high1-low1)
 }
-
 
 func main() {
 
@@ -95,36 +92,43 @@ func main() {
 	labeloc := height / 4
 
 	var x, r, imScale, maxh float64
+	var px, po int
 
 	if *showimages {
 		maxh = float64(height) / 4.0
 	} else {
 		maxh = float64(height) / minsize
 	}
-
 	for i := 1; i < nobj; i++ {
 		x = vmap(ssDist[i], ssDist[1], ssDist[nobj-1], float64(margin), float64(width-margin))
 		r = (vmap(ssRad[i], ssRad[1], ssRad[nobj-1], minsize, maxh)) / 2
+		px = int(x)
 		if *showimages {
 			f, err := os.Open(ssImages[i])
 			defer f.Close()
 			if err != nil {
+				println("bad image file:", ssImages[i])
 				continue
 			}
 			p, perr := png.DecodeConfig(f)
 			if perr != nil {
+				println("bad decode:", ssImages[i])
 				continue
 			}
 			imScale = r / float64(p.Width)
 			hs := float64(p.Height) * imScale
 			dy := y - (int(hs) / 2) // center the image
-			canvas.Image(int(x), dy, int(r), int(hs), ssImages[i])
+			po = int(r) / 2
+			canvas.Image(px, dy, int(r), int(hs), ssImages[i])
 		} else {
-			canvas.Circle(int(x), int(y), int(r), "fill:#"+ssColor[i])
+			po = 0
+			canvas.Circle(px, y, int(r), "fill:#"+ssColor[i])
 		}
 		if ssDist[i] == 1.0 { // earth
-			canvas.Line(int(x), int(y), int(x), int(y)-labeloc, "stroke:white")
-			canvas.Text(int(x), int(y)-labeloc-10, "You are here", "fill:white; font-size:14; font-family:Calibri; text-anchor:middle")
+			canvas.Line(px + po, y-po, px + po, y-labeloc, 
+						"stroke-width:1px;stroke:white")
+			canvas.Text(px + po, y-labeloc-10, "You are here", 
+						"fill:white; font-size:14; font-family:Calibri; text-anchor:middle")
 		}
 	}
 	canvas.Gend()
