@@ -92,33 +92,32 @@ A video describing how to use the package can be seen on YouTube at <http://www.
 
 * svg.go:		Library
 * newsvg:		Coding template command
-* svgdef.go:	Creates a SVG representation of the API
-* android.go:	The Android logo
-* bubtrail.go: Bubble trails
-* bulletgraph.go	Bullet Graphs (via Stephen Few)
-* colortab.go: Display SVG named colors with RGB values
-* flower.go:	Random "flowers"
+* svgdef:	Creates a SVG representation of the API
+* android:	The Android logo
+* bubtrail: Bubble trails
+* bulletgraph:	Bullet Graphs (via Stephen Few)
+* colortab: Display SVG named colors with RGB values
+* flower:	Random "flowers"
 * fontcompare:	Compare two fonts
-* f50.go:		Get 50 photos from Flickr based on a query
-* funnel.go:	Funnel from transparent circles
-* gradient.go:	Linear and radial gradients
+* f50:		Get 50 photos from Flickr based on a query
+* funnel:	Funnel from transparent circles
+* gradient:	Linear and radial gradients
 * html5logo:	HTML5 logo with draggable elements
-* imfade.go:	Show image fading
-* lewitt.go:	Version of Sol Lewitt's Wall Drawing 91
-* ltr.go:		Layer Tennis Remixes
-* paths.go		Demonstrate SVG paths
-* planets.go:	Show the scale of the Solar system
-* pmap.go:		Proportion maps
-* randcomp.go:	Compare random number generators
-* richter.go:	Gerhard Richter's 256 colors
-* rl.go:			Random lines (port of a Processing demo)
+* imfade:	Show image fading
+* lewitt:	Version of Sol Lewitt's Wall Drawing 91
+* ltr:		Layer Tennis Remixes
+* paths		Demonstrate SVG paths
+* planets:	Show the scale of the Solar system
+* pmap:		Proportion maps
+* randcomp:	Compare random number generators
+* richter:	Gerhard Richter's 256 colors
+* rl:			Random lines (port of a Processing demo)
 * skewabc:		Skew ABC
-* stockproduct.go:	Visualize product and stock prices
-* svgopher.go:	SVGo Mascot
-* vismem.go:	Visualize data from files
-* webfonts.go:	"Hello, World" with Google Web Fonts
-* websvg.go:	Generate SVG as a web server
-* images/*		Images used by the client programs
+* stockproduct:	Visualize product and stock prices
+* svgopher:	SVGo Mascot
+* vismem:	Visualize data from files
+* webfonts:	"Hello, World" with Google Web Fonts
+* websvg:	Generate SVG as a web server
 
 
 ## Functions and types ##
