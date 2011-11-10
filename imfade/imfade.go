@@ -11,7 +11,7 @@ var canvas = svg.New(os.Stdout)
 func main() {
 	width := 768
 	height := 128
-	image := "images/gophercolor128x128.png"
+	image := "gophercolor128x128.png"
 	if len(os.Args) > 1 {
 		image = os.Args[1]
 	}

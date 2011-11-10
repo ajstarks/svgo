@@ -59,15 +59,15 @@ var ssColor = []string{ // R, G, B
 	"39B6F7"} // Neptune
 
 var ssImages = []string{
-	"images/sun.png",
-	"images/mercury.png",
-	"images/venus.png",
-	"images/earth.png",
-	"images/mars.png",
-	"images/jupiter.png",
-	"images/saturn.png",
-	"images/uranus.png",
-	"images/neptune.png"}
+	"sun.png",
+	"mercury.png",
+	"venus.png",
+	"earth.png",
+	"mars.png",
+	"jupiter.png",
+	"saturn.png",
+	"uranus.png",
+	"neptune.png"}
 
 
 var showimages *bool = flag.Bool("i", true, "show images")
