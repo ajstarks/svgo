@@ -110,7 +110,6 @@ func (svg *SVG) Script(scriptype string, data ...string) {
 	}
 }
 
-
 // Gstyle begins a group, with the specified style.
 // Standard Reference: http://www.w3.org/TR/SVG11/struct.html#GElement
 func (svg *SVG) Gstyle(s string) { svg.println(group("style", s)) }
@@ -157,6 +156,9 @@ func (svg *SVG) RotateTranslate(x, y int, r float64) {
 	svg.Gtransform(rotate(r) + " " + translate(x, y))
 }
 
+// Group begins a group with arbitrary attributes
+func (svg *SVG) Group(s ...string) { svg.printf("<g %s\n", endstyle(s, `>`)) }
+
 // Gid begins a group, with the specified id
 func (svg *SVG) Gid(s string) {
 	svg.print(`<g id="`)
@@ -166,6 +168,14 @@ func (svg *SVG) Gid(s string) {
 
 // Gend ends a group (must be paired with Gsttyle, Gtransform, Gid).
 func (svg *SVG) Gend() { svg.println(`</g>`) }
+
+// ClipPath defines a clip path
+func (svg *SVG) ClipPath(s ...string) { svg.printf(`<clipPath %s`, endstyle(s, `>`)) }
+
+// ClipEnd ends a ClipPath
+func (svg *SVG) ClipEnd() {
+	svg.println(`</clipPath>`)
+}
 
 // Def begins a defintion block.
 // Standard Reference: http://www.w3.org/TR/SVG11/struct.html#DefsElement

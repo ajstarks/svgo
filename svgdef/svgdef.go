@@ -11,9 +11,9 @@ import (
 const (
 	textsize    = 24
 	coordsize   = 4
-	objcolor = "rgb(0,0,127)"
+	objcolor    = "rgb(0,0,127)"
 	objstyle    = "fill:none; stroke-width:2;stroke:" + objcolor
-	fobjstyle   = "fill-opacity:0.25;fill:"+objcolor
+	fobjstyle   = "fill-opacity:0.25;fill:" + objcolor
 	legendstyle = "fill:gray; text-anchor:middle"
 	titlestyle  = "fill:black; text-anchor:middle;font-size:24px"
 	linestyle   = "stroke:black; stroke-width:1"
@@ -345,25 +345,25 @@ func defmeta(id string, w int, name, desc []string, legend string) {
 	canvas.Gend()
 }
 
-func defrgb(id string, w, h, r, g, b int, opacity float64, legend string)  {
-    size := h/8
-    canvas.Gid(id)
-    canvas.Gstyle(legendstyle)
-    colordot(w/4, 0, size, r, 0, 0, 1.0)
-    colordot(w/2, 0, size, 0, g, 0, 1.0)
-    colordot(w*3/4, 0, size, 0, 0, b, 1.0)
-    colordot(w, 0, size, r, g, b, opacity)
-    if opacity < 1.0 {
-        colordot(w+10, 0, size, r, g, b, opacity)
-        canvas.Text(w, h/2, "alpha")
-    }
-    canvas.Text(w/4, h/2, "r")
-    canvas.Text(w/2, h/2, "g")
-    canvas.Text(w*3/4, h/2, "b")
-    canvas.Text(w-(w/8), size-size/2, "->")
-    canvas.Gend()
-    deflegend(w/2, 0, h, legend)
-    canvas.Gend()
+func defrgb(id string, w, h, r, g, b int, opacity float64, legend string) {
+	size := h / 8
+	canvas.Gid(id)
+	canvas.Gstyle(legendstyle)
+	colordot(w/4, 0, size, r, 0, 0, 1.0)
+	colordot(w/2, 0, size, 0, g, 0, 1.0)
+	colordot(w*3/4, 0, size, 0, 0, b, 1.0)
+	colordot(w, 0, size, r, g, b, opacity)
+	if opacity < 1.0 {
+		colordot(w+10, 0, size, r, g, b, opacity)
+		canvas.Text(w, h/2, "alpha")
+	}
+	canvas.Text(w/4, h/2, "r")
+	canvas.Text(w/2, h/2, "g")
+	canvas.Text(w*3/4, h/2, "b")
+	canvas.Text(w-(w/8), size-size/2, "->")
+	canvas.Gend()
+	deflegend(w/2, 0, h, legend)
+	canvas.Gend()
 }
 
 func defobjects(w, h int) {
@@ -372,9 +372,11 @@ func defobjects(w, h int) {
 			"New(w io Writer)",
 			"Start(w, h int, options ...string)/End()",
 			"Startview(w, h, minx, miny, vw, vh int)",
+			"Group(s ...string)/Gend()",
 			"Gstyle(s string)/Gend()",
 			"Gtransform(s string)/Gend()",
 			"Gid(id string)/Gend()",
+			"ClipPath(s ...string)/ClipEnd()",
 			"Def()/DefEnd()",
 			"Desc(s string)",
 			"Title(s string)",
@@ -387,9 +389,11 @@ func defobjects(w, h int) {
 			"specify destination",
 			"begin/end the document",
 			"begin/end the document with viewport",
+			"begin/end group with attributes",
 			"begin/end group style",
 			"begin/end group transform",
 			"begin/end group id",
+			"begin/end clip path",
 			"begin/end a defintion block",
 			"set the description element",
 			"set the title element",
@@ -418,7 +422,7 @@ func defobjects(w, h int) {
 	defpath("path", h, h2, "Path(s string, style ...string)")
 	defqbez("qbez", h, h2, h, "Qbez(sx, sy, cx, cy, ex, ey int, style ...string)")
 	defbez("bezier", h, h2, h, "Bezier(sx, sy, cx, cy, px, py, ex, ey int, style ...string)")
-	defimage("image", 128, 128, "images/gophercolor128x128.png", "Image(x, y, w, h, int path string, style ...string)")
+	defimage("image", 128, 128, "gophercolor128x128.png", "Image(x, y, w, h, int path string, style ...string)")
 	deflg("lgrad", w, h, "LinearGradient(s string, x1, y1, x2, y2 uint8, oc []Offcolor)")
 	defrg("rgrad", w, h, "RadialGradient(s string, cx, cy, r, fx, fy uint8, oc []Offcolor)")
 	deftrans("trans", w, h, "Translate(x, y int)")
@@ -438,12 +442,12 @@ func defobjects(w, h int) {
 }
 
 func colordot(x, y, r, red, green, blue int, a float64) {
-    // canvas.Circle(x,y,r+textsize/6,"fill:none;stroke:"+objcolor)
-    if a == 1.0 {
-        canvas.Circle(x,y,r,canvas.RGB(red,green,blue))
-    } else {
-        canvas.Circle(x,y,r,canvas.RGBA(red,green,blue,a))
-    }
+	// canvas.Circle(x,y,r+textsize/6,"fill:none;stroke:"+objcolor)
+	if a == 1.0 {
+		canvas.Circle(x, y, r, canvas.RGB(red, green, blue))
+	} else {
+		canvas.Circle(x, y, r, canvas.RGBA(red, green, blue, a))
+	}
 }
 
 func placerow(w int, s []string) {

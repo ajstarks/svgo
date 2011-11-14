@@ -8,7 +8,8 @@ import (
 	"bufio"
 	"flag"
 	"strings"
-	"image/png"
+	"xml"
+	"io"
 	"github.com/ajstarks/svgo"
 )
 
@@ -22,48 +23,38 @@ var (
 	codefmt                                                   = "font-family:%s;font-size:%dpx"
 )
 
-func slide(filename string) {
-	var line, basename, imgname string
+type SVG struct {
+	Width  int    `xml:"attr"`
+	Height int    `xml:"attr"`
+	Doc    string `xml:"innerxml"`
+}
+
+func codepic(filename string) {
+	var line, basename string
 	var rerr os.Error
+
 	bn := strings.Split(filename, ".")
 	if len(bn) > 0 {
 		basename = bn[0]
-		imgname = basename + ".png"
 	} else {
 		fmt.Fprintf(os.Stderr, "cannot get the basename for %s\n", filename)
 		return
 	}
+
 	f, oerr := os.Open(filename)
 	defer f.Close()
 	if oerr != nil {
 		fmt.Fprintf(os.Stderr, "%v\n", oerr)
 		return
 	}
-	imgf, imgerr := os.Open(imgname)
-	defer imgf.Close()
-	if imgerr != nil {
-		fmt.Fprintf(os.Stderr, "%v\n", imgerr)
-		return
-	}
-	imginfo, imgerr := png.DecodeConfig(imgf)
-	if imgerr != nil {
-		fmt.Fprintf(os.Stderr, "%v\n", imgerr)
-		return
-	}
 
-	lx := width/2 + imginfo.Width/2
-	ly := height - 10
 	in := bufio.NewReader(f)
 	canvas.Start(width, height)
 	canvas.Title(basename)
 
-	canvas.Rect(0,0,width,height,"fill:white")
-	if picframe {
-		canvas.Rect(width/2, top, imginfo.Width, imginfo.Height, framestyle)
-	}
-	canvas.Image(width/2, top, imginfo.Width, imginfo.Height, imgname, "image")
+	canvas.Rect(0, 0, width, height, "fill:white")
 	canvas.Gstyle(fmt.Sprintf(codefmt, font, fontsize))
-	canvas.Text(lx, ly, filename, labelstyle)
+	placepic(width/2, top, basename)
 	y := top + fontsize*2
 	for x := left + fontsize; rerr == nil; y += linespacing {
 		line, rerr = in.ReadString('\n')
@@ -76,6 +67,29 @@ func slide(filename string) {
 	}
 	canvas.Gend()
 	canvas.End()
+}
+func placepic(x, y int, basename string) {
+	var s SVG
+	f, err := os.Open(basename + ".svg")
+	defer f.Close()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "%v\n", err)
+		return
+	}
+	if err := xml.Unmarshal(f, &s); err != nil {
+		fmt.Fprintf(os.Stderr, "Unable to parse (%v)\n", err)
+		return
+	}
+	if picframe {
+		canvas.Rect(x, y, s.Width, s.Height, framestyle)
+	}
+	canvas.Text(x+s.Width/2, height-10, basename+".go", labelstyle)
+	canvas.Group(`clip-path="url(#pic)"`, fmt.Sprintf(`transform="translate(%d,%d)"`, x, y))
+	canvas.ClipPath(`id="pic"`)
+	canvas.Rect(0, 0, s.Width, s.Height)
+	canvas.ClipEnd()
+	io.WriteString(canvas.Writer, s.Doc)
+	canvas.Gend()
 }
 
 func init() {
@@ -94,6 +108,6 @@ func init() {
 
 func main() {
 	for _, f := range flag.Args() {
-		slide(f)
+		codepic(f)
 	}
 }
