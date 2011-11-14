@@ -162,9 +162,16 @@ is used to specify the offset, color, and opacity of stop colors in linear and r
  if no data is specified, simply close the script element.
   <http://www.w3.org/TR/SVG/script.html>
   
+	Group(s ...string)
+  begin a group, with arbitrary attributes
+  <http://www.w3.org/TR/SVG11/struct.html#GElement>
+
 	Gstyle(s string)
   begin a group, with the specified style.
   <http://www.w3.org/TR/SVG11/struct.html#GElement>
+
+	Gid(s string)
+   begin a group, with the specified id.
 
 	Gtransform(s string)
   begin a group, with the specified transform, end with Gend().
@@ -204,11 +211,16 @@ is used to specify the offset, color, and opacity of stop colors in linear and r
 	RotateTranslate(x, y int, r float64)
    rotates the coordinate system r degrees, then translates to (x,y), end with Gend().
 
-	Gid(s string)
-   begin a group, with the specified id.
-
 	Gend()
    end the group (must be paired with Gstyle, Gtransform, Gid).
+
+	ClipPath(s ...string)
+  Begin a ClipPath
+  <http://www.w3.org/TR/SVG/masking.html#ClippingPaths>
+
+	ClipEnd()
+  End a ClipPath
+  <http://www.w3.org/TR/SVG/masking.html#ClippingPaths>
 
 	Def()
   begin a definition block.
