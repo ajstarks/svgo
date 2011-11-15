@@ -23,12 +23,16 @@ var (
 	codefmt                                                   = "font-family:%s;font-size:%dpx"
 )
 
+// incoming SVG file, capture everything into between <svg..> and </svg> 
+// in the Doc string.  This code will be translated to form the "picture" portion
 type SVG struct {
 	Width  int    `xml:"attr"`
 	Height int    `xml:"attr"`
 	Doc    string `xml:"innerxml"`
 }
 
+// codepic makes a code+picture SVG file, given a go source file
+// and conventionally named output -- given <name>.go, <name>.svg
 func codepic(filename string) {
 	var basename string
 
@@ -39,17 +43,17 @@ func codepic(filename string) {
 		fmt.Fprintf(os.Stderr, "cannot get the basename for %s\n", filename)
 		return
 	}
-
 	canvas.Start(width, height)
 	canvas.Title(basename)
 	canvas.Rect(0, 0, width, height, "fill:white")
-	canvas.Gstyle(fmt.Sprintf(codefmt, font, fontsize))
 	placepic(width/2, top, basename)
+	canvas.Gstyle(fmt.Sprintf(codefmt, font, fontsize))
 	placecode(left+fontsize, top+fontsize*2, filename)
 	canvas.Gend()
 	canvas.End()
 }
 
+// placecode place the code
 func placecode(x, y int, filename string) {
 	var rerr os.Error
 	var line string
@@ -71,6 +75,7 @@ func placecode(x, y int, filename string) {
 	}
 }
 
+// placepic places the picture
 func placepic(x, y int, basename string) {
 	var s SVG
 	f, err := os.Open(basename + ".svg")
@@ -83,9 +88,6 @@ func placepic(x, y int, basename string) {
 		fmt.Fprintf(os.Stderr, "Unable to parse (%v)\n", err)
 		return
 	}
-	if picframe {
-		canvas.Rect(x, y, s.Width, s.Height, framestyle)
-	}
 	canvas.Text(x+s.Width/2, height-10, basename+".go", labelstyle)
 	canvas.Group(`clip-path="url(#pic)"`, fmt.Sprintf(`transform="translate(%d,%d)"`, x, y))
 	canvas.ClipPath(`id="pic"`)
@@ -93,8 +95,12 @@ func placepic(x, y int, basename string) {
 	canvas.ClipEnd()
 	io.WriteString(canvas.Writer, s.Doc)
 	canvas.Gend()
+	if picframe {
+		canvas.Rect(x, y, s.Width, s.Height, framestyle)
+	}
 }
 
+// init initializes flags
 func init() {
 	flag.BoolVar(&codeframe, "codeframe", true, "frame the code")
 	flag.BoolVar(&picframe, "picframe", true, "frame the picture")
@@ -109,6 +115,7 @@ func init() {
 	flag.Parse()
 }
 
+// for every file, make a code+pic SVG file
 func main() {
 	for _, f := range flag.Args() {
 		codepic(f)
