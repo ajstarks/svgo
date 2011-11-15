@@ -30,8 +30,7 @@ type SVG struct {
 }
 
 func codepic(filename string) {
-	var line, basename string
-	var rerr os.Error
+	var basename string
 
 	bn := strings.Split(filename, ".")
 	if len(bn) > 0 {
@@ -41,33 +40,37 @@ func codepic(filename string) {
 		return
 	}
 
-	f, oerr := os.Open(filename)
-	defer f.Close()
-	if oerr != nil {
-		fmt.Fprintf(os.Stderr, "%v\n", oerr)
-		return
-	}
-
-	in := bufio.NewReader(f)
 	canvas.Start(width, height)
 	canvas.Title(basename)
-
 	canvas.Rect(0, 0, width, height, "fill:white")
 	canvas.Gstyle(fmt.Sprintf(codefmt, font, fontsize))
 	placepic(width/2, top, basename)
-	y := top + fontsize*2
-	for x := left + fontsize; rerr == nil; y += linespacing {
+	placecode(left+fontsize, top+fontsize*2, filename)
+	canvas.Gend()
+	canvas.End()
+}
+
+func placecode(x, y int, filename string) {
+	var rerr os.Error
+	var line string
+	f, err := os.Open(filename)
+	defer f.Close()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "%v\n", err)
+		return
+	}
+	in := bufio.NewReader(f)
+	for xp := left + fontsize; rerr == nil; y += linespacing {
 		line, rerr = in.ReadString('\n')
 		if len(line) > 0 {
-			canvas.Text(x, y, line[0:len(line)-1], `xml:space="preserve"`)
+			canvas.Text(xp, y, line[0:len(line)-1], `xml:space="preserve"`)
 		}
 	}
 	if codeframe {
 		canvas.Rect(top, left, left+boxwidth, y, framestyle)
 	}
-	canvas.Gend()
-	canvas.End()
 }
+
 func placepic(x, y int, basename string) {
 	var s SVG
 	f, err := os.Open(basename + ".svg")
