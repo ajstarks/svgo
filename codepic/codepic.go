@@ -19,7 +19,7 @@ var (
 	codeframe, picframe                                       bool
 	linespacing, fontsize, top, left, boxwidth, width, height int
 	framestyle                                                = "stroke:gray;stroke-dasharray:1,1;fill:none"
-	labelstyle                                                = "text-anchor:middle;font-size:200%"
+	labelstyle                                                = "text-anchor:middle"
 	codefmt                                                   = "font-family:%s;font-size:%dpx"
 )
 
@@ -88,7 +88,7 @@ func placepic(x, y int, basename string) {
 		fmt.Fprintf(os.Stderr, "Unable to parse (%v)\n", err)
 		return
 	}
-	canvas.Text(x+s.Width/2, height-10, basename+".go", labelstyle)
+	canvas.Text(x+s.Width/2, height-10, basename+".go", fmt.Sprintf(codefmt, font, fontsize*2))
 	canvas.Group(`clip-path="url(#pic)"`, fmt.Sprintf(`transform="translate(%d,%d)"`, x, y))
 	canvas.ClipPath(`id="pic"`)
 	canvas.Rect(0, 0, s.Width, s.Height)
