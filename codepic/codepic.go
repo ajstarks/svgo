@@ -3,14 +3,14 @@
 package main
 
 import (
-	"os"
-	"fmt"
 	"bufio"
+	"encoding/xml"
 	"flag"
-	"strings"
-	"xml"
-	"io"
+	"fmt"
 	"github.com/ajstarks/svgo"
+	"io"
+	"os"
+	"strings"
 )
 
 var (
@@ -53,9 +53,9 @@ func codepic(filename string) {
 	canvas.End()
 }
 
-// placecode place the code
+// placecode places the code section on the left
 func placecode(x, y int, filename string) {
-	var rerr os.Error
+	var rerr error
 	var line string
 	f, err := os.Open(filename)
 	defer f.Close()
@@ -75,7 +75,7 @@ func placecode(x, y int, filename string) {
 	}
 }
 
-// placepic places the picture
+// placepic places the picture on the right
 func placepic(x, y int, basename string) {
 	var s SVG
 	f, err := os.Open(basename + ".svg")

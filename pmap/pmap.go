@@ -3,12 +3,12 @@
 package main
 
 import (
+	"encoding/xml"
 	"flag"
 	"fmt"
-	"os"
-	"io"
-	"xml"
 	"github.com/ajstarks/svgo"
+	"io"
+	"os"
 )
 
 type Pmap struct {
@@ -46,7 +46,7 @@ const (
 
 func dopmap(location string) {
 	var f *os.File
-	var err os.Error
+	var err error
 	if len(location) > 0 {
 		f, err = os.Open(location)
 	} else {

@@ -1,8 +1,8 @@
 package main
 
 import (
-	"os"
 	"github.com/ajstarks/svgo"
+	"os"
 )
 
 var canvas = svg.New(os.Stdout)

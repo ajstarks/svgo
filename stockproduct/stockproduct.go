@@ -2,17 +2,17 @@
 package main
 
 import (
-	"os"
-	"fmt"
+	"encoding/xml"
 	"flag"
-	"xml"
+	"fmt"
 	"github.com/ajstarks/svgo"
+	"os"
 )
 
 type Parameters struct {
 	showline, showimage, showproduct, showprice, showdate, showgrid bool
-	x, y, w, h, width, height, spacing, fontsize, dot                   int
-	minvalue, maxvalue, ginterval, opacity, rotatetext                         float64
+	x, y, w, h, width, height, spacing, fontsize, dot               int
+	minvalue, maxvalue, ginterval, opacity, rotatetext              float64
 	barcolor                                                        string
 }
 
@@ -50,7 +50,7 @@ func vmap(value float64, low1 float64, high1 float64, low2 float64, high2 float6
 func (p *Parameters) barchart(location string, canvas *svg.SVG) {
 	var (
 		f   *os.File
-		err os.Error
+		err error
 		sp  StockProduct
 	)
 	if len(location) > 0 {
@@ -80,7 +80,7 @@ func (p *Parameters) barchart(location string, canvas *svg.SVG) {
 	canvas.Text(p.x, p.y-halfoffset, sp.Title, "font-size:400%")
 	if p.showgrid {
 		canvas.Gstyle("stroke:lightgray;stroke-width:1px")
-		gx := p.x - (bw/2)
+		gx := p.x - (bw / 2)
 		for i := p.maxvalue; i >= p.minvalue; i -= p.ginterval {
 			yp := int(vmap(i, p.minvalue, p.maxvalue, float64(p.y), float64(bottom)))
 			by := p.y + (bottom - yp)
@@ -108,10 +108,10 @@ func (p *Parameters) barchart(location string, canvas *svg.SVG) {
 		if p.showproduct {
 			if p.rotatetext != 0 {
 				canvas.TranslateRotate(p.x, bottom+40, p.rotatetext)
-				canvas.Text(0,0, d.Product)
+				canvas.Text(0, 0, d.Product)
 				canvas.Gend()
 			} else {
-				canvas.Text(p.x,bottom+40, d.Product)
+				canvas.Text(p.x, bottom+40, d.Product)
 			}
 		}
 		if p.showprice {

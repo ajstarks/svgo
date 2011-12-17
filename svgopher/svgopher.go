@@ -59,7 +59,7 @@ func gordon(x, y, w, h int) {
 func main() {
 	canvas.Start(width, height)
 	canvas.Title("SVG Gopher")
-	background(240)
+	background(255)
 	canvas.Gtransform("translate(100, 100)")
 	canvas.Gtransform("rotate(-30)")
 	gordon(48, 48, 240, 72)

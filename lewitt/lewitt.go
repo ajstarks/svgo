@@ -11,12 +11,12 @@
 package main
 
 import (
-	"github.com/ajstarks/svgo"
-	"rand"
-	"time"
-	"fmt"
 	"flag"
+	"fmt"
+	"github.com/ajstarks/svgo"
+	"math/rand"
 	"os"
+	"time"
 )
 
 var canvas = svg.New(os.Stdout)
@@ -32,7 +32,6 @@ var nw = flag.Int("w", 3, "maximum pencil width")
 var pencils = []string{"(250, 13, 44)", "(247, 212, 70)", "(52, 114, 245)"}
 
 func background(v int) { canvas.Rect(0, 0, width, height, canvas.RGB(v, v, v)) }
-
 
 func lewitt(x int, y int, gsize int, n int, w int) {
 	var x1, x2, y1, y2 int
@@ -60,10 +59,9 @@ func random(howsmall, howbig int) int {
 	return rand.Intn(howbig-howsmall) + howsmall
 }
 
-
 func init() {
 	flag.Parse()
-	rand.Seed(time.Nanoseconds() % 1e9)
+	rand.Seed(int64(time.Now().Nanosecond()) % 1e9)
 }
 
 func main() {

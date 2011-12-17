@@ -1,12 +1,12 @@
 package main
 
 import (
-	"github.com/ajstarks/svgo"
-	"time"
-	"rand"
-	"os"
 	"flag"
 	"fmt"
+	"github.com/ajstarks/svgo"
+	"math/rand"
+	"os"
+	"time"
 )
 
 var (
@@ -23,11 +23,10 @@ func init() {
 	flag.IntVar(&niter, "n", 200, "number of iterations")
 	flag.Float64Var(&opacity, "o", 0.5, "opacity")
 	flag.Parse()
-	rand.Seed(time.Nanoseconds() % 1e9)
+	rand.Seed(int64(time.Now().Nanosecond()) % 1e9)
 }
 
 func background(v int) { canvas.Rect(0, 0, width, height, canvas.RGB(v, v, v)) }
-
 
 func random(howsmall, howbig int) int {
 	if howsmall >= howbig {
@@ -35,7 +34,6 @@ func random(howsmall, howbig int) int {
 	}
 	return rand.Intn(howbig-howsmall) + howsmall
 }
-
 
 func main() {
 	var style string

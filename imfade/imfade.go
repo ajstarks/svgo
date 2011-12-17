@@ -1,8 +1,8 @@
 package main
 
 import (
-	"github.com/ajstarks/svgo"
 	"fmt"
+	"github.com/ajstarks/svgo"
 	"os"
 )
 

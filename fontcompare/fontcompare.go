@@ -3,9 +3,9 @@
 package main
 
 import (
-	"os"
 	"fmt"
 	"github.com/ajstarks/svgo"
+	"os"
 )
 
 var (
@@ -36,7 +36,6 @@ func letters(top, left int, font, color string, opacity float32) {
 	}
 	canvas.Gend()
 }
-
 
 func main() {
 	if len(os.Args) > 2 {

@@ -4,13 +4,13 @@
 package main
 
 import (
-	"github.com/ajstarks/svgo"
-	"time"
-	"rand"
-	"math"
-	"fmt"
 	"flag"
+	"fmt"
+	"github.com/ajstarks/svgo"
+	"math"
+	"math/rand"
 	"os"
+	"time"
 )
 
 var (
@@ -66,7 +66,7 @@ func background(v int) { canvas.Rect(0, 0, *width, *height, canvas.RGB(v, v, v))
 
 func init() {
 	flag.Parse()
-	rand.Seed(time.Nanoseconds() % 1e9)
+	rand.Seed(int64(time.Now().Nanosecond()) % 1e9)
 }
 
 func main() {

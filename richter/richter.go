@@ -4,9 +4,9 @@ package main
 
 import (
 	"github.com/ajstarks/svgo"
-	"rand"
-	"time"
+	"math/rand"
 	"os"
+	"time"
 )
 
 var canvas = svg.New(os.Stdout)
@@ -15,7 +15,7 @@ var width = 700
 var height = 400
 
 func main() {
-	rand.Seed(time.Nanoseconds() % 1e9)
+	rand.Seed(int64(time.Now().Nanosecond()) % 1e9)
 	canvas.Start(width, height)
 	canvas.Title("Richter")
 	canvas.Rect(0, 0, width, height, "fill:white")

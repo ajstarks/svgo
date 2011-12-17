@@ -3,12 +3,12 @@
 package main
 
 import (
-	"github.com/ajstarks/svgo"
-	"os"
-	"http"
-	"url"
-	"xml"
+	"encoding/xml"
 	"fmt"
+	"github.com/ajstarks/svgo"
+	"net/http"
+	"net/url"
+	"os"
 )
 
 type FlickrResp struct {

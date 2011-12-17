@@ -2,10 +2,10 @@ package main
 
 import (
 	"flag"
-	"http"
-	"log"
-	"strings"
 	"github.com/ajstarks/svgo"
+	"log"
+	"net/http"
+	"strings"
 )
 
 const defaultstyle = "fill:rgb(127,0,0)"

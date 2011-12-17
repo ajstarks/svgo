@@ -3,9 +3,9 @@
 package main
 
 import (
+	"flag"
 	"github.com/ajstarks/svgo"
 	"os"
-	"flag"
 )
 
 var (
@@ -20,6 +20,8 @@ const (
 	ni     = 11
 )
 
+// imagefiles returns a list of files in the specifed directory
+// or nil on error. Each file includes the prepended directory name
 func imagefiles(directory string) []string {
 	f, ferr := os.Open(directory)
 	defer f.Close()
@@ -32,11 +34,13 @@ func imagefiles(directory string) []string {
 	}
 	names := make([]string, len(files))
 	for i, v := range files {
-		names[i] = directory + "/" + v.Name
+		names[i] = directory + "/" + v.Name()
 	}
 	return names
 }
 
+// ltposter creates poster style: a title, followed by a list 
+// of volleys
 func ltposter(x, y, w, h int, f []string) {
 	canvas.Image(x, y, w*2, h*2, f[0]) // first file, assumed to be the banner
 	y = y + (h * 2)
@@ -49,6 +53,7 @@ func ltposter(x, y, w, h int, f []string) {
 	}
 }
 
+// ltcol creates a single column of volley images
 func ltcol(x, y, w, h int, f []string) {
 	for i := 0; i < len(f); i++ {
 		canvas.Image(x, y, w, h, f[i])
@@ -56,12 +61,15 @@ func ltcol(x, y, w, h int, f []string) {
 	}
 }
 
+// ltop creates a view with each volley stacked together with
+// semi-transparent opacity
 func ltop(x, y, w, h int, f []string) {
 	for i := 1; i < len(f); i++ { // skip the first file, assumed to be the banner
 		canvas.Image(x, y, w, h, f[i], "opacity:0.2")
 	}
 }
 
+// ltrow creates a row-wise view of volley images.
 func ltrow(x, y, w, h int, f []string) {
 	for i := 0; i < len(f); i++ {
 		canvas.Image(x, y, w, h, f[i])
@@ -69,6 +77,7 @@ func ltrow(x, y, w, h int, f []string) {
 	}
 }
 
+// ltoffset creates a view where each volley is offset from its opposing volley.
 func ltoffset(x, y, w, h int, f []string) {
 	for i := 1; i < len(f); i++ { // skip the first file, assumed to be the banner
 
@@ -81,6 +90,8 @@ func ltoffset(x, y, w, h int, f []string) {
 		y += h
 	}
 }
+
+// dotitle creates the title
 func dotitle(s string) {
 	if len(title) > 0 {
 		canvas.Title(title)
@@ -89,6 +100,7 @@ func dotitle(s string) {
 	}
 }
 
+// init sets up the command line flags.
 func init() {
 	flag.BoolVar(&poster, "poster", false, "poster style")
 	flag.BoolVar(&opacity, "opacity", false, "opacity style")

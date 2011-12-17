@@ -4,8 +4,8 @@ package main
 
 import (
 	"github.com/ajstarks/svgo"
-	"os"
 	"math"
+	"os"
 )
 
 const (
@@ -32,20 +32,24 @@ var (
 	ga       = []svg.Offcolor{oc1, oc2, oc3, oc4}
 )
 
+// defcoodstr defines coordinate strings: (x,y)
 func defcoordstr(x int, y int, s string) {
 	canvas.Circle(x, y, coordsize, grayfill)
 	canvas.Text(x, y-textsize, s, legendstyle)
 }
 
+// defcoord defines a coordinate
 func defcoord(x, y, n int) {
 	canvas.Circle(x, y, coordsize, grayfill)
 	canvas.Text(x, y+n, coordstring, legendstyle)
 }
 
+// deflegend makes object legends
 func deflegend(x int, y int, size int, legend string) {
 	canvas.Text(x, y+size+textsize, legend, titlestyle)
 }
 
+// defcircle defines the circle object for arbitrary placement and size
 func defcircle(id string, w, h int, legend string) {
 	canvas.Gid(id)
 	canvas.Translate(w, h)
@@ -58,6 +62,7 @@ func defcircle(id string, w, h int, legend string) {
 	canvas.Gend()
 }
 
+// defellipse defines the ellipse object for arbitrary placement and size
 func defellipse(id string, w int, h int, legend string) {
 	canvas.Gid(id)
 	canvas.Translate(w, h)
@@ -72,6 +77,7 @@ func defellipse(id string, w int, h int, legend string) {
 	canvas.Gend()
 }
 
+// defrect defines the rectangle object for arbitrary placement and size
 func defrect(id string, w int, h int, legend string) {
 	canvas.Gid(id)
 	defcoord(0, 0, -textsize)
@@ -82,6 +88,7 @@ func defrect(id string, w int, h int, legend string) {
 	canvas.Gend()
 }
 
+// defcrect defines the centered rectangle object for arbitrary placement and size
 func defcrect(id string, w int, h int, legend string) {
 	canvas.Gid(id)
 	defcoord(w/2, h/2, -textsize)
@@ -92,6 +99,7 @@ func defcrect(id string, w int, h int, legend string) {
 	canvas.Gend()
 }
 
+// defsquare defines the square object for arbitrary placement and size
 func defsquare(id string, w int, legend string) {
 	canvas.Gid(id)
 	defcoord(0, 0, -textsize)
@@ -101,6 +109,7 @@ func defsquare(id string, w int, legend string) {
 	canvas.Gend()
 }
 
+// defimage defines the image object for arbitrary placement and size
 func defimage(id string, w int, h int, s string, legend string) {
 	canvas.Gid(id)
 	defcoord(0, 0, -textsize)
@@ -112,6 +121,7 @@ func defimage(id string, w int, h int, s string, legend string) {
 	canvas.Gend()
 }
 
+// defline defines the line object for arbitrary placement and size
 func defline(id string, w int, h int, legend string) {
 	canvas.Gid(id)
 	defcoordstr(0, 0, "x1, y1")
@@ -121,6 +131,7 @@ func defline(id string, w int, h int, legend string) {
 	canvas.Gend()
 }
 
+// defarc defines the arc object for arbitrary placement and size
 func defarc(id string, w int, h int, legend string) {
 	canvas.Gid(id)
 	defcoordstr(0, 0, "sx, sy")
@@ -130,6 +141,7 @@ func defarc(id string, w int, h int, legend string) {
 	canvas.Gend()
 }
 
+// defbez defines the cublic bezier object for arbitrary placement and size
 func defbez(id string, x int, y int, h int, legend string) {
 	sx, sy := 0, 0
 	cx, cy := x, -y
@@ -145,6 +157,7 @@ func defbez(id string, x int, y int, h int, legend string) {
 	canvas.Gend()
 }
 
+// defqbez defines the quadratic bezier object for arbitrary placement and size
 func defqbez(id string, px int, py int, h int, legend string) {
 	sx, sy := 0, 0
 	ex, ey := px*2, 0
@@ -158,6 +171,7 @@ func defqbez(id string, px int, py int, h int, legend string) {
 	canvas.Gend()
 }
 
+// defroundrect defines the roundrect object for arbitrary placement and size
 func defroundrect(id string, w int, h int, rx int, ry int, legend string) {
 	canvas.Gid(id)
 	defcoord(0, 0, -textsize)
@@ -172,6 +186,7 @@ func defroundrect(id string, w int, h int, rx int, ry int, legend string) {
 	canvas.Gend()
 }
 
+// defpolygon defines the polygon object for arbitrary placement and size
 func defpolygon(id string, w int, h int, legend string) {
 	var x = []int{0, w / 2, w, w, w / 2, 0}
 	var y = []int{0, -h / 4, 0, (h * 3) / 4, h / 2, (h * 3) / 4}
@@ -184,6 +199,7 @@ func defpolygon(id string, w int, h int, legend string) {
 	canvas.Gend()
 }
 
+// defpolyline defines the polyline object for arbitrary placement and size
 func defpolyline(id string, w int, h int, legend string) {
 	var x = []int{0, w / 3, (w * 3) / 4, w}
 	var y = []int{0, -(h / 2), -(h / 3), -h}
@@ -196,6 +212,7 @@ func defpolyline(id string, w int, h int, legend string) {
 	canvas.Gend()
 }
 
+// defpath defines the path object for arbitrary placement and size
 func defpath(id string, x, y int, legend string) {
 	var w3path = `M36,5l12,41l12-41h33v4l-13,21c30,10,2,69-21,28l7-2c15,27,33,-22,3,-19v-4l12-20h-15l-17,59h-1l-13-42l-12,42h-1l-20-67h9l12,41l8-28l-4-13h9`
 	var cpath = `M94,53c15,32,30,14,35,7l-1-7c-16,26-32,3-34,0M122,16c-10-21-34,0-21,30c-5-30 16,-38 23,-21l5-10l-2-9`
@@ -207,6 +224,7 @@ func defpath(id string, x, y int, legend string) {
 	canvas.Gend()
 }
 
+// deflg defines the linear gradient object for arbitrary placement and size
 func deflg(id string, w int, h int, legend string) {
 	canvas.Gid(id)
 	canvas.Rect(0, 0, w, h, "fill:url(#linear)")
@@ -216,6 +234,7 @@ func deflg(id string, w int, h int, legend string) {
 	canvas.Gend()
 }
 
+// defrg defines the radial gradient object for arbitrary placement and size
 func defrg(id string, w int, h int, legend string) {
 	canvas.Gid(id)
 	canvas.Rect(0, 0, w, h, "fill:url(#radial)")
@@ -225,6 +244,7 @@ func defrg(id string, w int, h int, legend string) {
 	canvas.Gend()
 }
 
+// deftrans defines the trans object for arbitrary placement and size
 func deftrans(id string, w, h int, legend string) {
 	tx := w / 3
 	canvas.Gid(id)
@@ -238,6 +258,7 @@ func deftrans(id string, w, h int, legend string) {
 	canvas.Gend()
 }
 
+// defgrid defines the grid object for arbitrary placement and size
 func defgrid(id string, w, h int, legend string) {
 	n := h / 4
 	canvas.Gid(id)
@@ -250,6 +271,7 @@ func defgrid(id string, w, h int, legend string) {
 	canvas.Gend()
 }
 
+// deftext defines the text object for arbitrary placement and size
 func deftext(id string, w, h int, text string, legend string) {
 	canvas.Gid(id)
 	defcoord(0, h/2, textsize)
@@ -258,6 +280,7 @@ func deftext(id string, w, h int, text string, legend string) {
 	canvas.Gend()
 }
 
+// deftextpath defines the textpath object for arbitrary placement and size
 func deftextpath(id string, pathid string, s string, w, h int, legend string) {
 	canvas.Gid(id)
 	canvas.Textpath(s, pathid, `fill="`+objcolor+`"`, `text-anchor="start"`, `font-size="16pt"`)
@@ -265,6 +288,7 @@ func deftextpath(id string, pathid string, s string, w, h int, legend string) {
 	canvas.Gend()
 }
 
+// defscale defines the scale object for arbitrary placement and size
 func defscale(id string, w, h int, n float64, legend string) {
 	canvas.Gid(id)
 	defcoordstr(0, 0, "0, 0")
@@ -276,6 +300,7 @@ func defscale(id string, w, h int, n float64, legend string) {
 	canvas.Gend()
 }
 
+// defscaleXY defines the scaleXY object for arbitrary placement and size
 func defscaleXY(id string, w, h int, dx, dy float64, legend string) {
 	canvas.Gid(id)
 	defcoordstr(0, 0, "0, 0")
@@ -287,6 +312,7 @@ func defscaleXY(id string, w, h int, dx, dy float64, legend string) {
 	canvas.Gend()
 }
 
+// defskewX defines the skewX object for arbitrary placement and size
 func defskewX(id string, w, h int, angle float64, legend string) {
 	canvas.Gid(id)
 	defcoordstr(0, 0, "0, 0")
@@ -298,6 +324,7 @@ func defskewX(id string, w, h int, angle float64, legend string) {
 	canvas.Gend()
 }
 
+// defskewY defines the skewY object for arbitrary placement and size
 func defskewY(id string, w, h int, angle float64, legend string) {
 	canvas.Gid(id)
 	defcoordstr(0, 0, "0, 0")
@@ -309,6 +336,7 @@ func defskewY(id string, w, h int, angle float64, legend string) {
 	canvas.Gend()
 }
 
+// defskewXY defines the skewXY object for arbitrary placement and size
 func defskewXY(id string, w, h int, ax, ay float64, legend string) {
 	canvas.Gid(id)
 	defcoordstr(0, 0, "0, 0")
@@ -320,6 +348,7 @@ func defskewXY(id string, w, h int, ax, ay float64, legend string) {
 	canvas.Gend()
 }
 
+// defrotate defines the rotate object for arbitrary placement and size
 func defrotate(id string, w, h int, deg float64, legend string) {
 	t := deg * (math.Pi / 180.0)
 	r := float64(w / 2)
@@ -337,6 +366,7 @@ func defrotate(id string, w, h int, deg float64, legend string) {
 	canvas.Gend()
 }
 
+// defmeta defines the metadata objects
 func defmeta(id string, w int, name, desc []string, legend string) {
 	canvas.Gid(id)
 	canvas.Textlines(0, textsize, name, 24, 28, "black", "start")
@@ -345,6 +375,7 @@ func defmeta(id string, w int, name, desc []string, legend string) {
 	canvas.Gend()
 }
 
+// defrgb defines the rgb object for arbitrary placement and size
 func defrgb(id string, w, h, r, g, b int, opacity float64, legend string) {
 	size := h / 8
 	canvas.Gid(id)
@@ -366,6 +397,8 @@ func defrgb(id string, w, h, r, g, b int, opacity float64, legend string) {
 	canvas.Gend()
 }
 
+// defobjects defines a set of objects with the specified dimensions,
+// once defined, the objects are referenced for placement
 func defobjects(w, h int) {
 	var (
 		metatext = []string{
@@ -441,6 +474,7 @@ func defobjects(w, h int) {
 	canvas.DefEnd()
 }
 
+// colordot makes a colored dot, with opacity
 func colordot(x, y, r, red, green, blue int, a float64) {
 	// canvas.Circle(x,y,r+textsize/6,"fill:none;stroke:"+objcolor)
 	if a == 1.0 {
@@ -450,12 +484,16 @@ func colordot(x, y, r, red, green, blue int, a float64) {
 	}
 }
 
+// placerow is a helper for placeobjects, placing to previously
+// defined objects row-wise
 func placerow(w int, s []string) {
 	for x, name := range s {
 		canvas.Use(x*w, 0, "#"+name)
 	}
 }
 
+// placeobjects places a grid of objects on the canvas as specified
+// by a string array.
 func placeobjects(x, y, w, h int, data [][]string) {
 	canvas.Desc("Object Usage")
 	for _, object := range data {

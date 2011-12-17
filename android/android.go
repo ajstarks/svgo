@@ -1,9 +1,9 @@
 package main
 
 import (
+	"fmt"
 	"github.com/ajstarks/svgo"
 	"os"
-	"fmt"
 )
 
 var (

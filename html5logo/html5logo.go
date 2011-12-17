@@ -1,8 +1,8 @@
 package main
 
 import (
-	"os"
 	"github.com/ajstarks/svgo"
+	"os"
 )
 
 func main() {
@@ -31,7 +31,7 @@ func main() {
 	canvas.Rect(0, 0, width, height)                                               // black background
 	canvas.Script("application/javascript", "http://www.codedread.com/dragsvg.js") // reference the drag script
 	canvas.Polygon(sx, sy, `drag:enable="true"`, canvas.RGB(227, 79, 38))          // draggable shield
-	canvas.Polygon(fx, fy, `drag:enable="true"`, canvas.RGB(219, 219, 219))        // draggable five
 	canvas.Polygon(hx, hy, `drag:enable="true"`, canvas.RGBA(255, 255, 255, 0.3))  // draggable highlight
+	canvas.Polygon(fx, fy, `drag:enable="true"`, canvas.RGB(219, 219, 219))        // draggable five
 	canvas.End()
 }

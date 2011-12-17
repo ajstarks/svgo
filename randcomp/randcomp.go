@@ -1,12 +1,12 @@
 package main
 
 import (
-	"os"
-	"rand"
-	"time"
 	"fmt"
-	"strconv"
 	"github.com/ajstarks/svgo"
+	"math/rand"
+	"os"
+	"strconv"
+	"time"
 )
 
 var canvas = svg.New(os.Stdout)
@@ -28,7 +28,7 @@ func main() {
 	f.Read(y)
 	f.Close()
 
-	rand.Seed(time.Nanoseconds() % 1e9)
+	rand.Seed(int64(time.Now().Nanosecond()) % 1e9)
 	canvas.Start(600, 400)
 	canvas.Title("Random Integer Comparison")
 	canvas.Desc("Comparison of Random integers: the random device & the Go rand package")

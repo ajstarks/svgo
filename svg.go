@@ -26,8 +26,8 @@ package svg
 import (
 	"fmt"
 	"io"
-	"os"
-	"xml"
+
+	"encoding/xml"
 	"strings"
 )
 
@@ -55,15 +55,15 @@ const (
 // New is the SVG constructor, specifying the io.Writer where the generated SVG is written.
 func New(w io.Writer) *SVG { return &SVG{w} }
 
-func (svg *SVG) print(a ...interface{}) (n int, errno os.Error) {
+func (svg *SVG) print(a ...interface{}) (n int, errno error) {
 	return fmt.Fprint(svg.Writer, a...)
 }
 
-func (svg *SVG) println(a ...interface{}) (n int, error os.Error) {
+func (svg *SVG) println(a ...interface{}) (n int, error error) {
 	return fmt.Fprintln(svg.Writer, a...)
 }
 
-func (svg *SVG) printf(format string, a ...interface{}) (n int, errno os.Error) {
+func (svg *SVG) printf(format string, a ...interface{}) (n int, errno error) {
 	return fmt.Fprintf(svg.Writer, format, a...)
 }
 

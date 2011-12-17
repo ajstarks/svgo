@@ -5,14 +5,14 @@
 package main
 
 import (
-	"github.com/ajstarks/svgo"
-	"os"
-	"fmt"
+	"encoding/xml"
 	"flag"
-	"xml"
+	"fmt"
+	"github.com/ajstarks/svgo"
+	"io"
+	"os"
 	"strconv"
 	"strings"
-	"io"
 )
 
 var (
@@ -34,19 +34,19 @@ var (
 // </bulletgraph>
 
 type Bulletgraph struct {
-	Top   int `xml:"attr"`
-	Left  int `xml:"attr"`
-	Right int `xml:"attr"`
+	Top   int    `xml:"attr"`
+	Left  int    `xml:"attr"`
+	Right int    `xml:"attr"`
 	Title string `xml:"attr"`
 	Bdata []bdata
-	Note []note
+	Note  []note
 }
 
 type bdata struct {
-	Title    string `xml:"attr"`
-	Subtitle string `xml:"attr"`
-	Scale    string `xml:"attr"`
-	Qmeasure string `xml:"attr"`
+	Title    string  `xml:"attr"`
+	Subtitle string  `xml:"attr"`
+	Scale    string  `xml:"attr"`
+	Qmeasure string  `xml:"attr"`
 	Cmeasure float64 `xml:"attr"`
 	Measure  float64 `xml:"attr"`
 }
@@ -58,7 +58,7 @@ type note struct {
 // dobg does file i/o
 func dobg(location string, s *svg.SVG) {
 	var f *os.File
-	var err os.Error
+	var err error
 	if len(location) > 0 {
 		f, err = os.Open(location)
 	} else {
@@ -120,11 +120,11 @@ func drawbg(bg Bulletgraph, canvas *svg.SVG) {
 		// get the qualitative measures
 		qmeasures := make([]float64, len(qm))
 		for i, q := range qm {
-			qmeasures[i], _ = strconv.Atof64(q)
+			qmeasures[i], _ = strconv.ParseFloat(q, 64)
 		}
-		scalemin, _ := strconv.Atof64(sc[0])
-		scalemax, _ := strconv.Atof64(sc[1])
-		scaleincr, _ := strconv.Atof64(sc[2])
+		scalemin, _ := strconv.ParseFloat(sc[0], 64)
+		scalemax, _ := strconv.ParseFloat(sc[1], 64)
+		scaleincr, _ := strconv.ParseFloat(sc[2], 64)
 
 		// label the graph
 		canvas.Text(tx, y+barheight/3, fmt.Sprintf("%s (%g)", v.Title, v.Measure), "text-anchor:end;font-weight:bold")
@@ -166,13 +166,13 @@ func drawbg(bg Bulletgraph, canvas *svg.SVG) {
 	}
 	// if requested, place the title below the last bar
 	if showtitle && len(bg.Title) > 0 {
-		y += fontsize*2
+		y += fontsize * 2
 		canvas.Text(bg.Left, y, bg.Title, "text-anchor:start;font-size:200%")
 	}
 
 	if len(bg.Note) > 0 {
 		canvas.Gstyle("font-size:100%;text-anchor:start")
-		y += fontsize*2
+		y += fontsize * 2
 		leading := 3
 		for _, note := range bg.Note {
 			canvas.Text(bg.Left, y, note.Text)

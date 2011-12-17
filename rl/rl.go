@@ -1,11 +1,11 @@
 package main
 
 import (
-	"github.com/ajstarks/svgo"
-	"rand"
-	"time"
 	"fmt"
+	"github.com/ajstarks/svgo"
+	"math/rand"
 	"os"
+	"time"
 )
 
 var canvas = svg.New(os.Stdout)
@@ -16,7 +16,7 @@ func main() {
 	canvas.Start(width, height)
 	canvas.Title("Random Lines")
 	canvas.Rect(0, 0, width, height, "fill:black")
-	rand.Seed(time.Nanoseconds() % 1e9)
+	rand.Seed(int64(time.Now().Nanosecond()) % 1e9)
 	canvas.Gstyle("stroke-width:10")
 	r := 0
 	for i := 0; i < width; i++ {

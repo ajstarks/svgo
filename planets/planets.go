@@ -1,13 +1,12 @@
 // Planets: an exploration of scale
-// Anthony Starks, ajstarks@gmail.com
 
 package main
 
 import (
-	"github.com/ajstarks/svgo"
-	"os"
 	"flag"
+	"github.com/ajstarks/svgo"
 	"image/png"
+	"os"
 )
 
 var ssDist = []float64{
@@ -35,17 +34,6 @@ var ssRad = []float64{ // Miles
 
 
 var ssColor = []string{ // R, G, B
-	// Computed from images
-	//  "CE3903, // Sun
-	//  "7B5628, // Mercury
-	//  "5F5D56, // Venus
-	//  "555864, // Earth
-	//  "614F3C, // Mars
-	//  "735F52, // Jupiter
-	//  "9C9383, // Saturn
-	//  "556769, // Uranus
-	//  "324A72  // Neptune
-
 	//  Eyeballed from image
 	"F7730C", // Sun
 	"FAF8F2", // Mercury
@@ -68,7 +56,7 @@ var ssImages = []string{
 	"uranus.png",
 	"neptune.png"}
 
-var showimages *bool = flag.Bool("i", true, "show images")
+var showdisk *bool = flag.Bool("d", false, "show disk")
 var canvas = svg.New(os.Stdout)
 
 func vmap(value float64, low1 float64, high1 float64, low2 float64, high2 float64) float64 {
@@ -77,14 +65,13 @@ func vmap(value float64, low1 float64, high1 float64, low2 float64, high2 float6
 
 func main() {
 
-	width := 1300
+	width := 1200
 	height := 200
 
 	flag.Parse()
 	canvas.Start(width, height)
 	canvas.Title("Planets")
 	canvas.Rect(0, 0, width, height, "fill:black")
-	canvas.Gstyle("stroke:none")
 	nobj := len(ssDist)
 	y := height / 2
 	margin := 100
@@ -94,16 +81,19 @@ func main() {
 	var x, r, imScale, maxh float64
 	var px, po int
 
-	if *showimages {
-		maxh = float64(height) / 4.0
-	} else {
+	if *showdisk {
 		maxh = float64(height) / minsize
+	} else {
+		maxh = float64(height) / 4.0
 	}
 	for i := 1; i < nobj; i++ {
 		x = vmap(ssDist[i], ssDist[1], ssDist[nobj-1], float64(margin), float64(width-margin))
 		r = (vmap(ssRad[i], ssRad[1], ssRad[nobj-1], minsize, maxh)) / 2
 		px = int(x)
-		if *showimages {
+		if *showdisk {
+			po = 0
+			canvas.Circle(px, y, int(r), "fill:#"+ssColor[i])
+		} else { // show images
 			f, err := os.Open(ssImages[i])
 			defer f.Close()
 			if err != nil {
@@ -120,17 +110,13 @@ func main() {
 			dy := y - (int(hs) / 2) // center the image
 			po = int(r) / 2
 			canvas.Image(px, dy, int(r), int(hs), ssImages[i])
-		} else {
-			po = 0
-			canvas.Circle(px, y, int(r), "fill:#"+ssColor[i])
 		}
 		if ssDist[i] == 1.0 { // earth
-			canvas.Line(px + po, y-po, px + po, y-labeloc, 
-						"stroke-width:1px;stroke:white")
-			canvas.Text(px + po, y-labeloc-10, "You are here", 
-						"fill:white; font-size:14; font-family:Calibri; text-anchor:middle")
+			canvas.Line(px+po, y-po, px+po, y-labeloc,
+				"stroke-width:1px;stroke:white")
+			canvas.Text(px+po, y-labeloc-10, "You are here",
+				"fill:white; font-size:14px; font-family:Calibri; text-anchor:middle")
 		}
 	}
-	canvas.Gend()
 	canvas.End()
 }
