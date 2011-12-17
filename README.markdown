@@ -51,7 +51,7 @@ Drawing in a web server: (http://localhost:2003/circle)
 	import (
 		"log"
 		"github.com/ajstarks/svgo"
-		"http"
+		"net/http"
 	)
 	
 	func main() {
@@ -115,6 +115,7 @@ A video describing how to use the package can be seen on YouTube at <http://www.
 * skewabc:		Skew ABC
 * stockproduct:	Visualize product and stock prices
 * svgopher:	SVGo Mascot
+* tsg:  Twitter Search Grid
 * vismem:	Visualize data from files
 * webfonts:	"Hello, World" with Google Web Fonts
 * websvg:	Generate SVG as a web server
