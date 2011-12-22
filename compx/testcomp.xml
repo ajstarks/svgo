@@ -1,3 +1,4 @@
+<!-- compx test pattern -->
 <components gutter="20" top="20" left="20" gc="black">
   <legend row="3" col="0" width="200" height="120">
     <litem color="rgb(0,0,0)">Component</litem>

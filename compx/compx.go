@@ -492,6 +492,7 @@ func component(g gcomp, c comp) {
 	}
 }
 
+// uselibrary draws a previously defined object
 func uselibrary(x, y, w, h int, name string) {
 	canvas.Use(x, y, name, fmt.Sprintf(`width="%d"`, w), fmt.Sprintf(`height="%d"`, h))
 }
@@ -505,6 +506,7 @@ func cylinder(x, y, w, h, eh int, fill, tfill string) {
 	canvas.Ellipse(x+w/2, y, w/2, eh, tf)
 }
 
+// folder object
 func folder(x, y, w, h, l int, bcolor, color string) {
 	nl := w / 10
 	xl := x + nl
@@ -524,6 +526,7 @@ func folder(x, y, w, h, l int, bcolor, color string) {
 	canvas.Polygon(xf, yf, "fill:"+bcolor)
 }
 
+// cloud object
 func cloud(x, y, r int, style string) {
 	small := r / 2
 	medium := (r * 6) / 10
@@ -536,6 +539,7 @@ func cloud(x, y, r int, style string) {
 	canvas.Gend()
 }
 
+// message object
 func message(x, y, w, h, l int, bcolor, scolor string) {
 	et := h / 3
 	w2 := w / 2
@@ -553,6 +557,8 @@ func message(x, y, w, h, l int, bcolor, scolor string) {
 	canvas.Line(x+w, y+et, x+w2, y+(et*2), "stroke-width:1;stroke:"+bcolor)
 }
 
+
+// eaec person object
 func eaec(x, y, w, h, l int, scolor, bcolor string) {
 	wu := w / 8
 	hu := h / 12
@@ -569,22 +575,26 @@ func eaec(x, y, w, h, l int, scolor, bcolor string) {
 	canvas.Polygon(tx, ty, "fill:"+bcolor)
 }
 
+// screen object
 func screen(x, y, w, h, l int, bcolor, color string) {
 	canvas.Roundrect(x, y, w, h, l, l, "fill:"+bcolor)
 	canvas.Rect(x+l, y+l, w-(l*2), h-(l*2), "fill:"+color)
 }
 
+// kb (keyboard) object
 func kb(x, y, w, h, l int, color string) {
 	var xp = []int{x + l, x, x + w, x + w - l}
 	var yp = []int{y, y + h, y + h, y}
 	canvas.Polygon(xp, yp, "fill:"+color)
 }
 
+// desktop object
 func desktop(x, y, w, h, l int, bcolor, color string) {
 	screen(x, y, w, h-l*3, l, bcolor, color)
 	kb(x, y+h-(l*2), w+l, l*2, l*2, bcolor)
 }
 
+// face object
 func face(x, y, r, l int, color, fcolor string) {
 	fu := r / 10 // "face unit"
 	ep := 3 * fu
@@ -595,6 +605,7 @@ func face(x, y, r, l int, color, fcolor string) {
 	canvas.Qbez(x+ep, my, x, y+ep*2, x-ep, my, fmt.Sprintf("fill:%s;stroke-width:%dpx;stroke:%s", color, l, color))
 }
 
+// server object
 func server(x, y, w, h, l int, bcolor, color string) {
 	var xp = []int{x + (l * 2), (x + w) - (l * 2), (x + w) - l, x + l}
 	var yp = []int{y, y, y + l, y + l}
@@ -615,6 +626,7 @@ func server(x, y, w, h, l int, bcolor, color string) {
 	canvas.Circle((x+w)-l, y+h/2, l/2, "fill:"+color)
 }
 
+// role object
 func role(x, y, w, h int, color string) {
 	hs := h / 20
 	var xp = []int{x, x, x + w/3, x + w/2, x + (w / 2) + (w / 6), x + w, x + w}
@@ -628,6 +640,7 @@ func role(x, y, w, h int, color string) {
 	canvas.Gend()
 }
 
+// sloper computes the slope and r of a line
 func sloper(x1, y1, x2, y2 int) (m, r float64) {
 	dy := float64(y1 - y2)
 	dx := float64(x1 - x2)
@@ -636,8 +649,10 @@ func sloper(x1, y1, x2, y2 int) (m, r float64) {
 	return m, r
 }
 
+// rowy computes the y position of a row
 func rowy(n, h, g, t int) int { return t + (n * g) + (n * h) }
 
+// colx computes the x position of a column
 func colx(n, w, g, l int) int { return l + (n * g) + (n * w) }
 
 // compass returns the coordinates of a compass point
@@ -720,6 +735,7 @@ func linelabel(x1, y1, x2, y2 int, label string, mark string, d1 string, d2 stri
 	}
 }
 
+// doline draws a line between to coordinates
 func doline(x1, y1, x2, y2 int, style, direction, label string) {
 	var labelstyle string
 	var upflag bool
@@ -849,6 +865,8 @@ func init() {
 	flag.Parse()
 }
 
+
+// for every file (or stdin) make a component diagram
 func main() {
 	canvas.Start(width, height)
 	canvas.Title(title)
