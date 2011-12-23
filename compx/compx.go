@@ -138,9 +138,10 @@ func docomp(location string) {
 	} else {
 		f = os.Stdin
 	}
-	defer f.Close()
+	
 	if err == nil {
 		readcomp(f)
+		f.Close()
 	} else {
 		fmt.Fprintf(os.Stderr, "%v\n", err)
 	}
@@ -428,7 +429,7 @@ func component(g gcomp, c comp) {
 		if len(c.Os) > 0 {
 			canvas.Text(x+w2, y+pmy+fs, c.Os, "font-size:75%")
 		}
-		canvas.Text(x+w2, y+h-5, c.Name, fmt.Sprintf("font-size:%dpx;fill:%s", fs, bgcolor))
+		canvas.Text(x+w2, y+h-10, c.Name, fmt.Sprintf("font-size:%dpx;fill:%s", fs, bgcolor))
 		canvas.Gend()
 
 	case "cloud":
