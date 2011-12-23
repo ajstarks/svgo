@@ -58,11 +58,11 @@ func placecode(x, y int, filename string) {
 	var rerr error
 	var line string
 	f, err := os.Open(filename)
-	defer f.Close()
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "%v\n", err)
 		return
 	}
+	defer f.Close()
 	in := bufio.NewReader(f)
 	for xp := left + fontsize; rerr == nil; y += linespacing {
 		line, rerr = in.ReadString('\n')
@@ -79,11 +79,11 @@ func placecode(x, y int, filename string) {
 func placepic(x, y int, basename string) {
 	var s SVG
 	f, err := os.Open(basename + ".svg")
-	defer f.Close()
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "%v\n", err)
 		return
 	}
+	defer f.Close()
 	if err := xml.Unmarshal(f, &s); err != nil {
 		fmt.Fprintf(os.Stderr, "Unable to parse (%v)\n", err)
 		return

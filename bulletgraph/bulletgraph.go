@@ -64,9 +64,9 @@ func dobg(location string, s *svg.SVG) {
 	} else {
 		f = os.Stdin
 	}
-	defer f.Close()
 	if err == nil {
 		readbg(f, s)
+		f.Close()
 	} else {
 		fmt.Fprintf(os.Stderr, "%v\n", err)
 	}

@@ -95,11 +95,11 @@ func main() {
 			canvas.Circle(px, y, int(r), "fill:#"+ssColor[i])
 		} else { // show images
 			f, err := os.Open(ssImages[i])
-			defer f.Close()
 			if err != nil {
 				println("bad image file:", ssImages[i])
 				continue
 			}
+			defer f.Close()
 			p, perr := png.DecodeConfig(f)
 			if perr != nil {
 				println("bad decode:", ssImages[i])

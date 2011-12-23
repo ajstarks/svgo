@@ -24,10 +24,10 @@ const (
 // or nil on error. Each file includes the prepended directory name
 func imagefiles(directory string) []string {
 	f, ferr := os.Open(directory)
-	defer f.Close()
 	if ferr != nil {
 		return nil
 	}
+	defer f.Close()
 	files, derr := f.Readdir(-1)
 	if derr != nil || len(files) == 0 {
 		return nil

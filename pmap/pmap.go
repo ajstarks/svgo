@@ -52,9 +52,9 @@ func dopmap(location string) {
 	} else {
 		f = os.Stdin
 	}
-	defer f.Close()
 	if err == nil {
 		readpmap(f)
+		f.Close()
 	} else {
 		fmt.Fprintf(os.Stderr, "%v\n", err)
 	}
