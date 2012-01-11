@@ -1,8 +1,9 @@
 package main
 
 import (
-	"github.com/ajstarks/svgo"
 	"os"
+
+	"github.com/ajstarks/svgo"
 )
 
 var (
