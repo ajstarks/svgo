@@ -4,9 +4,10 @@ package main
 
 import (
 	"flag"
-	"github.com/ajstarks/svgo"
 	"image/png"
 	"os"
+
+	"github.com/ajstarks/svgo"
 )
 
 var ssDist = []float64{

@@ -4,8 +4,9 @@ package main
 
 import (
 	"flag"
-	"github.com/ajstarks/svgo"
 	"os"
+
+	"github.com/ajstarks/svgo"
 )
 
 var (

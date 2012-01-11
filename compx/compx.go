@@ -6,13 +6,14 @@ import (
 	"encoding/xml"
 	"flag"
 	"fmt"
-	"github.com/ajstarks/svgo"
 	"io"
 	"math"
 	"os"
 	"strconv"
 	"strings"
 	"time"
+
+    "github.com/ajstarks/svgo"
 )
 
 // Component XML structures

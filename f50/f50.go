@@ -5,10 +5,11 @@ package main
 import (
 	"encoding/xml"
 	"fmt"
-	"github.com/ajstarks/svgo"
 	"net/http"
 	"net/url"
 	"os"
+
+	"github.com/ajstarks/svgo"
 )
 
 type FlickrResp struct {

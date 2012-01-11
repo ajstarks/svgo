@@ -1,9 +1,10 @@
 package main
 
 import (
-	"github.com/ajstarks/svgo"
 	"os"
 	"strconv"
+
+	"github.com/ajstarks/svgo"
 )
 
 func main() {

@@ -13,10 +13,11 @@ package main
 import (
 	"flag"
 	"fmt"
-	"github.com/ajstarks/svgo"
 	"math/rand"
 	"os"
 	"time"
+
+    "github.com/ajstarks/svgo"
 )
 
 var canvas = svg.New(os.Stdout)
