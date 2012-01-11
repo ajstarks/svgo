@@ -3,10 +3,11 @@ package main
 import (
 	"flag"
 	"fmt"
-	"github.com/ajstarks/svgo"
 	"math/rand"
 	"os"
 	"time"
+    
+	"github.com/ajstarks/svgo"
 )
 
 var (

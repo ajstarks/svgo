@@ -6,9 +6,10 @@ import (
 	"bufio"
 	"flag"
 	"fmt"
-	"github.com/ajstarks/svgo"
 	"os"
 	"strings"
+    
+	"github.com/ajstarks/svgo"
 )
 
 func main() {

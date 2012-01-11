@@ -8,11 +8,12 @@ import (
 	"encoding/xml"
 	"flag"
 	"fmt"
-	"github.com/ajstarks/svgo"
 	"io"
 	"os"
 	"strconv"
 	"strings"
+
+	"github.com/ajstarks/svgo"
 )
 
 var (
