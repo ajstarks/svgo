@@ -5,8 +5,9 @@ import (
 	"encoding/xml"
 	"flag"
 	"fmt"
+    "os"
+
 	"github.com/ajstarks/svgo"
-	"os"
 )
 
 type Parameters struct {

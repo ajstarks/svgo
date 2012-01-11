@@ -9,11 +9,12 @@ import (
 	"encoding/xml"
 	"flag"
 	"fmt"
-	"github.com/ajstarks/svgo"
 	"io"
 	"net/http"
 	"net/url"
 	"os"
+
+	"github.com/ajstarks/svgo"
 )
 
 var canvas = svg.New(os.Stdout)

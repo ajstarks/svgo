@@ -6,9 +6,10 @@ import (
 	"encoding/xml"
 	"flag"
 	"fmt"
-	"github.com/ajstarks/svgo"
 	"io"
 	"os"
+
+	"github.com/ajstarks/svgo"
 )
 
 type Pmap struct {

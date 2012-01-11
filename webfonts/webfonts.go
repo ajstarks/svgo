@@ -3,12 +3,13 @@ package main
 
 import (
 	"fmt"
-	"github.com/ajstarks/svgo"
 	"io/ioutil"
 	"net/http"
 	"net/url"
 	"os"
 	"strings"
+
+	"github.com/ajstarks/svgo"
 )
 
 var (

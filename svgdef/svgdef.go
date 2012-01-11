@@ -3,9 +3,10 @@
 package main
 
 import (
-	"github.com/ajstarks/svgo"
 	"math"
 	"os"
+
+	"github.com/ajstarks/svgo"
 )
 
 const (
