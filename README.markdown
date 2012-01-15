@@ -58,7 +58,7 @@ Drawing in a web server: (http://localhost:2003/circle)
 		http.Handle("/circle", http.HandlerFunc(circle))
 		err := http.ListenAndServe(":2003", nil)
 		if err != nil {
-			log.Exit("ListenAndServe:", err)
+			log.Fatal("ListenAndServe:", err)
 		}
 	}
 	
