@@ -13,28 +13,28 @@ import (
 )
 
 type FlickrResp struct {
-	Stat   string `xml:"attr"`
-	Photos Photos
+	Stat   string `xml:"stat,attr"`
+	Photos Photos `xml:"photos"`
 }
 
 type Photos struct {
-	Page    string `xml:"attr"`
-	Pages   string `xml:"attr"`
-	Perpage string `xml:"attr"`
-	Total   string `xml:"attr"`
-	Photo   []Photo
+	Page    string  `xml:"page,attr"`
+	Pages   string  `xml:"pages,attr"`
+	Perpage string  `xml:"perpage,attr"`
+	Total   string  `xml:"total,attr"`
+	Photo   []Photo `xml:"photo"`
 }
 
 type Photo struct {
-	Id       string `xml:"attr"`
-	Owner    string `xml:"attr"`
-	Secret   string `xml:"attr"`
-	Server   string `xml:"attr"`
-	Farm     string `xml:"attr"`
-	Title    string `xml:"attr"`
-	Ispublic string `xml:"attr"`
-	Isfriend string `xml:"attr"`
-	IsFamily string `xml:"attr"`
+	Id       string `xml:"id,attr"`
+	Owner    string `xml:"owner,attr"`
+	Secret   string `xml:"secret,attr"`
+	Server   string `xml:"server,attr"`
+	Farm     string `xml:"farm,attr"`
+	Title    string `xml:"title,attr"`
+	Ispublic string `xml:"ispublic,attr"`
+	Isfriend string `xml:"isfriend,attr"`
+	IsFamily string `xml:"isfamily,attr"`
 }
 
 var (
@@ -46,7 +46,7 @@ var (
 const (
 	apifmt      = "http://api.flickr.com/services/rest/?method=%s&api_key=%s&%s=%s&per_page=50&sort=interestingness-desc"
 	urifmt      = "http://farm%s.static.flickr.com/%s/%s.jpg"
-	apiKey      = "APIKEYHERE"
+	apiKey      = "YOURKEY"
 	textStyle   = "font-family:Calibri,sans-serif; font-size:48px; fill:white; text-anchor:start"
 	imageWidth  = 75
 	imageHeight = 75
@@ -70,7 +70,7 @@ func makeURI(p Photo, imsize string) string {
 // imageGrid reads the response from Flickr, and creates a grid of images
 func imageGrid(f FlickrResp, x, y, cols, gutter int, imgsize string) {
 	if f.Stat != "ok" {
-		fmt.Fprintf(os.Stderr, "%v\n", f)
+		fmt.Fprintf(os.Stderr, "Status: %v\n", f.Stat)
 		return
 	}
 	xpos := x

@@ -5,7 +5,7 @@ import (
 	"encoding/xml"
 	"flag"
 	"fmt"
-    "os"
+	"os"
 
 	"github.com/ajstarks/svgo"
 )
@@ -27,15 +27,15 @@ type Parameters struct {
 // </stockproduct>
 
 type StockProduct struct {
-	Title string `xml:"attr"`
-	Sdata []Sdata
+	Title string  `xml:"title,attr"`
+	Sdata []Sdata `xml:"sdata"`
 }
 
 type Sdata struct {
-	Price   float64 `xml:"attr"`
-	Date    string  `xml:"attr"`
-	Product string  `xml:"attr"`
-	Image   string  `xml:"attr"`
+	Price   float64 `xml:"price,attr"`
+	Date    string  `xml:"date,attr"`
+	Product string  `xml:"product,attr"`
+	Image   string  `xml:"image,attr"`
 }
 
 // vmap maps ranges

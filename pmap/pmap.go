@@ -13,20 +13,20 @@ import (
 )
 
 type Pmap struct {
-	Top   int    `xml:"attr"`
-	Left  int    `xml:"attr"`
-	Title string `xml:"attr"`
-	Pdata []Pdata
+	Top   int     `xml:"top,attr"`
+	Left  int     `xml:"left,attr"`
+	Title string  `xml:"title,attr"`
+	Pdata []Pdata `xml:"pdata"`
 }
 type Pdata struct {
-	Legend    string `xml:"attr"`
-	Stagger   string `xml:"attr"`
-	Alternate string `xml:"attr"`
-	Item      []Item
+	Legend    string `xml:"legend,attr"`
+	Stagger   string `xml:"stagger,attr"`
+	Alternate string `xml:"alternate,attr"`
+	Item      []Item `xml:"item"`
 }
 type Item struct {
-	Name  string  `xml:"chardata"`
-	Value float64 `xml:"attr"`
+	Name  string  `xml:",chardata"`
+	Value float64 `xml:"value,attr"`
 }
 
 var (

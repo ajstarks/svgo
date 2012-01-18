@@ -35,25 +35,25 @@ var (
 // </bulletgraph>
 
 type Bulletgraph struct {
-	Top   int    `xml:"attr"`
-	Left  int    `xml:"attr"`
-	Right int    `xml:"attr"`
-	Title string `xml:"attr"`
-	Bdata []bdata
-	Note  []note
+	Top   int     `xml:"top,attr"`
+	Left  int     `xml:"left,attr"`
+	Right int     `xml:"right,attr"`
+	Title string  `xml:"title,attr"`
+	Bdata []bdata `xml:"bdata"`
+	Note  []note  `xml:"note"`
 }
 
 type bdata struct {
-	Title    string  `xml:"attr"`
-	Subtitle string  `xml:"attr"`
-	Scale    string  `xml:"attr"`
-	Qmeasure string  `xml:"attr"`
-	Cmeasure float64 `xml:"attr"`
-	Measure  float64 `xml:"attr"`
+	Title    string  `xml:"title,attr"`
+	Subtitle string  `xml:"subtitle,attr"`
+	Scale    string  `xml:"scale,attr"`
+	Qmeasure string  `xml:"qmeasure,attr"`
+	Cmeasure float64 `xml:"cmeasure,attr"`
+	Measure  float64 `xml:"measure,attr"`
 }
 
 type note struct {
-	Text string `xml:"chardata"`
+	Text string `xml:",chardata"`
 }
 
 // dobg does file i/o

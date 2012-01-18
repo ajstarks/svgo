@@ -10,7 +10,7 @@ import (
 	"io"
 	"os"
 	"strings"
-    
+
 	"github.com/ajstarks/svgo"
 )
 
@@ -27,9 +27,9 @@ var (
 // incoming SVG file, capture everything into between <svg..> and </svg> 
 // in the Doc string.  This code will be translated to form the "picture" portion
 type SVG struct {
-	Width  int    `xml:"attr"`
-	Height int    `xml:"attr"`
-	Doc    string `xml:"innerxml"`
+	Width  int    `xml:"width,attr"`
+	Height int    `xml:"height,attr"`
+	Doc    string `xml:",innerxml"`
 }
 
 // codepic makes a code+picture SVG file, given a go source file

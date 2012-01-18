@@ -6,97 +6,96 @@ import (
 	"encoding/xml"
 	"flag"
 	"fmt"
+	"github.com/ajstarks/svgo"
 	"io"
 	"math"
 	"os"
 	"strconv"
 	"strings"
 	"time"
-
-    "github.com/ajstarks/svgo"
 )
 
 // Component XML structures
 
 type Component struct {
-	Top    int    `xml:"attr"`
-	Left   int    `xml:"attr"`
-	Gutter int    `xml:"attr"`
-	Gw     int    `xml:"attr"`
-	Gh     int    `xml:"attr"`
-	Gc     string `xml:"attr"`
-	Legend []legend
-	Note   []note
-	Group  []group
-	Comp   []comp
+	Top    int      `xml:"top,attr"`
+	Left   int      `xml:"left,attr"`
+	Gutter int      `xml:"gutter,attr"`
+	Gw     int      `xml:"gw,attr"`
+	Gh     int      `xml:"gh,attr"`
+	Gc     string   `xml:"gc,attr"`
+	Legend []legend `xml:"legend"`
+	Note   []note   `xml:"note"`
+	Group  []group  `xml:"group"`
+	Comp   []comp   `xml:"comp"`
 }
 
 type group struct {
-	Brow    int     `xml:"attr"`
-	Bcol    int     `xml:"attr"`
-	Erow    int     `xml:"attr"`
-	Ecol    int     `xml:"attr"`
-	Width   int     `xml:"attr"`
-	Height  int     `xml:"attr"`
-	Label   string  `xml:"attr"`
-	Color   string  `xml:"attr"`
-	Opacity float64 `xml:"attr"`
+	Brow    int     `xml:"brow,attr"`
+	Bcol    int     `xml:"bcol,attr"`
+	Erow    int     `xml:"erow,attr"`
+	Ecol    int     `xml:"ecol,attr"`
+	Width   int     `xml:"width,attr"`
+	Height  int     `xml:"height,attr"`
+	Label   string  `xml:"label,attr"`
+	Color   string  `xml:"color,attr"`
+	Opacity float64 `xml:"opacity,attr"`
 }
 
 type note struct {
-	Row     int `xml:"attr"`
-	Col     int `xml:"attr"`
-	Width   int `xml:"attr"`
-	Height  int `xml:"attr"`
-	Size    int `xml:"attr"`
-	Spacing int `xml:"attr"`
-	Nitem   []nitem
+	Row     int     `xml:"row,attr"`
+	Col     int     `xml:"col,attr"`
+	Width   int     `xml:"width,attr"`
+	Height  int     `xml:"height,attr"`
+	Size    int     `xml:"size,attr"`
+	Spacing int     `xml:"spacing,attr"`
+	Nitem   []nitem `xml:"nitem"`
 }
 
 type legend struct {
-	Title  string `xml:"attr"`
-	Row    int    `xml:"attr"`
-	Col    int    `xml:"attr"`
-	Width  int    `xml:"attr"`
-	Height int    `xml:"attr"`
-	Litem  []litem
+	Title  string  `xml:"title,attr"`
+	Row    int     `xml:"row,attr"`
+	Col    int     `xml:"col,attr"`
+	Width  int     `xml:"width,attr"`
+	Height int     `xml:"height,attr"`
+	Litem  []litem `xml:"litem"`
 }
 
 type comp struct {
-	Id      string `xml:"attr"`
-	Col     int    `xml:"attr"`
-	Row     int    `xml:"attr"`
-	Width   int    `xml:"attr"`
-	Height  int    `xml:"attr"`
-	Name    string `xml:"attr"`
-	Os      string `xml:"attr"`
-	Sw      string `xml:"attr"`
-	Color   string `xml:"attr"`
-	Shape   string `xml:"attr"`
-	Image   string `xml:"attr"`
-	Connect []Connect
+	Id      string    `xml:"id,attr"`
+	Col     int       `xml:"col,attr"`
+	Row     int       `xml:"row,attr"`
+	Width   int       `xml:"width,attr"`
+	Height  int       `xml:"height,attr"`
+	Name    string    `xml:"name,attr"`
+	Os      string    `xml:"os,attr"`
+	Sw      string    `xml:"sw,attr"`
+	Color   string    `xml:"color,attr"`
+	Shape   string    `xml:"shape,attr"`
+	Image   string    `xml:"image,attr"`
+	Connect []Connect `xml:"connect"`
 }
 
 type litem struct {
-	Color string `xml:"attr"`
-	Type  string `xml:"attr"`
-	Label string `xml:"chardata"`
+	Color string `xml:"color,attr"`
+	Type  string `xml:"type,attr"`
+	Label string `xml:",chardata"`
 }
 
 type nitem struct {
-	Color string `xml:"attr"`
-	Align string `xml:"attr"`
-	Text  string `xml:"chardata"`
+	Color string `xml:"color,attr"`
+	Align string `xml:"align,attr"`
+	Text  string `xml:",chardata"`
 }
 
 type Connect struct {
-	Sloc  string `xml:"attr"`
-	Dloc  string `xml:"attr"`
-	Dest  string `xml:"attr"`
-	Mark  string `xml:"attr"`
-	Color string `xml:"attr"`
-	Dir   string `xml:"attr"`
-	Label string `xml:"chardata"`
+	Sloc  string `xml:"sloc,attr"`
+	Dloc  string `xml:"dloc,attr"`
+	Dest  string `xml:"dest,attr"`
+	Mark  string `xml:"mark,attr"`
+	Color string `xml:"color,attr"`
+	Dir   string `xml:"dir,attr"`
+	Label string `xml:",chardata"`
 }
 
 type gcomp struct {
@@ -139,7 +138,7 @@ func docomp(location string) {
 	} else {
 		f = os.Stdin
 	}
-	
+
 	if err == nil {
 		readcomp(f)
 		f.Close()
@@ -559,7 +558,6 @@ func message(x, y, w, h, l int, bcolor, scolor string) {
 	canvas.Line(x+w, y+et, x+w2, y+(et*2), "stroke-width:1;stroke:"+bcolor)
 }
 
-
 // eaec person object
 func eaec(x, y, w, h, l int, scolor, bcolor string) {
 	wu := w / 8
@@ -866,7 +864,6 @@ func init() {
 	flag.StringVar(&guide, "g", "", "grid guide: WxHxRxC")
 	flag.Parse()
 }
-
 
 // for every file (or stdin) make a component diagram
 func main() {
