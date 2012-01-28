@@ -49,6 +49,7 @@ type note struct {
 	Height  int     `xml:"height,attr"`
 	Size    int     `xml:"size,attr"`
 	Spacing int     `xml:"spacing,attr"`
+	Align   string  `xml:"align,attr"`
 	Nitem   []nitem `xml:"nitem"`
 }
 
@@ -150,7 +151,7 @@ func docomp(location string) {
 // readcomp reads the XML into the component data structure
 func readcomp(r io.Reader) {
 	var c Component
-	if err := xml.Unmarshal(r, &c); err == nil {
+	if err := xml.NewDecoder(r).Decode(&c); err == nil {
 		drawc(c)
 	} else {
 		fmt.Fprintf(os.Stderr, "Unable to parse components (%v)\n", err)
@@ -299,6 +300,9 @@ func donote(n note, top, left, gutter int) {
 	ls := n.Spacing
 	x := colx(n.Col, n.Width, gutter, left)
 	y := rowy(n.Row, n.Height, gutter, top)
+	if n.Align == "middle" {
+		y += n.Height / 2
+	}
 	if size <= 0 {
 		size = labelfs
 	}

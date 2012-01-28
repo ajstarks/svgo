@@ -64,7 +64,7 @@ func (p *Parameters) barchart(location string, canvas *svg.SVG) {
 		return
 	}
 	defer f.Close()
-	if err := xml.Unmarshal(f, &sp); err != nil {
+	if err := xml.NewDecoder(f).Decode(&sp); err != nil {
 		fmt.Fprintln(os.Stderr, err)
 		return
 	}

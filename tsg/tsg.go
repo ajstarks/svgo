@@ -77,7 +77,7 @@ func ts(s string, date string, n int) {
 // readatom unmarshals the twitter search response and formats the results into a grid
 func readatom(r io.Reader) {
 	var twitter Feed
-	err := xml.Unmarshal(r, &twitter)
+	err := xml.NewDecoder(r).Decode(&twitter)
 	if err == nil {
 		tgrid(twitter, 25, 25, 50, 50, 10)
 	} else {

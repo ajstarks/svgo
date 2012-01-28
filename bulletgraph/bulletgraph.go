@@ -76,7 +76,7 @@ func dobg(location string, s *svg.SVG) {
 // readbg reads and parses the XML specification
 func readbg(r io.Reader, s *svg.SVG) {
 	var bg Bulletgraph
-	if err := xml.Unmarshal(r, &bg); err == nil {
+	if err := xml.NewDecoder(r).Decode(&bg); err == nil {
 		drawbg(bg, s)
 	} else {
 		fmt.Fprintf(os.Stderr, "%v\n", err)

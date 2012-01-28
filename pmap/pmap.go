@@ -63,7 +63,7 @@ func dopmap(location string) {
 
 func readpmap(r io.Reader) {
 	var pm Pmap
-	if err := xml.Unmarshal(r, &pm); err == nil {
+	if err := xml.NewDecoder(r).Decode(&pm); err == nil {
 		drawpmap(pm)
 	} else {
 		fmt.Fprintf(os.Stderr, "Unable to parse pmap (%v)\n", err)

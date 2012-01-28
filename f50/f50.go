@@ -95,7 +95,7 @@ func fs(s string) {
 		return
 	}
 	defer r.Body.Close()
-	xmlerr := xml.Unmarshal(r.Body, &f)
+	xmlerr := xml.NewDecoder(r.Body).Decode(&f)
 	if xmlerr != nil || r.StatusCode != http.StatusOK {
 		fmt.Fprintf(os.Stderr, "%v (status=%d)\n", xmlerr, r.StatusCode)
 		return

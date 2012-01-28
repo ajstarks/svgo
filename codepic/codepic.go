@@ -85,7 +85,7 @@ func placepic(x, y int, basename string) {
 		return
 	}
 	defer f.Close()
-	if err := xml.Unmarshal(f, &s); err != nil {
+	if err := xml.NewDecoder(f).Decode(&s); err != nil {
 		fmt.Fprintf(os.Stderr, "Unable to parse (%v)\n", err)
 		return
 	}
