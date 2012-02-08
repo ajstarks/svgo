@@ -17,7 +17,7 @@ import (
 var (
 	canvas                                                    = svg.New(os.Stdout)
 	font                                                      string
-	codeframe, picframe                                       bool
+	codeframe, picframe, syntax                               bool
 	linespacing, fontsize, top, left, boxwidth, width, height int
 )
 
@@ -96,7 +96,7 @@ func placecode(x, y int, filename string) {
 		line, rerr = in.ReadString('\n')
 		if len(line) > 0 {
 			line, ic = svgtext(xp, y, line[0:len(line)-1])
-			if !ic {
+			if !ic && syntax {
 				line = keyword(line, gokwfmt, gokw)
 				line = keyword(line, svgofmt, svgokw)
 			}
@@ -123,10 +123,12 @@ func svgtext(x, y int, s string) (string, bool) {
 	s = strings.Replace(s, "<", "&lt;", -1)
 	s = strings.Replace(s, ">", "&gt;", -1)
 
-	i := strings.Index(s, "// ")
-	if i >= 0 {
-		iscomment = true
-		s = strings.Replace(s, s[i:], fmt.Sprintf(commentfmt, s[i:]), 1)
+	if syntax {
+		i := strings.Index(s, "// ")
+		if i >= 0 {
+			iscomment = true
+			s = strings.Replace(s, s[i:], fmt.Sprintf(commentfmt, s[i:]), 1)
+		}
 	}
 	return fmt.Sprintf(textfmt, x, y, s), iscomment
 }
@@ -160,6 +162,7 @@ func placepic(x, y int, basename string) {
 func init() {
 	flag.BoolVar(&codeframe, "codeframe", false, "frame the code")
 	flag.BoolVar(&picframe, "picframe", false, "frame the picture")
+	flag.BoolVar(&syntax, "syntax", false, "syntax coloring")
 	flag.IntVar(&width, "w", 1024, "width")
 	flag.IntVar(&height, "h", 768, "height")
 	flag.IntVar(&linespacing, "ls", 16, "linespacing")
