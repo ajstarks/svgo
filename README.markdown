@@ -17,13 +17,12 @@ Output goes to the specified io.Writer.
 
 See svgdef.[svg|png|pdf] for a graphical view of the function calls
 
-Usage: 
+Usage: (assuming GOPATH is set)
 
-	goinstall github.com/ajstarks/svgo
+	go get github.com/ajstarks/svgo
+	cd $GOPATH/github.com/ajstarks/svgo
+	go install all
 	
-to install into your Go environment. To update the library you can use:
-
-	goinstall -clean -u -v github.com/ajstarks/svgo
 
 a minimal program, to generate SVG to standard output.
 
