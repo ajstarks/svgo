@@ -10,7 +10,7 @@
     <litem color="rgb(0,0,127)" type="line">Restricted</litem>
     <litem color="rgb(127,0,0)" type="line">Highly Restricted</litem>
   </legend>
-  <note row="0" col="4" width="200" height="120" size="16">
+  <note row="0" col="4" width="200" height="120" size="16" align="middle">
     <nitem align="center" color="red">Note</nitem>
     <nitem align="left">This is the test pattern for compx</nitem>
     <nitem>for best results, set the width to be</nitem>

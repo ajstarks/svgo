@@ -8,7 +8,7 @@ import (
 	"fmt"
 	"os"
 	"strings"
-    
+
 	"github.com/ajstarks/svgo"
 )
 

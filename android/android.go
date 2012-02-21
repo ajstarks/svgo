@@ -3,9 +3,8 @@ package main
 import (
 	"fmt"
 	"os"
-	
-	"github.com/ajstarks/svgo"
 
+	"github.com/ajstarks/svgo"
 )
 
 var (

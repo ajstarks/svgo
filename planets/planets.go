@@ -21,7 +21,6 @@ var ssDist = []float64{
 	20.11, // Uranus
 	30.08} // Netpune
 
-
 var ssRad = []float64{ // Miles
 	423200.0, // Sun
 	1516.0,   // Mercury
@@ -32,7 +31,6 @@ var ssRad = []float64{ // Miles
 	35610.0,  // Saturn
 	15700.0,  // Uranus
 	15260.0}  // Neptune
-
 
 var ssColor = []string{ // R, G, B
 	//  Eyeballed from image
