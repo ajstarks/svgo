@@ -21,8 +21,7 @@ See svgdef.[svg|png|pdf] for a graphical view of the function calls
 Usage: (assuming GOPATH is set)
 
 	go get github.com/ajstarks/svgo
-	cd $GOPATH/src/github.com/ajstarks/svgo
-	go install all
+	go install github.com/ajstarks/svgo/...
 	
 
 a minimal program, to generate SVG to standard output.
