@@ -23,7 +23,6 @@ var (
 
 const (
 	framestyle = "stroke:gray;stroke-dasharray:1,1;fill:none"
-	labelstyle = "text-anchor:middle"
 	codefmt    = "font-family:%s;font-size:%dpx"
 	labelfmt   = "text-anchor:middle;" + codefmt
 	kwfmt      = `<tspan %s>%s</tspan>`

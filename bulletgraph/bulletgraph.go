@@ -17,7 +17,7 @@ import (
 )
 
 var (
-	width, height, iscale, fontsize, barheight, gutter int
+	width, height, fontsize, barheight, gutter int
 	bgcolor, barcolor, datacolor, compcolor, title     string
 	showtitle, circlemark                              bool
 	gstyle                                             = "font-family:Calibri;font-size:%dpx"

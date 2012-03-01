@@ -116,12 +116,9 @@ var (
 
 const (
 	lcolor      = "rgb(190,190,190)"
-	boxradius   = 10
 	lopacity    = "1.0"
-	defcolor    = "black"
 	linefmt     = "stroke:%s;fill:none"
 	globalstyle = "font-family:Calibri;font-size:%dpx;fill:black;text-anchor:middle;stroke-linecap:round;stroke-width:%dpx;stroke-opacity:%s"
-	ltstyle     = "text-anchor:%s;fill:black"
 	legendstyle = "text-anchor:start;fill:black;font-size:%dpx"
 	gridstyle   = "fill:none; stroke:gray; stroke-opacity:0.3"
 	notefmt     = "font-size:%dpx"
