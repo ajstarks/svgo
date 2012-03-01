@@ -82,7 +82,7 @@ func (svg *SVG) Start(w int, h int, ns ...string) {
 
 // Startview begins the SVG document, with the specified width, height, and viewbox 
 func (svg *SVG) Startview(w, h, minx, miny, vw, vh int) {
-	svg.Start(w, h, fmt.Sprintf(`viewBox="%d %d %d %d"`, minx, miny, vw, vh))
+	svg.Start(w, h, fmt.Sprintf(vbfmt, minx, miny, vw, vh))
 }
 
 // End the SVG document
