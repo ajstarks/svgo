@@ -404,6 +404,7 @@ is used to specify the offset, color, and opacity of stop colors in linear and r
   The stop color sequence defined in sc.
   Coordinates are expressed as percentages.
   <http://www.w3.org/TR/SVG11/pservers.html#RadialGradients>
+  
   ![RadialGradient](http://farm2.static.flickr.com/1302/5187954065_7ddba7b819.jpg)
 
 ### Utility ###
