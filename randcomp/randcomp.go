@@ -1,3 +1,4 @@
+// randcomp visualizes random number generators
 package main
 
 import (

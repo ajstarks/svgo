@@ -1,4 +1,4 @@
-// Planets: an exploration of scale
+// planets: an exploration of scale
 
 package main
 

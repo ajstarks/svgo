@@ -1,4 +1,4 @@
-// Flickr50 -- given a search term, display 10x5 image grid, sorted by interestingness
+// f50 -- given a search term, display 10x5 image grid, sorted by interestingness
 
 package main
 

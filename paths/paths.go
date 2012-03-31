@@ -1,3 +1,4 @@
+// paths draws the W3C logo as a paths
 package main
 
 import (

@@ -1,3 +1,4 @@
+// bubtrail draws a randmonized trail of bubbles
 package main
 
 import (

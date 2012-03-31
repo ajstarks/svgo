@@ -1,3 +1,4 @@
+// websvg draws SVG in a web server
 package main
 
 import (

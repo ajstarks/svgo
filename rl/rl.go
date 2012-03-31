@@ -1,3 +1,4 @@
+// rl - draw random lines
 package main
 
 import (

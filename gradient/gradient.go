@@ -1,3 +1,4 @@
+// gradient shows sample gradient fills
 package main
 
 import (

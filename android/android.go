@@ -1,3 +1,4 @@
+// android draws bugdroid, the Android mascot
 package main
 
 import (

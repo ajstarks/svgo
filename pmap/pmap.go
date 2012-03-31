@@ -1,4 +1,4 @@
-// pmap: percentage maps
+// pmap percentage maps
 
 package main
 

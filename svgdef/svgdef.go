@@ -1,4 +1,4 @@
-// svgdef: SVG Object Definition and Use
+// svgdef -  SVG Object Definition and Use
 
 package main
 
