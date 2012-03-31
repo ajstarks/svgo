@@ -1,7 +1,4 @@
-// bulletgraph - bullet graphs
-// Bullet Graph Design Specification, Steven Few
-// http://www.perceptualedge.com/articles/misc/Bullet_Graph_Design_Spec.pdf
-
+// bulletgraph - bullet graphs (Bullet Graph Design Specification http://www.perceptualedge.com/articles/misc/Bullet_Graph_Design_Spec.pdf)
 package main
 
 import (

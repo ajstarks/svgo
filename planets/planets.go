@@ -1,5 +1,4 @@
 // planets: an exploration of scale
-
 package main
 
 import (

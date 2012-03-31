@@ -1,4 +1,5 @@
 // lewitt: inspired by by Sol LeWitt's Wall Drawing 91:
+package main
 //
 // A six-inch (15 cm) grid covering the wall.
 // Within each square, not straight lines from side to side, using
@@ -7,9 +8,6 @@
 //
 // This version violates the original instructions in that straight lines
 // as well as arcs are used
-
-package main
-
 import (
 	"flag"
 	"fmt"

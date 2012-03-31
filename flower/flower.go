@@ -1,6 +1,4 @@
-// flower - draw random flowers
-// inspired by Evelyn Eastmond's DesignBlocks gererated "grain2"
-
+// flower - draw random flowers, inspired by Evelyn Eastmond's DesignBlocks gererated "grain2"
 package main
 
 import (

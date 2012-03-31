@@ -1,8 +1,4 @@
 // tsg -- twitter search grid
-//
-// Anthony Starks (ajstarks@gmail.com)
-//
-
 package main
 
 import (

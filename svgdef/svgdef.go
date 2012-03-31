@@ -1,5 +1,4 @@
 // svgdef -  SVG Object Definition and Use
-
 package main
 
 import (

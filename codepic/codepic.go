@@ -1,5 +1,4 @@
 // codepic -- produce code+output sample suitable for slides
-
 package main
 
 import (

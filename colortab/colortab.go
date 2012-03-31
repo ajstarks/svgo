@@ -1,5 +1,4 @@
 // colortab -- make a color/code placemat
-
 package main
 
 import (
