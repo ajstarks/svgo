@@ -1,5 +1,4 @@
 // fontcompare: compare two fonts 
-
 package main
 
 import (
