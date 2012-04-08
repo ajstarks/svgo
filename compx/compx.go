@@ -1,4 +1,4 @@
-// compx: display components and connections on a grid,  given a XML description
+// compx: display components and connections on a grid, given a XML description
 package main
 
 import (
@@ -58,6 +58,7 @@ type legend struct {
 	Col    int     `xml:"col,attr"`
 	Width  int     `xml:"width,attr"`
 	Height int     `xml:"height,attr"`
+	Size   int     `xml:"size,attr"`
 	Litem  []litem `xml:"litem"`
 }
 
@@ -115,9 +116,12 @@ var (
 
 const (
 	lcolor      = "rgb(190,190,190)"
+	boxradius   = 10
 	lopacity    = "1.0"
+	defcolor    = "black"
 	linefmt     = "stroke:%s;fill:none"
 	globalstyle = "font-family:Calibri;font-size:%dpx;fill:black;text-anchor:middle;stroke-linecap:round;stroke-width:%dpx;stroke-opacity:%s"
+	ltstyle     = "text-anchor:%s;fill:black"
 	legendstyle = "text-anchor:start;fill:black;font-size:%dpx"
 	gridstyle   = "fill:none; stroke:gray; stroke-opacity:0.3"
 	notefmt     = "font-size:%dpx"
@@ -271,6 +275,10 @@ func dogroup(g group, top, left, gutter int) {
 
 // dolegend displays the legend
 func dolegend(leg legend, top, left, gutter, fs, ls int) {
+	if leg.Size > 0 {
+		fs = leg.Size
+		ls = fs + 4
+	}
 	fsh := fs / 2
 	x := colx(leg.Col, leg.Width, gutter, left)
 	y := rowy(leg.Row, leg.Height, gutter, top)
