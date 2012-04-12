@@ -108,6 +108,7 @@ A video describing how to use the package can be seen on YouTube at <http://www.
 * ltr:		Layer Tennis Remixes
 * paths		Demonstrate SVG paths
 * planets:	Show the scale of the Solar system
+* plot		Plot data
 * pmap:		Proportion maps
 * randcomp:	Compare random number generators
 * richter:	Gerhard Richter's 256 colors
