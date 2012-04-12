@@ -1,4 +1,4 @@
-//plot -- plot data (a stream of x,y coordinates)
+//svgplot -- plot data (a stream of x,y coordinates)
 package main
 
 import (
@@ -60,13 +60,15 @@ func doplot(x, y int, location string) {
 	} else {
 		f = os.Stdin
 	}
-	defer f.Close()
-	if err == nil {
-		_, data := readxy(f)
-		plot(x, y, plotw, ploth, ps, data)
-	} else {
+	
+	if err != nil {
 		fmt.Fprintf(os.Stderr, "%v\n", err)
+		return
 	}
+	_, data := readxy(f)
+	plot(x, y, plotw, ploth, ps, data)
+	f.Close()
+	
 }
 
 // plot places a plot at the specified location with the specified dimemsions
@@ -99,7 +101,8 @@ func plot(x, y, w, h int, settings plotset, d []rawdata) {
 	
 		spacer := 10
 
-	canvas.Gstyle(fmt.Sprintf(globalfmt, settings.attr["font"], settings.size["fontsize"], settings.size["linesize"]))
+	canvas.Gstyle(
+		fmt.Sprintf(globalfmt, settings.attr["font"], settings.size["fontsize"], settings.size["linesize"]))
 	if len(settings.attr["label"]) > 0 {
 		canvas.Text(x, y-spacer, settings.attr["label"], textfmt+";font-size:120%")
 	}
@@ -108,7 +111,8 @@ func plot(x, y, w, h int, settings plotset, d []rawdata) {
 		xp := int(fmap(v.x, minx, maxx, float64(x), float64(x+w)))
 		yp := int(fmap(v.y, miny, maxy, float64(y), float64(y-h)))
 		if settings.opt["showbar"] {
-			canvas.Line(xp, yp+h, xp, y+h, fmt.Sprintf(barfmt, settings.attr["barcolor"], settings.size["barsize"]))
+			canvas.Line(xp, yp+h, xp, y+h, 
+			fmt.Sprintf(barfmt, settings.attr["barcolor"], settings.size["barsize"]))
 		}
 		if settings.opt["showdot"] {
 			canvas.Circle(xp, yp+h, settings.size["dotsize"], "fill:"+settings.attr["dotcolor"])

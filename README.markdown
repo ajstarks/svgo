@@ -108,7 +108,6 @@ A video describing how to use the package can be seen on YouTube at <http://www.
 * ltr:		Layer Tennis Remixes
 * paths		Demonstrate SVG paths
 * planets:	Show the scale of the Solar system
-* plot		Plot data
 * pmap:		Proportion maps
 * randcomp:	Compare random number generators
 * richter:	Gerhard Richter's 256 colors
@@ -116,6 +115,7 @@ A video describing how to use the package can be seen on YouTube at <http://www.
 * skewabc:		Skew ABC
 * stockproduct:	Visualize product and stock prices
 * svgopher:	SVGo Mascot
+* svgplot		Plot data
 * tsg:  Twitter Search Grid
 * vismem:	Visualize data from files
 * webfonts:	"Hello, World" with Google Web Fonts
