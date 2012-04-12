@@ -60,13 +60,14 @@ func doplot(x, y int, location string) {
 	} else {
 		f = os.Stdin
 	}
-	
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "%v\n", err)
 		return
 	}
-	_, data := readxy(f)
-	plot(x, y, plotw, ploth, ps, data)
+	nd, data := readxy(f)
+	if nd > 2 {
+		plot(x, y, plotw, ploth, ps, data)
+	}
 	f.Close()
 	
 }
