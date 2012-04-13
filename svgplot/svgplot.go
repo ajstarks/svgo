@@ -41,10 +41,73 @@ const (
 	globalfmt = "font-family:%s;font-size:%dpt;stroke-width:%dpx"
 	linefmt   = "stroke:%s"
 	barfmt    = linefmt + ";stroke-width:%dpx"
-	ticfmt    = "stroke:gray;stroke-width:1px"
+	ticfmt    = "stroke:rgb(200,200,200);stroke-width:1px"
 	labelfmt  = ticfmt + ";text-anchor:end;fill:black"
 	textfmt   = "stroke:none;baseline-shift:-33.3%"
 )
+
+// init initializes command flags and sets default options
+func init() {
+	// boolean options 
+	showx := flag.Bool("showx", true, "show the xaxis")
+	showy := flag.Bool("showy", true, "show the yaxis")
+	showbar := flag.Bool("showbar", false, "show data bars")
+	connect := flag.Bool("connect", true, "connect data points")
+	showdot := flag.Bool("showdot", false, "show dots")
+	showbg := flag.Bool("showbg", true, "show the background color")
+	showfile := flag.Bool("showfile", false, "show the filename")
+	
+	// attributes
+	bgcolor := flag.String("bgcolor", "rgb(240,240,240)", "plot background color")
+	barcolor := flag.String("barcolor", "gray", "bar color")
+	dotcolor := flag.String("dotcolor", "black", "dot color")
+	linecolor := flag.String("linecolor", "gray", "line color")
+	font := flag.String("font", "Calibri,sans", "font")
+	plotlabel := flag.String("label", "", "plot label")
+	
+	// sizes
+	dotsize := flag.Int("dotsize", 2, "dot size")
+	linesize := flag.Int("linesize", 2, "line size")
+	barsize := flag.Int("barsize", 2, "bar size")
+	fontsize := flag.Int("fontsize", 11, "font size")
+	xinterval := flag.Int("xint", 10, "x axis interval")
+	yinterval := flag.Int("yint", 4, "y axis interval")
+
+	// meta options
+	flag.IntVar(&beginx, "bx", 100, "initial x")
+	flag.IntVar(&beginy, "by", 50, "initial y")
+	flag.IntVar(&plotw, "pw", 500, "plot width")
+	flag.IntVar(&ploth, "ph", 500, "plot height")
+	flag.IntVar(&plotc, "pc", 2, "plot columns")
+	flag.IntVar(&gutter, "gutter", ploth/10, "gutter")
+	flag.IntVar(&gwidth, "width", 1024, "canvas width")
+	flag.IntVar(&gheight, "height", 768, "canvas height")
+
+	flag.Parse()
+
+	// fill in the plotset -- all options, attributes, and sizes
+	plotopt["showx"] = *showx
+	plotopt["showy"] = *showy
+	plotopt["showbar"] = *showbar
+	plotopt["connect"] = *connect
+	plotopt["showdot"] = *showdot
+	plotopt["showbg"] = *showbg
+	plotopt["showfile"] = *showfile
+
+	plotattr["bgcolor"] = *bgcolor
+	plotattr["barcolor"] = *barcolor
+	plotattr["linecolor"] = *linecolor
+	plotattr["dotcolor"] = *dotcolor
+	plotattr["font"] = *font
+	plotattr["label"] = *plotlabel
+
+	plotnum["dotsize"] = *dotsize
+	plotnum["linesize"] = *linesize
+	plotnum["fontsize"] = *fontsize
+	plotnum["xinterval"] = *xinterval
+	plotnum["yinterval"] = *yinterval
+	plotnum["barsize"] = *barsize
+}
 
 // fmap maps world data to document coordinates
 func fmap(value float64, low1 float64, high1 float64, low2 float64, high2 float64) float64 {
@@ -56,6 +119,9 @@ func doplot(x, y int, location string) {
 	var f *os.File
 	var err error
 	if len(location) > 0 {
+		if plotopt["showfile"] {
+			plotattr["label"] = location
+		}
 		f, err = os.Open(location)
 	} else {
 		f = os.Stdin
@@ -69,13 +135,11 @@ func doplot(x, y int, location string) {
 		plot(x, y, plotw, ploth, ps, data)
 	}
 	f.Close()
-
 }
 
 // plot places a plot at the specified location with the specified dimemsions
 // usinng the specified settings, using the specified data
 func plot(x, y, w, h int, settings plotset, d []rawdata) {
-
 	if len(d) < 2 {
 		fmt.Fprintf(os.Stderr, "%d is not enough points to plot\n", len(d))
 		return
@@ -99,11 +163,9 @@ func plot(x, y, w, h int, settings plotset, d []rawdata) {
 	if settings.opt["showbg"] {
 		canvas.Rect(x, y, w, h, "fill:"+settings.attr["bgcolor"])
 	}
-
 	spacer := 10
-
-	canvas.Gstyle(
-		fmt.Sprintf(globalfmt, settings.attr["font"], settings.size["fontsize"], settings.size["linesize"]))
+	canvas.Gstyle(fmt.Sprintf(globalfmt,
+		settings.attr["font"], settings.size["fontsize"], settings.size["linesize"]))
 	if len(settings.attr["label"]) > 0 {
 		canvas.Text(x, y-spacer, settings.attr["label"], textfmt+";font-size:120%")
 	}
@@ -133,11 +195,12 @@ func plot(x, y, w, h int, settings plotset, d []rawdata) {
 	if settings.opt["showy"] {
 		bot := math.Floor(miny)
 		top := math.Ceil(maxy)
-		interval := top / float64(10)
+		yrange := top - bot
+		interval := yrange / float64(settings.size["yinterval"])
 		canvas.Gstyle(labelfmt)
 		for yax := bot; yax <= top; yax += interval {
 			yaxp := fmap(yax, bot, top, float64(y), float64(y-h))
-			canvas.Text(x-spacer, int(yaxp)+h, fmt.Sprintf("%.2f", yax), textfmt)
+			canvas.Text(x-spacer, int(yaxp)+h, fmt.Sprintf("%.1f", yax), textfmt)
 			canvas.Line(x-spacer, int(yaxp)+h, x, int(yaxp)+h)
 		}
 		canvas.Gend()
@@ -165,62 +228,6 @@ func readxy(f io.Reader) (int, []rawdata) {
 	return n - 1, data[0 : n-1]
 }
 
-// init initializes command flags and sets default options
-func init() {
-	showx := flag.Bool("showx", true, "show the xaxis")
-	showy := flag.Bool("showy", true, "show the yaxis")
-	showbar := flag.Bool("showbar", false, "show data bars")
-	connect := flag.Bool("connect", true, "connect data points")
-	showdot := flag.Bool("showdot", false, "show dots")
-	showbg := flag.Bool("showbg", true, "show the background color")
-	showfile := flag.Bool("showfile", false, "show the filename")
-	bgcolor := flag.String("bg", "rgb(240,240,240)", "plot background color")
-	barcolor := flag.String("barcolor", "gray", "bar color")
-	dotcolor := flag.String("dotcolor", "black", "dot color")
-	linecolor := flag.String("linecolor", "gray", "line color")
-	font := flag.String("font", "Calibri,sans", "font")
-	plotlabel := flag.String("label", "", "plot label")
-	dotsize := flag.Int("dotsize", 2, "dot size")
-	linesize := flag.Int("linesize", 2, "line size")
-	barsize := flag.Int("barsize", 2, "bar size")
-	fontsize := flag.Int("fontsize", 11, "font size")
-	xinterval := flag.Int("xint", 10, "x axis interval")
-	yinterval := flag.Int("yint", 10, "y axis interval")
-
-	flag.IntVar(&beginx, "bx", 100, "initial x")
-	flag.IntVar(&beginy, "by", 50, "initial y")
-	flag.IntVar(&plotw, "pw", 500, "plot width")
-	flag.IntVar(&ploth, "ph", 500, "plot height")
-	flag.IntVar(&plotc, "pc", 2, "plot columns")
-	flag.IntVar(&gutter, "gutter", ploth/10, "gutter")
-	flag.IntVar(&gwidth, "width", 1024, "canvas width")
-	flag.IntVar(&gheight, "height", 768, "canvas height")
-
-	flag.Parse()
-
-	plotopt["showx"] = *showx
-	plotopt["showy"] = *showy
-	plotopt["showbar"] = *showbar
-	plotopt["connect"] = *connect
-	plotopt["showdot"] = *showdot
-	plotopt["showbg"] = *showbg
-	plotopt["showfile"] = *showfile
-
-	plotattr["bgcolor"] = *bgcolor
-	plotattr["barcolor"] = *barcolor
-	plotattr["linecolor"] = *linecolor
-	plotattr["dotcolor"] = *dotcolor
-	plotattr["font"] = *font
-	plotattr["label"] = *plotlabel
-
-	plotnum["dotsize"] = *dotsize
-	plotnum["linesize"] = *linesize
-	plotnum["fontsize"] = *fontsize
-	plotnum["xinterval"] = *xinterval
-	plotnum["yinternal"] = *yinterval
-	plotnum["barsize"] = *barsize
-}
-
 // plotgrid places plots on a grid, governed by a number of columns.
 func plotgrid(x, y int, files []string) {
 	px := x
@@ -228,9 +235,6 @@ func plotgrid(x, y int, files []string) {
 		if i > 0 && i%plotc == 0 {
 			px = x
 			y += (ploth + gutter)
-		}
-		if plotopt["showfile"] {
-			plotattr["label"] = f
 		}
 		doplot(px, y, f)
 		px += (plotw + gutter)
@@ -240,7 +244,6 @@ func plotgrid(x, y int, files []string) {
 // main plots data from specified files or standard input in a 
 // grid where plotc specifies the number of columns.
 func main() {
-
 	canvas.Start(gwidth, gheight)
 	canvas.Rect(0, 0, gwidth, gheight, "fill:white")
 	filenames := flag.Args()
