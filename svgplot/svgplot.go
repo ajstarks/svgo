@@ -29,12 +29,12 @@ type plotset struct {
 }
 
 var (
-	canvas                                = svg.New(os.Stdout)
-	plotopt                               = options{}
-	plotattr                              = attributes{}
-	plotnum                               = measures{}
-	ps                                    = plotset{plotopt, plotattr, plotnum}
-	plotw, ploth, gwidth, gheight, gutter, beginx, beginy int
+	canvas                                                       = svg.New(os.Stdout)
+	plotopt                                                      = options{}
+	plotattr                                                     = attributes{}
+	plotnum                                                      = measures{}
+	ps                                                           = plotset{plotopt, plotattr, plotnum}
+	plotw, ploth, plotc, gwidth, gheight, gutter, beginx, beginy int
 )
 
 const (
@@ -65,11 +65,11 @@ func doplot(x, y int, location string) {
 		return
 	}
 	nd, data := readxy(f)
-	if nd > 2 {
+	if nd >= 2 {
 		plot(x, y, plotw, ploth, ps, data)
 	}
 	f.Close()
-	
+
 }
 
 // plot places a plot at the specified location with the specified dimemsions
@@ -99,8 +99,8 @@ func plot(x, y, w, h int, settings plotset, d []rawdata) {
 	if settings.opt["showbg"] {
 		canvas.Rect(x, y, w, h, "fill:"+settings.attr["bgcolor"])
 	}
-	
-		spacer := 10
+
+	spacer := 10
 
 	canvas.Gstyle(
 		fmt.Sprintf(globalfmt, settings.attr["font"], settings.size["fontsize"], settings.size["linesize"]))
@@ -112,8 +112,8 @@ func plot(x, y, w, h int, settings plotset, d []rawdata) {
 		xp := int(fmap(v.x, minx, maxx, float64(x), float64(x+w)))
 		yp := int(fmap(v.y, miny, maxy, float64(y), float64(y-h)))
 		if settings.opt["showbar"] {
-			canvas.Line(xp, yp+h, xp, y+h, 
-			fmt.Sprintf(barfmt, settings.attr["barcolor"], settings.size["barsize"]))
+			canvas.Line(xp, yp+h, xp, y+h,
+				fmt.Sprintf(barfmt, settings.attr["barcolor"], settings.size["barsize"]))
 		}
 		if settings.opt["showdot"] {
 			canvas.Circle(xp, yp+h, settings.size["dotsize"], "fill:"+settings.attr["dotcolor"])
@@ -148,16 +148,19 @@ func plot(x, y, w, h int, settings plotset, d []rawdata) {
 // readxy reads coordinates (x,y float64 values) from a io.Reader
 func readxy(f io.Reader) (int, []rawdata) {
 	var (
-		r   rawdata
-		err error = nil
-		n   int
+		r     rawdata
+		err   error = nil
+		n, nf int
 	)
 	data := make([]rawdata, 1)
 	for ; err == nil; n++ {
 		if n > 0 {
 			data = append(data, r)
 		}
-		_, err = fmt.Fscan(f, &data[n].x, &data[n].y)
+		nf, err = fmt.Fscan(f, &data[n].x, &data[n].y)
+		if nf != 2 {
+			continue
+		}
 	}
 	return n - 1, data[0 : n-1]
 }
@@ -182,11 +185,13 @@ func init() {
 	barsize := flag.Int("barsize", 2, "bar size")
 	fontsize := flag.Int("fontsize", 11, "font size")
 	xinterval := flag.Int("xint", 10, "x axis interval")
-	
+	yinterval := flag.Int("yint", 10, "y axis interval")
+
 	flag.IntVar(&beginx, "bx", 100, "initial x")
 	flag.IntVar(&beginy, "by", 50, "initial y")
 	flag.IntVar(&plotw, "pw", 500, "plot width")
 	flag.IntVar(&ploth, "ph", 500, "plot height")
+	flag.IntVar(&plotc, "pc", 2, "plot columns")
 	flag.IntVar(&gutter, "gutter", ploth/10, "gutter")
 	flag.IntVar(&gwidth, "width", 1024, "canvas width")
 	flag.IntVar(&gheight, "height", 768, "canvas height")
@@ -212,26 +217,37 @@ func init() {
 	plotnum["linesize"] = *linesize
 	plotnum["fontsize"] = *fontsize
 	plotnum["xinterval"] = *xinterval
+	plotnum["yinternal"] = *yinterval
 	plotnum["barsize"] = *barsize
 }
 
-// main places plots data from specified files or standard input.
-// If more than one file is specified, the plots are stacked vertically
+// plotgrid places plots on a grid, governed by a number of columns.
+func plotgrid(x, y int, files []string) {
+	px := x
+	for i, f := range files {
+		if i > 0 && i%plotc == 0 {
+			px = x
+			y += (ploth + gutter)
+		}
+		if plotopt["showfile"] {
+			plotattr["label"] = f
+		}
+		doplot(px, y, f)
+		px += (plotw + gutter)
+	}
+}
+
+// main plots data from specified files or standard input in a 
+// grid where plotc specifies the number of columns.
 func main() {
-	x := beginx
-	y := beginy
+
 	canvas.Start(gwidth, gheight)
 	canvas.Rect(0, 0, gwidth, gheight, "fill:white")
-	if len(flag.Args()) == 0 {
-		doplot(x, y, "")
+	filenames := flag.Args()
+	if len(filenames) == 0 {
+		doplot(beginx, beginy, "")
 	} else {
-		for _, f := range flag.Args() {
-			if plotopt["showfile"] {
-				plotattr["label"] = f
-			}
-			doplot(x, y, f)
-			y += ploth + gutter
-		}
+		plotgrid(beginx, beginy, filenames)
 	}
 	canvas.End()
 }
