@@ -116,6 +116,7 @@ A video describing how to use the package can be seen on YouTube at <http://www.
 * stockproduct:	Visualize product and stock prices
 * svgopher:	SVGo Mascot
 * svgplot		Plot data
+* svgrid	Compose SVG files in a grid
 * tsg:  Twitter Search Grid
 * vismem:	Visualize data from files
 * webfonts:	"Hello, World" with Google Web Fonts
