@@ -51,14 +51,15 @@ const (
 func init() {
 
 	// boolean options 
-	showx := flag.Bool("showx", true, "show the xaxis")
-	showy := flag.Bool("showy", true, "show the yaxis")
+	showx := flag.Bool("showx", false, "show the xaxis")
+	showy := flag.Bool("showy", false, "show the yaxis")
 	showbar := flag.Bool("showbar", false, "show data bars")
 	horizon := flag.Bool("horizon", false, "horizon chart")
 	connect := flag.Bool("connect", true, "connect data points")
 	showdot := flag.Bool("showdot", false, "show dots")
 	showbg := flag.Bool("showbg", true, "show the background color")
 	showfile := flag.Bool("showfile", false, "show the filename")
+	sameplot := flag.Bool("sameplot", false, "plot on the same frame")
 
 	// attributes
 	bgcolor := flag.String("bgcolor", "rgb(240,240,240)", "plot background color")
@@ -99,6 +100,7 @@ func init() {
 	plotopt["showdot"] = *showdot
 	plotopt["showbg"] = *showbg
 	plotopt["showfile"] = *showfile
+	plotopt["sameplot"] = *sameplot
 
 	plotattr["bgcolor"] = *bgcolor
 	plotattr["barcolor"] = *barcolor
@@ -188,12 +190,13 @@ func plot(x, y, w, h int, settings plotset, d []rawdata) {
 		ypoly[nd+1] = y + h
 	}
 	// Draw the plot's bounding rectangle
-	if settings.opt["showbg"] {
+	if settings.opt["showbg"] && !settings.opt["sameplot"] {
 		canvas.Rect(x, y, w, h, "fill:"+settings.attr["bgcolor"])
 	}
 	// Loop through the data, drawing items as specified
 	spacer := 10
-	canvas.Gstyle(fmt.Sprintf(globalfmt, settings.attr["font"], settings.size["fontsize"], settings.size["linesize"]))
+	canvas.Gstyle(fmt.Sprintf(globalfmt,
+		settings.attr["font"], settings.size["fontsize"], settings.size["linesize"]))
 	for i, v := range d {
 		xp := int(fmap(v.x, minx, maxx, float64(x), float64(x+w)))
 		yp := int(fmap(v.y, miny, maxy, float64(y), float64(y-h)))
@@ -220,9 +223,9 @@ func plot(x, y, w, h int, settings plotset, d []rawdata) {
 	if settings.opt["horizon"] {
 		canvas.Polygon(xpoly, ypoly, "fill:"+settings.attr["hcolor"])
 	}
-	
+
 	if settings.opt["connect"] {
-		canvas.Polyline(xpoly[1:nd-1], ypoly[1:nd-1], linestyle+settings.attr["linecolor"])
+		canvas.Polyline(xpoly[1:nd+1], ypoly[1:nd+1], linestyle+settings.attr["linecolor"])
 	}
 	// Put on the y axis labels, if specified
 	if settings.opt["showy"] {
@@ -270,12 +273,14 @@ func readxy(f io.Reader) (int, []rawdata) {
 func plotgrid(x, y int, files []string) {
 	px := x
 	for i, f := range files {
-		if i > 0 && i%plotc == 0 {
+		if i > 0 && i%plotc == 0 && !plotopt["sameplot"] {
 			px = x
 			y += (ploth + gutter)
 		}
 		doplot(px, y, f)
-		px += (plotw + gutter)
+		if !plotopt["sameplot"] {
+			px += (plotw + gutter)
+		}
 	}
 }
 
