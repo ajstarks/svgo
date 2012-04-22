@@ -13,8 +13,8 @@ import (
 
 // SVG is a SVG document
 type SVG struct {
-	Width  int    `xml:"width,attr"`
-	Height int    `xml:"height,attr"`
+	Width  string `xml:"width,attr"`
+	Height string `xml:"height,attr"`
 	Doc    string `xml:",innerxml"`
 }
 
@@ -38,7 +38,11 @@ func init() {
 
 // placepic puts a SVG file at a location
 func placepic(x, y int, filename string) (int, int) {
-	var s SVG
+	var (
+		s             SVG
+		width, height int
+		wunit, hunit  string
+	)
 	f, err := os.Open(filename)
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "%v\n", err)
@@ -49,13 +53,24 @@ func placepic(x, y int, filename string) (int, int) {
 		fmt.Fprintf(os.Stderr, "Unable to parse (%v)\n", err)
 		return 0, 0
 	}
+
+	// read the width and height, including any units
+	// if there are errors use 10 as a default
+	nw, _ := fmt.Sscanf(s.Width, "%d%s", &width, &wunit)
+	if nw < 1  {
+		width = 10
+	}
+	nh, _ := fmt.Sscanf(s.Height, "%d%s", &height, &hunit)
+	if nh < 1 {
+		height = 10
+	}
 	canvas.Group(`clip-path="url(#pic)"`, fmt.Sprintf(`transform="translate(%d,%d)"`, x, y))
 	canvas.ClipPath(`id="pic"`)
-	canvas.Rect(0, 0, s.Width, s.Height)
+	canvas.Rect(0, 0, width, height)
 	canvas.ClipEnd()
 	io.WriteString(canvas.Writer, s.Doc)
 	canvas.Gend()
-	return s.Width, s.Height
+	return width, height
 }
 
 // compose places files row or column-wise
