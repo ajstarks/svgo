@@ -20,7 +20,7 @@ var (
 )
 
 const (
-	apiKey = "JSsCkjpVxdevWvgDDLMNq3Fdv0LNNLnw2faaI7oqrcNaHLQbnW"
+	apiKey = "APIKEY"
 	apifmt = "http://api.tumblr.com/v2/blog/%s/posts?api_key=%s&type=photo&limit=%d"
 )
 
