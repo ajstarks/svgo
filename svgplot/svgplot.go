@@ -54,7 +54,7 @@ func init() {
 	showx := flag.Bool("showx", false, "show the xaxis")
 	showy := flag.Bool("showy", false, "show the yaxis")
 	showbar := flag.Bool("showbar", false, "show data bars")
-	horizon := flag.Bool("horizon", false, "horizon chart")
+	area := flag.Bool("area", false, "area chart")
 	connect := flag.Bool("connect", true, "connect data points")
 	showdot := flag.Bool("showdot", false, "show dots")
 	showbg := flag.Bool("showbg", true, "show the background color")
@@ -66,7 +66,7 @@ func init() {
 	barcolor := flag.String("barcolor", "gray", "bar color")
 	dotcolor := flag.String("dotcolor", "black", "dot color")
 	linecolor := flag.String("linecolor", "gray", "line color")
-	hcolor := flag.String("hcolor", "gray", "horizon color")
+	areacolor := flag.String("areacolor", "gray", "area color")
 	font := flag.String("font", "Calibri,sans", "font")
 	labelcolor := flag.String("labelcolor", "black", "label color")
 	plotlabel := flag.String("label", "", "plot label")
@@ -95,7 +95,7 @@ func init() {
 	plotopt["showx"] = *showx
 	plotopt["showy"] = *showy
 	plotopt["showbar"] = *showbar
-	plotopt["horizon"] = *horizon
+	plotopt["area"] = *area
 	plotopt["connect"] = *connect
 	plotopt["showdot"] = *showdot
 	plotopt["showbg"] = *showbg
@@ -106,7 +106,7 @@ func init() {
 	plotattr["barcolor"] = *barcolor
 	plotattr["linecolor"] = *linecolor
 	plotattr["dotcolor"] = *dotcolor
-	plotattr["hcolor"] = *hcolor
+	plotattr["areacolor"] = *areacolor
 	plotattr["font"] = *font
 	plotattr["label"] = *plotlabel
 	plotattr["labelcolor"] = *labelcolor
@@ -174,10 +174,10 @@ func plot(x, y, w, h int, settings plotset, d []rawdata) {
 			miny = v.y
 		}
 	}
-	// Prepare for a horizon or line chart by allocating
+	// Prepare for a area or line chart by allocating
 	// polygon coordinates; for the hrizon plot, you need two extra coordinates
 	// for the extrema.
-	needpoly := settings.opt["horizon"] || settings.opt["connect"]
+	needpoly := settings.opt["area"] || settings.opt["connect"]
 	var xpoly, ypoly []int
 	if needpoly {
 		xpoly = make([]int, nd+2)
@@ -219,9 +219,9 @@ func plot(x, y, w, h int, settings plotset, d []rawdata) {
 			}
 		}
 	}
-	// Done constructing the points for the horizon or line plots, display them in one shot
-	if settings.opt["horizon"] {
-		canvas.Polygon(xpoly, ypoly, "fill:"+settings.attr["hcolor"])
+	// Done constructing the points for the area or line plots, display them in one shot
+	if settings.opt["area"] {
+		canvas.Polygon(xpoly, ypoly, "fill:"+settings.attr["areacolor"])
 	}
 
 	if settings.opt["connect"] {
