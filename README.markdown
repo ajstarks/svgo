@@ -99,9 +99,11 @@ and click on the "Package documentation for svg" link
 
 ### SVGo Papers and presentations  ###
 
-SVGo from SVGOpen 2011 <http://www.svgopen.org/2011/papers/34-SVGo_a_Go_Library_for_SVG_generation>
-Programming Pictures with SVGo <https://speakerdeck.com/u/ajstarks/p/svgo-workshop>
-SVGo Workshop <https://speakerdeck.com/u/ajstarks/p/programming-pictures-with-svgo>
+* SVGo paper from SVGOpen 2011 <http://www.svgopen.org/2011/papers/34-SVGo_a_Go_Library_for_SVG_generation>
+
+* Programming Pictures with SVGo <https://speakerdeck.com/u/ajstarks/p/svgo-workshop>
+
+* SVGo Workshop <https://speakerdeck.com/u/ajstarks/p/programming-pictures-with-svgo>
 
 ### Tutorial Video ###
 
@@ -542,7 +544,7 @@ Standard reference: <http://www.w3.org/TR/SVG11/filters.html#fePointLightElement
 
 	 FeSpecularLighting(fs Filterspec, scale, constant float64, exponent int, color string, s ...string)
 FeSpecularLighting specifies a specular lighting filter primitive, 
-a container for light source Element>s, end with SpecularEnd()
+a container for light source elements, end with SpecularEnd()
 
 
 	 FeSpecEnd()
