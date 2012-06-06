@@ -5,11 +5,30 @@ Output goes to the specified io.Writer.
 
 ## Supported SVG elements and functions ##
 
- circle, ellipse, polygon, polyline, rect (including roundrects), paths (general, arc,
- cubic and quadratic bezier paths), line, image, text, linearGradient, radialGradient, 
- transforms (translate, rotate, scale, skewX, skewY)
+ ### Shapes, lines, text ###
+ 
+ circle, ellipse, polygon, polyline, rect (including roundrects), line, text
+ 
+ ### Paths ### 
+ 
+ general, arc, cubic and quadratic bezier paths, 
+ 
+ ### Image and Gradients
+ 
+ image, linearGradient, radialGradient, 
+ 
+ ### Transforms ###
+ 
+ translate, rotate, scale, skewX, skewY
+ 
+ ### Filter Effects ### 
+ 
+ filter, feBlend, feColorMatrix, feColorMatrix, feComponentTransfer, feComposite, feConvolveMatrix, feDiffuseLighting,
+ feDisplacementMap, feDistantLight, feFlood, feGaussianBlur, feImage, feMerge, feMorphology, feOffset, fePointLight,
+ feSpecularLighting, feSpotLight,feTile, feTurbulence
 
-## Metadata elements ##
+
+### Metadata elements ###
 
  desc, defs, g (style, transform, id), mask, title, (a)ddress, link, script, use
 
@@ -69,13 +88,7 @@ Drawing in a web server: (http://localhost:2003/circle)
 	  s.End()
 	}
 
-You may view the SVG output with a browser that supports SVG (tested on Chrome, Opera, Firefox and Safari), or any other SVG user-agent such as Batik Squiggle. The test-svgo script tries to use reasonable defaults based on the GOOS and GOARCH environment variables.
-
-The command:
-
-	$ ./newsvg foo.go
-   
-creates Go source file ready for your code, using $EDITOR
+You may view the SVG output with a browser that supports SVG (tested on Chrome, Opera, Firefox and Safari), or any other SVG user-agent such as Batik Squiggle.
 
 To create browsable documentation:
 
@@ -83,9 +96,16 @@ To create browsable documentation:
   
 and click on the "Package documentation for svg" link
 
+
+### SVGo Papers and presentations  ###
+
+![SVGo from SVGOpen 2011](http://www.svgopen.org/2011/papers/34-SVGo_a_Go_Library_for_SVG_generation)
+![Programming Pictures with SVGo](https://speakerdeck.com/u/ajstarks/p/svgo-workshop)
+![SVGo Workshop](https://speakerdeck.com/u/ajstarks/p/programming-pictures-with-svgo)
+
 ### Tutorial Video ###
 
-A video describing how to use the package can be seen on YouTube at <http://www.youtube.com/watch?v=ze6O2Dj5gQ4> 
+A video describing how to use the package can be seen on YouTube at <http://www.youtube.com/watch?v=ze6O2Dj5gQ4>
 
 ## Package contents ##
 
@@ -140,6 +160,14 @@ The Offcolor type:
 	}
 
 is used to specify the offset, color, and opacity of stop colors in linear and radial gradients
+
+The Filterspec type:
+
+	type Filterspec struct {
+		In, In2, Result string
+	}
+	
+is used to specify inputs and results for filter effects
 
 
 ### Structure, Scripting, Metadata, Transformation and Links ###
@@ -409,6 +437,132 @@ is used to specify the offset, color, and opacity of stop colors in linear and r
   <http://www.w3.org/TR/SVG11/pservers.html#RadialGradients>
   
   ![RadialGradient](http://farm2.static.flickr.com/1302/5187954065_7ddba7b819.jpg)
+  
+### Filter Effects ###
+
+	Filter(id string, s ...string)
+ Filter begins a filter set
+Standard reference: <http://www.w3.org/TR/SVG11/filters.html#FilterElement>
+
+ 	Fend() 
+Fend ends a filter set
+Standard reference: <http://www.w3.org/TR/SVG11/filters.html#FilterElement>
+
+ 	FeBlend(fs Filterspec, mode string, s ...string) 
+ FeBlend specifies a Blend filter primitive
+Standard reference: <http://www.w3.org/TR/SVG11/filters.html#feBlendElement>
+
+
+
+ 	FeColorMatrix(fs Filterspec, values [20]float64, s ...string)	
+ FeColorMatrix specifies a color matrix filter primitive, with matrix values
+Standard reference: <http://www.w3.org/TR/SVG11/filters.html#feColorMatrixElement>
+
+ 	FeColorMatrixHue(fs Filterspec, value float64, s ...string) 
+ 	
+  FeColorMatrix specifies a color matrix filter primitive, with hue values
+Standard reference: <http://www.w3.org/TR/SVG11/filters.html#feColorMatrixElement>
+
+ 	FeColorMatrixSaturate(fs Filterspec, value float64, s ...string) 
+ 	
+  FeColorMatrix specifies a color matrix filter primitive, with saturation values
+Standard reference: <http://www.w3.org/TR/SVG11/filters.html#feColorMatrixElement>
+
+ 	FeColorMatrixLuminence(fs Filterspec, s ...string) 
+ FeColorMatrix specifies a color matrix filter primitive, with luminence values
+Standard reference: <http://www.w3.org/TR/SVG11/filters.html#feColorMatrixElement> 	
+ 	
+ 	FeComponentTransfer() 
+ 	
+FeComponentTransfer begins a feComponent filter Element>
+Standard reference: <http://www.w3.org/TR/SVG11/filters.html#feComponentTransferElement>
+
+ 	FeCompEnd()
+ 	
+ FeCompEnd ends a feComponent filter Element>
+ 
+ 	FeComposite(fs Filterspec, operator string, k1, k2, k3, k4 int, s ...string)
+ FeComposite specifies a feComposite filter primitive
+Standard reference: <http://www.w3.org/TR/SVG11/filters.html#feCompositeElement>
+
+ 	FeConvolveMatrix(fs Filterspec, matrix [9]int, s ...string)
+ FeConvolveMatrix specifies a feConvolveMatrix filter primitive
+Standard referencd: <http://www.w3.org/TR/SVG11/filters.html#feConvolveMatrixElement>
+
+
+	 FeDiffuseLighting(fs Filterspec, scale, constant float64, s ...string) 
+FeDiffuseLighting specifies a diffuse lighting filter primitive, 
+a container for light source Element>s, end with DiffuseEnd()
+
+	 FeDiffEnd()
+FeDiffuseEnd ends a diffuse lighting filter primitive container
+Standard reference: <http://www.w3.org/TR/SVG11/filters.html#feDiffuseLightingElement>
+
+
+	 FeDisplacementMap(fs Filterspec, scale float64, xchannel, ychannel string, s ...string)
+FeDisplacementMap specifies a feDisplacementMap filter primitive
+Standard reference: <http://www.w3.org/TR/SVG11/filters.html#feDisplacementMapElement>
+
+	 FeDistantLight(fs Filterspec, azimuth, elevation float64, s ...string)
+FeDistantLight specifies a feDistantLight filter primitive
+Standard reference: <http://www.w3.org/TR/SVG11/filters.html#feDistantLightElement>
+
+	 FeFlood(fs Filterspec, color string, opacity float64, s ...string)
+FeFlood specifies a flood filter primitive
+Standard reference: <http://www.w3.org/TR/SVG11/filters.html#feFloodElement>
+
+	 FeFunc(channel, ftype, tv string, slope, intercept, amplitude, exponent, offset float64, s ...string)
+FeFunc specifies a FeFuncR|G|B|A} filter primitive for feComponentTransfer
+Standard reference: <http://www.w3.org/TR/SVG11/filters.html#feComponentTransferElement>
+
+
+	 FeGaussianBlur(fs Filterspec, stdx, stdy float64, s ...string)
+FeGaussianBlur specifies a Gaussian Blur filter primitive
+Standard reference: <http://www.w3.org/TR/SVG11/filters.html#feGaussianBlurElement>
+
+	 FeImage(href string, result string, s ...string)
+FeImage specifies a feImage filter primitive
+Standard reference: <http://www.w3.org/TR/SVG11/filters.html#feImageElement>
+
+	 FeMerge(nodes []string, s ...string)
+FeMerge specifies a feMerge filter primitive, containing feMerge Element>s
+Standard reference: <http://www.w3.org/TR/SVG11/filters.html#feMergeElement>
+
+	 FeMorphology(fs Filterspec, operator string, xradius, yradius float64, s ...string)
+FeMorphologyLight specifies a feMorphologyLight filter primitive
+Standard reference: <http://www.w3.org/TR/SVG11/filters.html#feMorphologyElement>
+
+	 FeOffset(fs Filterspec, dx, dy int, s ...string)
+FeOffset specifies the feOffset filter primitive
+Standard reference: <http://www.w3.org/TR/SVG11/filters.html#feOffsetElement>
+
+	 FePointLight(x, y, z float64, s ...string)
+FePointLight specifies a fePpointLight filter primitive
+Standard reference: <http://www.w3.org/TR/SVG11/filters.html#fePointLightElement>
+
+	 FeSpecularLighting(fs Filterspec, scale, constant float64, exponent int, color string, s ...string)
+FeSpecularLighting specifies a specular lighting filter primitive, 
+a container for light source Element>s, end with SpecularEnd()
+
+
+	 FeSpecEnd()
+FeSpecularEnd ends a specular lighting filter primitive container
+Standard reference: <http://www.w3.org/TR/SVG11/filters.html#feSpecularLightingElement>
+
+
+	 FeSpotLight(fs Filterspec, x, y, z, px, py, pz float64, s ...string)
+FeSpotLight specifies a feSpotLight filter primitive
+Standard reference: <http://www.w3.org/TR/SVG11/filters.html#feSpotLightElement>
+
+	 FeTile(fs Filterspec, in string, s ...string)
+FeTile specifies the tile utility filter primitive
+Standard reference: <http://www.w3.org/TR/SVG11/filters.html#feTileElement>
+
+
+	 FeTurbulence(fs Filterspec, ftype string, bfx, bfy float64, octaves int, seed int64, stitch bool, s ...string)
+FeTurbulence specifies a turbulence filter primitive
+Standard reference: <http://www.w3.org/TR/SVG11/filters.html#feTurbulenceElement>
+
 
 ### Utility ###
 
