@@ -5,23 +5,23 @@ Output goes to the specified io.Writer.
 
 ## Supported SVG elements and functions ##
 
- ### Shapes, lines, text ###
+### Shapes, lines, text ###
  
  circle, ellipse, polygon, polyline, rect (including roundrects), line, text
  
- ### Paths ### 
+### Paths ### 
  
  general, arc, cubic and quadratic bezier paths, 
  
- ### Image and Gradients
+### Image and Gradients
  
  image, linearGradient, radialGradient, 
  
- ### Transforms ###
+### Transforms ###
  
  translate, rotate, scale, skewX, skewY
  
- ### Filter Effects ### 
+### Filter Effects ### 
  
  filter, feBlend, feColorMatrix, feColorMatrix, feComponentTransfer, feComposite, feConvolveMatrix, feDiffuseLighting,
  feDisplacementMap, feDistantLight, feFlood, feGaussianBlur, feImage, feMerge, feMorphology, feOffset, fePointLight,
@@ -99,9 +99,9 @@ and click on the "Package documentation for svg" link
 
 ### SVGo Papers and presentations  ###
 
-![SVGo from SVGOpen 2011](http://www.svgopen.org/2011/papers/34-SVGo_a_Go_Library_for_SVG_generation)
-![Programming Pictures with SVGo](https://speakerdeck.com/u/ajstarks/p/svgo-workshop)
-![SVGo Workshop](https://speakerdeck.com/u/ajstarks/p/programming-pictures-with-svgo)
+SVGo from SVGOpen 2011 <http://www.svgopen.org/2011/papers/34-SVGo_a_Go_Library_for_SVG_generation>
+Programming Pictures with SVGo <https://speakerdeck.com/u/ajstarks/p/svgo-workshop>
+SVGo Workshop <https://speakerdeck.com/u/ajstarks/p/programming-pictures-with-svgo>
 
 ### Tutorial Video ###
 
