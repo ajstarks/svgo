@@ -122,6 +122,7 @@ A video describing how to use the package can be seen on YouTube at <http://www.
 * flower:	Random "flowers"
 * fontcompare:	Compare two fonts
 * f50:		Get 50 photos from Flickr based on a query
+* fe:	Filter effects
 * funnel:	Funnel from transparent circles
 * gradient:	Linear and radial gradients
 * html5logo:	HTML5 logo with draggable elements
@@ -451,44 +452,38 @@ Fend ends a filter set
 Standard reference: <http://www.w3.org/TR/SVG11/filters.html#FilterElement>
 
  	FeBlend(fs Filterspec, mode string, s ...string) 
- FeBlend specifies a Blend filter primitive
+FeBlend specifies a Blend filter primitive
 Standard reference: <http://www.w3.org/TR/SVG11/filters.html#feBlendElement>
 
-
-
  	FeColorMatrix(fs Filterspec, values [20]float64, s ...string)	
- FeColorMatrix specifies a color matrix filter primitive, with matrix values
+FeColorMatrix specifies a color matrix filter primitive, with matrix values
 Standard reference: <http://www.w3.org/TR/SVG11/filters.html#feColorMatrixElement>
 
- 	FeColorMatrixHue(fs Filterspec, value float64, s ...string) 
- 	
-  FeColorMatrix specifies a color matrix filter primitive, with hue values
+ 	FeColorMatrixHue(fs Filterspec, value float64, s ...string)  	
+FeColorMatrix specifies a color matrix filter primitive, with hue values
 Standard reference: <http://www.w3.org/TR/SVG11/filters.html#feColorMatrixElement>
 
  	FeColorMatrixSaturate(fs Filterspec, value float64, s ...string) 
- 	
-  FeColorMatrix specifies a color matrix filter primitive, with saturation values
+FeColorMatrix specifies a color matrix filter primitive, with saturation values
 Standard reference: <http://www.w3.org/TR/SVG11/filters.html#feColorMatrixElement>
 
  	FeColorMatrixLuminence(fs Filterspec, s ...string) 
- FeColorMatrix specifies a color matrix filter primitive, with luminence values
+FeColorMatrix specifies a color matrix filter primitive, with luminence values
 Standard reference: <http://www.w3.org/TR/SVG11/filters.html#feColorMatrixElement> 	
  	
- 	FeComponentTransfer() 
- 	
+ 	FeComponentTransfer()  	
 FeComponentTransfer begins a feComponent filter Element>
 Standard reference: <http://www.w3.org/TR/SVG11/filters.html#feComponentTransferElement>
 
  	FeCompEnd()
- 	
- FeCompEnd ends a feComponent filter Element>
+FeCompEnd ends a feComponent filter Element>
  
  	FeComposite(fs Filterspec, operator string, k1, k2, k3, k4 int, s ...string)
- FeComposite specifies a feComposite filter primitive
+FeComposite specifies a feComposite filter primitive
 Standard reference: <http://www.w3.org/TR/SVG11/filters.html#feCompositeElement>
 
  	FeConvolveMatrix(fs Filterspec, matrix [9]int, s ...string)
- FeConvolveMatrix specifies a feConvolveMatrix filter primitive
+FeConvolveMatrix specifies a feConvolveMatrix filter primitive
 Standard referencd: <http://www.w3.org/TR/SVG11/filters.html#feConvolveMatrixElement>
 
 
