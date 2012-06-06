@@ -5,11 +5,11 @@ Output goes to the specified io.Writer.
 
 ## Supported SVG elements and functions ##
 
-### Shapes, lines, text ###
+### Shapes, lines, text
  
  circle, ellipse, polygon, polyline, rect (including roundrects), line, text
  
-### Paths ### 
+### Paths 
  
  general, arc, cubic and quadratic bezier paths, 
  
@@ -21,7 +21,7 @@ Output goes to the specified io.Writer.
  
  translate, rotate, scale, skewX, skewY
  
-### Filter Effects ### 
+### Filter Effects 
  
  filter, feBlend, feColorMatrix, feColorMatrix, feComponentTransfer, feComposite, feConvolveMatrix, feDiffuseLighting,
  feDisplacementMap, feDistantLight, feFlood, feGaussianBlur, feImage, feMerge, feMorphology, feOffset, fePointLight,
