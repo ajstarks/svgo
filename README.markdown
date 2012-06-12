@@ -142,6 +142,7 @@ A video describing how to use the package can be seen on YouTube at <http://www.
 * svgrid	Compose SVG files in a grid
 * tsg:  Twitter Search Grid
 * tumblrgrid:	Tumblr picture grid
+* turbulence:	Turbulence filter effect
 * vismem:	Visualize data from files
 * webfonts:	"Hello, World" with Google Web Fonts
 * websvg:	Generate SVG as a web server
