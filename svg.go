@@ -424,7 +424,7 @@ func (svg *SVG) Fend() {
 // Standard reference: http://www.w3.org/TR/SVG11/filters.html#feBlendElement
 func (svg *SVG) FeBlend(fs Filterspec, mode string, s ...string) {
 	switch mode {
-	case "normal", "multipy", "screen", "darken", "lighten":
+	case "normal", "multiply", "screen", "darken", "lighten":
 		break
 	default:
 		mode = "normal"
