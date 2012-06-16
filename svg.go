@@ -443,7 +443,7 @@ func (svg *SVG) FeColorMatrix(fs Filterspec, values [20]float64, s ...string) {
 	svg.printf(`" %s`, endstyle(s, emptyclose))
 }
 
-// FeColorMatrix specifies a color matrix filter primitive, with hue rotation values
+// FeColorMatrixHue specifies a color matrix filter primitive, with hue rotation values
 // Standard reference: http://www.w3.org/TR/SVG11/filters.html#feColorMatrixElement
 func (svg *SVG) FeColorMatrixHue(fs Filterspec, value float64, s ...string) {
 	if value < -360 || value > 360 {
@@ -453,17 +453,17 @@ func (svg *SVG) FeColorMatrixHue(fs Filterspec, value float64, s ...string) {
 		fsattr(fs), value, endstyle(s, emptyclose))
 }
 
-// FeColorMatrix specifies a color matrix filter primitive, with saturation values
+// FeColorMatrixSaturate specifies a color matrix filter primitive, with saturation values
 // Standard reference: http://www.w3.org/TR/SVG11/filters.html#feColorMatrixElement
 func (svg *SVG) FeColorMatrixSaturate(fs Filterspec, value float64, s ...string) {
 	if value < 0 || value > 1 {
 		value = 1
 	}
-	svg.printf(`<feColorMatrix %s ="saturate" values="%g %s`,
+	svg.printf(`<feColorMatrix %s type="saturate" values="%g" %s`,
 		fsattr(fs), value, endstyle(s, emptyclose))
 }
 
-// FeColorMatrix specifies a color matrix filter primitive, with luminence values
+// FeColorMatrixLuminence specifies a color matrix filter primitive, with luminence values
 // Standard reference: http://www.w3.org/TR/SVG11/filters.html#feColorMatrixElement
 func (svg *SVG) FeColorMatrixLuminence(fs Filterspec, s ...string) {
 	svg.printf(`<feColorMatrix %s type="luminenceToAlpha" %s`,
@@ -554,26 +554,38 @@ func (svg *SVG) FeFlood(fs Filterspec, color string, opacity float64, s ...strin
 
 // FeFunc specifies a FeFunc{R|G|B|A} filter primitive
 // Standard reference: http://www.w3.org/TR/SVG11/filters.html#feComponentTransferElement
-func (svg *SVG) FeFunc(channel, ftype, tv string, slope, intercept, amplitude, exponent, offset float64, s ...string) {
-	switch ftype {
-	case "identity", "table", "discrete", "linear", "gamma":
-		break
-	default:
-		ftype = "identity"
-	}
-	switch channel {
-	case "R", "G", "B", "A":
-		break
-	default:
-		channel = "R"
-	}
-	svg.printf(`<feFunc%s type="%s" tableValues="%g" slope="%g" intercept="%g" amplitude="%g" exponent="%g" offset="%g" %s`,
-		channel, ftype, tv, slope, intercept, amplitude, exponent, offset, endstyle(s, emptyclose))
+
+
+func (svg *SVG) FeFuncLinear(channel string, slope, intercept float64) {
+	svg.printf(`<feFunc%s type="linear" slope="%g" intercept="%g"%s`,
+		channel, slope, intercept, emptyclose)
+}
+
+func (svg *SVG) FeFuncGamma(channel string, amplitude, exponent, offset float64) {
+	svg.printf(`<feFunc%s type="gamma" amplitude="%g" exponent="%g" offset="%g"%s`,
+		channel, amplitude, exponent, offset, emptyclose)
+}
+
+func (svg *SVG) FeFuncTable(channel string, tv []float64) {
+	svg.printf(`<feFunc%s type="table"`, channel)
+	svg.tablevalues(tv)
+}
+
+func (svg *SVG) FeFuncDiscrete(channel string, tv []float64) {
+	svg.printf(`<feFunc%s type="discrete"`, channel)
+	svg.tablevalues(tv)
+
 }
 
 // FeGaussianBlur specifies a Gaussian Blur filter primitive
 // Standard reference: http://www.w3.org/TR/SVG11/filters.html#feGaussianBlurElement
 func (svg *SVG) FeGaussianBlur(fs Filterspec, stdx, stdy float64, s ...string) {
+	if stdx < 0 {
+		stdx = 0
+	}
+	if stdy < 0 {
+		stdy = 0
+	}
 	svg.printf(`<feGaussianBlur %s stdDeviation="%g %g" %s`,
 		fsattr(fs), stdx, stdy, endstyle(s, emptyclose))
 }
@@ -675,6 +687,53 @@ func (svg *SVG) FeTurbulence(fs Filterspec, ftype string, bfx, bfy float64, octa
 	}
 	svg.printf(`<feTurbulence %s type="%s" baseFrequency="%.2f %.2f" numOctaves="%d" seed="%d" stitchTiles="%s" %s`,
 		fsattr(fs), ftype, bfx, bfy, octaves, seed, ss, endstyle(s, emptyclose))
+}
+
+// Filter Effects convenience functions, modeled after CSS versions
+
+// Blur
+func (svg *SVG) Blur(p float64) {
+	svg.FeGaussianBlur(Filterspec{}, p, p)
+}
+
+// Brightness
+func (svg *SVG) Brightness(p float64) {
+}
+
+// Contrast
+func (svg *SVG) Contrast(p float64) {
+}
+
+// Dropshadow
+func (svg *SVG) Dropshadow(p float64) {
+}
+
+// Grayscale
+func (svg *SVG) Grayscale() {
+	svg.FeColorMatrixSaturate(Filterspec{}, 0)
+}
+
+// HueRotate
+func (svg *SVG) HueRotate(a float64) {
+	svg.FeColorMatrixHue(Filterspec{}, a)
+}
+
+// Invert
+func (svg *SVG) Invert() {
+	svg.FeComponentTransfer()
+	svg.FeFuncTable("R", []float64{1,0})
+	svg.FeFuncTable("G", []float64{1,0})
+	svg.FeFuncTable("B", []float64{1,0})
+	svg.FeCompEnd()
+}
+
+// Saturate
+func (svg *SVG) Saturate(p float64) {
+	svg.FeColorMatrixSaturate(Filterspec{}, p)
+}
+
+// Sepia
+func Sepia(p float64) {
 }
 
 // Utility
@@ -827,3 +886,11 @@ func fsattr(s Filterspec) string {
 	}
 	return attrs
 }
+
+ func (svg *SVG) tablevalues(t []float64) {
+	 svg.printf(` tableValues="`)
+		for i:=0; i < len(t)-1; i++ {
+			svg.printf("%g ", t[i])
+		}
+		svg.printf(`%g"%s`, t[len(t)-1], emptyclose)
+ }
