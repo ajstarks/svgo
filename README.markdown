@@ -509,10 +509,21 @@ Standard reference: <http://www.w3.org/TR/SVG11/filters.html#feDistantLightEleme
 FeFlood specifies a flood filter primitive
 Standard reference: <http://www.w3.org/TR/SVG11/filters.html#feFloodElement>
 
-	 FeFunc(channel, ftype, tv string, slope, intercept, amplitude, exponent, offset float64, s ...string)
-FeFunc specifies a FeFuncR|G|B|A} filter primitive for feComponentTransfer
+	FeFuncLinear(channel string, slope, intercept float64)
+FeFuncLinear is the linear form of feFunc
 Standard reference: <http://www.w3.org/TR/SVG11/filters.html#feComponentTransferElement>
 
+	 FeFuncGamma(channel, amplitude, exponent, offset float64)
+FeFuncGamma is the gamma curve form of feFunc
+Standard reference: <http://www.w3.org/TR/SVG11/filters.html#feComponentTransferElement>
+
+	FeFuncTable(channel string, tv []float64)
+FeFuncGamma is the form of feFunc using a table of values
+Standard reference: <http://www.w3.org/TR/SVG11/filters.html#feComponentTransferElement>
+	
+	FeFuncDiscrete(channel string, tv []float64)
+FeFuncGamma is the form of feFunc using discrete values
+Standard reference: <http://www.w3.org/TR/SVG11/filters.html#feComponentTransferElement>
 
 	 FeGaussianBlur(fs Filterspec, stdx, stdy float64, s ...string)
 FeGaussianBlur specifies a Gaussian Blur filter primitive
@@ -560,6 +571,21 @@ Standard reference: <http://www.w3.org/TR/SVG11/filters.html#feTileElement>
 	 FeTurbulence(fs Filterspec, ftype string, bfx, bfy float64, octaves int, seed int64, stitch bool, s ...string)
 FeTurbulence specifies a turbulence filter primitive
 Standard reference: <http://www.w3.org/TR/SVG11/filters.html#feTurbulenceElement>
+
+	Blur(p float64)
+Blur function
+
+	Brightness(p float64)
+Brightness function
+	
+	HueRotate(a float64)
+Rotate Hues
+	
+	Invert()
+Invert the image's colors
+	
+	Saturate(p float64)
+Percent saturation
 
 
 ### Utility ###

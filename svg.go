@@ -522,20 +522,8 @@ func (svg *SVG) FeDiffEnd() {
 // FeDisplacementMap specifies a feDisplacementMap filter primitive
 // Standard reference: http://www.w3.org/TR/SVG11/filters.html#feDisplacementMapElement
 func (svg *SVG) FeDisplacementMap(fs Filterspec, scale float64, xchannel, ychannel string, s ...string) {
-	switch xchannel {
-	case "R", "G", "B", "A":
-		break
-	default:
-		xchannel = "R"
-	}
-	switch ychannel {
-	case "R", "G", "B", "A":
-		break
-	default:
-		ychannel = "R"
-	}
 	svg.printf(`<feDisplacementMap %s scale="%g" xChannelSelector="%s" yChannelSelector="%g" %s`,
-		fsattr(fs), scale, xchannel, ychannel, endstyle(s, emptyclose))
+		fsattr(fs), scale, imgchannel(xchannel), ychannel, endstyle(s, emptyclose))
 }
 
 // FeDistantLight specifies a feDistantLight filter primitive
@@ -552,29 +540,35 @@ func (svg *SVG) FeFlood(fs Filterspec, color string, opacity float64, s ...strin
 		fsattr(fs), color, opacity, endstyle(s, emptyclose))
 }
 
-// FeFunc specifies a FeFunc{R|G|B|A} filter primitive
+// FeFunc{linear|Gamma|Table|Discrete} specify various types of feFunc{R|G|B|A} filter primitives
 // Standard reference: http://www.w3.org/TR/SVG11/filters.html#feComponentTransferElement
 
-
+// FeFuncLinear specifies a linear style function for the feFunc{R|G|B|A} filter element
+// Standard reference: http://www.w3.org/TR/SVG11/filters.html#feComponentTransferElement
 func (svg *SVG) FeFuncLinear(channel string, slope, intercept float64) {
 	svg.printf(`<feFunc%s type="linear" slope="%g" intercept="%g"%s`,
-		channel, slope, intercept, emptyclose)
+		imgchannel(channel), slope, intercept, emptyclose)
 }
 
+// FeFuncGamma specifies the curve values for gamma correction for the feFunc{R|G|B|A} filter element
+// Standard reference: http://www.w3.org/TR/SVG11/filters.html#feComponentTransferElement
 func (svg *SVG) FeFuncGamma(channel string, amplitude, exponent, offset float64) {
 	svg.printf(`<feFunc%s type="gamma" amplitude="%g" exponent="%g" offset="%g"%s`,
-		channel, amplitude, exponent, offset, emptyclose)
+		imgchannel(channel), amplitude, exponent, offset, emptyclose)
 }
 
+// FeFuncLinearDiscrete specifies the table of values for the feFunc{R|G|B|A} filter element
+// Standard reference: http://www.w3.org/TR/SVG11/filters.html#feComponentTransferElement
 func (svg *SVG) FeFuncTable(channel string, tv []float64) {
-	svg.printf(`<feFunc%s type="table"`, channel)
-	svg.tablevalues(tv)
+	svg.printf(`<feFunc%s type="table"`, imgchannel(channel))
+	svg.tablevalues(`tableValues`, tv)
 }
 
+// FeFuncLinearDiscrete specifies the discrete values for the feFunc{R|G|B|A} filter element
+// Standard reference: http://www.w3.org/TR/SVG11/filters.html#feComponentTransferElement
 func (svg *SVG) FeFuncDiscrete(channel string, tv []float64) {
-	svg.printf(`<feFunc%s type="discrete"`, channel)
-	svg.tablevalues(tv)
-
+	svg.printf(`<feFunc%s type="discrete"`, imgchannel(channel))
+	svg.tablevalues(`tableValues`, tv)
 }
 
 // FeGaussianBlur specifies a Gaussian Blur filter primitive
@@ -691,48 +685,53 @@ func (svg *SVG) FeTurbulence(fs Filterspec, ftype string, bfx, bfy float64, octa
 
 // Filter Effects convenience functions, modeled after CSS versions
 
-// Blur
+// Blur emulates the CSS blur filter
 func (svg *SVG) Blur(p float64) {
 	svg.FeGaussianBlur(Filterspec{}, p, p)
 }
 
-// Brightness
+// Brightness emulates the CSS brightness filter
 func (svg *SVG) Brightness(p float64) {
+	svg.FeComponentTransfer()
+	svg.FeFuncLinear("R", p, 0)
+	svg.FeFuncLinear("G", p, 0)
+	svg.FeFuncLinear("B", p, 0)
+	svg.FeCompEnd()
 }
 
-// Contrast
+// Contrast emulates the CSS contrast filter
 func (svg *SVG) Contrast(p float64) {
 }
 
-// Dropshadow
+// Dropshadow emulates the CSS dropshadow filter
 func (svg *SVG) Dropshadow(p float64) {
 }
 
-// Grayscale
+// Grayscale eumulates the CSS grayscale filter
 func (svg *SVG) Grayscale() {
 	svg.FeColorMatrixSaturate(Filterspec{}, 0)
 }
 
-// HueRotate
+// HueRotate eumulates the CSS huerotate filter
 func (svg *SVG) HueRotate(a float64) {
 	svg.FeColorMatrixHue(Filterspec{}, a)
 }
 
-// Invert
+// Invert eumulates the CSS invert filter
 func (svg *SVG) Invert() {
 	svg.FeComponentTransfer()
-	svg.FeFuncTable("R", []float64{1,0})
-	svg.FeFuncTable("G", []float64{1,0})
-	svg.FeFuncTable("B", []float64{1,0})
+	svg.FeFuncTable("R", []float64{1, 0})
+	svg.FeFuncTable("G", []float64{1, 0})
+	svg.FeFuncTable("B", []float64{1, 0})
 	svg.FeCompEnd()
 }
 
-// Saturate
+// Saturate eumulates the CSS saturate filter
 func (svg *SVG) Saturate(p float64) {
 	svg.FeColorMatrixSaturate(Filterspec{}, p)
 }
 
-// Sepia
+// Sepia eumulates the CSS sepia filter
 func Sepia(p float64) {
 }
 
@@ -887,10 +886,26 @@ func fsattr(s Filterspec) string {
 	return attrs
 }
 
- func (svg *SVG) tablevalues(t []float64) {
-	 svg.printf(` tableValues="`)
-		for i:=0; i < len(t)-1; i++ {
-			svg.printf("%g ", t[i])
-		}
-		svg.printf(`%g"%s`, t[len(t)-1], emptyclose)
- }
+// tablevalues outputs a series of values as a XML attribute
+func (svg *SVG) tablevalues(s string, t []float64) {
+	svg.printf(` %s="`, s)
+	for i := 0; i < len(t)-1; i++ {
+		svg.printf("%g ", t[i])
+	}
+	svg.printf(`%g"%s`, t[len(t)-1], emptyclose)
+}
+
+// imgchannel validates the image channel indicator
+func imgchannel(c string) string {
+	switch c {
+	case "R", "G", "B", "A":
+		return c
+	case "r", "g", "b", "a":
+		return strings.ToUpper(c)
+	case "red", "green", "blue", "alpha":
+		return strings.ToUpper(c[0:1])
+	case "Red", "Green", "Blue", "Alpha":
+		return c[0:1]
+	}
+	return "R"
+}
