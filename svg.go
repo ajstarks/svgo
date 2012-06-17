@@ -731,8 +731,7 @@ func (svg *SVG) Saturate(p float64) {
 	svg.FeColorMatrixSaturate(Filterspec{}, p)
 }
 
-// Sepia eumulates the CSS sepia filter
-func Sepia(p float64) {
+func (svg *SVG) Sepia() {
 }
 
 // Utility
