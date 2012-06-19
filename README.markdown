@@ -101,9 +101,10 @@ and click on the "Package documentation for svg" link
 
 * SVGo paper from SVGOpen 2011 <http://www.svgopen.org/2011/papers/34-SVGo_a_Go_Library_for_SVG_generation>
 
-* Programming Pictures with SVGo <https://speakerdeck.com/u/ajstarks/p/svgo-workshop>
+* Programming Pictures with SVGo <https://speakerdeck.com/u/ajstarks/p/programming-pictures-with-svgo>
 
-* SVGo Workshop <https://speakerdeck.com/u/ajstarks/p/programming-pictures-with-svgo>
+* SVGo Workshop <https://speakerdeck.com/u/ajstarks/p/svgo-workshop>
+
 
 ### Tutorial Video ###
 
@@ -138,8 +139,8 @@ A video describing how to use the package can be seen on YouTube at <http://www.
 * skewabc:		Skew ABC
 * stockproduct:	Visualize product and stock prices
 * svgopher:	SVGo Mascot
-* svgplot		Plot data
-* svgrid	Compose SVG files in a grid
+* svgplot:		Plot data
+* svgrid:	Compose SVG files in a grid
 * tsg:  Twitter Search Grid
 * tumblrgrid:	Tumblr picture grid
 * turbulence:	Turbulence filter effect
@@ -168,7 +169,9 @@ is used to specify the offset, color, and opacity of stop colors in linear and r
 The Filterspec type:
 
 	type Filterspec struct {
-		In, In2, Result string
+		In string
+		In2 string
+		Result string
 	}
 	
 is used to specify inputs and results for filter effects
@@ -572,20 +575,28 @@ Standard reference: <http://www.w3.org/TR/SVG11/filters.html#feTileElement>
 FeTurbulence specifies a turbulence filter primitive
 Standard reference: <http://www.w3.org/TR/SVG11/filters.html#feTurbulenceElement>
 
+### Filter convenience functions (modeled on CSS filter effects ###
+
 	Blur(p float64)
-Blur function
+Blur function by standard deviation
 
 	Brightness(p float64)
-Brightness function
+Brightness function (0-100)
+
+	Grayscale()
+Apply a grayscale filter to the image	
 	
 	HueRotate(a float64)
-Rotate Hues
+Rotate Hues (0-360 degrees)
 	
 	Invert()
 Invert the image's colors
 	
 	Saturate(p float64)
-Percent saturation
+Percent saturation, 0 is grayscale
+
+	Sepia()
+Apply sepia tone
 
 
 ### Utility ###

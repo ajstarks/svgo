@@ -700,12 +700,12 @@ func (svg *SVG) Brightness(p float64) {
 }
 
 // Contrast emulates the CSS contrast filter
-func (svg *SVG) Contrast(p float64) {
-}
+//func (svg *SVG) Contrast(p float64) {
+//}
 
 // Dropshadow emulates the CSS dropshadow filter
-func (svg *SVG) Dropshadow(p float64) {
-}
+//func (svg *SVG) Dropshadow(p float64) {
+//}
 
 // Grayscale eumulates the CSS grayscale filter
 func (svg *SVG) Grayscale() {
@@ -731,7 +731,15 @@ func (svg *SVG) Saturate(p float64) {
 	svg.FeColorMatrixSaturate(Filterspec{}, p)
 }
 
+// Sepia applies a sepia tone, emulating the CSS sepia filter
 func (svg *SVG) Sepia() {
+	var sepiamatrix = [20]float64{
+		0.280, 0.450, 0.05, 0, 0,
+		0.140, 0.390, 0.04, 0, 0,
+		0.080, 0.280, 0.03, 0, 0,
+		0, 0, 0, 1, 0,
+	}
+	svg.FeColorMatrix(Filterspec{}, sepiamatrix)
 }
 
 // Utility
