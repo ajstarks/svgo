@@ -18,27 +18,27 @@ var canvas = svg.New(os.Stdout)
 // Atom feed structure
 type Feed struct {
 	XMLName xml.Name `xml:"http://www.w3.org/2005/Atom feed"`
-	Entry   []Entry
+	Entry   []Entry `xml:"entry"`
 }
 
 type Entry struct {
-	Link   []Link
-	Title  string
-	Author Person
+	Link   []Link `xml:"link"`
+	Title  string `xml:"title:`
+	Author Person `xml:"author"`
 }
 
 type Link struct {
-	Rel  string `xml:"attr"`
-	Href string `xml:"attr"`
+	Rel  string `xml:"rel,attr"`
+	Href string `xml:"href,attr"`
 }
 
 type Person struct {
-	Name string
+	Name string `xml:"name"`
 }
 
 type Text struct {
-	Type string `xml:"attr"`
-	Body string `xml:"chardata"`
+	Type string `xml:",attr"`
+	Body string `xml:",chardata"`
 }
 
 var (
