@@ -42,6 +42,11 @@ Usage: (assuming GOPATH is set)
 	go get github.com/ajstarks/svgo
 	go install github.com/ajstarks/svgo/...
 	
+	
+You can use godoc to browse the documentation from the command line:
+
+	$ godoc github.com/ajstarks/svgo
+	
 
 a minimal program, to generate SVG to standard output.
 
@@ -90,11 +95,27 @@ Drawing in a web server: (http://localhost:2003/circle)
 
 You may view the SVG output with a browser that supports SVG (tested on Chrome, Opera, Firefox and Safari), or any other SVG user-agent such as Batik Squiggle.
 
-To create browsable documentation:
+### Graphics Sketching with SVGo and goplay ###
 
-	$ godoc -path=<svgo directory> -<http=:6060>
-  
-and click on the "Package documentation for svg" link
+Combined with the goplay command, (in your Go distribution misc/goplay), SVGo can be used to "sketch" with code in a browser.  
+
+To use goplay and SVGo, first go to a directory with your code, and run:
+
+	$ goplay -html
+	
+Next open your browser to the goplay server you just started (by default goplay uses port 3999 on localhost)
+
+	http://localhost:3999/
+
+Enter your code in the textarea, and when you are ready to run press Shift--Enter.  The code will be compiled, with the results
+on the right.  To update, change the code and repeat. Note that compilation errors are shown in red under the code. In order for goplay/SVGo to work, make sure that the io.Writer specified with the New function is os.Stdout.
+
+
+If you want to sketch with an existing file, enter its URL:
+
+	http://localhost:3999/foo.go
+	
+![Goplay](http://farm8.staticflickr.com/7113/7453931134_2a80908a55.jpg)
 
 
 ### SVGo Papers and presentations  ###
@@ -575,7 +596,7 @@ Standard reference: <http://www.w3.org/TR/SVG11/filters.html#feTileElement>
 FeTurbulence specifies a turbulence filter primitive
 Standard reference: <http://www.w3.org/TR/SVG11/filters.html#feTurbulenceElement>
 
-### Filter convenience functions (modeled on CSS filter effects ###
+### Filter convenience functions (modeled on CSS filter effects) ###
 
 	Blur(p float64)
 Blur function by standard deviation
