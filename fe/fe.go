@@ -1,4 +1,4 @@
-// fe is the SVG Filter Effect example from http://www.w3.org/TR/SVG/filters.html#AnExample
+// fe: SVG Filter Effect example from http://www.w3.org/TR/SVG/filters.html#AnExample
 package main
 
 import (
