@@ -39,6 +39,7 @@ func main() {
 		return
 	}
 	canvas.Start(*width, *height)
+	canvas.Title("SVG Color Table")
 	if *neg {
 		canvas.Rect(0, 0, *width, *height, "fill:black")
 		tcolor = "white"

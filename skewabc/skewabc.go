@@ -25,6 +25,7 @@ func sky(x, y, w, h int, a float64, s string) {
 
 func main() {
 	g.Start(width, height)
+	g.Title("Skew")
 	g.Rect(0, 0, width, height, "fill:white")
 	g.Grid(0, 0, width, height, 50, "stroke:lightblue")
 	sky(100, 100, 100, 100, 30, "A")

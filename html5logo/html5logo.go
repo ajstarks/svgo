@@ -29,6 +29,7 @@ func main() {
 
 	// begin the document with the onload event, and namespace for dragging
 	canvas.Start(width, height, `onload="initializeDraggableElements();"`, `xmlns:drag="http://www.codedread.com/dragsvg"`)
+	canvas.Title("HTML5 Logo")
 	canvas.Rect(0, 0, width, height)                                               // black background
 	canvas.Script("application/javascript", "http://www.codedread.com/dragsvg.js") // reference the drag script
 	canvas.Polygon(sx, sy, `drag:enable="true"`, canvas.RGB(227, 79, 38))          // draggable shield

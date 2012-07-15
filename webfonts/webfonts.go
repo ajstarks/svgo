@@ -44,6 +44,7 @@ func googlefont(f string) []string {
 
 func main() {
 	canvas.Start(width, height)
+	canvas.Title("Webfonts")
 	if len(os.Args) > 1 {
 		fontlist = os.Args[1]
 	}
