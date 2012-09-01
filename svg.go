@@ -339,6 +339,24 @@ func (svg *SVG) Text(x int, y int, t string, s ...string) {
 	svg.println(`</text>`)
 }
 
+// Adding Text begin/end for better Textpath control
+// Without this could not set a startOffset=XX% in Textpath block                
+/* Usage: 
+  svg.Path("M250 250 L 400,250", `id="poly1"`, `stroke="red"`, "stroke-dasharray: 5")
+  svg.TextBegin(`fill="black"`, `text-anchor="middle"`, `font-size="6pt"`)
+  svg.Textpath("This is Centered!", "#poly1", `startOffset="50%"`)
+  svg.TextEnd()
+*/
+func (svg *SVG) TextBegin(s ...string) { svg.println(`<text %s`, endstyle(s, ">")) }
+func (svg *SVG) TextEnd() { svg.println(`</text>`) }
+func (svg *SVG) TextpathInner(t string, pathid string, s ...string) {
+  svg.printf("<textPath xlink:href=\"%s\" %s", endstyle(s, ">"), pathid)
+  xml.Escape(svg.Writer, []byte(t))
+  svg.println(`</textPath>`)
+}
+
+
+
 // Textpath places text optionally styled text along a previously defined path
 // Standard Reference: http://www.w3.org/TR/SVG11/text.html#TextPathElement
 func (svg *SVG) Textpath(t string, pathid string, s ...string) {
