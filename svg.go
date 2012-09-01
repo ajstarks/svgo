@@ -347,10 +347,10 @@ func (svg *SVG) Text(x int, y int, t string, s ...string) {
   svg.Textpath("This is Centered!", "#poly1", `startOffset="50%"`)
   svg.TextEnd()
 */
-func (svg *SVG) TextBegin(s ...string) { svg.println(`<text %s`, endstyle(s, ">")) }
+func (svg *SVG) TextBegin(s ...string) { svg.printf(`<text %s`, endstyle(s, ">")) }
 func (svg *SVG) TextEnd() { svg.println(`</text>`) }
 func (svg *SVG) TextpathInner(t string, pathid string, s ...string) {
-  svg.printf("<textPath xlink:href=\"%s\" %s", endstyle(s, ">"), pathid)
+  svg.printf("<textPath xlink:href=\"%s\" %s", pathid, endstyle(s, ">"))
   xml.Escape(svg.Writer, []byte(t))
   svg.println(`</textPath>`)
 }
