@@ -1,7 +1,7 @@
-﻿aliceblue	#F0F8FF	240,248,255
+aliceblue	#F0F8FF	240,248,255
 antiquewhite	#FAEBD7	250,235,215
-aqua	#00FFFF	0,255,255
-aquamarine	#7FFFD4	127,255,212
+aqua	#00FFFF	0,255,25
+aquamarine	#7FFFD4	127,255,21
 azure	#F0FFFF	240,255,255
 beige	#F5F5DC	245,245,220
 bisque	#FFE4C4	255,228,196
