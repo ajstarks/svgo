@@ -18,7 +18,7 @@ func main() {
 		fontname                     = flag.String("font", "Calibri,sans-serif", "fontname")
 		outline                      = flag.Bool("o", false, "outline")
 		neg                          = flag.Bool("n", false, "negative")
-		showrgb                      = flag.Bool("rgb", true, "show RGB")
+		showrgb                      = flag.Bool("rgb", false, "show RGB")
 		showcode                     = flag.Bool("showcode", true, "only show colors")
 		circsw                       = flag.Bool("circle", true, "circle swatch")
 		fontsize                     = flag.Int("fs", 12, "fontsize")
@@ -73,9 +73,9 @@ func main() {
 			var label string
 			if *showcode {
 				if *showrgb {
-					label = fields[2]
-				} else {
 					label = fields[1]
+				} else {
+					label = fields[2]
 				}
 				canvas.Text(x+((*colw*4)/5), y+(*swatch/4), label, "text-anchor:end;fill:gray")
 			}
