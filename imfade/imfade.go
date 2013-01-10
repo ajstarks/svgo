@@ -1,3 +1,5 @@
+// +build !appengine
+
 // imfade progressively fades the Go gopher image
 package main
 

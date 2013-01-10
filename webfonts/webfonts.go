@@ -1,3 +1,5 @@
+// +build !appengine
+
 // webfonts demo
 package main
 

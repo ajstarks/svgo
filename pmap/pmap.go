@@ -1,3 +1,5 @@
+// +build !appengine
+
 // pmap percentage maps
 package main
 

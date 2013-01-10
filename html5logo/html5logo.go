@@ -1,3 +1,5 @@
+// +build !appengine
+
 // html5logo draws the w3c HTML5 logo, with scripting added
 package main
 

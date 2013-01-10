@@ -1,3 +1,5 @@
+// +build !appengine
+
 // funnel draws a funnel-like shape
 package main
 

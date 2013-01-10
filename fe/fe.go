@@ -1,3 +1,5 @@
+// +build !appengine
+
 // fe: SVG Filter Effect example from http://www.w3.org/TR/SVG/filters.html#AnExample
 package main
 

@@ -1,3 +1,5 @@
+// +build !appengine
+
 //svgplot -- plot data (a stream of x,y coordinates)
 package main
 

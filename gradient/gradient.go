@@ -1,3 +1,5 @@
+// +build !appengine
+
 // gradient shows sample gradient fills
 package main
 

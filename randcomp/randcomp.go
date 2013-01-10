@@ -1,3 +1,5 @@
+// +build !appengine
+
 // randcomp visualizes random number generators
 package main
 

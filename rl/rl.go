@@ -1,3 +1,5 @@
+// +build !appengine
+
 // rl - draw random lines
 package main
 
