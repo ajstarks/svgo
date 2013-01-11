@@ -1,5 +1,5 @@
-// android draws bugdroid, the Android mascot
 // +build !appengine
+// android draws bugdroid, the Android mascot
 package main
 
 import (
