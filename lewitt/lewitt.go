@@ -1,3 +1,5 @@
+// +build !appengine
+
 // lewitt: inspired by by Sol LeWitt's Wall Drawing 91:
 package main
 //

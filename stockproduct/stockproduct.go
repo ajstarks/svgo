@@ -1,3 +1,5 @@
+// +build !appengine
+
 // stockproduct draws a bar chart comparing stock price to products
 package main
 

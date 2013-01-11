@@ -1,3 +1,5 @@
+// +build !appengine
+
 // svgopher - Go mascot remix
 package main
 

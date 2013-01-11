@@ -1,3 +1,5 @@
+// +build !appengine
+
 // compx: display components and connections on a grid, given a XML description
 package main
 

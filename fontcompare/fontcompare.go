@@ -1,3 +1,5 @@
+// +build !appengine
+
 // fontcompare: compare two fonts 
 package main
 

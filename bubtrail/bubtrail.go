@@ -1,3 +1,5 @@
+// +build !appengine
+
 // bubtrail draws a randmonized trail of bubbles
 package main
 

@@ -1,3 +1,5 @@
+// +build !appengine
+
 // skewabc - exercise the skew functions
 package main
 
