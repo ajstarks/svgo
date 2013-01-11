@@ -1,4 +1,5 @@
 // svgrid -- composite SVG files in a grid
+// +build !appengine
 package main
 
 import (

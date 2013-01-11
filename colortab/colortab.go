@@ -1,4 +1,5 @@
 // colortab -- make a color/code placemat
+// +build !appengine
 package main
 
 import (

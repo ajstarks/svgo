@@ -1,4 +1,5 @@
 // codepic -- produce code+output sample suitable for slides
+// +build !appengine
 package main
 
 import (

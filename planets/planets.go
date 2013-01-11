@@ -1,4 +1,5 @@
 // planets: an exploration of scale
+// +build !appengine
 package main
 
 import (

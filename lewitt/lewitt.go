@@ -1,4 +1,5 @@
 // lewitt: inspired by by Sol LeWitt's Wall Drawing 91:
+// +build !appengine
 package main
 //
 // A six-inch (15 cm) grid covering the wall.

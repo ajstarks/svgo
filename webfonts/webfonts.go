@@ -1,4 +1,5 @@
 // webfonts demo
+// +build !appengine
 package main
 
 import (

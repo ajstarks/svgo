@@ -1,4 +1,5 @@
 // tumblrgrid: display a flexible grid of pictures from tumblr, filtered by tags
+// +build !appengine
 package main
 
 import (

@@ -1,4 +1,5 @@
 // gradient shows sample gradient fills
+// +build !appengine
 package main
 
 import (

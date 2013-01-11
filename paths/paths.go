@@ -1,4 +1,5 @@
 // paths draws the W3C logo as a paths
+// +build !appengine
 package main
 
 import (

@@ -1,4 +1,5 @@
 // bulletgraph - bullet graphs (Design Specification http://www.perceptualedge.com/articles/misc/Bullet_Graph_Design_Spec.pdf)
+// +build !appengine
 package main
 
 import (

@@ -1,4 +1,5 @@
 // richter -- inspired by Gerhard Richter's 256 colors, 1974
+// +build !appengine
 package main
 
 import (

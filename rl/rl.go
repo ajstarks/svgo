@@ -1,4 +1,5 @@
 // rl - draw random lines
+// +build !appengine
 package main
 
 import (

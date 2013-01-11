@@ -1,4 +1,5 @@
 // tsg -- twitter search grid
+// +build !appengine
 package main
 
 import (
