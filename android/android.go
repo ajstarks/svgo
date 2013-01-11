@@ -1,6 +1,8 @@
-// +build !appengine
 // android draws bugdroid, the Android mascot
+
+// +build !appengine
 package main
+
 
 import (
 	"fmt"
