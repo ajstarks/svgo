@@ -1,6 +1,7 @@
 // colortab -- make a color/code placemat
-// +build !appengine
 package main
+
+// +build !appengine
 
 import (
 	"bufio"

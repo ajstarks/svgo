@@ -1,7 +1,7 @@
 // skewabc - exercise the skew functions
-// +build !appengine
 package main
 
+// +build !appengine
 import (
 	"fmt"
 	"os"

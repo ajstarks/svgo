@@ -1,7 +1,7 @@
 // svgdef -  SVG Object Definition and Use
-// +build !appengine
 package main
 
+// +build !appengine
 import (
 	"math"
 	"os"

@@ -1,7 +1,7 @@
 // webfonts demo
-// +build !appengine
 package main
 
+// +build !appengine
 import (
 	"fmt"
 	"io/ioutil"

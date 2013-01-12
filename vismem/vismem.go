@@ -1,7 +1,7 @@
 // vismem visualizes memory locations
-// +build !appengine
 package main
 
+// +build !appengine
 import (
 	"os"
 

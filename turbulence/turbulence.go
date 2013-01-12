@@ -1,7 +1,7 @@
 // turbulence example from http://www.w3.org/TR/2003/REC-SVG11-20030114/filters.html#feTurbulence
-// +build !appengine
 package main
 
+// +build !appengine
 import (
 	"fmt"
 	"github.com/ajstarks/svgo"

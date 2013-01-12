@@ -1,7 +1,7 @@
 // planets: an exploration of scale
-// +build !appengine
 package main
 
+// +build !appengine
 import (
 	"flag"
 	"image/png"

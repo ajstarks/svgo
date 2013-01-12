@@ -1,6 +1,7 @@
 // funnel draws a funnel-like shape
-// +build !appengine
 package main
+
+// +build !appengine
 
 import (
 	"os"

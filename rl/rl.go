@@ -1,7 +1,7 @@
 // rl - draw random lines
-// +build !appengine
 package main
 
+// +build !appengine
 import (
 	"fmt"
 	"math/rand"

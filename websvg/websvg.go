@@ -1,7 +1,7 @@
 // websvg draws SVG in a web server
-// +build !appengine
 package main
 
+// +build !appengine
 import (
 	"flag"
 	"log"

@@ -1,6 +1,7 @@
 // ltr: Layer Tennis remixes
 package main
 
+// +build !appengine
 import (
 	"flag"
 	"os"

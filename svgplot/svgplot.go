@@ -1,7 +1,7 @@
 //svgplot -- plot data (a stream of x,y coordinates)
-// +build !appengine
 package main
 
+// +build !appengine
 import (
 	"flag"
 	"fmt"

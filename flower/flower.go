@@ -1,6 +1,7 @@
 // flower - draw random flowers, inspired by Evelyn Eastmond's DesignBlocks gererated "grain2"
-// +build !appengine
 package main
+
+// +build !appengine
 
 import (
 	"flag"
