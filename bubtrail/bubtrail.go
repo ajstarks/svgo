@@ -1,6 +1,7 @@
 // bubtrail draws a randmonized trail of bubbles
-// +build !appengine
 package main
+
+// +build !appengine
 
 import (
 	"flag"
