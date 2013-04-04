@@ -26,7 +26,7 @@ const (
 	btitlestyle = "font-style:italic;font-size:150%;text-anchor:"
 	notestyle   = "font-style:italic;text-anchor:"
 	datastyle   = "text-anchor:end;fill:"
-	titlestyle  = "text-anchor:start;font-size:300%"
+	titlestyle  = "text-anchor:start;font-size:200%"
 	labelstyle  = "fill:black;baseline-shift:-25%"
 )
 
