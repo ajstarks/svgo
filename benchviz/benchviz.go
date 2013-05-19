@@ -18,7 +18,7 @@ import (
 type geometry struct {
 	top, left, width, height, vwidth, vp, barHeight int
 	dolines, coldata                                bool
-	rcolor, scolor, style                           string
+	title, rcolor, scolor, style                    string
 }
 
 // process reads the input and calls the visualization function
@@ -44,9 +44,9 @@ func vmap(value, low1, high1, low2, high2 float64) float64 {
 // visualize performs the visualization of the input, reading a line a time
 func (g *geometry) visualize(canvas *svg.SVG, filename string, f io.Reader) {
 	var (
-		err        error = nil
-		line, vs   string
-		dmin, dmax float64
+		err               error = nil
+		line, vs, bmtitle string
+		dmin, dmax        float64
 	)
 
 	bh := g.barHeight
@@ -57,7 +57,12 @@ func (g *geometry) visualize(canvas *svg.SVG, filename string, f io.Reader) {
 	in := bufio.NewReader(f)
 	canvas.Gstyle(fmt.Sprintf("font-size:%dpx;font-family:sans-serif", bh))
 	canvas.Rect(0, 0, g.width, g.height, "fill:white")
-	canvas.Text(g.left, g.top, filename, "font-size:150%")
+	if g.title == "" {
+		bmtitle = filename
+	} else {
+		bmtitle = g.title
+	}
+	canvas.Text(g.left, g.top, bmtitle, "font-size:150%")
 	for x, y, nr := g.left+g.vp, g.top+vspacing, 0; err == nil; nr++ {
 		line, err = in.ReadString('\n')
 		fields := strings.Split(strings.TrimSpace(line), ` `)
@@ -179,6 +184,7 @@ func main() {
 		vp           = flag.Int("vp", 512, "visualization point")
 		vw           = flag.Int("vw", 300, "visual area width")
 		bh           = flag.Int("bh", 20, "bar height")
+		title        = flag.String("title", "", "title")
 		speedcolor   = flag.String("scolor", "green", "speedup color")
 		regresscolor = flag.String("rcolor", "red", "regression color")
 		style        = flag.String("style", "bar", "show barchart style")
@@ -195,6 +201,7 @@ func main() {
 		vp:        *vp,
 		vwidth:    *vw,
 		barHeight: *bh,
+		title:     *title,
 		scolor:    *speedcolor,
 		rcolor:    *regresscolor,
 		style:     *style,
