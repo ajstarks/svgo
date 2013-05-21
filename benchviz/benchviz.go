@@ -177,8 +177,8 @@ func (g *geometry) bars(canvas *svg.SVG, x, y, w, h, vs int, bmtype, name, value
 
 func main() {
 	var (
-		width        = flag.Int("w", 1024, "height")
-		height       = flag.Int("h", 768, "width")
+		width        = flag.Int("w", 1024, "width")
+		height       = flag.Int("h", 768, "height")
 		top          = flag.Int("top", 50, "top")
 		left         = flag.Int("left", 100, "left margin")
 		vp           = flag.Int("vp", 512, "visualization point")
