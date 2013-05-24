@@ -187,7 +187,7 @@ func main() {
 		title        = flag.String("title", "", "title")
 		speedcolor   = flag.String("scolor", "green", "speedup color")
 		regresscolor = flag.String("rcolor", "red", "regression color")
-		style        = flag.String("style", "bar", "show barchart style")
+		style        = flag.String("style", "bar", "set the style (bar or inline)")
 		lines        = flag.Bool("line", false, "show lines between entries")
 		coldata      = flag.Bool("col", false, "show data in a single column")
 	)
