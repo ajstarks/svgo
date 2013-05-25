@@ -19,6 +19,7 @@ type geometry struct {
 	top, left, width, height, vwidth, vp, barHeight int
 	dolines, coldata                                bool
 	title, rcolor, scolor, style                    string
+	deltamax, speedupmax                            float64
 }
 
 // process reads the input and calls the visualization function
@@ -82,14 +83,14 @@ func (g *geometry) visualize(canvas *svg.SVG, filename string, f io.Reader) {
 		case strings.HasPrefix(value, "delt"):
 			bmtype = "delta"
 			dmin = 0.0
-			dmax = 100.0
+			dmax = g.deltamax // 100.0
 			y += vspacing * 2
 			continue
 
 		case strings.HasPrefix(value, "speed"):
 			bmtype = "speedup"
 			dmin = 0.0
-			dmax = 10.0
+			dmax = g.speedupmax // 10.0
 			y += vspacing * 2
 			continue
 
@@ -184,6 +185,8 @@ func main() {
 		vp           = flag.Int("vp", 512, "visualization point")
 		vw           = flag.Int("vw", 300, "visual area width")
 		bh           = flag.Int("bh", 20, "bar height")
+		smax         = flag.Float64("sm", 10, "maximum speedup")
+		dmax         = flag.Float64("dm", 100, "maximum delta")
 		title        = flag.String("title", "", "title")
 		speedcolor   = flag.String("scolor", "green", "speedup color")
 		regresscolor = flag.String("rcolor", "red", "regression color")
@@ -194,19 +197,21 @@ func main() {
 	flag.Parse()
 
 	g := geometry{
-		width:     *width,
-		height:    *height,
-		top:       *top,
-		left:      *left,
-		vp:        *vp,
-		vwidth:    *vw,
-		barHeight: *bh,
-		title:     *title,
-		scolor:    *speedcolor,
-		rcolor:    *regresscolor,
-		style:     *style,
-		dolines:   *lines,
-		coldata:   *coldata,
+		width:      *width,
+		height:     *height,
+		top:        *top,
+		left:       *left,
+		vp:         *vp,
+		vwidth:     *vw,
+		barHeight:  *bh,
+		title:      *title,
+		scolor:     *speedcolor,
+		rcolor:     *regresscolor,
+		style:      *style,
+		dolines:    *lines,
+		coldata:    *coldata,
+		speedupmax: *smax,
+		deltamax:   *dmax,
 	}
 	canvas := svg.New(os.Stdout)
 	canvas.Start(g.width, g.height)
