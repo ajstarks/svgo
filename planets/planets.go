@@ -55,7 +55,7 @@ var ssImages = []string{
 	"uranus.png",
 	"neptune.png"}
 
-var showdisk *bool = flag.Bool("d", false, "show disk")
+var showdisk = flag.Bool("d", false, "show disk")
 var canvas = svg.New(os.Stdout)
 
 func vmap(value float64, low1 float64, high1 float64, low2 float64, high2 float64) float64 {

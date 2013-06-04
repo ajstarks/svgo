@@ -12,18 +12,23 @@ import (
 	"github.com/ajstarks/svgo"
 )
 
+// Pmap defines a porportional map
 type Pmap struct {
 	Top   int     `xml:"top,attr"`
 	Left  int     `xml:"left,attr"`
 	Title string  `xml:"title,attr"`
 	Pdata []Pdata `xml:"pdata"`
 }
+
+// Pdata defines data with a portpotional map
 type Pdata struct {
 	Legend    string `xml:"legend,attr"`
 	Stagger   string `xml:"stagger,attr"`
 	Alternate string `xml:"alternate,attr"`
 	Item      []Item `xml:"item"`
 }
+
+// Item defines an item with porpotional map data
 type Item struct {
 	Name  string  `xml:",chardata"`
 	Value float64 `xml:"value,attr"`
@@ -185,7 +190,7 @@ func pmap(x, y, fs int, m Pdata) {
 }
 
 func floatfmt(v float64) string {
-	var vfmt string = "%.1f"
+	var vfmt = "%.1f"
 	if v-float64(int(v)) == 0.0 {
 		vfmt = "%.0f"
 	}

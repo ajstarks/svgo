@@ -16,10 +16,10 @@ import (
 )
 
 var (
-	width, height, fontsize, barheight, gutter int
-	bgcolor, barcolor, datacolor, compcolor, title     string
-	showtitle, circlemark                              bool
-	gstyle                                             = "font-family:Calibri;font-size:%dpx"
+	width, height, fontsize, barheight, gutter     int
+	bgcolor, barcolor, datacolor, compcolor, title string
+	showtitle, circlemark                          bool
+	gstyle                                         = "font-family:Calibri;font-size:%dpx"
 )
 
 // a Bulletgraph Defintion
@@ -33,6 +33,7 @@ var (
 //    <bdata title="Cust Satisfaction" subtitle="Top rating of 5" scale="0,5,1" qmeasure="3.5,4.5" cmeasure="4.7" measure="4.85"/>
 // </bulletgraph>
 
+// Bulletgraph is the top-level drawing
 type Bulletgraph struct {
 	Top   int     `xml:"top,attr"`
 	Left  int     `xml:"left,attr"`

@@ -13,11 +13,13 @@ import (
 	"github.com/ajstarks/svgo"
 )
 
+// FlickrResp defines the Flickr response
 type FlickrResp struct {
 	Stat   string `xml:"stat,attr"`
 	Photos Photos `xml:"photos"`
 }
 
+// Photos defines a set of Flickr photos
 type Photos struct {
 	Page    string  `xml:"page,attr"`
 	Pages   string  `xml:"pages,attr"`
@@ -26,6 +28,7 @@ type Photos struct {
 	Photo   []Photo `xml:"photo"`
 }
 
+// Photo defines a Flickr photo
 type Photo struct {
 	Id       string `xml:"id,attr"`
 	Owner    string `xml:"owner,attr"`
