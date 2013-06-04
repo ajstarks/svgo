@@ -45,7 +45,7 @@ func vmap(value, low1, high1, low2, high2 float64) float64 {
 // visualize performs the visualization of the input, reading a line a time
 func (g *geometry) visualize(canvas *svg.SVG, filename string, f io.Reader) {
 	var (
-		err               error = nil
+		err               error
 		line, vs, bmtitle string
 		dmin, dmax        float64
 	)
@@ -57,7 +57,7 @@ func (g *geometry) visualize(canvas *svg.SVG, filename string, f io.Reader) {
 
 	in := bufio.NewReader(f)
 	canvas.Gstyle(fmt.Sprintf("font-size:%dpx;font-family:sans-serif", bh))
-	canvas.Rect(0, 0, g.width, g.height, "fill:white")
+	canvas.Rect(0, 0, g.width, g.height, "stroke:lightgray;stroke-width:1;fill:white")
 	if g.title == "" {
 		bmtitle = filename
 	} else {

@@ -2,22 +2,22 @@
 package svg
 
 // package main
-// 	
+//
 // 	import (
 // 		"github.com/ajstarks/svgo"
 // 		"os"
 // 	)
-// 	
+//
 // 	var (
 // 		width = 500
 // 		height = 500
 // 		canvas = svg.New(os.Stdout)
 // 	)
-// 	
+//
 // 	func main() {
 // 		canvas.Start(width, height)
 // 		canvas.Circle(width/2, height/2, 100)
-// 		canvas.Text(width/2, height/2, "Hello, SVG", 
+// 		canvas.Text(width/2, height/2, "Hello, SVG",
 //                   "text-anchor:middle;font-size:30px;fill:white")
 // 		canvas.End()
 // 	}
@@ -31,16 +31,19 @@ import (
 	"strings"
 )
 
+// SVG defines the location of the generated SVG
 type SVG struct {
 	Writer io.Writer
 }
 
+// Offcolor defines the offset and color for gradients
 type Offcolor struct {
 	Offset  uint8
 	Color   string
 	Opacity float64
 }
 
+// Filterspec defines the specification of SVG filters
 type Filterspec struct {
 	In, In2, Result string
 }
@@ -84,7 +87,7 @@ func (svg *SVG) Start(w int, h int, ns ...string) {
 	svg.println(svgns)
 }
 
-// Startview begins the SVG document, with the specified width, height, and viewbox 
+// Startview begins the SVG document, with the specified width, height, and viewbox
 func (svg *SVG) Startview(w, h, minx, miny, vw, vh int) {
 	svg.Start(w, h, fmt.Sprintf(vbfmt, minx, miny, vw, vh))
 }
@@ -274,13 +277,13 @@ func (svg *SVG) Path(d string, s ...string) {
 	svg.printf(`<path d="%s" %s`, d, endstyle(s, emptyclose))
 }
 
-//  Arc draws an elliptical arc, with optional style, beginning coordinate at sx,sy, ending coordinate at ex, ey
-//  width and height of the arc are specified by ax, ay, the x axis rotation is r
-//  if sweep is true, then the arc will be drawn in a "positive-angle" direction (clockwise), if false,
-//  the arc is drawn counterclockwise.
-//  if large is true, the arc sweep angle is greater than or equal to 180 degrees,
-//  otherwise the arc sweep is less than 180 degrees
-//  http://www.w3.org/TR/SVG11/paths.html#PathDataEllipticalArcCommands
+// Arc draws an elliptical arc, with optional style, beginning coordinate at sx,sy, ending coordinate at ex, ey
+// width and height of the arc are specified by ax, ay, the x axis rotation is r
+// if sweep is true, then the arc will be drawn in a "positive-angle" direction (clockwise), if false,
+// the arc is drawn counterclockwise.
+// if large is true, the arc sweep angle is greater than or equal to 180 degrees,
+// otherwise the arc sweep is less than 180 degrees
+// http://www.w3.org/TR/SVG11/paths.html#PathDataEllipticalArcCommands
 func (svg *SVG) Arc(sx int, sy int, ax int, ay int, r int, large bool, sweep bool, ex int, ey int, s ...string) {
 	svg.printf(`%s A%s %d %s %s %s" %s`,
 		ptag(sx, sy), coord(ax, ay), r, onezero(large), onezero(sweep), coord(ex, ey), endstyle(s, emptyclose))
@@ -294,7 +297,7 @@ func (svg *SVG) Bezier(sx int, sy int, cx int, cy int, px int, py int, ex int, e
 		ptag(sx, sy), coord(cx, cy), coord(px, py), coord(ex, ey), endstyle(s, emptyclose))
 }
 
-// Qbez draws a quadratic bezier curver, with optional style 
+// Qbez draws a quadratic bezier curver, with optional style
 // beginning at sx,sy, ending at ex, sy with control points at cx, cy
 // Standard Reference: http://www.w3.org/TR/SVG11/paths.html#PathDataQuadraticBezierCommands
 func (svg *SVG) Qbez(sx int, sy int, cx int, cy int, ex int, ey int, s ...string) {
@@ -318,7 +321,7 @@ func (svg *SVG) Line(x1 int, y1 int, x2 int, y2 int, s ...string) {
 	svg.printf(`<line x1="%d" y1="%d" x2="%d" y2="%d" %s`, x1, y1, x2, y2, endstyle(s, emptyclose))
 }
 
-// Polylne draws connected lines between coordinates, with optional style.
+// Polyline draws connected lines between coordinates, with optional style.
 // Standard Reference: http://www.w3.org/TR/SVG11/shapes.html#PolylineElement
 func (svg *SVG) Polyline(x []int, y []int, s ...string) {
 	svg.poly(x, y, "polyline", s...)
@@ -505,7 +508,7 @@ func (svg *SVG) FeConvolveMatrix(fs Filterspec, matrix [9]int, s ...string) {
 		matrix[6], matrix[7], matrix[8], endstyle(s, emptyclose))
 }
 
-// FeDiffuseLighting specifies a diffuse lighting filter primitive, 
+// FeDiffuseLighting specifies a diffuse lighting filter primitive,
 // a container for light source elements, end with DiffuseEnd()
 // Standard reference: http://www.w3.org/TR/SVG11/filters.html#feComponentTransferElement
 func (svg *SVG) FeDiffuseLighting(fs Filterspec, scale, constant float64, s ...string) {
@@ -513,7 +516,7 @@ func (svg *SVG) FeDiffuseLighting(fs Filterspec, scale, constant float64, s ...s
 		fsattr(fs), scale, constant, endstyle(s, `>`))
 }
 
-// FeDiffuseEnd ends a diffuse lighting filter primitive container
+// FeDiffEnd ends a diffuse lighting filter primitive container
 // Standard reference: http://www.w3.org/TR/SVG11/filters.html#feDiffuseLightingElement
 func (svg *SVG) FeDiffEnd() {
 	svg.println(`</feDiffuseLighting>`)
@@ -557,14 +560,14 @@ func (svg *SVG) FeFuncGamma(channel string, amplitude, exponent, offset float64)
 		imgchannel(channel), amplitude, exponent, offset, emptyclose)
 }
 
-// FeFuncLinearDiscrete specifies the table of values for the feFunc{R|G|B|A} filter element
+// FeFuncTable specifies the table of values for the feFunc{R|G|B|A} filter element
 // Standard reference: http://www.w3.org/TR/SVG11/filters.html#feComponentTransferElement
 func (svg *SVG) FeFuncTable(channel string, tv []float64) {
 	svg.printf(`<feFunc%s type="table"`, imgchannel(channel))
 	svg.tablevalues(`tableValues`, tv)
 }
 
-// FeFuncLinearDiscrete specifies the discrete values for the feFunc{R|G|B|A} filter element
+// FeFuncDiscrete specifies the discrete values for the feFunc{R|G|B|A} filter element
 // Standard reference: http://www.w3.org/TR/SVG11/filters.html#feComponentTransferElement
 func (svg *SVG) FeFuncDiscrete(channel string, tv []float64) {
 	svg.printf(`<feFunc%s type="discrete"`, imgchannel(channel))
@@ -601,7 +604,7 @@ func (svg *SVG) FeMerge(nodes []string, s ...string) {
 	svg.println(`</feMerge>`)
 }
 
-// FeMorphologyLight specifies a feMorphologyLight filter primitive
+// FeMorphology specifies a feMorphologyLight filter primitive
 // Standard reference: http://www.w3.org/TR/SVG11/filters.html#feMorphologyElement
 func (svg *SVG) FeMorphology(fs Filterspec, operator string, xradius, yradius float64, s ...string) {
 	switch operator {
@@ -628,7 +631,7 @@ func (svg *SVG) FePointLight(x, y, z float64, s ...string) {
 		x, y, z, endstyle(s, emptyclose))
 }
 
-// FeSpecularLighting specifies a specular lighting filter primitive, 
+// FeSpecularLighting specifies a specular lighting filter primitive,
 // a container for light source elements, end with SpecularEnd()
 // Standard reference: http://www.w3.org/TR/SVG11/filters.html#feSpecularLightingElement
 func (svg *SVG) FeSpecularLighting(fs Filterspec, scale, constant float64, exponent int, color string, s ...string) {
@@ -636,7 +639,7 @@ func (svg *SVG) FeSpecularLighting(fs Filterspec, scale, constant float64, expon
 		fsattr(fs), scale, constant, exponent, color, endstyle(s, ">\n"))
 }
 
-// FeSpecularEnd ends a specular lighting filter primitive container
+// FeSpecEnd ends a specular lighting filter primitive container
 // Standard reference: http://www.w3.org/TR/SVG11/filters.html#feSpecularLightingElement
 func (svg *SVG) FeSpecEnd() {
 	svg.println(`</feSpecularLighting>`)

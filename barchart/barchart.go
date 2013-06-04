@@ -41,6 +41,7 @@ const (
 //	  <bdata>
 // </barchart>
 
+// Barchart defines the structure of the drawing
 type Barchart struct {
 	Top   int     `xml:"top,attr"`
 	Left  int     `xml:"left,attr"`

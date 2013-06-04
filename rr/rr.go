@@ -21,7 +21,7 @@ var (
 	canvas                                  = svg.New(os.Stdout)
 )
 
-// XML structure: 
+// Roadmap XML structure:
 // a roadmap consists of sections, which contain items, which indicate maturity and impact
 type Roadmap struct {
 	Title    string    `xml:"title,attr"`

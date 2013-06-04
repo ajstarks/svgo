@@ -17,7 +17,6 @@ import (
 )
 
 // Component XML structures
-
 type Component struct {
 	Top    int      `xml:"top,attr"`
 	Left   int      `xml:"left,attr"`
@@ -91,6 +90,7 @@ type nitem struct {
 	Text  string `xml:",chardata"`
 }
 
+// Connect defines connections
 type Connect struct {
 	Sloc  string `xml:"sloc,attr"`
 	Dloc  string `xml:"dloc,attr"`

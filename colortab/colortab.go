@@ -15,22 +15,22 @@ import (
 
 func main() {
 	var (
-		canvas                       = svg.New(os.Stdout)
-		filename                     = flag.String("f", "svgcolors.txt", "input file")
-		fontname                     = flag.String("font", "Calibri,sans-serif", "fontname")
-		outline                      = flag.Bool("o", false, "outline")
-		neg                          = flag.Bool("n", false, "negative")
-		showrgb                      = flag.Bool("rgb", false, "show RGB")
-		showcode                     = flag.Bool("showcode", true, "only show colors")
-		circsw                       = flag.Bool("circle", true, "circle swatch")
-		fontsize                     = flag.Int("fs", 12, "fontsize")
-		width                        = flag.Int("w", 1600, "width")
-		height                       = flag.Int("h", 900, "height")
-		rowsize                      = flag.Int("r", 32, "rowsize")
-		colw                         = flag.Int("c", 320, "column size")
-		swatch                       = flag.Int("s", 16, "swatch size")
-		gutter                       = flag.Int("g", 11, "gutter")
-		err                    error = nil
+		canvas                 = svg.New(os.Stdout)
+		filename               = flag.String("f", "svgcolors.txt", "input file")
+		fontname               = flag.String("font", "Calibri,sans-serif", "fontname")
+		outline                = flag.Bool("o", false, "outline")
+		neg                    = flag.Bool("n", false, "negative")
+		showrgb                = flag.Bool("rgb", false, "show RGB")
+		showcode               = flag.Bool("showcode", true, "only show colors")
+		circsw                 = flag.Bool("circle", true, "circle swatch")
+		fontsize               = flag.Int("fs", 12, "fontsize")
+		width                  = flag.Int("w", 1600, "width")
+		height                 = flag.Int("h", 900, "height")
+		rowsize                = flag.Int("r", 32, "rowsize")
+		colw                   = flag.Int("c", 320, "column size")
+		swatch                 = flag.Int("s", 16, "swatch size")
+		gutter                 = flag.Int("g", 11, "gutter")
+		err                    error
 		colorfmt, tcolor, line string
 	)
 
