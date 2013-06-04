@@ -1,4 +1,4 @@
-// barchart - draw bar charts
+// barchart - bar chart
 package main
 
 import (
@@ -26,7 +26,7 @@ const (
 	btitlestyle = "font-style:italic;font-size:150%;text-anchor:"
 	notestyle   = "font-style:italic;text-anchor:"
 	datastyle   = "text-anchor:end;fill:"
-	titlestyle  = "text-anchor:start;font-size:200%"
+	titlestyle  = "text-anchor:start;font-size:300%"
 	labelstyle  = "fill:black;baseline-shift:-25%"
 )
 
@@ -41,7 +41,7 @@ const (
 //	  <bdata>
 // </barchart>
 
-// Barchart defines the structure of the drawing
+// Barchart defines the barchart structure
 type Barchart struct {
 	Top   int     `xml:"top,attr"`
 	Left  int     `xml:"left,attr"`
@@ -174,14 +174,7 @@ func drawbc(bg Barchart, canvas *svg.SVG) {
 
 		// draw the data items
 		canvas.Gstyle(datastyle + color)
-		var sign = ""
 		for _, d := range b.Bitem {
-			if d.Value < 0 {
-				d.Value = -d.Value
-				sign = "-"
-			} else {
-				sign = ""
-			}
 			canvas.Text(x-sep, y+barheight/2, d.Name, labelstyle)
 			dw := vmap(d.Value, scalemin, scalemax, 0, float64(maxwidth))
 			if len(d.Color) > 0 {
@@ -194,9 +187,9 @@ func drawbc(bg Barchart, canvas *svg.SVG) {
 				var ditem string
 				var datax int
 				if len(b.Unit) > 0 {
-					ditem = fmt.Sprintf("%s%v%s", sign, d.Value, b.Unit)
+					ditem = fmt.Sprintf("%v%s", d.Value, b.Unit)
 				} else {
-					ditem = fmt.Sprintf("%s%s%v", sign, d.Value)
+					ditem = fmt.Sprintf("%v", d.Value)
 				}
 				if len(inbar) > 0 {
 					valuestyle += inbar
