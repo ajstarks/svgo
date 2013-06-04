@@ -16,27 +16,31 @@ import (
 
 var canvas = svg.New(os.Stdout)
 
-// Atom feed structure
+// Feed is the Atom feed structure
 type Feed struct {
 	XMLName xml.Name `xml:"http://www.w3.org/2005/Atom feed"`
 	Entry   []Entry  `xml:"entry"`
 }
 
+// Entry defines an entry within an Aton feed
 type Entry struct {
 	Link   []Link `xml:"link"`
 	Title  string `xml:"title"`
 	Author Person `xml:"author"`
 }
 
+// Link defines a link within an Atom feed
 type Link struct {
 	Rel  string `xml:"rel,attr"`
 	Href string `xml:"href,attr"`
 }
 
+// Person defines a person responsible for the tweet
 type Person struct {
 	Name string `xml:"name"`
 }
 
+// Text defines the text of the tweet
 type Text struct {
 	Type string `xml:",attr"`
 	Body string `xml:",chardata"`

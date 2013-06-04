@@ -25,7 +25,7 @@ const (
 	apifmt = "http://api.tumblr.com/v2/blog/%s/posts?api_key=%s&type=photo&limit=%d"
 )
 
-// JSON data descriptions
+// Tumblr is the JSON data descriptions
 type Tumblr struct {
 	Meta     meta
 	Response response

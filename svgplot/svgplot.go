@@ -51,7 +51,7 @@ const (
 // init initializes command flags and sets default options
 func init() {
 
-	// boolean options 
+	// boolean options
 	showx := flag.Bool("showx", false, "show the xaxis")
 	showy := flag.Bool("showy", false, "show the yaxis")
 	showbar := flag.Bool("showbar", false, "show data bars")
@@ -183,7 +183,7 @@ func plot(x, y, w, h int, settings plotset, d []rawdata) {
 	if needpoly {
 		xpoly = make([]int, nd+2)
 		ypoly = make([]int, nd+2)
-		// preload the extrema of the polygon, 
+		// preload the extrema of the polygon,
 		// the bottom left and bottom right of the plot's rectangle
 		xpoly[0] = x
 		ypoly[0] = y + h
@@ -254,7 +254,7 @@ func plot(x, y, w, h int, settings plotset, d []rawdata) {
 func readxy(f io.Reader) (int, []rawdata) {
 	var (
 		r     rawdata
-		err   error = nil
+		err   error
 		n, nf int
 	)
 	data := make([]rawdata, 1)
@@ -285,7 +285,7 @@ func plotgrid(x, y int, files []string) {
 	}
 }
 
-// main plots data from specified files or standard input in a 
+// main plots data from specified files or standard input in a
 // grid where plotc specifies the number of columns.
 func main() {
 	canvas.Start(gwidth, gheight)
