@@ -191,6 +191,10 @@ func (svg *SVG) Def() { svg.println(`<defs>`) }
 // DefEnd ends a defintion block.
 func (svg *SVG) DefEnd() { svg.println(`</defs>`) }
 
+// Markers can be placed on the verticies of lines, polylines, polygons, and paths.
+func (svg *SVG) Marker(s ...string) { svg.printf(`<marker %s`, endstyle(s, ">\n"))  }
+func (svg *SVG) MarkerEnd() { svg.println(`</marker>`)  }
+
 // Desc specified the text of the description tag.
 // Standard Reference: http://www.w3.org/TR/SVG11/struct.html#DescElement
 func (svg *SVG) Desc(s string) { svg.tt("desc", s) }
