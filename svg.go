@@ -191,6 +191,14 @@ func (svg *SVG) Def() { svg.println(`<defs>`) }
 // DefEnd ends a defintion block.
 func (svg *SVG) DefEnd() { svg.println(`</defs>`) }
 
+// Marker defines a marker
+func (svg *SVG) Marker(id string, x, y, width, height int, s ...string) {
+	svg.printf(`<marker id="%s" refX="%d" refY="%d" markerWidth="%d" markerHeight="%d" %s`, id, x, y, width, height, endstyle(s, ">\n"))
+}
+
+// MarkEnd ends a marker
+func (svg *SVG) MarkerEnd() { svg.println(`</marker>`) }
+
 // Desc specified the text of the description tag.
 // Standard Reference: http://www.w3.org/TR/SVG11/struct.html#DescElement
 func (svg *SVG) Desc(s string) { svg.tt("desc", s) }
