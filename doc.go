@@ -1,5 +1,5 @@
 /*
-Package svg generates SVG as defined by the Scalable Vector Graphics 1.1 Specification (<http://www.w3.org/TR/SVG11/>). 
+Package svg generates SVG as defined by the Scalable Vector Graphics 1.1 Specification (<http://www.w3.org/TR/SVG11/>).
 Output goes to the specified io.Writer.
 
 Supported SVG elements and functions
@@ -8,19 +8,19 @@ Shapes, lines, text
 
  circle, ellipse, polygon, polyline, rect (including roundrects), line, text
 
-Paths 
+Paths
 
- general, arc, cubic and quadratic bezier paths, 
+ general, arc, cubic and quadratic bezier paths,
 
 Image and Gradients
 
- image, linearGradient, radialGradient, 
+ image, linearGradient, radialGradient,
 
 Transforms
 
  translate, rotate, scale, skewX, skewY
 
-Filter Effects 
+Filter Effects
 
  filter, feBlend, feColorMatrix, feColorMatrix, feComponentTransfer, feComposite, feConvolveMatrix, feDiffuseLighting,
  feDisplacementMap, feDistantLight, feFlood, feGaussianBlur, feImage, feMerge, feMorphology, feOffset, fePointLight,
@@ -29,7 +29,7 @@ Filter Effects
 
 Metadata elements
 
- desc, defs, g (style, transform, id), mask, title, (a)ddress, link, script, use
+ desc, defs, g (style, transform, id), mask, marker, title, (a)ddress, link, script, use
 
 Usage: (assuming GOPATH is set)
 
@@ -90,7 +90,7 @@ Drawing in a web server: (http://localhost:2003/circle)
 Functions and types
 
 Many functions use x, y to specify an object's location, and w, h to specify the object's width and height.
-Where applicable, a final optional argument specifies the style to be applied to the object. 
+Where applicable, a final optional argument specifies the style to be applied to the object.
 The style strings follow the SVG standard; name:value pairs delimited by semicolons, or a
 series of name="value" pairs. For example: `"fill:none; opacity:0.3"` or  `fill="none" opacity="0.3"` (see: <http://www.w3.org/TR/SVG11/styling.html>)
 

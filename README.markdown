@@ -30,7 +30,7 @@ Output goes to the specified io.Writer.
 
 ### Metadata elements ###
 
- desc, defs, g (style, transform, id), mask, title, (a)ddress, link, script, use
+ desc, defs, g (style, transform, id), marker, mask, title, (a)ddress, link, script, use
 
 ## Building and Usage ##
 
@@ -151,6 +151,7 @@ A video describing how to use the package can be seen on YouTube at <http://www.
 * imfade:	Show image fading
 * lewitt:	Version of Sol Lewitt's Wall Drawing 91
 * ltr:		Layer Tennis Remixes
+* marker: Test markers
 * paths		Demonstrate SVG paths
 * planets:	Show the scale of the Solar system
 * pmap:		Proportion maps
@@ -288,6 +289,12 @@ is used to specify inputs and results for filter effects
 
 	DefEnd()
   end a definition block.
+
+  Marker(id string, x, y, w, h int, s ...string)
+  define a marker
+
+  MarkerEnd()
+  end a marker
   
 	Mask(string, x int, y int, w int, h int, s ...string)
   creates a mask with a specified id, dimension, and optional style.
