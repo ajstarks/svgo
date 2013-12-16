@@ -372,7 +372,7 @@ func defmeta(id string, w int, name, desc []string, legend string) {
 	canvas.Gid(id)
 	canvas.Textlines(0, textsize, name, 24, 28, "black", "start")
 	canvas.Textlines(w+32, textsize, desc, 24, 28, "rgb(127,127,127)", "start")
-	deflegend(w, 0, 32*len(name), legend)
+	deflegend(w, 0, 30*len(name), legend)
 	canvas.Gend()
 }
 
@@ -412,6 +412,7 @@ func defobjects(w, h int) {
 			"Gid(id string)/Gend()",
 			"ClipPath(s ...string)/ClipEnd()",
 			"Def()/DefEnd()",
+			"Marker()/MarkerEnd()",
 			"Desc(s string)",
 			"Title(s string)",
 			"Script(type, data ...string)",
@@ -429,6 +430,7 @@ func defobjects(w, h int) {
 			"begin/end group id",
 			"begin/end clip path",
 			"begin/end a defintion block",
+			"begin/end markers",
 			"set the description element",
 			"set the title element",
 			"define a script",
