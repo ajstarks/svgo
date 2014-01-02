@@ -533,7 +533,7 @@ func (svg *SVG) FeDiffEnd() {
 // FeDisplacementMap specifies a feDisplacementMap filter primitive
 // Standard reference: http://www.w3.org/TR/SVG11/filters.html#feDisplacementMapElement
 func (svg *SVG) FeDisplacementMap(fs Filterspec, scale float64, xchannel, ychannel string, s ...string) {
-	svg.printf(`<feDisplacementMap %s scale="%g" xChannelSelector="%s" yChannelSelector="%g" %s`,
+	svg.printf(`<feDisplacementMap %s scale="%g" xChannelSelector="%s" yChannelSelector="%s" %s`,
 		fsattr(fs), scale, imgchannel(xchannel), ychannel, endstyle(s, emptyclose))
 }
 
