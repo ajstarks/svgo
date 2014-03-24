@@ -14,9 +14,9 @@ import (
 )
 
 var (
-	width, height, iscale, fontsize, barheight, gutter, cornerRadius int
+	width, height, iscale, fontsize, barheight, gutter, cornerRadius, labelimit int
 	bgcolor, barcolor, title, inbar, valformat                       string
-	showtitle, showdata, showgrid, showscale, endtitle               bool
+	showtitle, showdata, showgrid, showscale, endtitle, trace               bool
 )
 
 const (
@@ -47,6 +47,7 @@ type Barchart struct {
 	Right int     `xml:"right,attr"`
 	Title string  `xml:"title,attr"`
 	Bdata []bdata `xml:"bdata"`
+	Note  []note  `xml:"note"`
 }
 
 type bdata struct {
@@ -121,7 +122,7 @@ func drawbc(bg Barchart, canvas *svg.SVG) {
 	if len(title) > 0 {
 		bg.Title = title
 	}
-
+	labelimit = bg.Left/8
 	cr := cornerRadius
 	maxwidth := width - (bg.Left + bg.Right)
 	x := bg.Left
@@ -133,7 +134,9 @@ func drawbc(bg Barchart, canvas *svg.SVG) {
 
 	// for each bdata element...
 	for _, b := range bg.Bdata {
-
+		if trace {
+			fmt.Fprintf(os.Stderr, "# %s\n", b.Title)
+		}
 		// overide the color if specified
 		if len(b.Color) > 0 {
 			color = b.Color
@@ -169,12 +172,15 @@ func drawbc(bg Barchart, canvas *svg.SVG) {
 
 		// stacked bars
 		for _, stack := range b.Bstack {
+			if trace {
+				fmt.Fprintf(os.Stderr, "%s~%s\n", stack.Value, stack.Name)
+			}
 			stackdata := stackvalues(stack.Value)
 			if len(stackdata) < 1 {
 				continue
 			}
 			sx := x
-			canvas.Text(x-sep, y+barheight/2, stack.Name, labelstyle)
+			canvas.Text(x-sep, y+barheight/2, textlimit(stack.Name, labelimit), labelstyle)
 			barop := colorange(1.0, 0.3, len(stackdata))
 			for ns, sd := range stackdata {
 				dw := vmap(sd, scalemin, scalemax, 0, float64(maxwidth))
@@ -209,7 +215,10 @@ func drawbc(bg Barchart, canvas *svg.SVG) {
 
 		// plain bars
 		for _, d := range b.Bitem {
-			canvas.Text(x-sep, y+barheight/2, d.Name, labelstyle)
+			if trace {
+				fmt.Fprintf(os.Stderr, "%.2f~%s\n", d.Value, d.Name)
+			}
+			canvas.Text(x-sep, y+barheight/2, textlimit(d.Name, labelimit), labelstyle)
 			dw := vmap(d.Value, scalemin, scalemax, 0, float64(maxwidth))
 			var barop float64
 			if b.Samebar {
@@ -286,6 +295,17 @@ func drawbc(bg Barchart, canvas *svg.SVG) {
 	if showtitle && len(bg.Title) > 0 {
 		y += fontsize * 2
 		canvas.Text(bg.Left, y, bg.Title, titlestyle)
+	}
+	// apply overall note if present
+	if len(bg.Note) > 0 {
+		canvas.Gstyle(notestyle + anchor())
+		y += fontsize * 2
+		leading := 3
+		for _, note := range bg.Note {
+			canvas.Text(bg.Left, y, note.Text)
+			y += fontsize + leading
+		}
+		canvas.Gend()
 	}
 }
 
@@ -402,6 +422,15 @@ func colorange(start, end float64, n int) []float64 {
 }
 
 
+func textlimit(s string, n int) string {
+	l := len(s)
+	if l <= n {
+		return s
+	}
+	
+	return s[0:n-3]+"..."
+}
+
 // init sets up the command flags
 func init() {
 	flag.StringVar(&bgcolor, "bg", "white", "background color")
@@ -418,14 +447,15 @@ func init() {
 	flag.BoolVar(&showdata, "showdata", false, "show data values")
 	flag.BoolVar(&showtitle, "showtitle", false, "show title")
 	flag.BoolVar(&endtitle, "endtitle", false, "align title to the end")
+	flag.BoolVar(&trace, "trace", false, "show name/value pairs")
 	flag.StringVar(&inbar, "inbar", "", "data in bar format")
 	flag.StringVar(&title, "t", "", "title")
-	flag.Parse()
 }
 
 // for every input file (or stdin), draw a bar graph
 // as specified by command flags
 func main() {
+	flag.Parse()
 	canvas := svg.New(os.Stdout)
 	canvas.Start(width, height)
 	canvas.Rect(0, 0, width, height, "fill:"+bgcolor)
