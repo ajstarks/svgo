@@ -30,7 +30,7 @@ Output goes to the specified io.Writer.
 
 ### Metadata elements ###
 
- desc, defs, g (style, transform, id), marker, mask, title, (a)ddress, link, script, use
+ desc, defs, g (style, transform, id), marker, mask, pattern, title, (a)ddress, link, script, use
 
 ## Building and Usage ##
 
@@ -290,18 +290,27 @@ is used to specify inputs and results for filter effects
 	DefEnd()
   end a definition block.
 
-  Marker(id string, x, y, w, h int, s ...string)
+	Marker(id string, x, y, w, h int, s ...string)
   define a marker
+  <http://www.w3.org/TR/SVG11/painting.html#MarkerElement>
 
-  MarkerEnd()
+
+	MarkerEnd()
   end a marker
   
-	Mask(string, x int, y int, w int, h int, s ...string)
+  
+	Mask(id string, x int, y int, w int, h int, s ...string)
   creates a mask with a specified id, dimension, and optional style.
   <http://www.w3.org/TR/SVG/masking.html>
   
 	MaskEnd()
   ends the Mask element.
+
+
+	Pattern(id string, x, y, width, height int, putype string, s ...string)
+ define a Pattern with the specified dimensions, the putype can be either "user" or "obj", which sets the patternUnits
+ attribute to be either userSpaceOnUse or objectBoundingBox.
+ <http://www.w3.org/TR/SVG11/pservers.html#Patterns>
 
 	Desc(s string)
   specify the text of the description.
