@@ -152,7 +152,8 @@ A video describing how to use the package can be seen on YouTube at <http://www.
 * lewitt:	Version of Sol Lewitt's Wall Drawing 91
 * ltr:		Layer Tennis Remixes
 * marker: Test markers
-* paths		Demonstrate SVG paths
+* paths:		Demonstrate SVG paths
+* pattern:	Test patterns
 * planets:	Show the scale of the Solar system
 * pmap:		Proportion maps
 * randcomp:	Compare random number generators
