@@ -1,7 +1,8 @@
 // stockproduct draws a bar chart comparing stock price to products
+// +build !appengine
+
 package main
 
-// +build !appengine
 import (
 	"encoding/xml"
 	"flag"
@@ -11,6 +12,7 @@ import (
 	"github.com/ajstarks/svgo"
 )
 
+// Parameters defines options
 type Parameters struct {
 	showline, showimage, showproduct, showprice, showdate, showgrid bool
 	x, y, w, h, width, height, spacing, fontsize, dot               int
@@ -27,11 +29,13 @@ type Parameters struct {
 //    <sdata price="399.68" date="2011-07" product="Lion" image="images/lion.png"/>
 // </stockproduct>
 
+// StockProduct is the top-level drawing
 type StockProduct struct {
 	Title string  `xml:"title,attr"`
 	Sdata []Sdata `xml:"sdata"`
 }
 
+// Sdata defines stock data
 type Sdata struct {
 	Price   float64 `xml:"price,attr"`
 	Date    string  `xml:"date,attr"`

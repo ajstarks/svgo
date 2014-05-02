@@ -1,7 +1,8 @@
 // marker test
+// +build !appengine
+
 package main
 
-// +build !appengine
 
 import (
 	"github.com/ajstarks/svgo"

@@ -1,7 +1,8 @@
 // svgrid -- composite SVG files in a grid
+// +build !appengine
+
 package main
 
-// +build !appengine
 import (
 	"encoding/xml"
 	"flag"

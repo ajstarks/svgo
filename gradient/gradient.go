@@ -1,7 +1,8 @@
 // gradient shows sample gradient fills
+// +build !appengine
+
 package main
 
-// +build !appengine
 
 import (
 	"os"

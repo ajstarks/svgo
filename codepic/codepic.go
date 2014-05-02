@@ -1,7 +1,8 @@
 // codepic -- produce code+output sample suitable for slides
+// +build !appengine
+
 package main
 
-// +build !appengine
 
 import (
 	"bufio"
@@ -33,7 +34,7 @@ const (
 	gokwfmt    = `font-style="italic" fill="rgb(127,0,0)"`
 )
 
-// incoming SVG file, capture everything into between <svg..> and </svg> 
+// SVG is the incoming SVG file, capture everything into between <svg..> and </svg>
 // in the Doc string.  This code will be translated to form the "picture" portion
 type SVG struct {
 	Width  int    `xml:"width,attr"`
@@ -108,7 +109,7 @@ func placecode(x, y int, filename string) {
 	}
 }
 
-// keyword styles keywords in a line of code 
+// keyword styles keywords in a line of code
 func keyword(line string, style string, kw []string) string {
 	for _, k := range kw {
 		line = strings.Replace(line, k, fmt.Sprintf(kwfmt, style, k), 1)
@@ -116,7 +117,7 @@ func keyword(line string, style string, kw []string) string {
 	return line
 }
 
-// svgtext 
+// svgtext
 func svgtext(x, y int, s string) (string, bool) {
 	var iscomment = false
 	s = strings.Replace(s, "&", "&amp;", -1)

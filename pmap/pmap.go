@@ -1,7 +1,8 @@
 // pmap percentage maps
+// +build !appengine
+
 package main
 
-// +build !appengine
 import (
 	"encoding/xml"
 	"flag"

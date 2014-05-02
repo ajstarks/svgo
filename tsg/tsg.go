@@ -1,7 +1,8 @@
 // tsg -- twitter search grid
+// +build !appengine
+
 package main
 
-// +build !appengine
 import (
 	"encoding/xml"
 	"flag"

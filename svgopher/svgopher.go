@@ -1,7 +1,8 @@
 // svgopher - Go mascot remix
+// +build !appengine
+
 package main
 
-// +build !appengine
 import (
 	"os"
 

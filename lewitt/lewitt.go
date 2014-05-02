@@ -1,4 +1,6 @@
 // lewitt: inspired by by Sol LeWitt's Wall Drawing 91:
+// +build !appengine
+
 package main
 //
 // A six-inch (15 cm) grid covering the wall.
@@ -9,7 +11,6 @@ package main
 // This version violates the original instructions in that straight lines
 // as well as arcs are used
 
-// +build !appengine
 import (
 	"flag"
 	"fmt"

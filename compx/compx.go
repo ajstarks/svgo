@@ -1,7 +1,8 @@
 // compx: display components and connections on a grid, given a XML description
+// +build !appengine
+
 package main
 
-// +build !appengine
 
 import (
 	"encoding/xml"

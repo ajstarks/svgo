@@ -1,7 +1,8 @@
 // fontcompare: compare two fonts 
+// +build !appengine
+
 package main
 
-// +build !appengine
 
 import (
 	"fmt"

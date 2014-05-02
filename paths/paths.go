@@ -1,7 +1,8 @@
 // paths draws the W3C logo as a paths
+// +build !appengine
+
 package main
 
-// +build !appengine
 import (
 	"fmt"
 	"os"

@@ -1,7 +1,8 @@
 // html5logo draws the w3c HTML5 logo, with scripting added
+// +build !appengine
+
 package main
 
-// +build !appengine
 
 import (
 	"github.com/ajstarks/svgo"

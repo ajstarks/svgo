@@ -1,7 +1,8 @@
 // randcomp visualizes random number generators
+// +build !appengine
+
 package main
 
-// +build !appengine
 import (
 	"fmt"
 	"math/rand"
@@ -17,7 +18,7 @@ var canvas = svg.New(os.Stdout)
 func main() {
 	width := 512
 	height := 256
-	var n int = 256
+	var n = 256
 	var rx, ry int
 
 	if len(os.Args) > 1 {
