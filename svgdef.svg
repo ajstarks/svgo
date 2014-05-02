@@ -286,12 +286,13 @@
 <text x="0" y="220" >ClipPath(s ...string)/ClipEnd()</text>
 <text x="0" y="248" >Def()/DefEnd()</text>
 <text x="0" y="276" >Marker()/MarkerEnd()</text>
-<text x="0" y="304" >Desc(s string)</text>
-<text x="0" y="332" >Title(s string)</text>
-<text x="0" y="360" >Script(type, data ...string)</text>
-<text x="0" y="388" >Mask(id string, x, y, w, h int, style ...string)/MaskEnd()</text>
-<text x="0" y="416" >Link(href string, title string)/LinkEnd()</text>
-<text x="0" y="444" >Use(x int, y int, link string, style ...string)</text>
+<text x="0" y="304" >Pattern()/PatternEnd()</text>
+<text x="0" y="332" >Desc(s string)</text>
+<text x="0" y="360" >Title(s string)</text>
+<text x="0" y="388" >Script(type, data ...string)</text>
+<text x="0" y="416" >Mask(id string, x, y, w, h int, style ...string)/MaskEnd()</text>
+<text x="0" y="444" >Link(href string, title string)/LinkEnd()</text>
+<text x="0" y="472" >Use(x int, y int, link string, style ...string)</text>
 </g>
 <g style="font-size:24px;fill:rgb(127,127,127);text-anchor:start">
 <text x="532" y="24" >specify destination</text>
@@ -304,14 +305,15 @@
 <text x="532" y="220" >begin/end clip path</text>
 <text x="532" y="248" >begin/end a defintion block</text>
 <text x="532" y="276" >begin/end markers</text>
-<text x="532" y="304" >set the description element</text>
-<text x="532" y="332" >set the title element</text>
-<text x="532" y="360" >define a script</text>
-<text x="532" y="388" >begin/end mask element</text>
-<text x="532" y="416" >begin/end link to href, with a title</text>
-<text x="532" y="444" >use defined objects</text>
+<text x="532" y="304" >begin/end pattern</text>
+<text x="532" y="332" >set the description element</text>
+<text x="532" y="360" >set the title element</text>
+<text x="532" y="388" >define a script</text>
+<text x="532" y="416" >begin/end mask element</text>
+<text x="532" y="444" >begin/end link to href, with a title</text>
+<text x="532" y="472" >use defined objects</text>
 </g>
-<text x="500" y="504" style="fill:black; text-anchor:middle;font-size:24px">Textlines(x, y int, s []string, size, spacing int, fill, align string)</text>
+<text x="500" y="534" style="fill:black; text-anchor:middle;font-size:24px">Textlines(x, y int, s []string, size, spacing int, fill, align string)</text>
 </g>
 <g id="rgb">
 <g style="fill:gray; text-anchor:middle">
