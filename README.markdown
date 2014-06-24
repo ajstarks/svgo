@@ -102,7 +102,7 @@ Combined with the svgplay command, SVGo can be used to "sketch" with code in a b
 To use svgplay and SVGo, first go to a directory with your code, and run:
 
 	$ svgplay
-	* * * Warning: this code allows a client connecting to 127.0.0.1:1999 to execute code on your machine * * *
+	2014/06/24 19:15:54 ☠ ☠ ☠ Warning: this server allows a client connecting to 127.0.0.1:1999 to execute code on this computer
 	
 Next open your browser to the svgplay server you just started.
 svgplay only listens on localhost, and uses port 1999 (guess which year SVG was first introduced) by default
