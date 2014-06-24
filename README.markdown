@@ -104,7 +104,8 @@ To use svgplay and SVGo, first go to a directory with your code, and run:
 	$ svgplay
 	* * * Warning: this code allows a client connecting to 127.0.0.1:1999 to execute code on your machine * * *
 	
-Next open your browser to the svgplay server you just started (by default svgplay uses port 1999 and only connects to localhost)
+Next open your browser to the svgplay server you just started.
+svgplay only listens on localhost, and uses port 1999 (guess which year SVG was first introduced) by default
 
 	http://localhost:1999/
 
