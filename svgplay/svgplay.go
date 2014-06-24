@@ -40,7 +40,7 @@ func main() {
 
 	http.HandleFunc("/", FrontPage)
 	http.HandleFunc("/compile", Compile)
-	log.Printf("* * * Warning: this code allows a client connecting to 127.0.0.1:%s to execute code on your machine * * *", *httpListen)
+	log.Printf("☠ ☠ ☠ Warning: this server allows a client connecting to 127.0.0.1:%s to execute code on this computer", *httpListen)
 	log.Fatal(http.ListenAndServe("127.0.0.1:"+*httpListen, nil))
 }
 
