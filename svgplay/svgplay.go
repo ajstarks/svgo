@@ -40,7 +40,7 @@ func main() {
 
 	http.HandleFunc("/", FrontPage)
 	http.HandleFunc("/compile", Compile)
-	log.Printf("☠ ☠ ☠ Warning: this server allows a client connecting to 127.0.0.1:%s to execute code on this computer", *httpListen)
+	log.Printf("☠ ☠ ☠ Warning: this server allows a client connecting to 127.0.0.1:%s to execute code on this computer ☠ ☠ ☠", *httpListen)
 	log.Fatal(http.ListenAndServe("127.0.0.1:"+*httpListen, nil))
 }
 
@@ -163,18 +163,25 @@ var outputText = `<pre>{{printf "%s" . |html}}</pre>`
 var frontPageText = `<!doctype html>
 <html>
 <head>
+<title>svgplay: SVGo sketching</title>
 <style>
+body {
+	font-size: 12pt;
+}
 pre, textarea {
-	font-family: Consolas, 'Courier New', DejaVu Sans Mono', monospace;
+	font-family: Optima, Calibri, 'DejaVu Sans', sans-serif;
 	font-size: 100%;
+	line-height: 15pt;
 }
 .hints {
-	font-size: 0.8em;
+	font-size: 80%;
+	font-family: sans-serif;
+	color: #333333;
+	font-style: italic;
 	text-align: right;
 }
 #edit, #output, #errors { width: 100%; text-align: left; }
-#edit { height: 500px; }
-#output { color: #00c; }
+#edit { height: 560px; }
 #errors { color: #c00; }
 </style>
 <script>
@@ -286,18 +293,28 @@ function compileUpdate() {
 var helloWorld = []byte(`package main
 
 import (
+	"math/rand"
 	"os"
+	"time"
 	"github.com/ajstarks/svgo"
 )
 
-var (
-	canvas      = svg.New(os.Stdout)
-	width  = 500
-	height = 500
-)
+func ri(n int) int { return rand.Intn(n) }
 
 func main() {
+	canvas := svg.New(os.Stdout)
+	width := 500
+	height := 500
+	nstars := 250
+	style := "font-size:48pt;fill:white;text-anchor:middle"
+	
+	rand.Seed(time.Now().Unix())
 	canvas.Start(width, height)
-	canvas.Circle(width/2, height/2, 100)
+	canvas.Rect(0,0,width,height)
+	for i := 0; i < nstars; i++ {
+		canvas.Circle(ri(width), ri(height), ri(3), "fill:white")
+	}
+	canvas.Circle(width/2, height, width/2, "fill:rgb(77, 117, 232)")
+	canvas.Text(width/2, height*4/5, "hello, world", style)
 	canvas.End()
 }`)
