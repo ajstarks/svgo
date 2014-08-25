@@ -1,8 +1,8 @@
-// bulletgraph - bullet graphs (Design Specification http://www.perceptualedge.com/articles/misc/Bullet_Graph_Design_Spec.pdf)
+// bulletgraph - bullet graphs
+// (Design Specification http://www.perceptualedge.com/articles/misc/Bullet_Graph_Design_Spec.pdf)
 // +build !appengine
 
 package main
-
 
 import (
 	"encoding/xml"
@@ -17,10 +17,10 @@ import (
 )
 
 var (
-	width, height, fontsize, barheight, gutter     int
-	bgcolor, barcolor, datacolor, compcolor, title string
-	showtitle, circlemark                          bool
-	gstyle                                         = "font-family:Calibri;font-size:%dpx"
+	width, height, fontsize, barheight, gutter, circleradius int
+	bgcolor, barcolor, datacolor, compcolor, title, font     string
+	showtitle, circlemark                                    bool
+	gstyle                                                   = "font-family:'%s',sans-serif;font-size:%dpx"
 )
 
 // a Bulletgraph Defintion
@@ -129,8 +129,8 @@ func drawbg(bg Bulletgraph, canvas *svg.SVG) {
 		scaleincr, _ := strconv.ParseFloat(sc[2], 64)
 
 		// label the graph
-		canvas.Text(tx, y+barheight/3, fmt.Sprintf("%s (%g)", v.Title, v.Measure), "text-anchor:end;font-weight:bold")
-		canvas.Text(tx, y+(barheight/3)+fontsize, v.Subtitle, "text-anchor:end;font-size:75%")
+		canvas.Text(tx, y+(barheight/2), fmt.Sprintf("%s (%g)", v.Title, v.Measure), "text-anchor:end;font-weight:bold")
+		canvas.Text(tx, y+(barheight/2)+fontsize, v.Subtitle, "fill:darkgray;text-anchor:end;font-size:75%")
 
 		// draw the scale
 		scfmt := "%g"
@@ -158,7 +158,7 @@ func drawbg(bg Bulletgraph, canvas *svg.SVG) {
 		canvas.Rect(x, y+qmheight, barlength, qmheight, "fill:"+datacolor)
 		cmx := int(vmap(v.Cmeasure, scalemin, scalemax, 0, float64(maxwidth)))
 		if circlemark {
-			canvas.Circle(x+cmx, y+barheight/2, barheight/6, "fill-opacity:0.3;fill:"+compcolor)
+			canvas.Circle(x+cmx, y+barheight/2, circleradius, "fill-opacity:0.3;fill:"+compcolor)
 		} else {
 			cbh := barheight / 4
 			canvas.Line(x+cmx, y+cbh, x+cmx, y+barheight-cbh, "stroke-width:3;stroke:"+compcolor)
@@ -198,16 +198,18 @@ func fraction(n float64) float64 {
 // init sets up the command flags
 func init() {
 	flag.StringVar(&bgcolor, "bg", "white", "background color")
-	flag.StringVar(&barcolor, "bc", "rgb(200,200,200)", "bar color")
-	flag.StringVar(&datacolor, "dc", "darkgray", "data color")
-	flag.StringVar(&compcolor, "cc", "black", "comparative color")
+	flag.StringVar(&barcolor, "bc", "rgb(240,240,240)", "bar color")
+	flag.StringVar(&datacolor, "dc", "rgb(200,200,200)", "data color")
+	flag.StringVar(&compcolor, "cc", "rgb(127,0,0)", "comparative color")
+	flag.StringVar(&font, "font", "Calibri", "font")
 	flag.IntVar(&width, "w", 1024, "width")
 	flag.IntVar(&height, "h", 800, "height")
-	flag.IntVar(&barheight, "bh", 48, "bar height")
-	flag.IntVar(&gutter, "g", 30, "gutter")
+	flag.IntVar(&barheight, "bh", 32, "bar height")
+	flag.IntVar(&circleradius, "cr", 8, "circle radius")
+	flag.IntVar(&gutter, "g", 36, "gutter")
 	flag.IntVar(&fontsize, "f", 18, "fontsize (px)")
 	flag.BoolVar(&circlemark, "circle", false, "circle mark")
-	flag.BoolVar(&showtitle, "showtitle", false, "show title")
+	flag.BoolVar(&showtitle, "showtitle", true, "show title")
 	flag.StringVar(&title, "t", "", "title")
 	flag.Parse()
 }
@@ -218,7 +220,7 @@ func main() {
 	canvas := svg.New(os.Stdout)
 	canvas.Start(width, height)
 	canvas.Rect(0, 0, width, height, "fill:"+bgcolor)
-	canvas.Gstyle(fmt.Sprintf(gstyle, fontsize))
+	canvas.Gstyle(fmt.Sprintf(gstyle, font, fontsize))
 	if len(flag.Args()) == 0 {
 		dobg("", canvas)
 	} else {
