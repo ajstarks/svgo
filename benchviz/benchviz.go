@@ -3,6 +3,7 @@ package main
 
 import (
 	"bufio"
+	"bytes"
 	"flag"
 	"fmt"
 	"io"
@@ -16,25 +17,24 @@ import (
 
 // geometry defines the layout of the visualization
 type geometry struct {
-	top, left, width, height, vwidth, vp, barHeight int
-	dolines, coldata                                bool
-	title, rcolor, scolor, style                    string
-	deltamax, speedupmax                            float64
+	top, left, width, vwidth, vp, barHeight int
+	dolines, coldata                        bool
+	title, rcolor, scolor, style            string
+	deltamax, speedupmax                    float64
 }
 
 // process reads the input and calls the visualization function
-func process(canvas *svg.SVG, filename string, g geometry) {
+func process(canvas *svg.SVG, filename string, g geometry) int {
 	if filename == "" {
-		g.visualize(canvas, filename, os.Stdin)
-		return
+		return g.visualize(canvas, filename, os.Stdin)
 	}
 	f, err := os.Open(filename)
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "%v\n", err)
-		return
+		return 0
 	}
-	g.visualize(canvas, filename, f)
-	f.Close()
+	defer f.Close()
+	return g.visualize(canvas, filename, f)
 }
 
 // vmap maps world to canvas coordinates
@@ -43,7 +43,7 @@ func vmap(value, low1, high1, low2, high2 float64) float64 {
 }
 
 // visualize performs the visualization of the input, reading a line a time
-func (g *geometry) visualize(canvas *svg.SVG, filename string, f io.Reader) {
+func (g *geometry) visualize(canvas *svg.SVG, filename string, f io.Reader) int {
 	var (
 		err               error
 		line, vs, bmtitle string
@@ -57,13 +57,13 @@ func (g *geometry) visualize(canvas *svg.SVG, filename string, f io.Reader) {
 
 	in := bufio.NewReader(f)
 	canvas.Gstyle(fmt.Sprintf("font-size:%dpx;font-family:sans-serif", bh))
-	canvas.Rect(0, 0, g.width, g.height, "stroke:lightgray;stroke-width:1;fill:white")
 	if g.title == "" {
 		bmtitle = filename
 	} else {
 		bmtitle = g.title
 	}
 	canvas.Text(g.left, g.top, bmtitle, "font-size:150%")
+	var height int
 	for x, y, nr := g.left+g.vp, g.top+vspacing, 0; err == nil; nr++ {
 		line, err = in.ReadString('\n')
 		fields := strings.Split(strings.TrimSpace(line), ` `)
@@ -110,8 +110,13 @@ func (g *geometry) visualize(canvas *svg.SVG, filename string, f io.Reader) {
 			g.bars(canvas, x, y, bw, bh, vspacing/2, bmtype, name, value, v)
 		}
 		y += vspacing
+		height = y
 	}
+	//canvas.Rect(0, 0, g.width, g.height, "stroke:lightgray;stroke-width:1;fill:white")
+	canvas.Rect(0, g.top, g.width, height-g.top, "stroke:lightgray;stroke-width:1;fill:none")
 	canvas.Gend()
+
+	return height
 }
 
 // inline makes the inline style pf visualization
@@ -179,7 +184,6 @@ func (g *geometry) bars(canvas *svg.SVG, x, y, w, h, vs int, bmtype, name, value
 func main() {
 	var (
 		width        = flag.Int("w", 1024, "width")
-		height       = flag.Int("h", 768, "height")
 		top          = flag.Int("top", 50, "top")
 		left         = flag.Int("left", 100, "left margin")
 		vp           = flag.Int("vp", 512, "visualization point")
@@ -198,7 +202,6 @@ func main() {
 
 	g := geometry{
 		width:      *width,
-		height:     *height,
 		top:        *top,
 		left:       *left,
 		vp:         *vp,
@@ -213,14 +216,20 @@ func main() {
 		speedupmax: *smax,
 		deltamax:   *dmax,
 	}
-	canvas := svg.New(os.Stdout)
-	canvas.Start(g.width, g.height)
+	var svg_buffer bytes.Buffer
+	canvas_b := svg.New(&svg_buffer)
+	var height int = 0
+
 	if len(flag.Args()) > 0 {
 		for _, f := range flag.Args() {
-			process(canvas, f, g)
+			height = process(canvas_b, f, g)
+			g.top = height + 50
 		}
 	} else {
-		process(canvas, "", g)
+		height = process(canvas_b, "", g)
 	}
+	canvas := svg.New(os.Stdout)
+	canvas.Start(g.width, height+15)
+	svg_buffer.WriteTo(os.Stdout)
 	canvas.End()
 }
