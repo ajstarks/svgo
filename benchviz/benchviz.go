@@ -112,7 +112,6 @@ func (g *geometry) visualize(canvas *svg.SVG, filename string, f io.Reader) int 
 		y += vspacing
 		height = y
 	}
-	//canvas.Rect(0, 0, g.width, g.height, "stroke:lightgray;stroke-width:1;fill:white")
 	canvas.Rect(0, g.top, g.width, height-g.top, "stroke:lightgray;stroke-width:1;fill:none")
 	canvas.Gend()
 
