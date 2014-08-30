@@ -3,6 +3,7 @@ package main
 
 import (
 	"bufio"
+	"bytes"
 	"flag"
 	"fmt"
 	"io"
@@ -23,18 +24,17 @@ type geometry struct {
 }
 
 // process reads the input and calls the visualization function
-func process(canvas *svg.SVG, filename string, g geometry) {
+func process(canvas *svg.SVG, filename string, g geometry) int {
 	if filename == "" {
-		g.visualize(canvas, filename, os.Stdin)
-		return
+		return g.visualize(canvas, filename, os.Stdin)
 	}
 	f, err := os.Open(filename)
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "%v\n", err)
-		return
+		return 0
 	}
-	g.visualize(canvas, filename, f)
-	f.Close()
+	defer f.Close()
+	return g.visualize(canvas, filename, f)
 }
 
 // vmap maps world to canvas coordinates
@@ -43,7 +43,7 @@ func vmap(value, low1, high1, low2, high2 float64) float64 {
 }
 
 // visualize performs the visualization of the input, reading a line a time
-func (g *geometry) visualize(canvas *svg.SVG, filename string, f io.Reader) {
+func (g *geometry) visualize(canvas *svg.SVG, filename string, f io.Reader) int {
 	var (
 		err               error
 		line, vs, bmtitle string
@@ -57,13 +57,14 @@ func (g *geometry) visualize(canvas *svg.SVG, filename string, f io.Reader) {
 
 	in := bufio.NewReader(f)
 	canvas.Gstyle(fmt.Sprintf("font-size:%dpx;font-family:sans-serif", bh))
-	canvas.Rect(0, 0, g.width, g.height, "stroke:lightgray;stroke-width:1;fill:white")
 	if g.title == "" {
 		bmtitle = filename
 	} else {
 		bmtitle = g.title
 	}
 	canvas.Text(g.left, g.top, bmtitle, "font-size:150%")
+
+	height := 0
 	for x, y, nr := g.left+g.vp, g.top+vspacing, 0; err == nil; nr++ {
 		line, err = in.ReadString('\n')
 		fields := strings.Split(strings.TrimSpace(line), ` `)
@@ -110,8 +111,10 @@ func (g *geometry) visualize(canvas *svg.SVG, filename string, f io.Reader) {
 			g.bars(canvas, x, y, bw, bh, vspacing/2, bmtype, name, value, v)
 		}
 		y += vspacing
+		height = y
 	}
 	canvas.Gend()
+	return height
 }
 
 // inline makes the inline style pf visualization
@@ -179,7 +182,6 @@ func (g *geometry) bars(canvas *svg.SVG, x, y, w, h, vs int, bmtype, name, value
 func main() {
 	var (
 		width        = flag.Int("w", 1024, "width")
-		height       = flag.Int("h", 768, "height")
 		top          = flag.Int("top", 50, "top")
 		left         = flag.Int("left", 100, "left margin")
 		vp           = flag.Int("vp", 512, "visualization point")
@@ -198,7 +200,6 @@ func main() {
 
 	g := geometry{
 		width:      *width,
-		height:     *height,
 		top:        *top,
 		left:       *left,
 		vp:         *vp,
@@ -213,14 +214,25 @@ func main() {
 		speedupmax: *smax,
 		deltamax:   *dmax,
 	}
-	canvas := svg.New(os.Stdout)
-	canvas.Start(g.width, g.height)
+
+	// For every named file or stdin, render the SVG in memory, accumulating the height.
+	var b bytes.Buffer
+	canvas := svg.New(&b)
+	height := 0
 	if len(flag.Args()) > 0 {
 		for _, f := range flag.Args() {
-			process(canvas, f, g)
+			height = process(canvas, f, g)
+			g.top = height + 50
 		}
 	} else {
-		process(canvas, "", g)
+		height = process(canvas, "", g)
 	}
-	canvas.End()
+	g.height = height + 15
+
+	// Write the rendered SVG to stdout
+	out := svg.New(os.Stdout)
+	out.Start(g.width, g.height)
+	out.Rect(0, 0, g.width, g.height, "fill:white;stroke-width:2px;stroke:lightgray")
+	b.WriteTo(os.Stdout)
+	out.End()
 }
