@@ -1,10 +1,10 @@
 // ltr: Layer Tennis remixes
-// +build !appengine
 
 package main
 
 import (
 	"flag"
+	"fmt"
 	"os"
 
 	"github.com/ajstarks/svgo"
@@ -14,12 +14,13 @@ var (
 	canvas                            = svg.New(os.Stdout)
 	poster, opacity, row, col, offset bool
 	title                             string
+	width, height                     int
 )
 
 const (
-	width  = 900
-	height = 280
-	ni     = 11
+	stdwidth  = 900
+	stdheight = 280
+	ni        = 11
 )
 
 // imagefiles returns a list of files in the specifed directory
@@ -41,7 +42,7 @@ func imagefiles(directory string) []string {
 	return names
 }
 
-// ltposter creates poster style: a title, followed by a list 
+// ltposter creates poster style: a title, followed by a list
 // of volleys
 func ltposter(x, y, w, h int, f []string) {
 	canvas.Image(x, y, w*2, h*2, f[0]) // first file, assumed to be the banner
@@ -109,6 +110,8 @@ func init() {
 	flag.BoolVar(&row, "row", false, "display is a single row")
 	flag.BoolVar(&col, "col", false, "display in a single column")
 	flag.BoolVar(&offset, "offset", false, "display in a row, even layers offset")
+	flag.IntVar(&width, "width", stdwidth, "image width")
+	flag.IntVar(&height, "height", stdheight, "image height")
 	flag.StringVar(&title, "title", "", "title")
 	flag.Parse()
 }
@@ -120,6 +123,7 @@ func main() {
 	for i, dir := range flag.Args() {
 		filelist := imagefiles(dir)
 		if len(filelist) != ni || filelist == nil {
+			fmt.Fprintf(os.Stderr, "in the %s directory, need %d images, read %d\n", dir, ni, len(filelist))
 			continue
 		}
 		switch {
