@@ -15,7 +15,7 @@ svgplot $gopts -showfile -label=showfile  $data  > f07.svg
 svgplot $gopts -bgcolor=lightsteelblue   -label=bgcolor   $data > f08.svg
 svgplot $gopts -linecolor=red            -label=linecolor $data > f09.svg
 svgplot $gopts -barcolor=red -showbar -connect=f  -label=barcolor  $data > f10.svg
-svgplot $gopts -linecolor=red  -area -connect=f   -label=hcolor  $data > f11.svg
+svgplot $gopts -areacolor=red  -area -connect=f   -label=hcolor  $data > f11.svg
 svgplot $gopts -showdot -dotcolor=red -connect=f  -label=dotcolor  $data > f12.svg
 svgplot $gopts -label=labelcolor -labelcolor=red $data > f13.svg
 svgplot $gopts -label=fontsize  $data > f14.svg
