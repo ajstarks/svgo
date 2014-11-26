@@ -19,7 +19,7 @@ const (
 	legendstyle = "fill:gray; text-anchor:middle"
 	titlestyle  = "fill:black; text-anchor:middle;font-size:24px"
 	linestyle   = "stroke:black; stroke-width:1"
-	gtextstyle  = "font-family:Calibri; text-anchor:middle; font-size:24px"
+	gtextstyle  = "font-family:Calibri,sans; text-anchor:middle; font-size:24px"
 	coordstring = "x, y"
 	tpathstring = `It's "fine" & "dandy" to draw text along a path`
 )
@@ -372,7 +372,7 @@ func defrotate(id string, w, h int, deg float64, legend string) {
 func defmeta(id string, w int, name, desc []string, legend string) {
 	canvas.Gid(id)
 	canvas.Textlines(0, textsize, name, 24, 28, "black", "start")
-	canvas.Textlines(w+32, textsize, desc, 24, 28, "rgb(127,127,127)", "start")
+	canvas.Textlines(w+150, textsize, desc, 24, 28, "rgb(127,127,127)", "start")
 	deflegend(w, 0, 30*len(name), legend)
 	canvas.Gend()
 }
@@ -418,7 +418,7 @@ func defobjects(w, h int) {
 			"Desc(s string)",
 			"Title(s string)",
 			"Script(type, data ...string)",
-			"Mask(id string, x, y, w, h int, style ...string)/MaskEnd()",
+			"Mask(id string, x,y,w,h int, style ...string)/MaskEnd()",
 			"Link(href string, title string)/LinkEnd()",
 			"Use(x int, y int, link string, style ...string)",
 		}
@@ -519,7 +519,7 @@ var roworder = [][]string{
 }
 
 func main() {
-	width := 3650
+	width := 4500
 	height := (width * 3) / 4
 	canvas.Start(width, height)
 	defobjects(250, 125)
@@ -530,7 +530,7 @@ func main() {
 	canvas.Text(width/2, 150, "SVG Go Library", "font-size:125px")
 	canvas.Text(width/2, 200, "github.com/ajstarks/svgo", "font-size:50px;fill:gray")
 	canvas.LinkEnd()
-	placeobjects(200, 400, 600, 450, roworder)
+	placeobjects(400, 400, 700, 600, roworder)
 	canvas.Gend()
 	canvas.End()
 }
