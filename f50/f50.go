@@ -49,7 +49,7 @@ var (
 )
 
 const (
-	apifmt      = "http://api.flickr.com/services/rest/?method=%s&api_key=%s&%s=%s&per_page=50&sort=interestingness-desc"
+	apifmt      = "https://api.flickr.com/services/rest/?method=%s&api_key=%s&%s=%s&per_page=50&sort=interestingness-desc"
 	urifmt      = "http://farm%s.static.flickr.com/%s/%s.jpg"
 	apiKey      = "YOURKEY"
 	textStyle   = "font-family:Calibri,sans-serif; font-size:48px; fill:white; text-anchor:start"
