@@ -15,7 +15,7 @@ var canvas = svg.New(os.Stdout)
 // randcolor returns a random color
 func randcolor() string {
 	rgb := []byte{0, 0, 0} // read error returns black
-	rand.Read(rgb) 
+	rand.Read(rgb)
 	return fmt.Sprintf("fill:rgb(%d,%d,%d)", rgb[0], rgb[1], rgb[2])
 }
 
@@ -37,9 +37,12 @@ func rcube(x, y, l int) {
 
 // lattice draws a grid of cubes, n rows deep.
 // The grid begins at (xp, yp), with hspace between cubes in a row, and vspace between rows.
-func lattice(xp, yp, w, h, size, hspace, vspace, n int) {
-	randcolor := randcolor
-	canvas.Rect(0, 0, w, h, randcolor())
+func lattice(xp, yp, w, h, size, hspace, vspace, n int, bgcolor string) {
+	if bgcolor == "" {
+		canvas.Rect(0, 0, w, h, randcolor())
+	} else {
+		canvas.Rect(0, 0, w, h, "fill:"+bgcolor)
+	}
 	y := yp
 	for r := 0; r < n; r++ {
 		for x := xp; x < w; x += hspace {
@@ -59,9 +62,10 @@ func main() {
 		rows   = flag.Int("rows", 3, "rows")
 		hs     = flag.Int("hs", 120, "horizontal spacing")
 		vs     = flag.Int("vs", 160, "vertical spacing")
+		bg     = flag.String("bg", "", "background")
 	)
 	flag.Parse()
 	canvas.Start(*width, *height)
-	lattice(*x, *y, *width, *height, *size, *hs, *vs, *rows)
+	lattice(*x, *y, *width, *height, *size, *hs, *vs, *rows, *bg)
 	canvas.End()
 }
