@@ -80,6 +80,8 @@ func init() {
 	fontsize := flag.Int("fontsize", 11, "font size")
 	xinterval := flag.Int("xint", 10, "x axis interval")
 	yinterval := flag.Int("yint", 4, "y axis interval")
+	ymin := flag.Int("ymin", -999, "y minimum")
+	ymax := flag.Int("ymax", -999, "y maximum")
 
 	// meta options
 	flag.IntVar(&beginx, "bx", 100, "initial x")
@@ -119,6 +121,8 @@ func init() {
 	plotnum["xinterval"] = *xinterval
 	plotnum["yinterval"] = *yinterval
 	plotnum["barsize"] = *barsize
+	plotnum["ymin"] = *ymin
+	plotnum["ymax"] = *ymax
 }
 
 // fmap maps world data to document coordinates
@@ -176,6 +180,13 @@ func plot(x, y, w, h int, settings plotset, d []rawdata) {
 			miny = v.y
 		}
 	}
+
+	if settings.size["ymin"] != -999 {
+		miny = float64(settings.size["ymin"])
+	}
+	if settings.size["ymax"] != -999 {
+		maxy = float64(settings.size["ymax"])
+	}
 	// Prepare for a area or line chart by allocating
 	// polygon coordinates; for the hrizon plot, you need two extra coordinates
 	// for the extrema.
@@ -199,6 +210,7 @@ func plot(x, y, w, h int, settings plotset, d []rawdata) {
 	spacer := 10
 	canvas.Gstyle(fmt.Sprintf(globalfmt,
 		settings.attr["font"], settings.size["fontsize"], settings.size["linesize"]))
+
 	for i, v := range d {
 		xp := int(fmap(v.x, minx, maxx, float64(x), float64(x+w)))
 		yp := int(fmap(v.y, miny, maxy, float64(y), float64(y-h)))
