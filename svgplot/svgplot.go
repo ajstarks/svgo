@@ -47,6 +47,7 @@ const (
 	ticfmt    = "stroke:rgb(200,200,200);stroke-width:1px"
 	labelfmt  = ticfmt + ";text-anchor:end;fill:black"
 	textfmt   = "stroke:none;baseline-shift:-33.3%"
+	smallint = -(1 << 30)
 )
 
 // init initializes command flags and sets default options
@@ -80,8 +81,8 @@ func init() {
 	fontsize := flag.Int("fontsize", 11, "font size")
 	xinterval := flag.Int("xint", 10, "x axis interval")
 	yinterval := flag.Int("yint", 4, "y axis interval")
-	ymin := flag.Int("ymin", -999, "y minimum")
-	ymax := flag.Int("ymax", -999, "y maximum")
+	ymin := flag.Int("ymin", smallint, "y minimum")
+	ymax := flag.Int("ymax", smallint, "y maximum")
 
 	// meta options
 	flag.IntVar(&beginx, "bx", 100, "initial x")
@@ -181,10 +182,10 @@ func plot(x, y, w, h int, settings plotset, d []rawdata) {
 		}
 	}
 
-	if settings.size["ymin"] != -999 {
+	if settings.size["ymin"] != smallint {
 		miny = float64(settings.size["ymin"])
 	}
-	if settings.size["ymax"] != -999 {
+	if settings.size["ymax"] != smallint {
 		maxy = float64(settings.size["ymax"])
 	}
 	// Prepare for a area or line chart by allocating
