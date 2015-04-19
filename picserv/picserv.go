@@ -225,20 +225,24 @@ func rshape(w http.ResponseWriter, req *http.Request) {
 	samesize := qbool(query, "same", false)   // regular or oblong
 	canvas := svg.New(w)
 
+	fmt.Println("begin", samesize)
 	// draw rect, square, ellipse or circle according to the specified shape
 	shapefunc := canvas.Ellipse
 	switch shape {
 	case "r", "box":
 		shapefunc = canvas.Rect
+		samesize = false
 	case "s", "sq", "square":
 		shapefunc = canvas.Rect
 		samesize = true
 	case "e", "ellipse":
 		shapefunc = canvas.Ellipse
+		samesize = false
 	case "c", "circle", "dot":
 		shapefunc = canvas.Ellipse
 		samesize = true
 	}
+	fmt.Println("after", samesize)
 
 	w.Header().Set("Content-type", "image/svg+xml")
 	var s1, s2 int
@@ -246,12 +250,13 @@ func rshape(w http.ResponseWriter, req *http.Request) {
 	canvas.Title("Random Shapes")
 	canvas.Rect(0, 0, width, height, "fill:"+bg)
 	for i := 0; i < n; i++ {
-		s1 = rand.Intn(n / 5)
+		s1 = rand.Intn(width / 5)
 		if samesize {
 			s2 = s1
 		} else {
-			s2 = rand.Intn(n / 5)
+			s2 = rand.Intn(height / 5)
 		}
+		fmt.Println(samesize, s1, s2)
 		shapefunc(rand.Intn(width), rand.Intn(height), s1, s2,
 			fmt.Sprintf("fill-opacity:%.2f;fill:rgb(%d,%d,%d)",
 				rand.Float64(), rand.Intn(256), rand.Intn(256), rand.Intn(256)))
