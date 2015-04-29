@@ -4,6 +4,7 @@ package main
 import (
 	"flag"
 	"fmt"
+	"io"
 	"log"
 	"math"
 	"math/rand"
@@ -27,12 +28,20 @@ const (
 	height    = 256
 )
 
+// include index
+//go:generate ih -v index -o index.go pic256.html
+
+// init seeds the RNG
 func init() {
 	rand.Seed(time.Now().Unix() % 1e9)
 }
 
+// serve stuff
 func main() {
 	flag.Parse()
+	http.Handle("/", http.HandlerFunc(picindex))
+	http.Handle("/index/", http.HandlerFunc(picindex))
+	http.Handle("/pic256.html", http.HandlerFunc(picindex))
 	http.Handle("/rotext/", http.HandlerFunc(rotext))
 	http.Handle("/rshape/", http.HandlerFunc(rshape))
 	http.Handle("/face/", http.HandlerFunc(face))
@@ -127,6 +136,14 @@ func random(howsmall, howbig int) int {
 
 func randcolor() string {
 	return fmt.Sprintf("fill:rgb(%d,%d,%d)", rand.Intn(255), rand.Intn(255), rand.Intn(255))
+}
+
+// picindex shows an HTML document that describes the service
+// The "index" variable is a string that holds the document,
+// made with go generate
+func picindex(w http.ResponseWriter, req *http.Request) {
+	log.Printf("index: %s %s %s", req.RemoteAddr, req.URL.Path, req.UserAgent())
+	io.WriteString(w, index)
 }
 
 // rotext makes rotated and faded text
