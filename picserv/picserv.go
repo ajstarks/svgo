@@ -492,7 +492,7 @@ const (
 // clock draws an analog clock
 func clock(w http.ResponseWriter, req *http.Request) {
 	log.Printf("clock: %s", req.RemoteAddr)
-
+	query := req.URL.Query()
 	size := width / 3
 	basesize := size / 12
 	fs := (size * 2) + (size / 2)
@@ -505,6 +505,11 @@ func clock(w http.ResponseWriter, req *http.Request) {
 	cx, cy := width/2, height/2
 	now := time.Now()
 	hour, min, sec := now.Hour(), now.Minute(), now.Second()
+
+	hour = qint(query, "hour", hour, 0, 23)
+	min = qint(query, "min", min, 0, 59)
+	sec = qint(query, "sec", sec, 0, 59)
+
 	canvas.Rect(0, 0, width, height, "fill:black")
 	canvas.Roundrect(cx-(fs/2), cy-(fs/2), fs, fs, basesize, basesize, "fill:"+bgcolor)
 	canvas.Circle(cx, cy, size+(size/6), "fill:white")
