@@ -50,6 +50,7 @@ func main() {
 	http.Handle("/lewitt/", http.HandlerFunc(lewitt))
 	http.Handle("/mondrian/", http.HandlerFunc(mondrian))
 	http.Handle("/funnel/", http.HandlerFunc(funnel))
+	http.Handle("/clock/", http.HandlerFunc(clock))
 	log.Printf("listen on %s", *listen)
 	err := http.ListenAndServe(*listen, nil)
 	if err != nil {
@@ -463,5 +464,90 @@ func funnel(w http.ResponseWriter, req *http.Request) {
 		canvas.Ellipse(h, size, size/2, size/2)
 	}
 	canvas.Gend()
+	canvas.End()
+}
+
+var (
+	digits    = [12]string{"12", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11"}
+	hrangles  = [12]float64{90, 60, 30, 0, 330, 300, 270, 240, 210, 180, 150, 120}
+	minangles = [60]float64{
+		90, 84, 78, 72, 66, 60, 54, 48, 42, 36, 30, 24, 18, 12, 6,
+		0, 354, 348, 342, 336, 330, 324, 318, 312, 306,
+		300, 294, 292, 286, 284, 270, 264, 258, 252, 246, 240, 234, 228, 222, 216,
+		210, 204, 198, 192, 186, 180, 174, 168, 162, 156,
+		150, 144, 138, 132, 126, 120, 114, 108, 102, 96,
+	}
+)
+
+const (
+	radians  = math.Pi / 180.0
+	hrcolor  = "rgb(127,0,0)"
+	secolor  = "rgb(0,0,255)"
+	mincolor = "rgb(127,127,127)"
+	bgcolor  = "rgb(140,140,140)"
+	linefmt  = "stroke:%s;stroke-width:%d"
+	digitfmt = "font-family:Helvetica,Calibri,sans-serif;text-anchor:middle;font-size:%dpx"
+)
+
+// clock draws an analog clock
+func clock(w http.ResponseWriter, req *http.Request) {
+	log.Printf("clock: %s", req.RemoteAddr)
+
+	size := width / 3
+	basesize := size / 12
+	fs := (size * 2) + (size / 2)
+
+	w.Header().Set("Content-type", "image/svg+xml")
+	canvas := svg.New(w)
+	canvas.Start(width, height)
+
+	// clock face
+	cx, cy := width/2, height/2
+	now := time.Now()
+	hour, min, sec := now.Hour(), now.Minute(), now.Second()
+	canvas.Rect(0, 0, width, height, "fill:black")
+	canvas.Roundrect(cx-(fs/2), cy-(fs/2), fs, fs, basesize, basesize, "fill:"+bgcolor)
+	canvas.Circle(cx, cy, size+(size/6), "fill:white")
+	canvas.Gstyle(fmt.Sprintf(digitfmt, basesize*2))
+
+	// draw the clock-face digits
+	r := float64(size)
+	rx := float64(cx)
+	ry := float64(cy)
+	for h := 12; h > 0; h-- {
+		t := hrangles[h%12] * radians
+		x := rx + r*math.Cos(t)
+		y := ry + r*math.Sin(t)
+		canvas.Text(int(x), height-int(y), digits[h%12], "baseline-shift:-30%")
+	}
+	canvas.Gend()
+
+	// hour hand: special case: if the minute is greater than 30,
+	// adjust the hour hand the move proportionally closer to the upcoming hour.
+	t := hrangles[hour%12]
+	if min > 30 {
+		t = t - (30.0 * (float64(min) / 60.0))
+	}
+	hr := r * 0.6
+	hx := rx + hr*math.Cos(t*radians)
+	hy := ry + hr*math.Sin(t*radians)
+
+	// minute hand
+	mr := r * 0.9
+	t = minangles[min] * radians
+	mx := rx + mr*math.Cos(t)
+	my := ry + mr*math.Sin(t)
+
+	// second hand
+	sr := r
+	t = minangles[sec] * radians
+	sx := rx + sr*math.Cos(t)
+	sy := ry + sr*math.Sin(t)
+
+	// draw the hands and center dot
+	canvas.Line(cx, cy, int(hx), height-int(hy), fmt.Sprintf(linefmt, hrcolor, basesize))
+	canvas.Line(cx, cy, int(mx), height-int(my), fmt.Sprintf(linefmt, mincolor, basesize/2))
+	canvas.Line(cx, cy, int(sx), height-int(sy), fmt.Sprintf(linefmt, secolor, basesize/4))
+	canvas.Circle(cx, cy, basesize, "fill:black")
 	canvas.End()
 }
