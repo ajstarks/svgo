@@ -27,10 +27,10 @@ const (
 var (
 	canvas   = svg.New(os.Stdout)
 	grayfill = canvas.RGB(220, 220, 220)
-	oc1      = svg.Offcolor{Offset:0, Color:"white", Opacity:1.0}
-	oc2      = svg.Offcolor{Offset:25, Color:"lightblue", Opacity:1.0}
-	oc3      = svg.Offcolor{Offset:75, Color:"blue", Opacity:1.0}
-	oc4      = svg.Offcolor{Offset:100, Color:objcolor, Opacity:1.0}
+	oc1      = svg.Offcolor{Offset: 0, Color: "white", Opacity: 1.0}
+	oc2      = svg.Offcolor{Offset: 25, Color: "lightblue", Opacity: 1.0}
+	oc3      = svg.Offcolor{Offset: 75, Color: "blue", Opacity: 1.0}
+	oc4      = svg.Offcolor{Offset: 100, Color: objcolor, Opacity: 1.0}
 	ga       = []svg.Offcolor{oc1, oc2, oc3, oc4}
 )
 

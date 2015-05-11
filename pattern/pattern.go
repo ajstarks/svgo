@@ -2,8 +2,8 @@
 package main
 
 import (
-	"github.com/ajstarks/svgo"
 	"fmt"
+	"github.com/ajstarks/svgo"
 	"os"
 )
 
@@ -13,7 +13,7 @@ func main() {
 	pct := 5
 	pw, ph := (w*pct)/100, (h*pct)/100
 	canvas.Start(w, h)
-	
+
 	// define the pattern
 	canvas.Def()
 	canvas.Pattern("hatch", 0, 0, pw, ph, "user")

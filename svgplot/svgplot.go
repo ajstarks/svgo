@@ -47,7 +47,7 @@ const (
 	ticfmt    = "stroke:rgb(200,200,200);stroke-width:1px"
 	labelfmt  = ticfmt + ";text-anchor:end;fill:black"
 	textfmt   = "stroke:none;baseline-shift:-33.3%"
-	smallint = -(1 << 30)
+	smallint  = -(1 << 30)
 )
 
 // init initializes command flags and sets default options

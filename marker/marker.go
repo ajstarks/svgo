@@ -3,7 +3,6 @@
 
 package main
 
-
 import (
 	"github.com/ajstarks/svgo"
 	"os"

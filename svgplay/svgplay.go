@@ -1,6 +1,6 @@
 // svgplay: sketch with SVGo, (derived from the old misc/goplay), except:
 // (1) only listen on localhost, (default port 1999)
-// (2) always render html, 
+// (2) always render html,
 // (3) SVGo default code,
 // (4) invoke the compiler and linker directly
 package main
@@ -44,7 +44,7 @@ func main() {
 	log.Fatal(http.ListenAndServe("127.0.0.1:"+*httpListen, nil))
 }
 
-// FrontPage is an HTTP handler that renders the svgoplay interface. 
+// FrontPage is an HTTP handler that renders the svgoplay interface.
 // If a filename is supplied in the path component of the URI,
 // its contents will be put in the interface's text area.
 // Otherwise, the default "hello, world" program is displayed.
@@ -113,7 +113,7 @@ func compile(req *http.Request) (out []byte, err error) {
 		return
 	}
 
-	// build and link target.go, creating target	
+	// build and link target.go, creating target
 	out, err = run("", compiler, "-I", pkgdir, "-o", obj, src)
 	defer os.Remove(obj)
 	if err != nil {
@@ -136,7 +136,7 @@ func compileError(w http.ResponseWriter, out []byte, err error) {
 	if out != nil {
 		elines := bytes.Split(out, []byte{'\n'})
 		for _, l := range elines {
-			i := bytes.Index(l, []byte{':'} )
+			i := bytes.Index(l, []byte{':'})
 			output.Execute(w, l[i+1:])
 		}
 	} else {
