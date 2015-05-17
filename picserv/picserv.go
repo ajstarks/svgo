@@ -209,9 +209,9 @@ func face(w http.ResponseWriter, req *http.Request) {
 	// adjust pupils according to glance
 	switch glance {
 	case "l", "left":
-		xoffset = pupilsize
-	case "r", "right":
 		xoffset = -pupilsize
+	case "r", "right":
+		xoffset = pupilsize
 	case "d", "down":
 		yoffset = pupilsize
 	case "u", "up":
@@ -473,7 +473,7 @@ var (
 	minangles = [60]float64{
 		90, 84, 78, 72, 66, 60, 54, 48, 42, 36, 30, 24, 18, 12, 6,
 		0, 354, 348, 342, 336, 330, 324, 318, 312, 306,
-		300, 294, 292, 286, 284, 270, 264, 258, 252, 246, 240, 234, 228, 222, 216,
+		300, 294, 288, 282, 276, 270, 264, 258, 252, 246, 240, 234, 228, 222, 216,
 		210, 204, 198, 192, 186, 180, 174, 168, 162, 156,
 		150, 144, 138, 132, 126, 120, 114, 108, 102, 96,
 	}
