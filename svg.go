@@ -303,6 +303,7 @@ func (svg *SVG) Marker(id string, x, y, width, height int, s ...string) {
 }
 
 // MarkerF defines a marker
+// Supports floating point x, y, width and height values
 // Standard reference: http://www.w3.org/TR/SVG11/painting.html#MarkerElement
 func (svg *SVG) MarkerF(id string, x, y, width, height float64, s ...string) {
 	fd := svg.FloatDecimals
@@ -315,7 +316,7 @@ func (svg *SVG) MarkerEnd() { svg.println(`</marker>`) }
 
 // Pattern defines a pattern with the specified dimensions.
 // The putype can be either "user" or "obj", which sets the patternUnits
-// attribute to be either userSpaceOnUse or objectBoundingBox
+// attribute to be either userSpaceOnUse or objectBoundingBox.
 // Standard reference: http://www.w3.org/TR/SVG11/pservers.html#Patterns
 func (svg *SVG) Pattern(id string, x, y, width, height int, putype string, s ...string) {
 	puattr := "userSpaceOnUse"
@@ -324,6 +325,21 @@ func (svg *SVG) Pattern(id string, x, y, width, height int, putype string, s ...
 	}
 	svg.printf(`<pattern id="%s" x="%d" y="%d" width="%d" height="%d" patternUnits="%s" %s`,
 		id, x, y, width, height, puattr, endstyle(s, ">\n"))
+}
+
+// PatternF defines a pattern with the specified dimensions.
+// The putype can be either "user" or "obj", which sets the patternUnits
+// attribute to be either userSpaceOnUse or objectBoundingBox.
+// Supports floating point x, y, width and height values.
+// Standard reference: http://www.w3.org/TR/SVG11/pservers.html#Patterns
+func (svg *SVG) PatternF(id string, x, y, width, height float64, putype string, s ...string) {
+	puattr := "userSpaceOnUse"
+	if putype != "user" {
+		puattr = "objectBoundingBox"
+	}
+	fd := svg.FloatDecimals
+	svg.printf(`<pattern id="%s" x="%.*f" y="%.*f" width="%.*f" height="%.*f" patternUnits="%s" %s`,
+		id, fd, x, fd, y, fd, width, fd, height, puattr, endstyle(s, ">\n"))
 }
 
 // PatternEnd ends a marker
