@@ -51,6 +51,7 @@ func main() {
 	http.Handle("/mondrian/", http.HandlerFunc(mondrian))
 	http.Handle("/funnel/", http.HandlerFunc(funnel))
 	http.Handle("/clock/", http.HandlerFunc(clock))
+	http.Handle("/pacman/", http.HandlerFunc(pacman))
 	log.Printf("listen on %s", *listen)
 	err := http.ListenAndServe(*listen, nil)
 	if err != nil {
@@ -554,5 +555,46 @@ func clock(w http.ResponseWriter, req *http.Request) {
 	canvas.Line(cx, cy, int(mx), height-int(my), fmt.Sprintf(linefmt, mincolor, basesize/2))
 	canvas.Line(cx, cy, int(sx), height-int(sy), fmt.Sprintf(linefmt, secolor, basesize/4))
 	canvas.Circle(cx, cy, basesize, "fill:black")
+	canvas.End()
+}
+
+// pacman draws pacman with dots
+func pacman(w http.ResponseWriter, req *http.Request) {
+	log.Printf("pacman: %s", req.RemoteAddr)
+	query := req.URL.Query()
+	angle := qfloat(query, "angle", 30.0, 10.0, 70.0)
+
+	w.Header().Set("Content-type", "image/svg+xml")
+	canvas := svg.New(w)
+	cx, cy := width/2, height/2
+	r := width / 5
+	p := r / 8
+	canvas.Start(width, height)
+	canvas.Rect(0, 0, width, height)
+
+	// draw dots
+	canvas.Gstyle("fill:white")
+	for x := 0; x < 100; x += 12 {
+		if x < 50 {
+			canvas.Circle((width*x)/100, cy, p, "fill-opacity:0.5")
+		} else {
+			canvas.Circle((width*x)/100, cy, p, "fill-opacity:1")
+		}
+	}
+	canvas.Gend()
+
+	// draw pacman: two arcs, rotated,
+	// the angle determines how wide the mouth is open
+	canvas.Gstyle("fill:yellow")
+
+	canvas.TranslateRotate(cx, cy, -angle)
+	canvas.Arc(-r, 0, r, r, 30, false, true, r, 0)
+	canvas.Gend()
+
+	canvas.TranslateRotate(cx, cy, angle)
+	canvas.Arc(-r, 0, r, r, 30, false, false, r, 0)
+	canvas.Gend()
+
+	canvas.Gend()
 	canvas.End()
 }
