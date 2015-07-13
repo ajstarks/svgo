@@ -52,6 +52,8 @@ func main() {
 	http.Handle("/funnel/", http.HandlerFunc(funnel))
 	http.Handle("/clock/", http.HandlerFunc(clock))
 	http.Handle("/pacman/", http.HandlerFunc(pacman))
+	http.Handle("/ubuntu/", http.HandlerFunc(ubuntu))
+	http.Handle("/tux/", http.HandlerFunc(tux))
 	log.Printf("listen on %s", *listen)
 	err := http.ListenAndServe(*listen, nil)
 	if err != nil {
@@ -598,3 +600,73 @@ func pacman(w http.ResponseWriter, req *http.Request) {
 	canvas.Gend()
 	canvas.End()
 }
+func tux(w http.ResponseWriter, req *http.Request) {
+	log.Printf("tux: %s", req.RemoteAddr)
+	w.Header().Set("Content-type", "image/svg+xml")
+	canvas := svg.New(w)
+	canvas.Start(width, height)
+	canvas.Rect(0, 0, width, height, "fill:white")
+	canvas.Circle(width/2, height/2, height/2-20, "fill:black")
+	canvas.Ellipse(width/2, height, width/2, height/2, "fill:black")
+	canvas.Ellipse(width/3, height/2, 20, 40, "fill:white")
+	canvas.Ellipse(2*width/3, height/2, 20, 40, "fill:white")
+	canvas.Ellipse(width/3, height/2+18, 15, 20)
+	canvas.Ellipse(2*width/3, height/2+18, 15, 20)
+
+	canvas.Circle(width/3+7, height/2+20, 5, "fill:white")
+	canvas.Circle(2*width/3+7, height/2+20, 5, "fill:white")
+
+	canvas.Arc(60, height-60, width/3, 50, 0, false, true, width-60, height-60,
+		"stroke-width:3;stroke-linecap:round;stroke:yellow;fill:yellow")
+
+	canvas.Arc(60, height-60, width/3, 140, 0, false, false, width-60, height-60,
+		"stroke-width:3;stroke-linecap:round;stroke:yellow")
+
+	beakx := []int{58, width - 58, width / 2}
+	beaky := []int{height - 62, height - 62, height - 20}
+	canvas.Polygon(beakx, beaky, "fill:yellow")
+
+	canvas.End()
+}
+
+const (
+	d2r    = math.Pi / 180
+	ustyle = "stroke:#DD4814;stroke-width:8"
+)
+
+func polar(cx, cy, r, t int) (int, int) {
+	fr := float64(r)
+	ft := float64(t) * d2r
+	x := fr * math.Cos(ft)
+	y := fr * math.Sin(ft)
+	return cx + int(x), cy + int(y)
+}
+
+func ubuntu(w http.ResponseWriter, req *http.Request) {
+	log.Printf("ubuntu: %s", req.RemoteAddr)
+	w.Header().Set("Content-type", "image/svg+xml")
+	canvas := svg.New(w)
+	cx, cy := width/2, height/2
+	canvas.Start(width, height)
+	canvas.Rect(0, 0, width, height, "fill:white")
+	canvas.Circle(cx, cy, cx, "fill:#DD4814")
+	r := width / 3
+
+	canvas.Circle(cx, cy, r-10, "fill:none;stroke:white;stroke-width:25")
+	canvas.Gstyle("fill:white;" + ustyle)
+	for _, t := range []int{300, 180, 60} {
+		px, py := polar(cx, cy, r+10, t)
+		canvas.Circle(px, py, 20)
+	}
+	canvas.Gend()
+
+	canvas.Gstyle(ustyle)
+	for _, t := range []int{120, 0, 240} {
+		lx2, ly2 := polar(cx, cy, r+25, t)
+		canvas.Line(cx, cy, lx2, ly2)
+	}
+	canvas.Gend()
+
+	canvas.End()
+}
+
