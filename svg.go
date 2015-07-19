@@ -68,7 +68,7 @@ func (svg *SVG) print(a ...interface{}) (n int, errno error) {
 	return fmt.Fprint(svg.Writer, a...)
 }
 
-func (svg *SVG) println(a ...interface{}) (n int, error error) {
+func (svg *SVG) println(a ...interface{}) (n int, errno error) {
 	return fmt.Fprintln(svg.Writer, a...)
 }
 
