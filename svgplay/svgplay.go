@@ -2,7 +2,6 @@
 // (1) only listen on localhost, (default port 1999)
 // (2) always render html,
 // (3) SVGo default code,
-// (4) invoke the compiler and linker directly
 package main
 
 import (
@@ -14,7 +13,6 @@ import (
 	"os"
 	"os/exec"
 	"path/filepath"
-	"runtime"
 	"strconv"
 	"text/template"
 )
@@ -71,7 +69,7 @@ func Compile(w http.ResponseWriter, req *http.Request) {
 }
 
 var (
-	compiler, linker, tmpdir, pkgdir, toolchar, buildpid string
+	tmpdir, pkgdir, buildpid string
 )
 
 func init() {
@@ -82,14 +80,6 @@ func init() {
 		log.Fatal(err)
 	}
 
-	// build the command paths for the compiler and linker, assumes that GOPATH is set
-	var toolmap = map[string]string{"arm": "5", "amd64": "6", "386": "8"}
-	toolchar = toolmap[runtime.GOARCH]
-	ga := runtime.GOOS + "_" + runtime.GOARCH
-	tool := runtime.GOROOT() + "/pkg/tool/" + ga + "/" + toolchar
-	pkgdir = os.Getenv("GOPATH") + "/pkg/" + ga
-	compiler = tool + "g"
-	linker = tool + "l"
 	buildpid = strconv.Itoa(os.Getpid())
 }
 
@@ -97,11 +87,6 @@ func compile(req *http.Request) (out []byte, err error) {
 	// target is the base name for .go, object, executable files
 	target := filepath.Join(tmpdir, "svgplay"+buildpid+strconv.Itoa(<-uniq))
 	src := target + ".go"
-	obj := target + "." + toolchar
-	bin := target
-	if runtime.GOOS == "windows" {
-		bin += ".exe"
-	}
 
 	// write body to target.go
 	body := new(bytes.Buffer)
@@ -112,21 +97,7 @@ func compile(req *http.Request) (out []byte, err error) {
 	if err = ioutil.WriteFile(src, body.Bytes(), 0666); err != nil {
 		return
 	}
-
-	// build and link target.go, creating target
-	out, err = run("", compiler, "-I", pkgdir, "-o", obj, src)
-	defer os.Remove(obj)
-	if err != nil {
-		return
-	}
-
-	out, err = run("", linker, "-L", pkgdir, "-o", bin, obj)
-	defer os.Remove(bin)
-	if err != nil {
-		return
-	}
-	// run target
-	return run("", bin)
+	return run("", "go", "run", src)
 }
 
 // error writes compile, link, or runtime errors to the HTTP connection.
