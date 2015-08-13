@@ -39,6 +39,7 @@ func vmap(value, low1, high1, low2, high2 float64) float64 {
 const (
 	shotsURLfmt = "http://stats.nba.com/stats/shotchartdetail?PlayerID=%s&CFID=33&CFPARAMS=2014-15&ContextFilter=&ContextMeasure=FGA&DateFrom=&DateTo=&GameID=&GameSegment=&LastNGames=0&LeagueID=00&Location=&MeasureType=Base&Month=0&OpponentTeamID=0&Outcome=&PaceAdjust=N&PerMode=PerGame&Period=0&PlusMinus=N&Position=&Rank=N&RookieYear=&Season=2014-15&SeasonSegment=&SeasonType=Regular+Season&TeamID=0&VsConference=&VsDivision=&mode=Advanced&showDetails=0&showShots=1&showZones=0"
 	picURLfmt   = "http://stats.nba.com/media/players/230x185/%s.png"
+	activepicURLfmt = "http://stats.nba.com/media/players/700/%s.png"
 )
 
 // shotAPI retrieves shotchart data from the source (currently stats.nba.com)
@@ -48,7 +49,7 @@ func shotAPI(id string) (io.ReadCloser, error) {
 		return nil, err
 	}
 	if resp.StatusCode != http.StatusOK {
-		return nil, fmt.Errorf("unable to retreive network data for %s (response: %d)", id, resp.Status)
+		return nil, fmt.Errorf("unable to retreive network data for %s (%s)", id, resp.Status)
 	}
 	return resp.Body, nil
 }
@@ -68,7 +69,7 @@ func shotchart(id string, network bool) {
 			fmt.Fprintf(os.Stderr, "%v\n", err)
 			return
 		}
-		picture = fmt.Sprintf(picURLfmt, id)
+		picture = fmt.Sprintf(activepicURLfmt, id)
 	} else {
 		r, err = os.Open(id + ".json")
 		if err != nil {
@@ -87,14 +88,16 @@ func shotchart(id string, network bool) {
 
 	// define the canvas,  read and parse the response
 	canvas := svg.New(os.Stdout)
-	width, height := 500, 470
+	width, height := 900, 846
 	fw, fh := float64(width), float64(height)
-	imw, imh := 230, 185
+	//imw, imh := 230, 185
+	imw, imh := 700, 440
 	top := fw / 10
 	canvas.Start(width, height)
 	canvas.Rect(0, 0, width, height, "fill:white;stroke:black;stroke-width:2")
-	canvas.Image(width-imw, height-imh, imw, imh, picture)
-	canvas.Gstyle("font-family:Calibri;sans-serif;font-size:18px")
+	//canvas.Image(width-imw, height-imh, imw, imh, picture)
+	canvas.Image(width/2, height-imh, imw, imh, picture)
+	canvas.Gstyle("font-family:Calibri;sans-serif;font-size:24px")
 	nfg := 0
 	for _, r := range shots.Resultsets {
 		if r.Name == "Shot_Chart_Detail" {
@@ -128,8 +131,8 @@ func shotchart(id string, network bool) {
 			}
 			fgpct := (float64(nfg) / float64(attempts)) * 100
 			canvas.Text(10, height-40, playername, "fill:gray")
-			canvas.Text(10, height-20, fmt.Sprintf("%d out of %d", attempts, nfg), "fill:gray")
-			canvas.Text(2*width/5, height-20, fmt.Sprintf("%.1f%%", fgpct), "font-size:120%;fill:gray")
+			canvas.Text(10, height-10, fmt.Sprintf("%d out of %d", attempts, nfg), "fill:gray")
+			canvas.Text(width/2, height-10, fmt.Sprintf("%.1f%%", fgpct), "text-anchor:middle;font-size:120%;fill:gray")
 			canvas.Gend()
 		}
 	}
