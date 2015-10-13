@@ -122,6 +122,7 @@ func svgtext(x, y int, s string) (string, bool) {
 	s = strings.Replace(s, "&", "&amp;", -1)
 	s = strings.Replace(s, "<", "&lt;", -1)
 	s = strings.Replace(s, ">", "&gt;", -1)
+	s = strings.Replace(s, "\t", "    ", -1)
 
 	if syntax {
 		i := strings.Index(s, "// ")
