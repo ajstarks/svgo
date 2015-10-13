@@ -97,7 +97,7 @@ func shotchart(id string, network bool) {
 	canvas.Rect(0, 0, width, height, "fill:white;stroke:black;stroke-width:2")
 	//canvas.Image(width-imw, height-imh, imw, imh, picture)
 	canvas.Image(width/2, height-imh, imw, imh, picture)
-	canvas.Gstyle("font-family:Calibri;sans-serif;font-size:24px")
+	canvas.Gstyle("font-family:Calibri,sans-serif;font-size:24px")
 	nfg := 0
 	for _, r := range shots.Resultsets {
 		if r.Name == "Shot_Chart_Detail" {
