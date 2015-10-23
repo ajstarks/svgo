@@ -83,7 +83,7 @@ func (p *Parameters) barchart(location string, canvas *svg.SVG) {
 	if bw < 2 {
 		bw = 2
 	}
-	canvas.Text(p.x, p.y-halfoffset, sp.Title, "font-size:400%")
+	canvas.Text(p.x, p.y-halfoffset, sp.Title, "font-size:300%")
 	if p.showgrid {
 		canvas.Gstyle("stroke:lightgray;stroke-width:1px")
 		gx := p.x - (bw / 2)
@@ -107,7 +107,7 @@ func (p *Parameters) barchart(location string, canvas *svg.SVG) {
 		}
 		if p.showimage {
 			if len(d.Image) > 0 {
-				canvas.Image(p.x-bw/2, by-offset-2, bw, offset, d.Image)
+				canvas.Image(p.x-bw/2, by-offset-p.fontsize, bw, offset, d.Image)
 			}
 		}
 		canvas.Gstyle("stroke:none;fill:black")
@@ -121,7 +121,7 @@ func (p *Parameters) barchart(location string, canvas *svg.SVG) {
 			}
 		}
 		if p.showprice {
-			canvas.Text(p.x, by, fmt.Sprintf("%.2f", d.Price), "font-weight:bold")
+			canvas.Text(p.x, by+p.fontsize, fmt.Sprintf("%.2f", d.Price), "font-size:150%;font-weight:bold")
 		}
 		if p.showdate {
 			canvas.Text(p.x, bottom+20, d.Date)
@@ -166,7 +166,7 @@ func main() {
 	canvas := svg.New(os.Stdout)
 	canvas.Start(param.width, param.height)
 	canvas.Rect(0, 0, width, height, canvas.RGB(255, 255, 255))
-	canvas.Gstyle(fmt.Sprintf("font-family:Calibri;font-size:%dpx", param.fontsize))
+	canvas.Gstyle(fmt.Sprintf("font-family:Calibri,sans-serif;font-size:%dpx", param.fontsize))
 	if len(flag.Args()) == 0 {
 		param.barchart("", canvas)
 	} else {
