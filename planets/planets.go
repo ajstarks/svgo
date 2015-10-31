@@ -5,6 +5,7 @@ package main
 
 import (
 	"flag"
+	"fmt"
 	"image/png"
 	"os"
 
@@ -56,7 +57,10 @@ var ssImages = []string{
 	"uranus.png",
 	"neptune.png"}
 
+
 var showdisk = flag.Bool("d", false, "show disk")
+var cw = flag.Int("w", 1200, "width")
+var ch = flag.Int("h", 200, "height")
 var canvas = svg.New(os.Stdout)
 
 func vmap(value float64, low1 float64, high1 float64, low2 float64, high2 float64) float64 {
@@ -64,11 +68,9 @@ func vmap(value float64, low1 float64, high1 float64, low2 float64, high2 float6
 }
 
 func main() {
-
-	width := 1200
-	height := 200
-
 	flag.Parse()
+	width, height := *cw, *ch
+	tfmt := "fill:white; font-size:%dpx; font-family:Calibri,sans; text-anchor:middle"
 	canvas.Start(width, height)
 	canvas.Title("Planets")
 	canvas.Rect(0, 0, width, height, "fill:black")
@@ -77,6 +79,7 @@ func main() {
 	margin := 100
 	minsize := 7.0
 	labeloc := height / 4
+	fontsize := (width * 15) / 1000
 
 	var x, r, imScale, maxh float64
 	var px, po int
@@ -114,8 +117,7 @@ func main() {
 		if ssDist[i] == 1.0 { // earth
 			canvas.Line(px+po, y-po, px+po, y-labeloc,
 				"stroke-width:1px;stroke:white")
-			canvas.Text(px+po, y-labeloc-10, "You are here",
-				"fill:white; font-size:14px; font-family:Calibri; text-anchor:middle")
+			canvas.Text(px+po, y-labeloc-10, "You are here", fmt.Sprintf(tfmt, fontsize))
 		}
 	}
 	canvas.End()
