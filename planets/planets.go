@@ -57,11 +57,13 @@ var ssImages = []string{
 	"uranus.png",
 	"neptune.png"}
 
-
-var showdisk = flag.Bool("d", false, "show disk")
-var cw = flag.Int("w", 1200, "width")
-var ch = flag.Int("h", 200, "height")
-var canvas = svg.New(os.Stdout)
+var (
+	showdisk = flag.Bool("d", false, "show disk")
+	showyou  = flag.Bool("y", true, "show location")
+	cw       = flag.Int("w", 1200, "width")
+	ch       = flag.Int("h", 200, "height")
+	canvas   = svg.New(os.Stdout)
+)
 
 func vmap(value float64, low1 float64, high1 float64, low2 float64, high2 float64) float64 {
 	return low2 + (high2-low2)*(value-low1)/(high1-low1)
@@ -79,7 +81,7 @@ func main() {
 	margin := 100
 	minsize := 7.0
 	labeloc := height / 4
-	fontsize := (width * 15) / 1000
+	fontsize := (width * 20) / 1000
 
 	var x, r, imScale, maxh float64
 	var px, po int
@@ -99,13 +101,13 @@ func main() {
 		} else { // show images
 			f, err := os.Open(ssImages[i])
 			if err != nil {
-				println("bad image file:", ssImages[i])
+				fmt.Fprintf(os.Stderr, "%s: %s\n", err, ssImages[i])
 				continue
 			}
 			defer f.Close()
 			p, perr := png.DecodeConfig(f)
 			if perr != nil {
-				println("bad decode:", ssImages[i])
+				fmt.Fprintf(os.Stderr, "%s: %s\n", perr, ssImages[i])
 				continue
 			}
 			imScale = r / float64(p.Width)
@@ -114,7 +116,7 @@ func main() {
 			po = int(r) / 2
 			canvas.Image(px, dy, int(r), int(hs), ssImages[i])
 		}
-		if ssDist[i] == 1.0 { // earth
+		if ssDist[i] == 1.0 && *showyou { // earth
 			canvas.Line(px+po, y-po, px+po, y-labeloc,
 				"stroke-width:1px;stroke:white")
 			canvas.Text(px+po, y-labeloc-10, "You are here", fmt.Sprintf(tfmt, fontsize))
