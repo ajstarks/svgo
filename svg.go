@@ -54,7 +54,7 @@ const (
 <svg`
 	svginitfmt = `%s width="%d%s" height="%d%s"`
 	svgns      = `
-     xmlns="http://www.w3.org/2000/svg" 
+     xmlns="http://www.w3.org/2000/svg"
      xmlns:xlink="http://www.w3.org/1999/xlink">`
 	vbfmt = `viewBox="%d %d %d %d"`
 
