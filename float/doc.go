@@ -33,13 +33,12 @@ Metadata elements
 
 Usage: (assuming GOPATH is set)
 
-	go get github.com/ajstarks/svgo
-	go install github.com/ajstarks/svgo/...
+	go get github.com/ajstarks/svgo/float
 
 
 You can use godoc to browse the documentation from the command line:
 
-	$ godoc github.com/ajstarks/svgo
+	$ go doc github.com/ajstarks/svgo/float
 
 
 a minimal program, to generate SVG to standard output.
@@ -47,13 +46,13 @@ a minimal program, to generate SVG to standard output.
 	package main
 
 	import (
-		"github.com/ajstarks/svgo"
+		"github.com/ajstarks/svgo/float"
 		"os"
 	)
 
 	func main() {
-		width := 500
-		height := 500
+		width := 500.0
+		height := 500.0
 		canvas := svg.New(os.Stdout)
 		canvas.Start(width, height)
 		canvas.Circle(width/2, height/2, 100)
