@@ -52,7 +52,7 @@ a minimal program, to generate SVG to standard output.
 	package main
 	
 	import (
-		"github.com/ajstarks/svgo"
+		"github.com/ajstarks/svgo/float"
 		"os"
 	)
 	
