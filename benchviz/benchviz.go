@@ -12,7 +12,7 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/ajstarks/svgo"
+	svg "github.com/ajstarks/svgo"
 )
 
 // geometry defines the layout of the visualization
@@ -74,8 +74,17 @@ func (g *geometry) visualize(canvas *svg.SVG, filename string, f io.Reader) int 
 		}
 		name := fields[0]
 		value := fields[len(fields)-1]
-		if len(value) > 2 {
-			vs = value[:len(value)-1]
+		// The improvement is the last value with
+		// a % at the end, or ~.
+		for _, v := range fields {
+			if len(v) > 0 && v[len(v)-1] == '%' {
+				value = v
+				vs = v[:len(v)-1]
+			}
+			if v == "~" {
+				value = "~"
+				vs = "0"
+			}
 		}
 		v, _ := strconv.ParseFloat(vs, 64)
 		av := math.Abs(v)
