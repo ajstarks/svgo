@@ -209,7 +209,7 @@ is used to specify inputs and results for filter effects
   Constructor, Specify the output destination.
   
 	Start(w int, h int, attributes ...string)
-  begin the SVG document with the width w and height h. Optionally add additional elememts
+  begin the SVG document with the width w and height h. Optionally add additional elements
   (such as additional namespaces or scripting events)
   <http://www.w3.org/TR/SVG11/struct.html#SVGElement>
   
@@ -218,13 +218,13 @@ is used to specify inputs and results for filter effects
   <http://www.w3.org/TR/SVG11/struct.html#SVGElement>
   
 	Startunit(w int, h int, unit string, ns ...string)
-  begin the SVG document, with width and height in the specified units. Optionally add additional elememts
+  begin the SVG document, with width and height in the specified units. Optionally add additional elements
   (such as additional namespaces or scripting events)
   <http://www.w3.org/TR/SVG11/struct.html#SVGElement>
 
   
 	Startpercent(w int, h int, ns ...string)
-  begin the SVG document, with width and height in percent. Optionally add additional elememts
+  begin the SVG document, with width and height in percent. Optionally add additional elements
   (such as additional namespaces or scripting events)
   <http://www.w3.org/TR/SVG11/struct.html#SVGElement>
 
