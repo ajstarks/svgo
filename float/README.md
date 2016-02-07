@@ -175,7 +175,7 @@ is used to specify inputs and results for filter effects
   Constructor, Specify the output destination, and the number of digits after the decimal point (default 2)
   
 	Start(w float64, h float64, attributes ...string)
-  begin the SVG document with the width w and height h. Optionally add additional elememts
+  begin the SVG document with the width w and height h. Optionally add additional elements
   (such as additional namespaces or scripting events)
   <http://www.w3.org/TR/SVG11/struct.html#SVGElement>
   
@@ -184,13 +184,13 @@ is used to specify inputs and results for filter effects
   <http://www.w3.org/TR/SVG11/struct.html#SVGElement>
   
 	Startunit(w float64, h float64, unit string, ns ...string)
-  begin the SVG document, with width and height in the specified units. Optionally add additional elememts
+  begin the SVG document, with width and height in the specified units. Optionally add additional elements
   (such as additional namespaces or scripting events)
   <http://www.w3.org/TR/SVG11/struct.html#SVGElement>
 
   
 	Startpercent(w float64, h float64, ns ...string)
-  begin the SVG document, with width and height in percent. Optionally add additional elememts
+  begin the SVG document, with width and height in percent. Optionally add additional elements
   (such as additional namespaces or scripting events)
   <http://www.w3.org/TR/SVG11/struct.html#SVGElement>
 

@@ -45,7 +45,7 @@ Usage: (assuming GOPATH is set)
 	
 You can use godoc to browse the documentation from the command line:
 
-	$ godoc github.com/ajstarks/svgo
+	$ go doc github.com/ajstarks/svgo
 	
 
 a minimal program, to generate SVG to standard output.
@@ -182,12 +182,20 @@ Where applicable, a final optional argument specifies the style to be applied to
 The style strings follow the SVG standard; name:value pairs delimited by semicolons, or a
 series of name="value" pairs. For example: `"fill:none; opacity:0.3"` or  `fill="none" opacity="0.3"` (see: <http://www.w3.org/TR/SVG11/styling.html>)
 
+The SVG type:
+
+	type SVG struct {
+        Writer   io.Writer
+	}
+
+Most operations are methods on this type, specifying the destination io.Writer.
+
 The Offcolor type:
 
 	type Offcolor struct {
 		Offset  uint8
 		Color   string
-		Opacity float
+		Opacity float64
 	}
 
 is used to specify the offset, color, and opacity of stop colors in linear and radial gradients
@@ -209,7 +217,7 @@ is used to specify inputs and results for filter effects
   Constructor, Specify the output destination.
   
 	Start(w int, h int, attributes ...string)
-  begin the SVG document with the width w and height h. Optionally add additional elememts
+  begin the SVG document with the width w and height h. Optionally add additional elements
   (such as additional namespaces or scripting events)
   <http://www.w3.org/TR/SVG11/struct.html#SVGElement>
   
@@ -218,13 +226,13 @@ is used to specify inputs and results for filter effects
   <http://www.w3.org/TR/SVG11/struct.html#SVGElement>
   
 	Startunit(w int, h int, unit string, ns ...string)
-  begin the SVG document, with width and height in the specified units. Optionally add additional elememts
+  begin the SVG document, with width and height in the specified units. Optionally add additional elements
   (such as additional namespaces or scripting events)
   <http://www.w3.org/TR/SVG11/struct.html#SVGElement>
 
   
 	Startpercent(w int, h int, ns ...string)
-  begin the SVG document, with width and height in percent. Optionally add additional elememts
+  begin the SVG document, with width and height in percent. Optionally add additional elements
   (such as additional namespaces or scripting events)
   <http://www.w3.org/TR/SVG11/struct.html#SVGElement>
 
