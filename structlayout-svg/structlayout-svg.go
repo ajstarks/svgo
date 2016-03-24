@@ -58,15 +58,20 @@ func main() {
 
 	// For every field, draw a labled box
 	pos := int64(0)
+	var fillcolor string
+	nudge := (fontsize*2)/3
 	for _, f := range fields {
 		name := f.Name + " " + f.Type
 		if f.IsPadding {
 			name = "padding"
+			fillcolor = "fill:maroon"
+		} else {
+			fillcolor = "fill:steelblue"
 		}
 		structheight = byteheight * int(f.Size)
-		canvas.Rect(x, y, structwidth, structheight, "fill:steelblue")
-		canvas.Text(x+structwidth+10, y+fontsize, fmt.Sprintf("%d", pos))
-		canvas.Text(x+structwidth+fontsize*4, y+fontsize, fmt.Sprintf("%s (size %d, align %d)", name, f.Size, f.Align))
+		canvas.Rect(x, y, structwidth, structheight, fillcolor)
+		canvas.Text(x+structwidth+10, y+nudge, fmt.Sprintf("%d", pos))
+		canvas.Text(x+structwidth+fontsize*4, y+nudge, fmt.Sprintf("%s (size %d, align %d)", name, f.Size, f.Align),)
 
 		if f.Size > 2 {
 			canvas.Text(x-10, y+structheight, fmt.Sprintf("%d", pos+f.Size-1), "text-anchor:end")
