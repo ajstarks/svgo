@@ -123,6 +123,11 @@ func (svg *SVG) Startraw(ns ...string) {
 	svg.genattr(ns)
 }
 
+// Startnested begins an nested SVG document
+func (svg *SVG) Startnested(ns ...string) {
+	svg.printf("<svg>")
+}
+
 // End the SVG document
 func (svg *SVG) End() { svg.println("</svg>") }
 
