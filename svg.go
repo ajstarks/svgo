@@ -76,6 +76,19 @@ func (svg *SVG) printf(format string, a ...interface{}) (n int, errno error) {
 	return fmt.Fprintf(svg.Writer, format, a...)
 }
 
+// Exported versions of print functions, to maintain backwards compatibility
+func (svg *SVG) Print(a ...interface{}) (n int, errno error) {
+	return svg.print(a)
+}
+
+func (svg *SVG) Println(a ...interface{}) (n int, errno error) {
+	return svg.println(a)
+}
+
+func (svg *SVG) Printf(format string, a ...interface{}) (n int, errno error) {
+	return svg.printf(format, a)
+}
+
 func (svg *SVG) genattr(ns []string) {
 	for _, v := range ns {
 		svg.printf("\n     %s", v)
