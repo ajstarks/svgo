@@ -17,6 +17,8 @@ import (
 )
 
 var listen = flag.String("listen", ":1958", "http service address")
+var cert = flag.String("cert", "", "certificate")
+var key = flag.String("key", "", "key")
 
 const (
 	arcstyle  = "stroke:red;stroke-linecap:round;fill:none;stroke-width:10"
@@ -55,7 +57,12 @@ func main() {
 	http.Handle("/ubuntu/", http.HandlerFunc(ubuntu))
 	http.Handle("/tux/", http.HandlerFunc(tux))
 	log.Printf("listen on %s", *listen)
-	err := http.ListenAndServe(*listen, nil)
+	var err error
+	if *cert != "" && *key != "" {
+		err = http.ListenAndServeTLS(*listen, *cert, *key, nil)
+	} else {
+		err = http.ListenAndServe(*listen, nil)
+	}
 	if err != nil {
 		log.Fatal("ListenAndServe:", err)
 	}
@@ -669,4 +676,3 @@ func ubuntu(w http.ResponseWriter, req *http.Request) {
 
 	canvas.End()
 }
-
