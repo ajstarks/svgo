@@ -409,8 +409,8 @@ func (svg *SVG) Polyline(x []float64, y []float64, s ...string) {
 // Image places at x,y (upper left hand corner), the image with
 // width w, and height h, referenced at link, with optional style.
 // Standard Reference: http://www.w3.org/TR/SVG11/struct.html#ImageElement
-func (svg *SVG) Image(x float64, y float64, w float64, h float64, link string, s ...string) {
-	svg.printf(`<image %s %s %s`, dim(x, y, w, h, svg.Decimals), href(link), endstyle(s, emptyclose))
+func (svg *SVG) Image(x float64, y float64, w int, h int, link string, s ...string) {
+	svg.printf(`<image %s %s %s`, dim(x, y, float64(w), float64(h), svg.Decimals), href(link), endstyle(s, emptyclose))
 }
 
 // Text places the specified text, t at x,y according to the style specified in s
