@@ -131,7 +131,23 @@ func (svg *SVG) End() { svg.println("</svg>") }
 // Otherwise, treat those arguments as the text of the script (marked up as CDATA).
 // if no data is specified, just close the script element
 func (svg *SVG) Script(scriptype string, data ...string) {
-	svg.printf(`<script type="%s"`, scriptype)
+	svg.linkOrEmbed("script", scriptype, data...)
+}
+
+// Style defines a style with a specified type, (for example "text/css").
+// if the first variadic argument is a link, use only the link reference.
+// Otherwise, treat those arguments as the text of the script (marked up as CDATA).
+// if no data is specified, just close the script element
+//
+// See https://www.w3.org/TR/SVG11/styling.html#StyleElement
+func (svg *SVG) Style(styletype string, data ...string) {
+	svg.linkOrEmbed("style", styletype, data...)
+}
+
+// Helper function for generating header elements that either link to a
+// resource, or embed a resource as CDATA, e.g. <style> and <script>
+func (svg *SVG) linkOrEmbed(tag, scriptype string, data ...string) {
+	svg.printf(`<%s type="%s"`, tag, scriptype)
 	switch {
 	case len(data) == 1 && islink(data[0]):
 		svg.printf(" %s/>\n", href(data[0]))
@@ -141,7 +157,7 @@ func (svg *SVG) Script(scriptype string, data ...string) {
 		for _, v := range data {
 			svg.println(v)
 		}
-		svg.printf("]]>\n</script>\n")
+		svg.printf("]]>\n</%s>\n", tag)
 
 	default:
 		svg.println(`/>`)
