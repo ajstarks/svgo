@@ -209,6 +209,13 @@ is used to specify inputs and results for filter effects
  if no data is specified, simply close the script element.
   <http://www.w3.org/TR/SVG/script.html>
   
+  	Style(scriptype string, data ...string)
+ Style defines a script with a specified type, (for example "text/css").
+ if the first variadic argument is a link, use only the link reference.
+ Otherwise, treat variadic arguments as the text of the script (marked up as CDATA).
+ if no data is specified, simply close the style element.
+  <https://www.w3.org/TR/SVG/styling.html#StyleElement>
+  
 	Group(s ...string)
   begin a group, with arbitrary attributes
   <http://www.w3.org/TR/SVG11/struct.html#GElement>
