@@ -83,7 +83,7 @@ func (svg *SVG) genattr(ns []string) {
 	svg.println(svgns)
 }
 
-// Structure, Metadata, Scripting, Transformation, and Links
+// Structure, Metadata, Scripting, Style, Transformation, and Links
 
 // Start begins the SVG document with the width w and height h.
 // Other attributes may be optionally added, for example viewbox or additional namespaces
@@ -126,12 +126,13 @@ func (svg *SVG) Startraw(ns ...string) {
 // End the SVG document
 func (svg *SVG) End() { svg.println("</svg>") }
 
-// Script defines a script with a specified type, (for example "application/javascript").
+// linkembed defines an element with a specified type, 
+// (for example "application/javascript", or "text/css").
 // if the first variadic argument is a link, use only the link reference.
 // Otherwise, treat those arguments as the text of the script (marked up as CDATA).
-// if no data is specified, just close the script element
-func (svg *SVG) Script(scriptype string, data ...string) {
-	svg.printf(`<script type="%s"`, scriptype)
+// if no data is specified, just close the element
+func (svg *SVG) linkembed(tag string, scriptype string, data ...string) {
+	svg.printf(`<%s type="%s"`, tag, scriptype)
 	switch {
 	case len(data) == 1 && islink(data[0]):
 		svg.printf(" %s/>\n", href(data[0]))
@@ -141,11 +142,21 @@ func (svg *SVG) Script(scriptype string, data ...string) {
 		for _, v := range data {
 			svg.println(v)
 		}
-		svg.printf("]]>\n</script>\n")
+		svg.printf("]]>\n</%s>\n", tag)
 
 	default:
 		svg.println(`/>`)
 	}
+}
+
+// Script defines a script with a specified type, (for example "application/javascript").
+func (svg *SVG) Script(scriptype string, data ...string) {
+	svg.linkembed("script", scriptype, data...)
+}
+
+// Style defines the specified style (for example "text/css")
+func (svg *SVG) Style(scriptype string, data ...string) {
+	svg.linkembed("style", scriptype, data...)
 }
 
 // Gstyle begins a group, with the specified style.

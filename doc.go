@@ -29,7 +29,7 @@ Filter Effects
 
 Metadata elements
 
- desc, defs, g (style, transform, id), mask, marker, pattern, title, (a)ddress, link, script, use
+ desc, defs, g (style, transform, id), mask, marker, pattern, title, (a)ddress, link, script, style, use
 
 Usage: (assuming GOPATH is set)
 
