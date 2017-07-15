@@ -88,45 +88,49 @@ func (svg *SVG) genattr(ns []string) {
 // Start begins the SVG document with the width w and height h.
 // Other attributes may be optionally added, for example viewbox or additional namespaces
 // Standard Reference: http://www.w3.org/TR/SVG11/struct.html#SVGElement
-func (svg *SVG) Start(w int, h int, ns ...string) {
+func (svg *SVG) Start(w int, h int, attributes ...string) {
 	svg.printf(svginitfmt, svgtop, w, "", h, "")
-	svg.genattr(ns)
+	svg.genattr(attributes)
 }
 
 // Startunit begins the SVG document, with width and height in the specified units
 // Other attributes may be optionally added, for example viewbox or additional namespaces
-func (svg *SVG) Startunit(w int, h int, unit string, ns ...string) {
+func (svg *SVG) Startunit(w int, h int, unit string, attributes ...string) {
 	svg.printf(svginitfmt, svgtop, w, unit, h, unit)
-	svg.genattr(ns)
+	svg.genattr(attributes)
 }
 
 // Startpercent begins the SVG document, with width and height as percentages
 // Other attributes may be optionally added, for example viewbox or additional namespaces
-func (svg *SVG) Startpercent(w int, h int, ns ...string) {
+func (svg *SVG) Startpercent(w int, h int, attributes ...string) {
 	svg.printf(svginitfmt, svgtop, w, "%", h, "%")
-	svg.genattr(ns)
+	svg.genattr(attributes)
 }
 
 // Startview begins the SVG document, with the specified width, height, and viewbox
 // Other attributes may be optionally added, for example viewbox or additional namespaces
-func (svg *SVG) Startview(w, h, minx, miny, vw, vh int) {
+func (svg *SVG) Startview(w, h, minx, miny, vw, vh int, attributes ...string) {
 	svg.Start(w, h, fmt.Sprintf(vbfmt, minx, miny, vw, vh))
+	svg.genattr(attributes)
 }
 
-func (svg *SVG) StartviewUnit(w, h int, unit string, minx, miny, vw, vh int) {
+// Startunit begins the SVG document, with width and height in the specified units, and viewbox
+// Other attributes may be optionally added, for example viewbox or additional namespaces
+func (svg *SVG) StartviewUnit(w, h int, unit string, minx, miny, vw, vh int, attributes ...string) {
 	svg.Startunit(w, h, unit, fmt.Sprintf(vbfmt, minx, miny, vw, vh))
+	svg.genattr(attributes)
 }
 
 // Startraw begins the SVG document, passing arbitrary attributes
-func (svg *SVG) Startraw(ns ...string) {
+func (svg *SVG) Startraw(attributes ...string) {
 	svg.printf(svgtop)
-	svg.genattr(ns)
+	svg.genattr(attributes)
 }
 
 // End the SVG document
 func (svg *SVG) End() { svg.println("</svg>") }
 
-// linkembed defines an element with a specified type, 
+// linkembed defines an element with a specified type,
 // (for example "application/javascript", or "text/css").
 // if the first variadic argument is a link, use only the link reference.
 // Otherwise, treat those arguments as the text of the script (marked up as CDATA).
