@@ -9,7 +9,7 @@ import (
 	"os"
 
 	"github.com/ajstarks/svgo"
-	"honnef.co/go/structlayout"
+	"honnef.co/go/tools/structlayout"
 )
 
 var title, bgcolor, scolor, pcolor string
