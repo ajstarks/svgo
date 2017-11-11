@@ -5,18 +5,19 @@ import (
 	"encoding/xml"
 	"flag"
 	"fmt"
-	"github.com/ajstarks/svgo"
 	"io"
 	"math"
 	"os"
 	"strconv"
 	"strings"
+
+	"github.com/ajstarks/svgo"
 )
 
 var (
-	width, height, iscale, fontsize, barheight, gutter, cornerRadius, labelimit int
-	bgcolor, barcolor, title, inbar, valformat                       string
-	showtitle, showdata, showgrid, showscale, endtitle, trace               bool
+	width, height, fontsize, barheight, gutter, cornerRadius, labelimit int
+	bgcolor, barcolor, title, inbar, valformat                          string
+	showtitle, showdata, showgrid, showscale, endtitle, trace, stick    bool
 )
 
 const (
@@ -34,11 +35,11 @@ const (
 // <barchart title="Bullet Graph" top="50" left="250" right="50">
 //    <note>This is a note</note>
 //    <note>More expository text</note>
-//    <bdata title="Browser Market Share" scale="0,100,20" showdata="true" color="red" unit="%"/>
+//    <bdata title="Browser Market Share" scale="0,100,20" showdata="true" color="red" unit="%">
 //    	<bitem name="Firefox"  value="22.5" color="green"/>
 //    	<bitem name="Chrome" value="12.3"/>
 //		<bitem name="IE8" value="63.5"/>
-//	  <bdata>
+//	  </bdata>
 // </barchart>
 
 type Barchart struct {
@@ -94,6 +95,7 @@ func dobc(location string, s *svg.SVG) {
 		f.Close()
 	} else {
 		fmt.Fprintf(os.Stderr, "%v\n", err)
+		os.Exit(1)
 	}
 }
 
@@ -104,6 +106,7 @@ func readbc(r io.Reader, s *svg.SVG) {
 		drawbc(bc, s)
 	} else {
 		fmt.Fprintf(os.Stderr, "%v\n", err)
+		os.Exit(1)
 	}
 }
 
@@ -122,7 +125,7 @@ func drawbc(bg Barchart, canvas *svg.SVG) {
 	if len(title) > 0 {
 		bg.Title = title
 	}
-	labelimit = bg.Left/8
+	labelimit = bg.Left / 8
 	cr := cornerRadius
 	maxwidth := width - (bg.Left + bg.Right)
 	x := bg.Left
@@ -148,20 +151,35 @@ func drawbc(bg Barchart, canvas *svg.SVG) {
 		sc := strings.Split(b.Scale, ",")
 		var scalemin, scalemax, scaleincr float64
 
-		if len(sc) != 3 {
+		switch {
+		case len(sc) != 3:
 			if len(b.Bitem) > 0 {
 				scalemin, scalemax, scaleincr = scalevalues(b.Bitem)
 			}
-
 			if len(b.Bstack) > 0 {
 				scalemin, scalemax, scaleincr = scalestack(b.Bstack)
 			}
-		} else {
-			scalemin, _ = strconv.ParseFloat(sc[0], 64)
-			scalemax, _ = strconv.ParseFloat(sc[1], 64)
-			scaleincr, _ = strconv.ParseFloat(sc[2], 64)
+		case len(sc) == 3:
+			var scerr error
+			scalemin, scerr = strconv.ParseFloat(sc[0], 64)
+			if scerr != nil {
+				scalemin = 0
+			}
+			scalemax, scerr = strconv.ParseFloat(sc[1], 64)
+			if scerr != nil {
+				scalemax = 100
+			}
+			scaleincr, scerr = strconv.ParseFloat(sc[2], 64)
+			if scerr != nil {
+				scaleincr = 20
+			}
+		default:
+			scalemin, scalemax, scaleincr = 0, 100, 20
 		}
 		// label the graph
+		if trace {
+			println("label")
+		}
 		canvas.Text(x, y, b.Title, btitlestyle+anchor())
 
 		y += sep * 2
@@ -189,8 +207,7 @@ func drawbc(bg Barchart, canvas *svg.SVG) {
 				} else {
 					canvas.Roundrect(sx, y, int(dw), barheight, cr, cr, fmt.Sprintf("fill-opacity:%.2f", barop[ns]))
 				}
-				
-				
+
 				if (showdata || b.Showdata) && sd > 0 {
 					var valuestyle = "fill-opacity:1;font-style:italic;font-size:75%;text-anchor:middle;baseline-shift:-25%;"
 					var ditem string
@@ -226,11 +243,13 @@ func drawbc(bg Barchart, canvas *svg.SVG) {
 			} else {
 				barop = 1.0
 			}
-			if len(d.Color) > 0 {
-				canvas.Roundrect(x, y, int(dw), barheight, cr, cr, fmt.Sprintf("fill:%s;fill-opacity:%.2f", d.Color, barop))
+
+			if stick {
+				makestick(x, y, int(dw), d.Color, canvas)
 			} else {
-				canvas.Roundrect(x, y, int(dw), barheight, cr, cr, fmt.Sprintf("fill-opacity:%.2f", barop))
+				makebar(x, y, int(dw), barheight, cr, d.Color, barop, canvas)
 			}
+
 			if showdata || b.Showdata {
 				var valuestyle = "fill-opacity:1;font-style:italic;font-size:75%;text-anchor:start;baseline-shift:-25%;"
 				var ditem string
@@ -268,11 +287,16 @@ func drawbc(bg Barchart, canvas *svg.SVG) {
 				scfmt = "%0.f"
 			}
 			canvas.Gstyle(scalestyle)
-			for sc := scalemin; sc <= scalemax; sc += scaleincr {
-				scx := vmap(sc, scalemin, scalemax, 0, float64(maxwidth))
-				canvas.Text(x+int(scx), chartbot+fontsize, fmt.Sprintf(scfmt, sc))
-				if showgrid || b.Showgrid {
-					canvas.Line(x+int(scx), chartbot, x+int(scx), chartop, borderstyle) // grid line
+			if trace {
+				println(scalemin, scalemax, scaleincr)
+			}
+			if scaleincr > 0 && scalemin < scalemax {
+				for sc := scalemin; sc <= scalemax; sc += scaleincr {
+					scx := vmap(sc, scalemin, scalemax, 0, float64(maxwidth))
+					canvas.Text(x+int(scx), chartbot+fontsize, fmt.Sprintf(scfmt, sc))
+					if showgrid || b.Showgrid {
+						canvas.Line(x+int(scx), chartbot, x+int(scx), chartop, borderstyle) // grid line
+					}
 				}
 			}
 			canvas.Gend()
@@ -309,6 +333,26 @@ func drawbc(bg Barchart, canvas *svg.SVG) {
 	}
 }
 
+// nakebar draws the rectangle to represent the value
+func makebar(x, y, w, h, radius int, color string, op float64, canvas *svg.SVG) {
+	if len(color) > 0 {
+		canvas.Roundrect(x, y, w, h, radius, radius, fmt.Sprintf("fill:%s;fill-opacity:%.2f", color, op))
+	} else {
+		canvas.Roundrect(x, y, w, barheight, radius, radius, fmt.Sprintf("fill-opacity:%.2f", op))
+	}
+}
+
+// makestick draws a dotted line ending with a circle to represent the value
+func makestick(x, y, w int, color string, canvas *svg.SVG) {
+	y += fontsize * 60 / 100
+	canvas.Line(x, y, x+w, y, "stroke-width:2;stroke-dasharray:3;stroke:rgb(170,170,170)")
+	if len(color) > 0 {
+		canvas.Circle(x+w, y, fontsize/4, "fill:"+color)
+	} else {
+		canvas.Circle(x+w, y, fontsize/4)
+	}
+}
+
 func anchor() string {
 	if endtitle {
 		return "end"
@@ -323,6 +367,9 @@ func vmap(value float64, low1 float64, high1 float64, low2 float64, high2 float6
 
 // maxitem finds the maxima is a collection of bar items
 func maxitem(data []bitem) float64 {
+	if len(data) == 0 {
+		return 100
+	}
 	max := -math.SmallestNonzeroFloat64
 	for _, d := range data {
 		if d.Value > max {
@@ -334,6 +381,9 @@ func maxitem(data []bitem) float64 {
 
 // maxstack finds the maxima is a stack of bars
 func maxstack(stacks []bstack) float64 {
+	if len(stacks) == 0 {
+		return 100
+	}
 	max := -math.SmallestNonzeroFloat64
 	for _, s := range stacks {
 		sv := stackvalues(s.Value)
@@ -376,9 +426,9 @@ func scalestack(data []bstack) (float64, float64, float64) {
 	return 0, max, increment
 }
 
-// roundup rouds a floating point number up
-func roundup(n float64, m int) float64 {
-	i := int(n)
+// roundup rounds a floating point number up
+func roundup(n float64, m int64) float64 {
+	i := int64(n)
 	if i <= 2 {
 		return 2
 	}
@@ -405,7 +455,6 @@ func stackvalues(s string) []float64 {
 	return vals
 }
 
-
 // colorange evenly distributes opacity across a range of values
 func colorange(start, end float64, n int) []float64 {
 	v := make([]float64, n)
@@ -414,21 +463,21 @@ func colorange(start, end float64, n int) []float64 {
 	if n == 2 {
 		return v
 	}
-	incr := (end-start)/float64(n-1)
-	for i:=1; i < n-1; i++ {
+	incr := (end - start) / float64(n-1)
+	for i := 1; i < n-1; i++ {
 		v[i] = v[i-1] + incr
 	}
 	return v
 }
 
-
+// textlimit returns an elided string
 func textlimit(s string, n int) string {
 	l := len(s)
 	if l <= n {
 		return s
 	}
-	
-	return s[0:n-3]+"..."
+
+	return s[0:n-3] + "..."
 }
 
 // init sets up the command flags
@@ -442,12 +491,13 @@ func init() {
 	flag.IntVar(&gutter, "g", 5, "gutter")
 	flag.IntVar(&cornerRadius, "cr", 0, "corner radius")
 	flag.IntVar(&fontsize, "f", 18, "fontsize (px)")
-	flag.BoolVar(&showscale, "showscale", true, "show scale")
+	flag.BoolVar(&showscale, "showscale", false, "show scale")
 	flag.BoolVar(&showgrid, "showgrid", false, "show grid")
-	flag.BoolVar(&showdata, "showdata", false, "show data values")
+	flag.BoolVar(&showdata, "showdata", true, "show data values")
 	flag.BoolVar(&showtitle, "showtitle", false, "show title")
 	flag.BoolVar(&endtitle, "endtitle", false, "align title to the end")
 	flag.BoolVar(&trace, "trace", false, "show name/value pairs")
+	flag.BoolVar(&stick, "stick", false, "use ball and stick")
 	flag.StringVar(&inbar, "inbar", "", "data in bar format")
 	flag.StringVar(&title, "t", "", "title")
 }
