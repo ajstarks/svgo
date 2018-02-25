@@ -867,7 +867,7 @@ func endstyle(s []string, endtag string) string {
 			if strings.Index(s[i], "=") > 0 {
 				nv += (s[i]) + " "
 			} else {
-				nv += style(s[i])
+				nv += style(s[i]) + " "
 			}
 		}
 		return nv + endtag
