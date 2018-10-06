@@ -560,7 +560,7 @@ Standard reference: <http://www.w3.org/TR/SVG11/filters.html#feCompositeElement>
 
  	FeConvolveMatrix(fs Filterspec, matrix [9]int, s ...string)
 FeConvolveMatrix specifies a feConvolveMatrix filter primitive
-Standard referencd: <http://www.w3.org/TR/SVG11/filters.html#feConvolveMatrixElement>
+Standard reference: <http://www.w3.org/TR/SVG11/filters.html#feConvolveMatrixElement>
 
 
 	 FeDiffuseLighting(fs Filterspec, scale, constant float64, s ...string) 
