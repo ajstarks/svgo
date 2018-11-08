@@ -221,24 +221,26 @@ is used to specify inputs and results for filter effects
   (such as additional namespaces or scripting events)
   <http://www.w3.org/TR/SVG11/struct.html#SVGElement>
   
-	Startview(w, h, minx, miny, vw, vh int)
-  begin the SVG document with the width w, height h, with a viewBox at minx, miny, vw, vh.
+	Startview(w, h, minx, miny, vw, vh int, attributes ...string)
+  begin the SVG document with the width w, height h, with a viewBox at minx, miny, vw, vh. Optionally add additional elements
+  (such as additional namespaces or scripting events)
   <http://www.w3.org/TR/SVG11/struct.html#SVGElement>
   
-	Startunit(w int, h int, unit string, ns ...string)
+	Startunit(w int, h int, unit string, attributes ...string)
   begin the SVG document, with width and height in the specified units. Optionally add additional elements
   (such as additional namespaces or scripting events)
   <http://www.w3.org/TR/SVG11/struct.html#SVGElement>
 
   
-	Startpercent(w int, h int, ns ...string)
+	Startpercent(w int, h int, attributes ...string)
   begin the SVG document, with width and height in percent. Optionally add additional elements
   (such as additional namespaces or scripting events)
   <http://www.w3.org/TR/SVG11/struct.html#SVGElement>
 
   
-	StartviewUnit(w, h int, unit string, minx, miny, vw, vh int)
-   begin the SVG document with the width w, height h, in the specified unit, with a viewBox at minx, miny, vw, vh.
+	StartviewUnit(w, h int, unit string, minx, miny, vw, vh int, attributes ...string)
+   begin the SVG document with the width w, height h, in the specified unit, with a viewBox at minx, miny, vw, vh. Optionally add additional elements
+   (such as additional namespaces or scripting events)
   <http://www.w3.org/TR/SVG11/struct.html#SVGElement>
 
 	End()
