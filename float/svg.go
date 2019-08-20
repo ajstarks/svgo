@@ -836,6 +836,15 @@ func (svg *SVG) Sepia() {
 	svg.FeColorMatrix(Filterspec{}, sepiamatrix)
 }
 
+// Animation
+
+// Animate animates the specified link, using the specified attribute
+// The animation starts at coordinate from, terminates at to, and repeats as specified
+func (svg *SVG) Animate(link, attr string, from, to, duration, repeat float64, s ...string) {
+	svg.printf(`<animate %s attributeName="%s" from="%g" to="%g" dur="%gs" repeatCount="%g" %s`,
+		href(link), attr, from, to, duration, repeat, endstyle(s, emptyclose))
+}
+
 // Utility
 
 // Grid draws a grid at the specified coordinate, dimensions, and spacing, with optional style.
