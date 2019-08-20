@@ -138,6 +138,7 @@ A video describing how to use the package can be seen on YouTube at <http://www.
 * svg.go:		Library
 * newsvg:		Coding template command
 * svgdef:	Creates a SVG representation of the API
+* animate:  Animation demo
 * android:	The Android logo
 * bubtrail: Bubble trails
 * bulletgraph:	Bullet Graphs (via Stephen Few)
@@ -516,6 +517,13 @@ is used to specify inputs and results for filter effects
   <http://www.w3.org/TR/SVG11/pservers.html#RadialGradients>
   
   ![RadialGradient](http://farm2.static.flickr.com/1302/5187954065_7ddba7b819.jpg)
+
+### Animation ###
+
+	Animate(link, attr string, from, to, duration, repeat int, s ...string)
+Animate animates the item referenced by the link, using the specified attribute
+The animation starts at coordinate from, terminates at to, and repeats as specified.
+Addtional attributes may be added as needed.
   
 ### Filter Effects ###
 
