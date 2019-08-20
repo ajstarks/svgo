@@ -113,6 +113,7 @@ func (svg *SVG) Startview(w, h, minx, miny, vw, vh int) {
 	svg.Start(w, h, fmt.Sprintf(vbfmt, minx, miny, vw, vh))
 }
 
+// StartvewUnit begins the SVG document with the specified width, height, and unit
 func (svg *SVG) StartviewUnit(w, h int, unit string, minx, miny, vw, vh int) {
 	svg.Startunit(w, h, unit, fmt.Sprintf(vbfmt, minx, miny, vw, vh))
 }
@@ -811,6 +812,15 @@ func (svg *SVG) Sepia() {
 		0, 0, 0, 1, 0,
 	}
 	svg.FeColorMatrix(Filterspec{}, sepiamatrix)
+}
+
+// Animation
+
+// Animate animates the specified link, using the specified attribute
+// The animation starts at coordinate from, terminates at to, and repeats as specified
+func (svg *SVG) Animate(link, attr string, from, to, duration, repeat int, s ...string) {
+	svg.printf(`<animate %s attributeName="%s" from="%d" to="%d" dur="%ds" repeatCount="%d" %s`,
+		href(link), attr, from, to, duration, repeat, endstyle(s, emptyclose))
 }
 
 // Utility
