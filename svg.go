@@ -818,8 +818,8 @@ func (svg *SVG) Sepia() {
 
 // Animate animates the specified link, using the specified attribute
 // The animation starts at coordinate from, terminates at to, and repeats as specified
-func (svg *SVG) Animate(link, attr string, from, to, duration, repeat int, s ...string) {
-	svg.printf(`<animate %s attributeName="%s" from="%d" to="%d" dur="%ds" repeatCount="%d" %s`,
+func (svg *SVG) Animate(link, attr string, from, to int, duration float64, repeat int, s ...string) {
+	svg.printf(`<animate %s attributeName="%s" from="%d" to="%d" dur="%gs" repeatCount="%d" %s`,
 		href(link), attr, from, to, duration, repeat, endstyle(s, emptyclose))
 }
 

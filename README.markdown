@@ -520,7 +520,7 @@ is used to specify inputs and results for filter effects
 
 ### Animation ###
 
-	Animate(link, attr string, from, to, duration, repeat int, s ...string)
+	Animate(link, attr string, from, to int, duration flost64, repeat int, s ...string)
 Animate animates the item referenced by the link, using the specified attribute
 The animation starts at coordinate from, terminates at to, and repeats as specified.
 Addtional attributes may be added as needed.

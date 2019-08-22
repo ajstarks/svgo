@@ -10,7 +10,7 @@ func main() {
 	width, height := 500, 500
 	rsize := 100
 	csize := rsize / 2
-	duration := 5
+	duration := 5.0
 	repeat := 5
 	imw, imh := 100, 144
 	canvas := svg.New(os.Stdout)
