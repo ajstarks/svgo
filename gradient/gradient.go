@@ -7,7 +7,7 @@ import (
 	"os"
 	"strconv"
 
-	"github.com/ajstarks/svgo"
+	svg "github.com/ajstarks/svgo"
 )
 
 func main() {
@@ -15,21 +15,21 @@ func main() {
 	height := 500
 
 	lg := []svg.Offcolor{
-		{0, "rgb(255,255,0)", 1.0},
-		{100, "rgb(255,0,0)", .5},
-		{0, "rgb(200,200,200)", 0.0},
-		{100, "rgb(0,0,255)", 1.0}}
+		{Offset: 0, Color: "rgb(255,255,0)", Opacity: 1.0},
+		{Offset: 100, Color: "rgb(255,0,0)", Opacity: .5},
+		{Offset: 0, Color: "rgb(200,200,200)", Opacity: 0.0},
+		{Offset: 100, Color: "rgb(0,0,255)", Opacity: 1.0}}
 
 	rainbow := []svg.Offcolor{
-		{10, "#00cc00", 1},
-		{30, "#006600", 1},
-		{70, "#cc0000", 1},
-		{90, "#000099", 1}}
+		{Offset: 10, Color: "#00cc00", Opacity: 1},
+		{Offset: 30, Color: "#006600", Opacity: 1},
+		{Offset: 70, Color: "#cc0000", Opacity: 1},
+		{Offset: 90, Color: "#000099", Opacity: 1}}
 
 	rg := []svg.Offcolor{
-		{1, "powderblue", 1},
-		{10, "lightskyblue", 1},
-		{100, "darkblue", 1}}
+		{Offset: 1, Color: "powderblue", Opacity: 1},
+		{Offset: 10, Color: "lightskyblue", Opacity: 1},
+		{Offset: 100, Color: "darkblue", Opacity: 1}}
 
 	g := svg.New(os.Stdout)
 	g.Start(width, height)

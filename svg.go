@@ -113,7 +113,7 @@ func (svg *SVG) Startview(w, h, minx, miny, vw, vh int) {
 	svg.Start(w, h, fmt.Sprintf(vbfmt, minx, miny, vw, vh))
 }
 
-// StartvewUnit begins the SVG document with the specified width, height, and unit
+// StartviewUnit begins the SVG document with the specified width, height, and unit
 func (svg *SVG) StartviewUnit(w, h int, unit string, minx, miny, vw, vh int) {
 	svg.Startunit(w, h, unit, fmt.Sprintf(vbfmt, minx, miny, vw, vh))
 }
@@ -241,7 +241,7 @@ func (svg *SVG) Marker(id string, x, y, width, height int, s ...string) {
 		id, x, y, width, height, endstyle(s, ">\n"))
 }
 
-// MarkEnd ends a marker
+// MarkerEnd ends a marker
 func (svg *SVG) MarkerEnd() { svg.println(`</marker>`) }
 
 // Pattern defines a pattern with the specified dimensions.
@@ -821,6 +821,12 @@ func (svg *SVG) Sepia() {
 func (svg *SVG) Animate(link, attr string, from, to int, duration float64, repeat int, s ...string) {
 	svg.printf(`<animate %s attributeName="%s" from="%d" to="%d" dur="%gs" repeatCount="%d" %s`,
 		href(link), attr, from, to, duration, repeat, endstyle(s, emptyclose))
+}
+
+// AnimateMotion animates the referenced object along the specified path
+func (svg *SVG) AnimateMotion(link, path string, duration float64, repeat int, s ...string) {
+	svg.printf(`<animateMotion %s dur="%gs" repeatCount="%d" %s<mpath %s/></animateMotion>
+`, href(link), duration, repeat, endstyle(s, ">"), href(path))
 }
 
 // Utility

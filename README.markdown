@@ -139,6 +139,7 @@ A video describing how to use the package can be seen on YouTube at <http://www.
 * newsvg:		Coding template command
 * svgdef:	Creates a SVG representation of the API
 * animate:  Animation demo
+* am: Animate motion demo
 * android:	The Android logo
 * bubtrail: Bubble trails
 * bulletgraph:	Bullet Graphs (via Stephen Few)
@@ -520,10 +521,15 @@ is used to specify inputs and results for filter effects
 
 ### Animation ###
 
-	Animate(link, attr string, from, to int, duration flost64, repeat int, s ...string)
+	Animate(link, attr string, from, to int, duration float64, repeat int, s ...string)
 Animate animates the item referenced by the link, using the specified attribute
 The animation starts at coordinate from, terminates at to, and repeats as specified.
 Addtional attributes may be added as needed.
+<https://www.w3.org/TR/SVG11/animate.html#AnimateElement>
+
+	AnimateMotion(link, path string, duration float64, repeat int, s ...string) 
+AnimateMotion animates the referenced object ```link``` along the specified ```path```
+<https://www.w3.org/TR/SVG11/animate.html#AnimateMotionElement>
   
 ### Filter Effects ###
 
