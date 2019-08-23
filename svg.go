@@ -819,14 +819,14 @@ func (svg *SVG) Sepia() {
 // Animate animates the specified link, using the specified attribute
 // The animation starts at coordinate from, terminates at to, and repeats as specified
 func (svg *SVG) Animate(link, attr string, from, to int, duration float64, repeat int, s ...string) {
-	svg.printf(`<animate %s attributeName="%s" from="%d" to="%d" dur="%gs" repeatCount="%d" %s`,
-		href(link), attr, from, to, duration, repeat, endstyle(s, emptyclose))
+	svg.printf(`<animate %s attributeName="%s" from="%d" to="%d" dur="%gs" repeatCount="%s" %s`,
+		href(link), attr, from, to, duration, repeatString(repeat), endstyle(s, emptyclose))
 }
 
 // AnimateMotion animates the referenced object along the specified path
 func (svg *SVG) AnimateMotion(link, path string, duration float64, repeat int, s ...string) {
-	svg.printf(`<animateMotion %s dur="%gs" repeatCount="%d" %s<mpath %s/></animateMotion>
-`, href(link), duration, repeat, endstyle(s, ">"), href(path))
+	svg.printf(`<animateMotion %s dur="%gs" repeatCount="%s" %s<mpath %s/></animateMotion>
+`, href(link), duration, repeatString(repeat), endstyle(s, ">"), href(path))
 }
 
 // Utility
@@ -925,6 +925,15 @@ func pct(n uint8) uint8 {
 func islink(link string) bool {
 	return strings.HasPrefix(link, "http://") || strings.HasPrefix(link, "#") ||
 		strings.HasPrefix(link, "../") || strings.HasPrefix(link, "./")
+}
+
+// repeats computes the repeat string for animation methods
+// repeat <= 0 --> "indefinite", otherwise the integer string
+func repeatString(n int) string {
+	if n > 0 {
+		return fmt.Sprintf("%d", n)
+	}
+	return "indefinite"
 }
 
 // group returns a group element
