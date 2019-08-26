@@ -143,6 +143,7 @@ A video describing how to use the package can be seen on YouTube at <http://www.
 * svgdef:	Creates a SVG representation of the API
 * animate:  Animation demo
 * am: Animate motion demo
+* amt: Animate transformation demo
 * android:	The Android logo
 * bubtrail: Bubble trails
 * bulletgraph:	Bullet Graphs (via Stephen Few)
