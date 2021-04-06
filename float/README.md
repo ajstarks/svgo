@@ -440,6 +440,17 @@ is used to specify inputs and results for filter effects
 	Text(x float64, y float64, t string, s ...string)
   Place the specified text, t at x,y according to the style specified in s.
   <http://www.w3.org/TR/SVG11/text.html#TextElement>
+
+	Textspan(x float64, y float64, t string, s ...string)
+Place specified text, t at x,y according to the optional style specified in s.
+<https://www.w3.org/TR/SVG11/text.html#TSpanElement>
+Use this method with Span(...). End with TextEnd()
+
+	Span(t string, s ...string)
+Create a text span t, using optional style s
+
+	TextEnd()
+End a text span
   
 	Textlines(x, y float64, s []string, size, spacing float64, fill, align string)
  Places lines of text in s, starting at x,y, at the specified size, fill, and alignment, and spacing.
