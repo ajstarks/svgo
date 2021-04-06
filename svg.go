@@ -411,6 +411,31 @@ func (svg *SVG) Text(x int, y int, t string, s ...string) {
 	svg.println(`</text>`)
 }
 
+// Textspan begins text, assuming a tspan will be included, end with TextEnd()
+// Standard Reference: https://www.w3.org/TR/SVG11/text.html#TSpanElement
+func (svg *SVG) Textspan(x int, y int, t string, s ...string) {
+	svg.printf(`<text %s %s`, loc(x, y), endstyle(s, ">"))
+	xml.Escape(svg.Writer, []byte(t))
+}
+
+// Span makes styled spanned text, should be proceeded by Textspan
+// Standard Reference: https://www.w3.org/TR/SVG11/text.html#TSpanElement
+func (svg *SVG) Span(t string, s ...string) {
+	if len(s) == 0 {
+		xml.Escape(svg.Writer, []byte(t))
+		return
+	}
+	svg.printf(`<tspan %s`, endstyle(s, ">"))
+	xml.Escape(svg.Writer, []byte(t))
+	svg.printf(`</tspan>`)
+}
+
+// TextEnd ends spanned text
+// Standard Reference: https://www.w3.org/TR/SVG11/text.html#TSpanElement
+func (svg *SVG) TextEnd() {
+	svg.println(`</text>`)
+}
+
 // Textpath places text optionally styled text along a previously defined path
 // Standard Reference: http://www.w3.org/TR/SVG11/text.html#TextPathElement
 func (svg *SVG) Textpath(t string, pathid string, s ...string) {
