@@ -656,7 +656,7 @@ func (svg *SVG) FeDistantLight(fs Filterspec, azimuth, elevation float64, s ...s
 // FeFlood specifies a flood filter primitive
 // Standard reference: http://www.w3.org/TR/SVG11/filters.html#feFloodElement
 func (svg *SVG) FeFlood(fs Filterspec, color string, opacity float64, s ...string) {
-	svg.printf(`<feFlood %s flood-fill-color="%s" flood-fill-opacity="%g" %s`,
+	svg.printf(`<feFlood %s flood-color="%s" flood-opacity="%g" %s`,
 		fsattr(fs), color, opacity, endstyle(s, emptyclose))
 }
 
