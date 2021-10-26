@@ -446,8 +446,9 @@ func (svg *SVG) Textpath(t string, pathid string, s ...string) {
 
 // Textlines places a series of lines of text starting at x,y, at the specified size, fill, and alignment.
 // Each line is spaced according to the spacing argument
-func (svg *SVG) Textlines(x, y int, s []string, size, spacing int, fill, align string) {
-	svg.Gstyle(fmt.Sprintf("font-size:%dpx;fill:%s;text-anchor:%s", size, fill, align))
+func (svg *SVG) Textlines(x, y int, s []string, size, spacing int, fill, align string, args ...string) {
+	aa := strings.Join(args, "")
+	svg.Gstyle(fmt.Sprintf("font-size:%dpx;fill:%s;text-anchor:%s;%s", size, fill, align, aa))
 	for _, t := range s {
 		svg.Text(x, y, t)
 		y += spacing
