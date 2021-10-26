@@ -149,6 +149,7 @@ A video describing how to use the package can be seen on YouTube at <http://www.
 * bulletgraph:	Bullet Graphs (via Stephen Few)
 * colortab: Display SVG named colors with RGB values
 * compx:  Component diagrams
+* embed:  Embedding svgs within another
 * flower:	Random "flowers"
 * fontcompare:	Compare two fonts
 * f50:		Get 50 photos from Flickr based on a query
