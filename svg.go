@@ -196,6 +196,9 @@ func (svg *SVG) SkewXY(ax, ay float64) { svg.Gtransform(skewX(ax) + " " + skewY(
 // Standard Reference: http://www.w3.org/TR/SVG11/coords.html#TransformAttribute
 func (svg *SVG) Rotate(r float64) { svg.Gtransform(rotate(r)) }
 
+// RotateCenter rotates arount the center coordinate system by r degrees, end with Gend()
+func (svg *SVG) RotateCenter(r float64, x, y int) { svg.Gtransform(rotateCenter(r, x, y)) }
+
 // TranslateRotate translates the coordinate system to (x,y), then rotates to r degrees, end with Gend()
 func (svg *SVG) TranslateRotate(x, y int, r float64) {
 	svg.Gtransform(translate(x, y) + " " + rotate(r))
@@ -1019,6 +1022,9 @@ func skewY(angle float64) string { return fmt.Sprintf(`skewY(%g)`, angle) }
 
 // rotate returns the rotate string for the transform
 func rotate(r float64) string { return fmt.Sprintf(`rotate(%g)`, r) }
+
+// rotateCenter returns the rotate string for the transform
+func rotateCenter(r float64, x, y int) string { return fmt.Sprintf(rotate(%g %d %d), r, x, y) }
 
 // translate returns the translate string for the transform
 func translate(x, y int) string { return fmt.Sprintf(`translate(%d,%d)`, x, y) }
