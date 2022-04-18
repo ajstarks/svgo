@@ -308,6 +308,9 @@ is used to specify inputs and results for filter effects
   rotates the coordinate system by r degrees, end with Gend().
   <http://www.w3.org/TR/SVG11/coords.html#TransformAttribute>
 
+	RotateCenter(r float64, x, y int)
+  rotates arount the center coordinate system by r degrees, end with Gend()
+
 	TranslateRotate(x, y int, r float64)
    translates the coordinate system to (x,y), then rotates to r degrees, end with Gend().
 	
