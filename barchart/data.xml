@@ -1,0 +1,9 @@
+<barchart title="Bullet Graph" top="50" left="250" right="50">
+  <note>This is a note</note>
+  <note>More expository text</note>
+  <bdata title="Browser Market Share" scale="0,100,20" showdata="true" color="red" unit="%">
+  	<bitem name="Firefox"  value="22.5" color="green"/>
+  	<bitem name="Chrome" value="12.3"/>
+    	<bitem name="IE8" value="63.5"/>
+      </bdata>
+</barchart>
