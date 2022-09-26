@@ -411,6 +411,14 @@ func (svg *SVG) Text(x int, y int, t string, s ...string) {
 	svg.println(`</text>`)
 }
 
+// Text places the specified text, t at x,y according to the style specified in s
+// Standard Reference: http://www.w3.org/TR/SVG11/text.html#TextElement
+func (svg *SVG) TextD(x int, y int, dx, dy string, t string, s ...string) {
+	svg.printf(`<text %s %s %s`, loc(x, y), d(dx, dy), endstyle(s, ">"))
+	xml.Escape(svg.Writer, []byte(t))
+	svg.println(`</text>`)
+}
+
 // Textspan begins text, assuming a tspan will be included, end with TextEnd()
 // Standard Reference: https://www.w3.org/TR/SVG11/text.html#TSpanElement
 func (svg *SVG) Textspan(x int, y int, t string, s ...string) {
@@ -1031,6 +1039,9 @@ func ptag(x int, y int) string { return fmt.Sprintf(`<path d="M%s`, coord(x, y))
 
 // loc returns the x and y coordinate attributes
 func loc(x int, y int) string { return fmt.Sprintf(`x="%d" y="%d"`, x, y) }
+
+// d returns the dx and dy offset attributes
+func d(dx, dy string) string { return fmt.Sprintf(`dx="%s" dy="%s"`, dx, dy) }
 
 // href returns the href name and attribute
 func href(s string) string { return fmt.Sprintf(`xlink:href="%s"`, s) }
