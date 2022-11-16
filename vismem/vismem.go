@@ -1,4 +1,5 @@
 // vismem visualizes memory locations
+//go:build !appengine
 // +build !appengine
 
 package main
@@ -6,7 +7,7 @@ package main
 import (
 	"os"
 
-	"github.com/ajstarks/svgo"
+	"github.com/wildberries-ru/svgo"
 )
 
 var canvas = svg.New(os.Stdout)

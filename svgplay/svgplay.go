@@ -19,7 +19,7 @@ import (
 
 var (
 	httpListen = flag.String("port", "1999", "port to listen on")
-	useFloat = flag.Bool("f", false, "use the floating point version")
+	useFloat   = flag.Bool("f", false, "use the floating point version")
 )
 
 var (
@@ -50,7 +50,7 @@ func main() {
 func FrontPage(w http.ResponseWriter, req *http.Request) {
 	data, err := ioutil.ReadFile(req.URL.Path[1:])
 	if err != nil {
-		if (*useFloat) {
+		if *useFloat {
 			data = helloWorldFloat
 		} else {
 			data = helloWorld
@@ -272,7 +272,7 @@ import (
 	"math/rand"
 	"os"
 	"time"
-	"github.com/ajstarks/svgo"
+	"github.com/wildberries-ru/svgo"
 )
 
 func rn(n int) int { return rand.Intn(n) }

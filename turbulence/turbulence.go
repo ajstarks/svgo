@@ -1,11 +1,12 @@
 // turbulence example from http://www.w3.org/TR/2003/REC-SVG11-20030114/filters.html#feTurbulence
+//go:build !appengine
 // +build !appengine
 
 package main
 
 import (
 	"fmt"
-	"github.com/ajstarks/svgo"
+	"github.com/wildberries-ru/svgo"
 	"os"
 )
 

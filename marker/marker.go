@@ -1,10 +1,11 @@
 // marker test
+//go:build !appengine
 // +build !appengine
 
 package main
 
 import (
-	"github.com/ajstarks/svgo"
+	"github.com/wildberries-ru/svgo"
 	"os"
 )
 

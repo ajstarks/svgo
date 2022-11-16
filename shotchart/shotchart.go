@@ -9,7 +9,7 @@ import (
 	"net/http"
 	"os"
 
-	"github.com/ajstarks/svgo"
+	"github.com/wildberries-ru/svgo"
 )
 
 // shotdata defines the shotchart JSON response from stats.nba.com
@@ -37,8 +37,8 @@ func vmap(value, low1, high1, low2, high2 float64) float64 {
 }
 
 const (
-	shotsURLfmt = "http://stats.nba.com/stats/shotchartdetail?PlayerID=%s&CFID=33&CFPARAMS=2014-15&ContextFilter=&ContextMeasure=FGA&DateFrom=&DateTo=&GameID=&GameSegment=&LastNGames=0&LeagueID=00&Location=&MeasureType=Base&Month=0&OpponentTeamID=0&Outcome=&PaceAdjust=N&PerMode=PerGame&Period=0&PlusMinus=N&Position=&Rank=N&RookieYear=&Season=2014-15&SeasonSegment=&SeasonType=Regular+Season&TeamID=0&VsConference=&VsDivision=&mode=Advanced&showDetails=0&showShots=1&showZones=0"
-	picURLfmt   = "http://stats.nba.com/media/players/230x185/%s.png"
+	shotsURLfmt     = "http://stats.nba.com/stats/shotchartdetail?PlayerID=%s&CFID=33&CFPARAMS=2014-15&ContextFilter=&ContextMeasure=FGA&DateFrom=&DateTo=&GameID=&GameSegment=&LastNGames=0&LeagueID=00&Location=&MeasureType=Base&Month=0&OpponentTeamID=0&Outcome=&PaceAdjust=N&PerMode=PerGame&Period=0&PlusMinus=N&Position=&Rank=N&RookieYear=&Season=2014-15&SeasonSegment=&SeasonType=Regular+Season&TeamID=0&VsConference=&VsDivision=&mode=Advanced&showDetails=0&showShots=1&showZones=0"
+	picURLfmt       = "http://stats.nba.com/media/players/230x185/%s.png"
 	activepicURLfmt = "http://stats.nba.com/media/players/700/%s.png"
 )
 
@@ -90,12 +90,12 @@ func shotchart(id string, network bool) {
 	canvas := svg.New(os.Stdout)
 	width, height := 900, 846
 	fw, fh := float64(width), float64(height)
-	//imw, imh := 230, 185
+	// imw, imh := 230, 185
 	imw, imh := 700, 440
 	top := fw / 10
 	canvas.Start(width, height)
 	canvas.Rect(0, 0, width, height, "fill:white;stroke:black;stroke-width:2")
-	//canvas.Image(width-imw, height-imh, imw, imh, picture)
+	// canvas.Image(width-imw, height-imh, imw, imh, picture)
 	canvas.Image(width/2, height-imh, imw, imh, picture)
 	canvas.Gstyle("font-family:Calibri,sans-serif;font-size:24px")
 	nfg := 0

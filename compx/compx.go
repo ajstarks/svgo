@@ -1,4 +1,5 @@
 // compx: display components and connections on a grid, given a XML description
+//go:build !appengine
 // +build !appengine
 
 package main
@@ -7,7 +8,7 @@ import (
 	"encoding/xml"
 	"flag"
 	"fmt"
-	"github.com/ajstarks/svgo"
+	"github.com/wildberries-ru/svgo"
 	"io"
 	"math"
 	"os"

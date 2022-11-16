@@ -1,4 +1,5 @@
 // svgdef -  SVG Object Definition and Use
+//go:build !appengine
 // +build !appengine
 
 package main
@@ -7,7 +8,7 @@ import (
 	"math"
 	"os"
 
-	"github.com/ajstarks/svgo"
+	"github.com/wildberries-ru/svgo"
 )
 
 const (
@@ -526,9 +527,9 @@ func main() {
 	canvas.Title("SVG Go Library Description")
 	canvas.Rect(0, 0, width, height, "fill:white;stroke:black;stroke-width:2")
 	canvas.Gstyle(gtextstyle)
-	canvas.Link("http://github.com/ajstarks/svgo", "SVGo Library")
+	canvas.Link("http://github.com/wildberries-ru/svgo", "SVGo Library")
 	canvas.Text(width/2, 150, "SVG Go Library", "font-size:125px")
-	canvas.Text(width/2, 200, "github.com/ajstarks/svgo", "font-size:50px;fill:gray")
+	canvas.Text(width/2, 200, "github.com/wildberries-ru/svgo", "font-size:50px;fill:gray")
 	canvas.LinkEnd()
 	placeobjects(400, 400, 700, 600, roworder)
 	canvas.Gend()

@@ -1,4 +1,5 @@
 // tumblrgrid: display a flexible grid of pictures from tumblr, filtered by tags
+//go:build !appengine
 // +build !appengine
 
 package main
@@ -12,7 +13,7 @@ import (
 	"net/http"
 	"os"
 
-	"github.com/ajstarks/svgo"
+	"github.com/wildberries-ru/svgo"
 )
 
 var (
@@ -91,7 +92,7 @@ func grid(canvas *svg.SVG, location string, x, y, nc, gutter int) {
 		b   []byte
 	)
 
-	//get data from the resource, put it into the data structure
+	// get data from the resource, put it into the data structure
 	if r, err = resource(location); err != nil {
 		fmt.Fprintln(os.Stderr, err)
 		return

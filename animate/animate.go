@@ -3,7 +3,7 @@ package main
 import (
 	"os"
 
-	svg "github.com/ajstarks/svgo"
+	svg "github.com/wildberries-ru/svgo"
 )
 
 func main() {

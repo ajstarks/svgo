@@ -347,7 +347,7 @@
 <title>SVG Go Library Description</title>
 <rect x="0" y="0" width="4500" height="3375" style="fill:white;stroke:black;stroke-width:2"/>
 <g style="font-family:Calibri,sans; text-anchor:middle; font-size:24px">
-<a xlink:href="http://github.com/ajstarks/svgo" xlink:title="SVGo Library">
+<a xlink:href="http://github.com/wildberries-ru/svgo" xlink:title="SVGo Library">
 <text x="2250" y="150" style="font-size:125px">SVG Go Library</text>
 <text x="2250" y="200" style="font-size:50px;fill:gray">github.com/ajstarks/svgo</text>
 </a>

@@ -1,11 +1,11 @@
 // fe: SVG Filter Effect example from http://www.w3.org/TR/SVG/filters.html#AnExample
+//go:build !appengine
 // +build !appengine
 
 package main
 
-
 import (
-	"github.com/ajstarks/svgo"
+	"github.com/wildberries-ru/svgo"
 	"os"
 )
 

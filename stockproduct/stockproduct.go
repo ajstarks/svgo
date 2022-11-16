@@ -1,4 +1,5 @@
 // stockproduct draws a bar chart comparing stock price to products
+//go:build !appengine
 // +build !appengine
 
 package main
@@ -9,7 +10,7 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/ajstarks/svgo"
+	"github.com/wildberries-ru/svgo"
 )
 
 // Parameters defines options

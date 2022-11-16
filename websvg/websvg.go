@@ -1,4 +1,5 @@
 // websvg draws SVG in a web server
+//go:build !appengine
 // +build !appengine
 
 package main
@@ -9,7 +10,7 @@ import (
 	"net/http"
 	"strings"
 
-	"github.com/ajstarks/svgo"
+	"github.com/wildberries-ru/svgo"
 )
 
 const defaultstyle = "fill:rgb(127,0,0)"

@@ -1,4 +1,5 @@
 // planets: an exploration of scale
+//go:build !appengine
 // +build !appengine
 
 package main
@@ -9,7 +10,7 @@ import (
 	"image/png"
 	"os"
 
-	"github.com/ajstarks/svgo"
+	"github.com/wildberries-ru/svgo"
 )
 
 var ssDist = []float64{

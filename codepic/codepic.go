@@ -1,4 +1,5 @@
 // codepic -- produce code+output sample suitable for slides
+//go:build !appengine
 // +build !appengine
 
 package main
@@ -12,7 +13,7 @@ import (
 	"os"
 	"strings"
 
-	"github.com/ajstarks/svgo"
+	"github.com/wildberries-ru/svgo"
 )
 
 var (

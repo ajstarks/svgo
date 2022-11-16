@@ -1,4 +1,5 @@
 // f50 -- given a search term, display 10x5 image grid, sorted by interestingness
+//go:build !appengine
 // +build !appengine
 
 package main
@@ -10,7 +11,7 @@ import (
 	"net/url"
 	"os"
 
-	"github.com/ajstarks/svgo"
+	"github.com/wildberries-ru/svgo"
 )
 
 // FlickrResp defines the Flickr response

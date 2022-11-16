@@ -1,10 +1,11 @@
 // html5logo draws the w3c HTML5 logo, with scripting added
+//go:build !appengine
 // +build !appengine
 
 package main
 
 import (
-	"github.com/ajstarks/svgo"
+	"github.com/wildberries-ru/svgo"
 	"os"
 )
 

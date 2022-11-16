@@ -1,4 +1,5 @@
 // pmap percentage maps
+//go:build !appengine
 // +build !appengine
 
 package main
@@ -10,7 +11,7 @@ import (
 	"io"
 	"os"
 
-	"github.com/ajstarks/svgo"
+	"github.com/wildberries-ru/svgo"
 )
 
 // Pmap defines a porportional map

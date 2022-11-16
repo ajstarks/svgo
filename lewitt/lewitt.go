@@ -1,4 +1,5 @@
 // lewitt: inspired by by Sol LeWitt's Wall Drawing 91:
+//go:build !appengine
 // +build !appengine
 
 package main
@@ -19,7 +20,7 @@ import (
 	"os"
 	"time"
 
-	"github.com/ajstarks/svgo"
+	"github.com/wildberries-ru/svgo"
 )
 
 var canvas = svg.New(os.Stdout)

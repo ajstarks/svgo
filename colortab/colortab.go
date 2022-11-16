@@ -1,4 +1,5 @@
 // colortab -- make a color/code placemat
+//go:build !appengine
 // +build !appengine
 
 package main
@@ -10,7 +11,7 @@ import (
 	"os"
 	"strings"
 
-	"github.com/ajstarks/svgo"
+	"github.com/wildberries-ru/svgo"
 )
 
 func main() {

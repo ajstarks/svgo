@@ -56,7 +56,7 @@ a minimal program, to generate SVG to standard output.
 	package main
 	
 	import (
-		"github.com/ajstarks/svgo"
+		"github.com/wildberries-ru/svgo"
 		"os"
 	)
 	
@@ -76,7 +76,7 @@ Drawing in a web server: (http://localhost:2003/circle)
 	
 	import (
 		"log"
-		"github.com/ajstarks/svgo"
+		"github.com/wildberries-ru/svgo"
 		"net/http"
 	)
 	

@@ -13,7 +13,7 @@ import (
 	"strconv"
 	"time"
 
-	"github.com/ajstarks/svgo"
+	"github.com/wildberries-ru/svgo"
 )
 
 var listen = flag.String("listen", ":1958", "http service address")

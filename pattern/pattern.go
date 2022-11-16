@@ -3,7 +3,7 @@ package main
 
 import (
 	"fmt"
-	"github.com/ajstarks/svgo"
+	"github.com/wildberries-ru/svgo"
 	"os"
 )
 
