@@ -403,10 +403,25 @@ func (svg *SVG) Image(x int, y int, w int, h int, link string, s ...string) {
 	svg.printf(`<image %s %s %s`, dim(x, y, w, h), href(link), endstyle(s, emptyclose))
 }
 
+// ImageNoRatio places at x,y (upper left hand corner), the image with
+// width w, and height h, referenced at link, no ratio, with optional style.
+// Standard Reference: http://www.w3.org/TR/SVG11/struct.html#ImageElement
+func (svg *SVG) ImageNoRatio(x int, y int, w int, h int, link string, s ...string) {
+	svg.printf(`<image %s %s %s preserveAspectRatio="none"`, dim(x, y, w, h), href(link), endstyle(s, emptyclose))
+}
+
 // Text places the specified text, t at x,y according to the style specified in s
 // Standard Reference: http://www.w3.org/TR/SVG11/text.html#TextElement
 func (svg *SVG) Text(x int, y int, t string, s ...string) {
 	svg.printf(`<text %s %s`, loc(x, y), endstyle(s, ">"))
+	xml.Escape(svg.Writer, []byte(t))
+	svg.println(`</text>`)
+}
+
+// Text places the specified text, t at x,y according to the style specified in s
+// Standard Reference: http://www.w3.org/TR/SVG11/text.html#TextElement
+func (svg *SVG) TextD(x int, y int, dx, dy string, t string, s ...string) {
+	svg.printf(`<text %s %s %s`, loc(x, y), d(dx, dy), endstyle(s, ">"))
 	xml.Escape(svg.Writer, []byte(t))
 	svg.println(`</text>`)
 }
@@ -1031,6 +1046,9 @@ func ptag(x int, y int) string { return fmt.Sprintf(`<path d="M%s`, coord(x, y))
 
 // loc returns the x and y coordinate attributes
 func loc(x int, y int) string { return fmt.Sprintf(`x="%d" y="%d"`, x, y) }
+
+// d returns the dx and dy offset attributes
+func d(dx, dy string) string { return fmt.Sprintf(`dx="%s" dy="%s"`, dx, dy) }
 
 // href returns the href name and attribute
 func href(s string) string { return fmt.Sprintf(`xlink:href="%s"`, s) }
